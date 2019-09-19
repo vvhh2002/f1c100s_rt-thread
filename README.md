@@ -30,26 +30,26 @@ scons -c
 ---
 ## 编译
 ```shell
-cd f1c100s_rt-thread
+cd rt-thread
 scons
 ```
 ## 清理
 ```shell
-cd f1c100s_rt-thread
+cd rt-thread
 scons -c
 ```
 ## 测试
 ```shell
-cd f1c100s_rt-thread
+cd rt-thread
 ./script/dram_exec.sh
 ```
 ## 烧录到SPI-FLASH
 ```shell
-cd f1c100s_rt-thread
+cd rt-thread
 ./script/write_spiflash.sh
 ```
 ## 清楚SPI-FLASH的SPL
 ```shell
-cd f1c100s_rt-thread
+cd rt-thread
 ./script/erase_spiflash.sh
 ```
