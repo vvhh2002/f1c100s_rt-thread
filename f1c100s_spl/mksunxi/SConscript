@@ -1,0 +1,8 @@
+from builder import *
+
+cwd = GetCurrentDir()
+src = Glob('*.c')
+
+MakeEnvironment('mksunxi')
+AppendSrc('mksunxi', src, [cwd])
+TargetBuilder('mksunxi')

@@ -1,0 +1,52 @@
+import os
+from builder import *
+
+cwd  = GetCurrentDir()
+
+EXEC_PATH   = r'../tools/gcc-arm-none-eabi/bin'
+
+BUILD = 'release'
+# BUILD = 'debug'
+
+DEVICE    = ' -mcpu=arm926ej-s -ffunction-sections -fdata-sections'
+ASFLAGS   = DEVICE + ' -x assembler-with-cpp'
+CCFLAGS   = DEVICE + ' -Wall'
+CXXFLAGS  = CCFLAGS
+LINKFLAGS = DEVICE + ' -nostartfiles -Wl,--gc-sections,-Map=boot.map,-cref -T' + cwd + '/link.ld'
+
+if BUILD == 'debug':
+    CCFLAGS += ' -O0 -gdwarf-2'
+    ASFLAGS += ' -gdwarf-2'
+else:
+    CCFLAGS += ' -O0'
+
+MakeEnvironment(
+    'spl',
+    AS = 'arm-none-eabi-gcc', ASFLAGS = ASFLAGS,
+    CC = 'arm-none-eabi-gcc', CCFLAGS = CCFLAGS,
+    CXX = 'arm-none-eabi-gcc', CXXFLAGS = CXXFLAGS,
+    AR = 'arm-none-eabi-ar',  ARFLAGS = '-rc',
+    LINK = 'arm-none-eabi-g++', LINKFLAGS = LINKFLAGS
+)
+
+PrependENVPath('spl', EXEC_PATH)
+
+list = os.listdir(cwd)
+
+for d in list:
+    path = os.path.join(cwd, d)
+    if os.path.isfile(os.path.join(path, 'SConscript')):
+        SConscript(os.path.join(d, 'SConscript'))
+
+TargetBuilder('spl', 'elf')
+
+TargetAddPostAction('spl', 'arm-none-eabi-objdump -D -S $TARGET > boot.asm\n')
+TargetAddPostAction('spl', 'arm-none-eabi-objcopy -O binary $TARGET boot.bin\n')
+TargetAddPostAction('spl', 'arm-none-eabi-size $TARGET\n')
+TargetAddPostAction('spl', './mksunxi/mksunxi boot.bin')
+
+TargetClean('spl', '../boot.bin')
+TargetClean('spl', '../boot.asm')
+TargetClean('spl', '../boot.map')
+TargetClean('spl', '../.sconsign.dblite')
+TargetClean('spl', '../script/builder.pyc')
