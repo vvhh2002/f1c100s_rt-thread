@@ -44,6 +44,10 @@ struct lcd_timing {
     rt_uint32_t clk_active;
 };
 
+/**
+ * @brief lcd设备
+ *
+ */
 struct lcd_f1c100s_device {
     struct rt_device              parent;
     struct rt_device_graphic_info lcd_info;
@@ -326,6 +330,31 @@ static inline void f1c100s_debe_set_mode(struct lcd_f1c100s_device *dev)
 }
 
 /**
+ * @brief 初始化DEBE时钟
+ *
+ * @param dev
+ */
+static void f1c100s_clk_debe_init(struct lcd_f1c100s_device *dev)
+{
+	clk_mux_set_parent(dev->virtccu + CCU_DEBE_CLK, 3, 24, 0);
+	clk_divider_set_rate(dev->virtccu + CCU_DEBE_CLK, 4, 0, RT_TRUE, 24000000, 198000000);
+}
+
+/**
+ * @brief 设置DEBE缓冲区地址
+ *
+ * @param dev
+ * @param vram
+ */
+inline static void f1c100s_debe_set_address(struct lcd_f1c100s_device *dev, void *vram)
+{
+	struct f1c100s_debe_reg_t * debe = (struct f1c100s_debe_reg_t *)(dev->virtdebe);
+
+	write32((rt_uint32_t)&debe->layer0_addr_low32b, (uint32_t)vram << 3);
+	write32((rt_uint32_t)&debe->layer0_addr_high4b, (uint32_t)vram >> 29);
+}
+
+/**
  * @brief 开启TCON时钟
  *
  * @param dev 设备指针
@@ -444,20 +473,6 @@ static inline void f1c100s_tcon_disable(struct lcd_f1c100s_device *dev)
 	write32((rt_uint32_t)&tcon->tcon1_io_tristate, 0xffffffff);
 }
 
-static void f1c100s_clk_debe_init(struct lcd_f1c100s_device *dev)
-{
-	clk_mux_set_parent(dev->virtccu + CCU_DEBE_CLK, 3, 24, 0);
-	clk_divider_set_rate(dev->virtccu + CCU_DEBE_CLK, 4, 0, RT_TRUE, 24000000, 198000000);
-}
-
-inline static void f1c100s_debe_set_address(struct lcd_f1c100s_device *dev, void *vram)
-{
-	struct f1c100s_debe_reg_t * debe = (struct f1c100s_debe_reg_t *)(dev->virtdebe);
-
-	write32((rt_uint32_t)&debe->layer0_addr_low32b, (uint32_t)vram << 3);
-	write32((rt_uint32_t)&debe->layer0_addr_high4b, (uint32_t)vram >> 29);
-}
-
 /**
  * @brief 设置RGB屏的GPIO口
  *
@@ -512,7 +527,7 @@ static rt_err_t drv_lcd_init(rt_device_t dev)
     reset_deassert(LCD_GATING);
 
     for (i = 0x0800;i < 0x1000;i += 4) {
-        writel(lcd_dev->virtdebe + i, 0);
+        write32(lcd_dev->virtdebe + i, 0);
     }
 
     fb_f1c100s_init(lcd_dev);
@@ -629,7 +644,7 @@ int rt_hw_lcd_init(void)
         return RT_ENOMEM;
     }
     rt_memset(f1c100s_lcd_dev.lcd_info.framebuffer, 0xa5, size);
-    return rt_device_register(&f1c100s_lcd_dev.parent, "lcd", RT_DEVICE_FLAG_RDWR);
+    return rt_device_register((rt_device_t)&f1c100s_lcd_dev, "lcd", RT_DEVICE_FLAG_RDWR);
 }
 
 INIT_DEVICE_EXPORT(rt_hw_lcd_init);
