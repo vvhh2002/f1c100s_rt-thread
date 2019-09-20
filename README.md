@@ -54,5 +54,6 @@ cd rt-thread
 ./script/erase_spiflash.sh
 ```
 ---
+
 ##感谢xboot作者
 ##感谢rt-thread作者
