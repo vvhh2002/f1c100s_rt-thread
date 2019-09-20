@@ -56,8 +56,8 @@
 err_t
 snmp_ans1_enc_tlv(struct snmp_pbuf_stream *pbuf_stream, struct snmp_asn1_tlv *tlv)
 {
-  u8_t data;
-  u8_t length_bytes_required;
+  uint8_t data;
+  uint8_t length_bytes_required;
 
   /* write type */
   if ((tlv->type & SNMP_ASN1_DATATYPE_MASK) == SNMP_ASN1_DATATYPE_EXTENDED) {
@@ -103,7 +103,7 @@ snmp_ans1_enc_tlv(struct snmp_pbuf_stream *pbuf_stream, struct snmp_asn1_tlv *tl
     while (length_bytes_required > 1) {
       if (length_bytes_required == 2) {
         /* append high byte */
-        data = (u8_t)(tlv->value_len >> 8);
+        data = (uint8_t)(tlv->value_len >> 8);
       } else {
         /* append leading 0x00 */
         data = 0x00;
@@ -115,7 +115,7 @@ snmp_ans1_enc_tlv(struct snmp_pbuf_stream *pbuf_stream, struct snmp_asn1_tlv *tl
   }
 
   /* append low byte */
-  data = (u8_t)(tlv->value_len & 0xFF);
+  data = (uint8_t)(tlv->value_len & 0xFF);
   PBUF_OP_EXEC(snmp_pbuf_stream_write(pbuf_stream, data));
 
   return ERR_OK;
@@ -130,7 +130,7 @@ snmp_ans1_enc_tlv(struct snmp_pbuf_stream *pbuf_stream, struct snmp_asn1_tlv *tl
  * @return ERR_OK if successful, ERR_ARG if we can't (or won't) encode
  */
 err_t
-snmp_asn1_enc_raw(struct snmp_pbuf_stream *pbuf_stream, const u8_t *raw, u16_t raw_len)
+snmp_asn1_enc_raw(struct snmp_pbuf_stream *pbuf_stream, const uint8_t *raw, u16_t raw_len)
 {
   PBUF_OP_EXEC(snmp_pbuf_stream_writebuf(pbuf_stream, raw, raw_len));
 
@@ -138,17 +138,17 @@ snmp_asn1_enc_raw(struct snmp_pbuf_stream *pbuf_stream, const u8_t *raw, u16_t r
 }
 
 /**
- * Encodes u32_t (counter, gauge, timeticks) into a pbuf chained ASN1 msg.
+ * Encodes uint32_t (counter, gauge, timeticks) into a pbuf chained ASN1 msg.
  *
  * @param pbuf_stream points to a pbuf stream
  * @param octets_needed encoding length (from snmp_asn1_enc_u32t_cnt())
- * @param value is the host order u32_t value to be encoded
+ * @param value is the host order uint32_t value to be encoded
  * @return ERR_OK if successful, ERR_ARG if we can't (or won't) encode
  *
  * @see snmp_asn1_enc_u32t_cnt()
  */
 err_t
-snmp_asn1_enc_u32t(struct snmp_pbuf_stream *pbuf_stream, u16_t octets_needed, u32_t value)
+snmp_asn1_enc_u32t(struct snmp_pbuf_stream *pbuf_stream, u16_t octets_needed, uint32_t value)
 {
   if (octets_needed > 5) {
     return ERR_ARG;
@@ -161,11 +161,11 @@ snmp_asn1_enc_u32t(struct snmp_pbuf_stream *pbuf_stream, u16_t octets_needed, u3
 
   while (octets_needed > 1) {
     octets_needed--;
-    PBUF_OP_EXEC(snmp_pbuf_stream_write(pbuf_stream, (u8_t)(value >> (octets_needed << 3))));
+    PBUF_OP_EXEC(snmp_pbuf_stream_write(pbuf_stream, (uint8_t)(value >> (octets_needed << 3))));
   }
 
   /* (only) one least significant octet */
-  PBUF_OP_EXEC(snmp_pbuf_stream_write(pbuf_stream, (u8_t)value));
+  PBUF_OP_EXEC(snmp_pbuf_stream_write(pbuf_stream, (uint8_t)value));
 
   return ERR_OK;
 }
@@ -185,11 +185,11 @@ snmp_asn1_enc_s32t(struct snmp_pbuf_stream *pbuf_stream, u16_t octets_needed, s3
   while (octets_needed > 1) {
     octets_needed--;
 
-    PBUF_OP_EXEC(snmp_pbuf_stream_write(pbuf_stream, (u8_t)(value >> (octets_needed << 3))));
+    PBUF_OP_EXEC(snmp_pbuf_stream_write(pbuf_stream, (uint8_t)(value >> (octets_needed << 3))));
   }
 
   /* (only) one least significant octet */
-  PBUF_OP_EXEC(snmp_pbuf_stream_write(pbuf_stream, (u8_t)value));
+  PBUF_OP_EXEC(snmp_pbuf_stream_write(pbuf_stream, (uint8_t)value));
 
   return ERR_OK;
 }
@@ -203,12 +203,12 @@ snmp_asn1_enc_s32t(struct snmp_pbuf_stream *pbuf_stream, u16_t octets_needed, s3
  * @return ERR_OK if successful, ERR_ARG if we can't (or won't) encode
  */
 err_t
-snmp_asn1_enc_oid(struct snmp_pbuf_stream *pbuf_stream, const u32_t *oid, u16_t oid_len)
+snmp_asn1_enc_oid(struct snmp_pbuf_stream *pbuf_stream, const uint32_t *oid, u16_t oid_len)
 {
   if (oid_len > 1) {
     /* write compressed first two sub id's */
-    u32_t compressed_byte = ((oid[0] * 40) + oid[1]);
-    PBUF_OP_EXEC(snmp_pbuf_stream_write(pbuf_stream, (u8_t)compressed_byte));
+    uint32_t compressed_byte = ((oid[0] * 40) + oid[1]);
+    PBUF_OP_EXEC(snmp_pbuf_stream_write(pbuf_stream, (uint8_t)compressed_byte));
     oid_len -= 2;
     oid += 2;
   } else {
@@ -218,24 +218,24 @@ snmp_asn1_enc_oid(struct snmp_pbuf_stream *pbuf_stream, const u32_t *oid, u16_t 
   }
 
   while (oid_len > 0) {
-    u32_t sub_id;
-    u8_t shift, tail;
+    uint32_t sub_id;
+    uint8_t shift, tail;
 
     oid_len--;
     sub_id = *oid;
     tail = 0;
     shift = 28;
     while (shift > 0) {
-      u8_t code;
+      uint8_t code;
 
-      code = (u8_t)(sub_id >> shift);
+      code = (uint8_t)(sub_id >> shift);
       if ((code != 0) || (tail != 0)) {
         tail = 1;
         PBUF_OP_EXEC(snmp_pbuf_stream_write(pbuf_stream, code | 0x80));
       }
       shift -= 7;
     }
-    PBUF_OP_EXEC(snmp_pbuf_stream_write(pbuf_stream, (u8_t)sub_id & 0x7F));
+    PBUF_OP_EXEC(snmp_pbuf_stream_write(pbuf_stream, (uint8_t)sub_id & 0x7F));
 
     /* proceed to next sub-identifier */
     oid++;
@@ -250,7 +250,7 @@ snmp_asn1_enc_oid(struct snmp_pbuf_stream *pbuf_stream, const u32_t *oid, u16_t 
  * @param octets_needed points to the return value
  */
 void
-snmp_asn1_enc_length_cnt(u16_t length, u8_t *octets_needed)
+snmp_asn1_enc_length_cnt(u16_t length, uint8_t *octets_needed)
 {
   if (length < 0x80U) {
     *octets_needed = 1;
@@ -262,7 +262,7 @@ snmp_asn1_enc_length_cnt(u16_t length, u8_t *octets_needed)
 }
 
 /**
- * Returns octet count for an u32_t.
+ * Returns octet count for an uint32_t.
  *
  * @param value value to be encoded
  * @param octets_needed points to the return value
@@ -272,7 +272,7 @@ snmp_asn1_enc_length_cnt(u16_t length, u8_t *octets_needed)
  * of 0xFFFFFFFF is preceded with 0x00 and the length is 5 octets!!
  */
 void
-snmp_asn1_enc_u32t_cnt(u32_t value, u16_t *octets_needed)
+snmp_asn1_enc_u32t_cnt(uint32_t value, u16_t *octets_needed)
 {
   if (value < 0x80UL) {
     *octets_needed = 1;
@@ -320,9 +320,9 @@ snmp_asn1_enc_s32t_cnt(s32_t value, u16_t *octets_needed)
  * @param octets_needed points to the return value
  */
 void
-snmp_asn1_enc_oid_cnt(const u32_t *oid, u16_t oid_len, u16_t *octets_needed)
+snmp_asn1_enc_oid_cnt(const uint32_t *oid, u16_t oid_len, u16_t *octets_needed)
 {
-  u32_t sub_id;
+  uint32_t sub_id;
 
   *octets_needed = 0;
   if (oid_len > 1) {
@@ -355,7 +355,7 @@ snmp_asn1_enc_oid_cnt(const u32_t *oid, u16_t oid_len, u16_t *octets_needed)
 err_t
 snmp_asn1_dec_tlv(struct snmp_pbuf_stream *pbuf_stream, struct snmp_asn1_tlv *tlv)
 {
-  u8_t data;
+  uint8_t data;
 
   /* decode type first */
   PBUF_OP_EXEC(snmp_pbuf_stream_read(pbuf_stream, &data));
@@ -374,7 +374,7 @@ snmp_asn1_dec_tlv(struct snmp_pbuf_stream *pbuf_stream, struct snmp_asn1_tlv *tl
     tlv->length_len = 1;
     tlv->value_len  = data;
   } else if (data > 0x80) { /* long form */
-    u8_t length_bytes = data - 0x80;
+    uint8_t length_bytes = data - 0x80;
     if (length_bytes > pbuf_stream->length) {
       return ERR_VAL;
     }
@@ -406,7 +406,7 @@ snmp_asn1_dec_tlv(struct snmp_pbuf_stream *pbuf_stream, struct snmp_asn1_tlv *tl
 }
 
 /**
- * Decodes positive integer (counter, gauge, timeticks) into u32_t.
+ * Decodes positive integer (counter, gauge, timeticks) into uint32_t.
  *
  * @param pbuf_stream points to a pbuf stream
  * @param len length of the coded integer field
@@ -418,9 +418,9 @@ snmp_asn1_dec_tlv(struct snmp_pbuf_stream *pbuf_stream, struct snmp_asn1_tlv *tl
  * of 0xFFFFFFFF is preceded with 0x00 and the length is 5 octets!!
  */
 err_t
-snmp_asn1_dec_u32t(struct snmp_pbuf_stream *pbuf_stream, u16_t len, u32_t *value)
+snmp_asn1_dec_u32t(struct snmp_pbuf_stream *pbuf_stream, u16_t len, uint32_t *value)
 {
-  u8_t data;
+  uint8_t data;
 
   if ((len > 0) && (len <= 5)) {
     PBUF_OP_EXEC(snmp_pbuf_stream_read(pbuf_stream, &data));
@@ -458,7 +458,7 @@ snmp_asn1_dec_u32t(struct snmp_pbuf_stream *pbuf_stream, u16_t len, u32_t *value
 err_t
 snmp_asn1_dec_s32t(struct snmp_pbuf_stream *pbuf_stream, u16_t len, s32_t *value)
 {
-  u8_t data;
+  uint8_t data;
 
   if ((len > 0) && (len < 5)) {
     PBUF_OP_EXEC(snmp_pbuf_stream_read(pbuf_stream, &data));
@@ -485,7 +485,7 @@ snmp_asn1_dec_s32t(struct snmp_pbuf_stream *pbuf_stream, u16_t len, s32_t *value
 }
 
 /**
- * Decodes object identifier from incoming message into array of u32_t.
+ * Decodes object identifier from incoming message into array of uint32_t.
  *
  * @param pbuf_stream points to a pbuf stream
  * @param len length of the coded object identifier
@@ -495,10 +495,10 @@ snmp_asn1_dec_s32t(struct snmp_pbuf_stream *pbuf_stream, u16_t len, s32_t *value
  * @return ERR_OK if successful, ERR_ARG if we can't (or won't) decode
  */
 err_t
-snmp_asn1_dec_oid(struct snmp_pbuf_stream *pbuf_stream, u16_t len, u32_t *oid, u8_t *oid_len, u8_t oid_max_len)
+snmp_asn1_dec_oid(struct snmp_pbuf_stream *pbuf_stream, u16_t len, uint32_t *oid, uint8_t *oid_len, uint8_t oid_max_len)
 {
-  u32_t *oid_ptr;
-  u8_t data;
+  uint32_t *oid_ptr;
+  uint8_t data;
 
   *oid_len = 0;
   oid_ptr = oid;
@@ -548,7 +548,7 @@ snmp_asn1_dec_oid(struct snmp_pbuf_stream *pbuf_stream, u16_t len, u32_t *oid, u
       *oid_ptr = data;
     } else {
       /* sub-identifier uses multiple octets */
-      u32_t sub_id = (data & ~0x80);
+      uint32_t sub_id = (data & ~0x80);
       while ((len > 0) && ((data & 0x80) != 0)) {
         PBUF_OP_EXEC(snmp_pbuf_stream_read(pbuf_stream, &data));
         len--;
@@ -586,7 +586,7 @@ snmp_asn1_dec_oid(struct snmp_pbuf_stream *pbuf_stream, u16_t len, u32_t *oid, u
  * @return ERR_OK if successful, ERR_ARG if we can't (or won't) decode
  */
 err_t
-snmp_asn1_dec_raw(struct snmp_pbuf_stream *pbuf_stream, u16_t len, u8_t *buf, u16_t *buf_len, u16_t buf_max_len)
+snmp_asn1_dec_raw(struct snmp_pbuf_stream *pbuf_stream, u16_t len, uint8_t *buf, u16_t *buf_len, u16_t buf_max_len)
 {
   if (len > buf_max_len) {
     /* not enough dst space */
@@ -620,16 +620,16 @@ snmp_asn1_enc_u64t_cnt(u64_t value, u16_t *octets_needed)
   /* check if high u32 is 0 */
   if ((value >> 32) == 0) {
     /* only low u32 is important */
-    snmp_asn1_enc_u32t_cnt((u32_t)value, octets_needed);
+    snmp_asn1_enc_u32t_cnt((uint32_t)value, octets_needed);
   } else {
     /* low u32 does not matter for length determination */
-    snmp_asn1_enc_u32t_cnt((u32_t)(value >> 32), octets_needed);
+    snmp_asn1_enc_u32t_cnt((uint32_t)(value >> 32), octets_needed);
     *octets_needed = *octets_needed + 4; /* add the 4 bytes of low u32 */
   }
 }
 
 /**
- * Decodes large positive integer (counter64) into 2x u32_t.
+ * Decodes large positive integer (counter64) into 2x uint32_t.
  *
  * @param pbuf_stream points to a pbuf stream
  * @param len length of the coded integer field
@@ -643,7 +643,7 @@ snmp_asn1_enc_u64t_cnt(u64_t value, u16_t *octets_needed)
 err_t
 snmp_asn1_dec_u64t(struct snmp_pbuf_stream *pbuf_stream, u16_t len, u64_t *value)
 {
-  u8_t data;
+  uint8_t data;
 
   if ((len > 0) && (len <= 9)) {
     PBUF_OP_EXEC(snmp_pbuf_stream_read(pbuf_stream, &data));
@@ -691,11 +691,11 @@ snmp_asn1_enc_u64t(struct snmp_pbuf_stream *pbuf_stream, u16_t octets_needed, u6
 
   while (octets_needed > 1) {
     octets_needed--;
-    PBUF_OP_EXEC(snmp_pbuf_stream_write(pbuf_stream, (u8_t)(value >> (octets_needed << 3))));
+    PBUF_OP_EXEC(snmp_pbuf_stream_write(pbuf_stream, (uint8_t)(value >> (octets_needed << 3))));
   }
 
   /* always write at least one octet (also in case of value == 0) */
-  PBUF_OP_EXEC(snmp_pbuf_stream_write(pbuf_stream, (u8_t)(value)));
+  PBUF_OP_EXEC(snmp_pbuf_stream_write(pbuf_stream, (uint8_t)(value)));
 
   return ERR_OK;
 }

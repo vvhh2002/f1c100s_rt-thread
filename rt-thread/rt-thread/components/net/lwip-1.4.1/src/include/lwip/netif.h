@@ -1,8 +1,8 @@
 /*
  * Copyright (c) 2001-2004 Swedish Institute of Computer Science.
- * All rights reserved. 
- * 
- * Redistribution and use in source and binary forms, with or without modification, 
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification,
  * are permitted provided that the following conditions are met:
  *
  * 1. Redistributions of source code must retain the above copyright notice,
@@ -11,21 +11,21 @@
  *    this list of conditions and the following disclaimer in the documentation
  *    and/or other materials provided with the distribution.
  * 3. The name of the author may not be used to endorse or promote products
- *    derived from this software without specific prior written permission. 
+ *    derived from this software without specific prior written permission.
  *
- * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR IMPLIED 
- * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
- * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT 
- * SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, 
- * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT 
- * OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING 
- * IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+ * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT
+ * SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT
+ * OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
+ * IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY
  * OF SUCH DAMAGE.
  *
  * This file is part of the lwIP TCP/IP stack.
- * 
+ *
  * Author: Adam Dunkels <adam@sics.se>
  *
  */
@@ -128,7 +128,7 @@ typedef err_t (*netif_linkoutput_fn)(struct netif *netif, struct pbuf *p);
 typedef void (*netif_status_callback_fn)(struct netif *netif);
 /** Function prototype for netif igmp_mac_filter functions */
 typedef err_t (*netif_igmp_mac_filter_fn)(struct netif *netif,
-       ip_addr_t *group, u8_t action);
+       ip_addr_t *group, uint8_t action);
 
 /** Generic data structure used for all lwIP network interfaces.
  *  The following fields should be filled in by the initialization
@@ -185,31 +185,31 @@ struct netif {
   /** maximum transfer unit (in bytes) */
   u16_t mtu;
   /** number of bytes used in hwaddr */
-  u8_t hwaddr_len;
+  uint8_t hwaddr_len;
   /** link level hardware address of this interface */
-  u8_t hwaddr[NETIF_MAX_HWADDR_LEN];
+  uint8_t hwaddr[NETIF_MAX_HWADDR_LEN];
   /** flags (see NETIF_FLAG_ above) */
-  u8_t flags;
+  uint8_t flags;
   /** descriptive abbreviation */
   char name[2];
   /** number of this interface */
-  u8_t num;
+  uint8_t num;
 #if LWIP_SNMP
   /** link type (from "snmp_ifType" enum from snmp.h) */
-  u8_t link_type;
+  uint8_t link_type;
   /** (estimate) link speed */
-  u32_t link_speed;
+  uint32_t link_speed;
   /** timestamp at last change made (up/down) */
-  u32_t ts;
+  uint32_t ts;
   /** counters */
-  u32_t ifinoctets;
-  u32_t ifinucastpkts;
-  u32_t ifinnucastpkts;
-  u32_t ifindiscards;
-  u32_t ifoutoctets;
-  u32_t ifoutucastpkts;
-  u32_t ifoutnucastpkts;
-  u32_t ifoutdiscards;
+  uint32_t ifinoctets;
+  uint32_t ifinucastpkts;
+  uint32_t ifinnucastpkts;
+  uint32_t ifindiscards;
+  uint32_t ifoutoctets;
+  uint32_t ifoutucastpkts;
+  uint32_t ifoutnucastpkts;
+  uint32_t ifoutdiscards;
 #endif /* LWIP_SNMP */
 #if LWIP_IGMP
   /** This function could be called to add or delete a entry in the multicast
@@ -217,7 +217,7 @@ struct netif {
   netif_igmp_mac_filter_fn igmp_mac_filter;
 #endif /* LWIP_IGMP */
 #if LWIP_NETIF_HWADDRHINT
-  u8_t *addr_hint;
+  uint8_t *addr_hint;
 #endif /* LWIP_NETIF_HWADDRHINT */
 #if ENABLE_LOOPBACK
   /* List of packets to be queued for ourselves. */
@@ -279,7 +279,7 @@ void netif_set_gw(struct netif *netif, ip_addr_t *gw);
 void netif_set_up(struct netif *netif);
 void netif_set_down(struct netif *netif);
 /** Ask if an interface is up */
-#define netif_is_up(netif) (((netif)->flags & NETIF_FLAG_UP) ? (u8_t)1 : (u8_t)0)
+#define netif_is_up(netif) (((netif)->flags & NETIF_FLAG_UP) ? (uint8_t)1 : (uint8_t)0)
 
 #if LWIP_NETIF_STATUS_CALLBACK
 void netif_set_status_callback(struct netif *netif, netif_status_callback_fn status_callback);
@@ -290,8 +290,8 @@ void netif_set_remove_callback(struct netif *netif, netif_status_callback_fn rem
 
 void netif_set_link_up(struct netif *netif);
 void netif_set_link_down(struct netif *netif);
-/** Ask if a link is up */ 
-#define netif_is_link_up(netif) (((netif)->flags & NETIF_FLAG_LINK_UP) ? (u8_t)1 : (u8_t)0)
+/** Ask if a link is up */
+#define netif_is_link_up(netif) (((netif)->flags & NETIF_FLAG_LINK_UP) ? (uint8_t)1 : (uint8_t)0)
 
 #if LWIP_NETIF_LINK_CALLBACK
 void netif_set_link_callback(struct netif *netif, netif_status_callback_fn link_callback);

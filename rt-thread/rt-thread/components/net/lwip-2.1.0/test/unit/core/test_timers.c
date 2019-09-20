@@ -44,7 +44,7 @@ dummy_cyclic_handler(void)
 struct lwip_cyclic_timer test_cyclic = {10, dummy_cyclic_handler};
 
 static void
-do_test_cyclic_timers(u32_t offset)
+do_test_cyclic_timers(uint32_t offset)
 {
   struct sys_timeo** list_head = sys_timeouts_get_next_timeout();
 
@@ -60,8 +60,8 @@ do_test_cyclic_timers(u32_t offset)
   sys_check_timeouts();
   fail_unless(cyclic_fired == 1);
 
-  fail_unless((*list_head)->time == (u32_t)(lwip_sys_now + test_cyclic.interval_ms - HANDLER_EXECUTION_TIME));
-  
+  fail_unless((*list_head)->time == (uint32_t)(lwip_sys_now + test_cyclic.interval_ms - HANDLER_EXECUTION_TIME));
+
   sys_untimeout(lwip_cyclic_timer, &test_cyclic);
 
 
@@ -77,17 +77,17 @@ do_test_cyclic_timers(u32_t offset)
   sys_check_timeouts();
   fail_unless(cyclic_fired == 1);
 
-  fail_unless((*list_head)->time == (u32_t)(lwip_sys_now + test_cyclic.interval_ms));
+  fail_unless((*list_head)->time == (uint32_t)(lwip_sys_now + test_cyclic.interval_ms));
 }
 
 START_TEST(test_cyclic_timers)
 {
   LWIP_UNUSED_ARG(_i);
 
-  /* check without u32_t wraparound */
+  /* check without uint32_t wraparound */
   do_test_cyclic_timers(0);
 
-  /* check with u32_t wraparound */
+  /* check with uint32_t wraparound */
   do_test_cyclic_timers(0xfffffff0);
 }
 END_TEST
@@ -125,10 +125,10 @@ START_TEST(test_bug52748)
 END_TEST
 
 static void
-do_test_timers(u32_t offset)
+do_test_timers(uint32_t offset)
 {
   struct sys_timeo** list_head = sys_timeouts_get_next_timeout();
-  
+
   lwip_sys_now = offset + 0;
 
   sys_timeout(10, dummy_handler, LWIP_PTR_NUMERIC_CAST(void*, 0));
@@ -139,10 +139,10 @@ do_test_timers(u32_t offset)
   fail_unless(sys_timeouts_sleeptime() == 5);
 
   /* linked list correctly sorted? */
-  fail_unless((*list_head)->time             == (u32_t)(lwip_sys_now + 5));
-  fail_unless((*list_head)->next->time       == (u32_t)(lwip_sys_now + 10));
-  fail_unless((*list_head)->next->next->time == (u32_t)(lwip_sys_now + 20));
-  
+  fail_unless((*list_head)->time             == (uint32_t)(lwip_sys_now + 5));
+  fail_unless((*list_head)->next->time       == (uint32_t)(lwip_sys_now + 10));
+  fail_unless((*list_head)->next->next->time == (uint32_t)(lwip_sys_now + 20));
+
   /* check timers expire in correct order */
   memset(&fired, 0, sizeof(fired));
 
@@ -179,10 +179,10 @@ START_TEST(test_timers)
 {
   LWIP_UNUSED_ARG(_i);
 
-  /* check without u32_t wraparound */
+  /* check without uint32_t wraparound */
   do_test_timers(0);
 
-  /* check with u32_t wraparound */
+  /* check with uint32_t wraparound */
   do_test_timers(0xfffffff0);
 }
 END_TEST

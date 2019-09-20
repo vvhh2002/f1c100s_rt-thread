@@ -4,7 +4,7 @@
  * different types of protocols besides (or overriding) those
  * already available in lwIP.\n
  * See also @ref raw_raw
- * 
+ *
  * @defgroup raw_raw RAW
  * @ingroup callbackstyle_api
  * Implementation of raw protocol PCBs for low-level handling of
@@ -64,8 +64,8 @@
 /** The list of RAW PCBs */
 static struct raw_pcb *raw_pcbs;
 
-static u8_t
-raw_input_match(struct raw_pcb *pcb, u8_t broadcast)
+static uint8_t
+raw_input_match(struct raw_pcb *pcb, uint8_t broadcast)
 {
   LWIP_UNUSED_ARG(broadcast); /* in IPv6 only case */
 
@@ -124,13 +124,13 @@ raw_input_match(struct raw_pcb *pcb, u8_t broadcast)
  *           caller).
  *
  */
-u8_t
+uint8_t
 raw_input(struct pbuf *p, struct netif *inp)
 {
   struct raw_pcb *pcb, *prev;
   s16_t proto;
-  u8_t eaten = 0;
-  u8_t broadcast = ip_addr_isbroadcast(ip_current_dest_addr(), ip_current_netif());
+  uint8_t eaten = 0;
+  uint8_t broadcast = ip_addr_isbroadcast(ip_current_dest_addr(), ip_current_netif());
 
   LWIP_UNUSED_ARG(inp);
 
@@ -374,7 +374,7 @@ raw_sendto(struct raw_pcb *pcb, struct pbuf *p, const ip_addr_t *ipaddr)
   if (IP_IS_V6(ipaddr) && pcb->chksum_reqd) {
     u16_t chksum = ip6_chksum_pseudo(p, pcb->protocol, p->tot_len, ip_2_ip6(src_ip), ip_2_ip6(ipaddr));
     LWIP_ASSERT("Checksum must fit into first pbuf", p->len >= (pcb->chksum_offset + 2));
-    SMEMCPY(((u8_t *)p->payload) + pcb->chksum_offset, &chksum, sizeof(u16_t));
+    SMEMCPY(((uint8_t *)p->payload) + pcb->chksum_offset, &chksum, sizeof(u16_t));
   }
 #endif
 
@@ -447,7 +447,7 @@ raw_remove(struct raw_pcb *pcb)
  * @see raw_remove()
  */
 struct raw_pcb *
-raw_new(u8_t proto)
+raw_new(uint8_t proto)
 {
   struct raw_pcb *pcb;
 
@@ -482,7 +482,7 @@ raw_new(u8_t proto)
  * @see raw_remove()
  */
 struct raw_pcb *
-raw_new_ip_type(u8_t type, u8_t proto)
+raw_new_ip_type(uint8_t type, uint8_t proto)
 {
   struct raw_pcb *pcb;
   pcb = raw_new(proto);

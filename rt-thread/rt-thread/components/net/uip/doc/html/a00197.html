@@ -58,11 +58,11 @@
 <a name="l00038"></a>00038 <span class="comment"> * \author</span>
 <a name="l00039"></a>00039 <span class="comment"> *         Adam Dunkels &lt;adam@sics.se&gt;</span>
 <a name="l00040"></a>00040 <span class="comment"> */</span>
-<a name="l00041"></a>00041 
+<a name="l00041"></a>00041
 <a name="l00042"></a>00042 <span class="preprocessor">#include "<a class="code" href="a00132.html">uip-neighbor.h</a>"</span>
-<a name="l00043"></a>00043 
+<a name="l00043"></a>00043
 <a name="l00044"></a>00044 <span class="preprocessor">#include &lt;string.h&gt;</span>
-<a name="l00045"></a>00045 
+<a name="l00045"></a>00045
 <a name="l00046"></a><a class="code" href="a00131.html#5320d4457a472d8888ec1905bc0e0a1c">00046</a> <span class="preprocessor">#define MAX_TIME 128</span>
 <a name="l00047"></a>00047 <span class="preprocessor"></span>
 <a name="l00048"></a>00048 <span class="preprocessor">#ifdef UIP_NEIGHBOR_CONF_ENTRIES</span>
@@ -70,20 +70,20 @@
 <a name="l00050"></a>00050 <span class="preprocessor"></span><span class="preprocessor">#else </span><span class="comment">/* UIP_NEIGHBOR_CONF_ENTRIES */</span>
 <a name="l00051"></a><a class="code" href="a00131.html#5f2e1fcf0055d20ce17664b1027bb9eb">00051</a> <span class="preprocessor">#define ENTRIES 8</span>
 <a name="l00052"></a>00052 <span class="preprocessor"></span><span class="preprocessor">#endif </span><span class="comment">/* UIP_NEIGHBOR_CONF_ENTRIES */</span>
-<a name="l00053"></a>00053 
+<a name="l00053"></a>00053
 <a name="l00054"></a>00054 <span class="keyword">struct </span>neighbor_entry {
 <a name="l00055"></a>00055   <a class="code" href="a00150.html#g1ef35301f43a5bbb9f89f07b5a36b9a0">uip_ipaddr_t</a> ipaddr;
 <a name="l00056"></a>00056   <span class="keyword">struct </span><a class="code" href="a00092.html">uip_neighbor_addr</a> <a class="code" href="a00092.html#4dc3294d67d705f7248ef57e4259424f">addr</a>;
-<a name="l00057"></a>00057   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a> time;
+<a name="l00057"></a>00057   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a> time;
 <a name="l00058"></a>00058 };
 <a name="l00059"></a>00059 <span class="keyword">static</span> <span class="keyword">struct </span>neighbor_entry entries[<a class="code" href="a00131.html#5f2e1fcf0055d20ce17664b1027bb9eb">ENTRIES</a>];
-<a name="l00060"></a>00060 
+<a name="l00060"></a>00060
 <a name="l00061"></a>00061 <span class="comment">/*---------------------------------------------------------------------------*/</span>
 <a name="l00062"></a>00062 <span class="keywordtype">void</span>
 <a name="l00063"></a><a class="code" href="a00131.html#1273664aba3e6a2a46e87dcb1a5f19ad">00063</a> <a class="code" href="a00132.html#1273664aba3e6a2a46e87dcb1a5f19ad">uip_neighbor_init</a>(<span class="keywordtype">void</span>)
 <a name="l00064"></a>00064 {
 <a name="l00065"></a>00065   <span class="keywordtype">int</span> i;
-<a name="l00066"></a>00066 
+<a name="l00066"></a>00066
 <a name="l00067"></a>00067   <span class="keywordflow">for</span>(i = 0; i &lt; <a class="code" href="a00131.html#5f2e1fcf0055d20ce17664b1027bb9eb">ENTRIES</a>; ++i) {
 <a name="l00068"></a>00068     entries[i].time = <a class="code" href="a00131.html#5320d4457a472d8888ec1905bc0e0a1c">MAX_TIME</a>;
 <a name="l00069"></a>00069   }
@@ -93,7 +93,7 @@
 <a name="l00073"></a><a class="code" href="a00131.html#890e822616a6839dfbf51dcb591b8e99">00073</a> <a class="code" href="a00132.html#890e822616a6839dfbf51dcb591b8e99">uip_neighbor_periodic</a>(<span class="keywordtype">void</span>)
 <a name="l00074"></a>00074 {
 <a name="l00075"></a>00075   <span class="keywordtype">int</span> i;
-<a name="l00076"></a>00076 
+<a name="l00076"></a>00076
 <a name="l00077"></a>00077   <span class="keywordflow">for</span>(i = 0; i &lt; <a class="code" href="a00131.html#5f2e1fcf0055d20ce17664b1027bb9eb">ENTRIES</a>; ++i) {
 <a name="l00078"></a>00078     <span class="keywordflow">if</span>(entries[i].time &lt; <a class="code" href="a00131.html#5320d4457a472d8888ec1905bc0e0a1c">MAX_TIME</a>) {
 <a name="l00079"></a>00079       entries[i].time++;
@@ -105,12 +105,12 @@
 <a name="l00085"></a><a class="code" href="a00131.html#88460bea09a462d0e22511cb567eee14">00085</a> <a class="code" href="a00132.html#88460bea09a462d0e22511cb567eee14">uip_neighbor_add</a>(<a class="code" href="a00150.html#g1ef35301f43a5bbb9f89f07b5a36b9a0">uip_ipaddr_t</a> ipaddr, <span class="keyword">struct</span> <a class="code" href="a00092.html">uip_neighbor_addr</a> *addr)
 <a name="l00086"></a>00086 {
 <a name="l00087"></a>00087   <span class="keywordtype">int</span> i, oldest;
-<a name="l00088"></a>00088   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a> oldest_time;
-<a name="l00089"></a>00089 
+<a name="l00088"></a>00088   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a> oldest_time;
+<a name="l00089"></a>00089
 <a name="l00090"></a>00090   printf(<span class="stringliteral">"Adding neighbor with link address %02x:%02x:%02x:%02x:%02x:%02x\n"</span>,
 <a name="l00091"></a>00091          addr-&gt;<a class="code" href="a00092.html#4dc3294d67d705f7248ef57e4259424f">addr</a>.<a class="code" href="a00089.html#aacd5fa1806e0f0dd0bc96dd36507ad8">addr</a>[0], addr-&gt;<a class="code" href="a00092.html#4dc3294d67d705f7248ef57e4259424f">addr</a>.<a class="code" href="a00089.html#aacd5fa1806e0f0dd0bc96dd36507ad8">addr</a>[1], addr-&gt;<a class="code" href="a00092.html#4dc3294d67d705f7248ef57e4259424f">addr</a>.<a class="code" href="a00089.html#aacd5fa1806e0f0dd0bc96dd36507ad8">addr</a>[2], addr-&gt;<a class="code" href="a00092.html#4dc3294d67d705f7248ef57e4259424f">addr</a>.<a class="code" href="a00089.html#aacd5fa1806e0f0dd0bc96dd36507ad8">addr</a>[3],
 <a name="l00092"></a>00092          addr-&gt;<a class="code" href="a00092.html#4dc3294d67d705f7248ef57e4259424f">addr</a>.<a class="code" href="a00089.html#aacd5fa1806e0f0dd0bc96dd36507ad8">addr</a>[4], addr-&gt;<a class="code" href="a00092.html#4dc3294d67d705f7248ef57e4259424f">addr</a>.<a class="code" href="a00089.html#aacd5fa1806e0f0dd0bc96dd36507ad8">addr</a>[5]);
-<a name="l00093"></a>00093   
+<a name="l00093"></a>00093
 <a name="l00094"></a>00094   <span class="comment">/* Find the first unused entry or the oldest used entry. */</span>
 <a name="l00095"></a>00095   oldest_time = 0;
 <a name="l00096"></a>00096   oldest = 0;
@@ -128,7 +128,7 @@
 <a name="l00108"></a>00108       oldest_time = entries[i].time;
 <a name="l00109"></a>00109     }
 <a name="l00110"></a>00110   }
-<a name="l00111"></a>00111 
+<a name="l00111"></a>00111
 <a name="l00112"></a>00112   <span class="comment">/* Use the oldest or first free entry (either pointed to by the</span>
 <a name="l00113"></a>00113 <span class="comment">     "oldest" variable). */</span>
 <a name="l00114"></a>00114   entries[oldest].time = 0;
@@ -140,7 +140,7 @@
 <a name="l00120"></a>00120 find_entry(<a class="code" href="a00150.html#g1ef35301f43a5bbb9f89f07b5a36b9a0">uip_ipaddr_t</a> ipaddr)
 <a name="l00121"></a>00121 {
 <a name="l00122"></a>00122   <span class="keywordtype">int</span> i;
-<a name="l00123"></a>00123   
+<a name="l00123"></a>00123
 <a name="l00124"></a>00124   <span class="keywordflow">for</span>(i = 0; i &lt; <a class="code" href="a00131.html#5f2e1fcf0055d20ce17664b1027bb9eb">ENTRIES</a>; ++i) {
 <a name="l00125"></a>00125     <span class="keywordflow">if</span>(<a class="code" href="a00148.html#g210e629f7252e4bc8458cbdf260b3318">uip_ipaddr_cmp</a>(entries[i].ipaddr, ipaddr)) {
 <a name="l00126"></a>00126       <span class="keywordflow">return</span> &amp;entries[i];
@@ -153,7 +153,7 @@
 <a name="l00133"></a><a class="code" href="a00131.html#1d5ce7047650f3ecee0814dbc8714099">00133</a> <a class="code" href="a00132.html#1d5ce7047650f3ecee0814dbc8714099">uip_neighbor_update</a>(<a class="code" href="a00150.html#g1ef35301f43a5bbb9f89f07b5a36b9a0">uip_ipaddr_t</a> ipaddr)
 <a name="l00134"></a>00134 {
 <a name="l00135"></a>00135   <span class="keyword">struct </span>neighbor_entry *e;
-<a name="l00136"></a>00136 
+<a name="l00136"></a>00136
 <a name="l00137"></a>00137   e = find_entry(ipaddr);
 <a name="l00138"></a>00138   <span class="keywordflow">if</span>(e != <a class="code" href="a00160.html#g070d2ce7b6bb7e5c05602aa8c308d0c4">NULL</a>) {
 <a name="l00139"></a>00139     e-&gt;time = 0;
@@ -164,13 +164,13 @@
 <a name="l00144"></a><a class="code" href="a00131.html#692d80636342d564422ccd9296ad568d">00144</a> <a class="code" href="a00132.html#692d80636342d564422ccd9296ad568d">uip_neighbor_lookup</a>(<a class="code" href="a00150.html#g1ef35301f43a5bbb9f89f07b5a36b9a0">uip_ipaddr_t</a> ipaddr)
 <a name="l00145"></a>00145 {
 <a name="l00146"></a>00146   <span class="keyword">struct </span>neighbor_entry *e;
-<a name="l00147"></a>00147 
+<a name="l00147"></a>00147
 <a name="l00148"></a>00148   e = find_entry(ipaddr);
 <a name="l00149"></a>00149   <span class="keywordflow">if</span>(e != <a class="code" href="a00160.html#g070d2ce7b6bb7e5c05602aa8c308d0c4">NULL</a>) {
 <a name="l00150"></a>00150     <span class="comment">/*    printf("Lookup neighbor with link address %02x:%02x:%02x:%02x:%02x:%02x\n",</span>
 <a name="l00151"></a>00151 <span class="comment">           e-&gt;addr.addr.addr[0], e-&gt;addr.addr.addr[1], e-&gt;addr.addr.addr[2], e-&gt;addr.addr.addr[3],</span>
 <a name="l00152"></a>00152 <span class="comment">           e-&gt;addr.addr.addr[4], e-&gt;addr.addr.addr[5]);*/</span>
-<a name="l00153"></a>00153 
+<a name="l00153"></a>00153
 <a name="l00154"></a>00154     <span class="keywordflow">return</span> &amp;e-&gt;addr;
 <a name="l00155"></a>00155   }
 <a name="l00156"></a>00156   <span class="keywordflow">return</span> <a class="code" href="a00160.html#g070d2ce7b6bb7e5c05602aa8c308d0c4">NULL</a>;

@@ -126,8 +126,8 @@ again:
  * @param broadcast 1 if his is an IPv4 broadcast (global or subnet-only), 0 otherwise (only used for IPv4)
  * @return 1 on match, 0 otherwise
  */
-static u8_t
-udp_input_local_match(struct udp_pcb *pcb, struct netif *inp, u8_t broadcast)
+static uint8_t
+udp_input_local_match(struct udp_pcb *pcb, struct netif *inp, uint8_t broadcast)
 {
   LWIP_UNUSED_ARG(inp);       /* in IPv6 only case */
   LWIP_UNUSED_ARG(broadcast); /* in IPv6 only case */
@@ -197,8 +197,8 @@ udp_input(struct pbuf *p, struct netif *inp)
   struct udp_pcb *pcb, *prev;
   struct udp_pcb *uncon_pcb;
   u16_t src, dest;
-  u8_t broadcast;
-  u8_t for_us = 0;
+  uint8_t broadcast;
+  uint8_t for_us = 0;
 
   LWIP_UNUSED_ARG(inp);
 
@@ -483,7 +483,7 @@ udp_send(struct udp_pcb *pcb, struct pbuf *p)
  */
 err_t
 udp_send_chksum(struct udp_pcb *pcb, struct pbuf *p,
-                u8_t have_chksum, u16_t chksum)
+                uint8_t have_chksum, u16_t chksum)
 {
   LWIP_ERROR("udp_send_chksum: invalid pcb", pcb != NULL, return ERR_ARG);
   LWIP_ERROR("udp_send_chksum: invalid pbuf", p != NULL, return ERR_ARG);
@@ -528,7 +528,7 @@ udp_sendto(struct udp_pcb *pcb, struct pbuf *p,
  * Same as udp_sendto(), but with checksum */
 err_t
 udp_sendto_chksum(struct udp_pcb *pcb, struct pbuf *p, const ip_addr_t *dst_ip,
-                  u16_t dst_port, u8_t have_chksum, u16_t chksum)
+                  u16_t dst_port, uint8_t have_chksum, u16_t chksum)
 {
 #endif /* LWIP_CHECKSUM_ON_COPY && CHECKSUM_GEN_UDP */
   struct netif *netif;
@@ -631,7 +631,7 @@ udp_sendto_if(struct udp_pcb *pcb, struct pbuf *p,
 /** Same as udp_sendto_if(), but with checksum */
 err_t
 udp_sendto_if_chksum(struct udp_pcb *pcb, struct pbuf *p, const ip_addr_t *dst_ip,
-                     u16_t dst_port, struct netif *netif, u8_t have_chksum,
+                     u16_t dst_port, struct netif *netif, uint8_t have_chksum,
                      u16_t chksum)
 {
 #endif /* LWIP_CHECKSUM_ON_COPY && CHECKSUM_GEN_UDP */
@@ -706,15 +706,15 @@ udp_sendto_if_src(struct udp_pcb *pcb, struct pbuf *p,
 /** Same as udp_sendto_if_src(), but with checksum */
 err_t
 udp_sendto_if_src_chksum(struct udp_pcb *pcb, struct pbuf *p, const ip_addr_t *dst_ip,
-                         u16_t dst_port, struct netif *netif, u8_t have_chksum,
+                         u16_t dst_port, struct netif *netif, uint8_t have_chksum,
                          u16_t chksum, const ip_addr_t *src_ip)
 {
 #endif /* LWIP_CHECKSUM_ON_COPY && CHECKSUM_GEN_UDP */
   struct udp_hdr *udphdr;
   err_t err;
   struct pbuf *q; /* q will be sent down the stack */
-  u8_t ip_proto;
-  u8_t ttl;
+  uint8_t ip_proto;
+  uint8_t ttl;
 
   LWIP_ASSERT_CORE_LOCKED();
 
@@ -829,7 +829,7 @@ udp_sendto_if_src_chksum(struct udp_pcb *pcb, struct pbuf *p, const ip_addr_t *d
                        q->tot_len, chklen, src_ip, dst_ip);
 #if LWIP_CHECKSUM_ON_COPY
       if (have_chksum) {
-        u32_t acc;
+        uint32_t acc;
         acc = udphdr->chksum + (u16_t)~(chksum);
         udphdr->chksum = FOLD_U32T(acc);
       }
@@ -856,7 +856,7 @@ udp_sendto_if_src_chksum(struct udp_pcb *pcb, struct pbuf *p, const ip_addr_t *d
         u16_t udpchksum;
 #if LWIP_CHECKSUM_ON_COPY
         if (have_chksum) {
-          u32_t acc;
+          uint32_t acc;
           udpchksum = ip_chksum_pseudo_partial(q, IP_PROTO_UDP,
                                                q->tot_len, UDP_HLEN, src_ip, dst_ip);
           acc = udpchksum + (u16_t)~(chksum);
@@ -911,7 +911,7 @@ udp_sendto_if_src_chksum(struct udp_pcb *pcb, struct pbuf *p, const ip_addr_t *d
 /**
  * @ingroup udp_raw
  * Bind an UDP PCB.
- * 
+ *
  * @param pcb UDP PCB to be bound with a local address ipaddr and port.
  * @param ipaddr local IP address to bind with. Use IP_ANY_TYPE to
  * bind to all local interfaces.
@@ -932,7 +932,7 @@ err_t
 udp_bind(struct udp_pcb *pcb, const ip_addr_t *ipaddr, u16_t port)
 {
   struct udp_pcb *ipcb;
-  u8_t rebind;
+  uint8_t rebind;
 #if LWIP_IPV6 && LWIP_IPV6_SCOPES
   ip_addr_t zoned_ipaddr;
 #endif /* LWIP_IPV6 && LWIP_IPV6_SCOPES */
@@ -1168,8 +1168,8 @@ udp_recv(struct udp_pcb *pcb, udp_recv_fn recv, void *recv_arg)
 
 /**
  * @ingroup udp_raw
- * Removes and deallocates the pcb.  
- * 
+ * Removes and deallocates the pcb.
+ *
  * @param pcb UDP PCB to be removed. The PCB is removed from the list of
  * UDP PCB's and the data structure is freed from memory.
  *
@@ -1242,7 +1242,7 @@ udp_new(void)
  * Create a UDP PCB for specific IP type.
  * The pcb is not active until it has either been bound to a local address
  * or connected to a remote address.
- * 
+ *
  * @param type IP address type, see @ref lwip_ip_addr_type definitions.
  * If you want to listen to IPv4 and IPv6 (dual-stack) packets,
  * supply @ref IPADDR_TYPE_ANY as argument and bind to @ref IP_ANY_TYPE.
@@ -1252,7 +1252,7 @@ udp_new(void)
  * @see udp_remove()
  */
 struct udp_pcb *
-udp_new_ip_type(u8_t type)
+udp_new_ip_type(uint8_t type)
 {
   struct udp_pcb *pcb;
 

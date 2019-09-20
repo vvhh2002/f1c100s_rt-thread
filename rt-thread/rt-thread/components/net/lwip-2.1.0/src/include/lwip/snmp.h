@@ -93,7 +93,7 @@ enum snmp_ifType {
   snmp_ifType_frame_relay
 };
 
-/** This macro has a precision of ~49 days because sys_now returns u32_t. \#define your own if you want ~490 days. */
+/** This macro has a precision of ~49 days because sys_now returns uint32_t. \#define your own if you want ~490 days. */
 #ifndef MIB2_COPY_SYSUPTIME_TO
 #define MIB2_COPY_SYSUPTIME_TO(ptrToVal) (*(ptrToVal) = (sys_now() / 10))
 #endif
@@ -159,8 +159,8 @@ void mib2_remove_arp_entry(struct netif *ni, ip4_addr_t *ip);
 #if LWIP_IPV4
 void mib2_add_ip4(struct netif *ni);
 void mib2_remove_ip4(struct netif *ni);
-void mib2_add_route_ip4(u8_t dflt, struct netif *ni);
-void mib2_remove_route_ip4(u8_t dflt, struct netif *ni);
+void mib2_add_route_ip4(uint8_t dflt, struct netif *ni);
+void mib2_remove_route_ip4(uint8_t dflt, struct netif *ni);
 #endif /* LWIP_IPV4 */
 
 /* UDP */

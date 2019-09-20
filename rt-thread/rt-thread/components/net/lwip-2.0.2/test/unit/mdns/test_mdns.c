@@ -38,7 +38,7 @@
 
 START_TEST(readname_basic)
 {
-  static const u8_t data[] = { 0x05, 'm', 'u', 'l', 't', 'i', 0x04, 'c', 'a', 's', 't', 0x00 };
+  static const uint8_t data[] = { 0x05, 'm', 'u', 'l', 't', 'i', 0x04, 'c', 'a', 's', 't', 0x00 };
   struct pbuf *p;
   struct mdns_domain domain;
   u16_t offset;
@@ -57,7 +57,7 @@ END_TEST
 
 START_TEST(readname_anydata)
 {
-  static const u8_t data[] = { 0x05, 0x00, 0xFF, 0x08, 0xc0, 0x0f, 0x04, 0x7f, 0x80, 0x82, 0x88, 0x00 };
+  static const uint8_t data[] = { 0x05, 0x00, 0xFF, 0x08, 0xc0, 0x0f, 0x04, 0x7f, 0x80, 0x82, 0x88, 0x00 };
   struct pbuf *p;
   struct mdns_domain domain;
   u16_t offset;
@@ -76,7 +76,7 @@ END_TEST
 
 START_TEST(readname_short_buf)
 {
-  static const u8_t data[] = { 0x05, 'm', 'u', 'l', 't', 'i', 0x04, 'c', 'a' };
+  static const uint8_t data[] = { 0x05, 'm', 'u', 'l', 't', 'i', 0x04, 'c', 'a' };
   struct pbuf *p;
   struct mdns_domain domain;
   u16_t offset;
@@ -93,7 +93,7 @@ END_TEST
 
 START_TEST(readname_long_label)
 {
-  static const u8_t data[] = {
+  static const uint8_t data[] = {
       0x05, 'm', 'u', 'l', 't', 'i',
       0x52, 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a',
       'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a',
@@ -118,7 +118,7 @@ END_TEST
 
 START_TEST(readname_overflow)
 {
-  static const u8_t data[] = {
+  static const uint8_t data[] = {
       0x05, 'm', 'u', 'l', 't', 'i', 0x04, 'c', 'a', 's', 't',
       0x05, 'm', 'u', 'l', 't', 'i', 0x04, 'c', 'a', 's', 't',
       0x05, 'm', 'u', 'l', 't', 'i', 0x04, 'c', 'a', 's', 't',
@@ -174,13 +174,13 @@ END_TEST
 
 START_TEST(readname_jump_earlier)
 {
-  static const u8_t data[] = {
+  static const uint8_t data[] = {
       /* Some padding needed, not supported to jump to bytes containing dns header */
       /*  0 */ 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
       /* 10 */ 0x0f, 0x0e, 0x05, 'l', 'o', 'c', 'a', 'l', 0x00, 0xab,
       /* 20 */ 0x05, 'm', 'u', 'l', 't', 'i', 0x04, 'c', 'a', 's', 't', 0xc0, 0x0c
   };
-  static const u8_t fullname[] = {
+  static const uint8_t fullname[] = {
       0x05, 'm', 'u', 'l', 't', 'i', 0x04, 'c', 'a', 's', 't', 0x05, 'l', 'o', 'c', 'a', 'l', 0x00
   };
   struct pbuf *p;
@@ -202,14 +202,14 @@ END_TEST
 
 START_TEST(readname_jump_earlier_jump)
 {
-  static const u8_t data[] = {
+  static const uint8_t data[] = {
       /* Some padding needed, not supported to jump to bytes containing dns header */
       /* 0x00 */ 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
       /* 0x08 */ 0x00, 0x00, 0x00, 0x00, 0x03, 0x0b, 0x0a, 0xf2,
       /* 0x10 */ 0x04, 'c', 'a', 's', 't', 0x00, 0xc0, 0x10,
       /* 0x18 */ 0x05, 'm', 'u', 'l', 't', 'i', 0xc0, 0x16
   };
-  static const u8_t fullname[] = {
+  static const uint8_t fullname[] = {
       0x05, 'm', 'u', 'l', 't', 'i', 0x04, 'c', 'a', 's', 't', 0x00
   };
   struct pbuf *p;
@@ -231,7 +231,7 @@ END_TEST
 
 START_TEST(readname_jump_maxdepth)
 {
-  static const u8_t data[] = {
+  static const uint8_t data[] = {
       /* Some padding needed, not supported to jump to bytes containing dns header */
       /* 0x00 */ 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
       /* 0x08 */ 0x00, 0x00, 0x00, 0x00, 0x03, 0x0b, 0x0a, 0xf2,
@@ -241,7 +241,7 @@ START_TEST(readname_jump_maxdepth)
       /* 0x28 */ 0x04, 'c', 'a', 's', 't', 0xc0, 0x20, 0xb0,
       /* 0x30 */ 0x05, 'm', 'u', 'l', 't', 'i', 0xc0, 0x28
   };
-  static const u8_t fullname[] = {
+  static const uint8_t fullname[] = {
       0x05, 'm', 'u', 'l', 't', 'i', 0x04, 'c', 'a', 's', 't',
       0x04, 'd', 'e', 'e', 'p', 0x03, 'd', 'n', 's',
       0x04, 'n', 'a', 'm', 'e', 0x00
@@ -265,11 +265,11 @@ END_TEST
 
 START_TEST(readname_jump_later)
 {
-  static const u8_t data[] = {
+  static const uint8_t data[] = {
       /* 0x00 */ 0x05, 'm', 'u', 'l', 't', 'i', 0x04, 'c', 'a', 's', 't', 0xc0, 0x10, 0x00, 0x01, 0x40,
       /* 0x10 */ 0x05, 'l', 'o', 'c', 'a', 'l', 0x00, 0xab
   };
-  static const u8_t fullname[] = {
+  static const uint8_t fullname[] = {
       0x05, 'm', 'u', 'l', 't', 'i', 0x04, 'c', 'a', 's', 't', 0x05, 'l', 'o', 'c', 'a', 'l', 0x00
   };
   struct pbuf *p;
@@ -291,7 +291,7 @@ END_TEST
 
 START_TEST(readname_half_jump)
 {
-  static const u8_t data[] = {
+  static const uint8_t data[] = {
       0x05, 'm', 'u', 'l', 't', 'i', 0x04, 'c', 'a', 's', 't', 0xc0
   };
   struct pbuf *p;
@@ -310,7 +310,7 @@ END_TEST
 
 START_TEST(readname_jump_toolong)
 {
-  static const u8_t data[] = {
+  static const uint8_t data[] = {
       0x05, 'm', 'u', 'l', 't', 'i', 0x04, 'c', 'a', 's', 't', 0xc2, 0x10, 0x00, 0x01, 0x40
   };
   struct pbuf *p;
@@ -329,7 +329,7 @@ END_TEST
 
 START_TEST(readname_jump_loop_label)
 {
-  static const u8_t data[] = {
+  static const uint8_t data[] = {
       /*  0 */ 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
       /* 10 */ 0x05, 'm', 'u', 'l', 't', 'i', 0x04, 'c', 'a', 's', 't', 0xc0, 0x10
   };
@@ -349,7 +349,7 @@ END_TEST
 
 START_TEST(readname_jump_loop_jump)
 {
-  static const u8_t data[] = {
+  static const uint8_t data[] = {
       /*  0 */ 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
       /* 10 */ 0x05, 'm', 'u', 'l', 't', 'i', 0x04, 'c', 'a', 's', 't', 0xc0, 0x15
   };
@@ -369,7 +369,7 @@ END_TEST
 
 START_TEST(add_label_basic)
 {
-  static const u8_t data[] = { 0x05, 'm', 'u', 'l', 't', 'i', 0x04, 'c', 'a', 's', 't', 0x00 };
+  static const uint8_t data[] = { 0x05, 'm', 'u', 'l', 't', 'i', 0x04, 'c', 'a', 's', 't', 0x00 };
   struct mdns_domain domain;
   err_t res;
   LWIP_UNUSED_ARG(_i);
@@ -396,7 +396,7 @@ START_TEST(add_label_long_label)
   memset(&domain, 0, sizeof(domain));
   res = mdns_domain_add_label(&domain, "multi", 5);
   fail_unless(res == ERR_OK);
-  res = mdns_domain_add_label(&domain, toolong, (u8_t)strlen(toolong));
+  res = mdns_domain_add_label(&domain, toolong, (uint8_t)strlen(toolong));
   fail_unless(res == ERR_VAL);
 }
 END_TEST
@@ -409,28 +409,28 @@ START_TEST(add_label_full)
   LWIP_UNUSED_ARG(_i);
 
   memset(&domain, 0, sizeof(domain));
-  res = mdns_domain_add_label(&domain, label, (u8_t)strlen(label));
+  res = mdns_domain_add_label(&domain, label, (uint8_t)strlen(label));
   fail_unless(res == ERR_OK);
   fail_unless(domain.length == 33);
-  res = mdns_domain_add_label(&domain, label, (u8_t)strlen(label));
+  res = mdns_domain_add_label(&domain, label, (uint8_t)strlen(label));
   fail_unless(res == ERR_OK);
   fail_unless(domain.length == 66);
-  res = mdns_domain_add_label(&domain, label, (u8_t)strlen(label));
+  res = mdns_domain_add_label(&domain, label, (uint8_t)strlen(label));
   fail_unless(res == ERR_OK);
   fail_unless(domain.length == 99);
-  res = mdns_domain_add_label(&domain, label, (u8_t)strlen(label));
+  res = mdns_domain_add_label(&domain, label, (uint8_t)strlen(label));
   fail_unless(res == ERR_OK);
   fail_unless(domain.length == 132);
-  res = mdns_domain_add_label(&domain, label, (u8_t)strlen(label));
+  res = mdns_domain_add_label(&domain, label, (uint8_t)strlen(label));
   fail_unless(res == ERR_OK);
   fail_unless(domain.length == 165);
-  res = mdns_domain_add_label(&domain, label, (u8_t)strlen(label));
+  res = mdns_domain_add_label(&domain, label, (uint8_t)strlen(label));
   fail_unless(res == ERR_OK);
   fail_unless(domain.length == 198);
-  res = mdns_domain_add_label(&domain, label, (u8_t)strlen(label));
+  res = mdns_domain_add_label(&domain, label, (uint8_t)strlen(label));
   fail_unless(res == ERR_OK);
   fail_unless(domain.length == 231);
-  res = mdns_domain_add_label(&domain, label, (u8_t)strlen(label));
+  res = mdns_domain_add_label(&domain, label, (uint8_t)strlen(label));
   fail_unless(res == ERR_VAL);
   fail_unless(domain.length == 231);
   res = mdns_domain_add_label(&domain, label, 25);
@@ -453,7 +453,7 @@ END_TEST
 
 START_TEST(domain_eq_basic)
 {
-  static const u8_t data[] = {
+  static const uint8_t data[] = {
       0x05, 'm', 'u', 'l', 't', 'i', 0x04, 'c', 'a', 's', 't', 0x00
   };
   struct mdns_domain domain1, domain2;
@@ -535,8 +535,8 @@ END_TEST
 
 START_TEST(domain_eq_anydata)
 {
-  static const u8_t data1[] = { 0x05, 0xcc, 0xdc, 0x00, 0xa0 };
-  static const u8_t data2[] = { 0x7f, 0x8c, 0x01, 0xff, 0xcf };
+  static const uint8_t data1[] = { 0x05, 0xcc, 0xdc, 0x00, 0xa0 };
+  static const uint8_t data2[] = { 0x7f, 0x8c, 0x01, 0xff, 0xcf };
   struct mdns_domain domain1, domain2;
   err_t res;
   LWIP_UNUSED_ARG(_i);
@@ -591,7 +591,7 @@ END_TEST
 
 START_TEST(compress_full_match)
 {
-  static const u8_t data[] = {
+  static const uint8_t data[] = {
       0x00, 0x00,
       0x06, 'f', 'o', 'o', 'b', 'a', 'r', 0x05, 'l', 'o', 'c', 'a', 'l', 0x00
   };
@@ -626,7 +626,7 @@ END_TEST
 
 START_TEST(compress_full_match_subset)
 {
-  static const u8_t data[] = {
+  static const uint8_t data[] = {
       0x00, 0x00,
       0x02, 'g', 'o', 0x06, 'f', 'o', 'o', 'b', 'a', 'r', 0x05, 'l', 'o', 'c', 'a', 'l', 0x00
   };
@@ -661,7 +661,7 @@ END_TEST
 
 START_TEST(compress_full_match_jump)
 {
-  static const u8_t data[] = {
+  static const uint8_t data[] = {
     /* 0x00 */ 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
                0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f,
     /* 0x10 */ 0x04, 'l', 'w', 'i', 'p', 0x05, 'l', 'o', 'c', 'a', 'l', 0x00, 0xc0, 0x00, 0x02, 0x00,
@@ -698,7 +698,7 @@ END_TEST
 
 START_TEST(compress_no_match)
 {
-  static const u8_t data[] = {
+  static const uint8_t data[] = {
       0x00, 0x00,
       0x04, 'l', 'w', 'i', 'p', 0x05, 'w', 'i', 'k', 'i', 'a', 0x03, 'c', 'o', 'm', 0x00
   };
@@ -732,7 +732,7 @@ END_TEST
 
 START_TEST(compress_2nd_label)
 {
-  static const u8_t data[] = {
+  static const uint8_t data[] = {
       0x00, 0x00,
       0x06, 'f', 'o', 'o', 'b', 'a', 'r', 0x05, 'l', 'o', 'c', 'a', 'l', 0x00
   };
@@ -767,7 +767,7 @@ END_TEST
 
 START_TEST(compress_2nd_label_short)
 {
-  static const u8_t data[] = {
+  static const uint8_t data[] = {
       0x00, 0x00,
       0x04, 'l', 'w', 'i', 'p', 0x05, 'l', 'o', 'c', 'a', 'l', 0x00
   };
@@ -802,7 +802,7 @@ END_TEST
 
 START_TEST(compress_jump_to_jump)
 {
-  static const u8_t data[] = {
+  static const uint8_t data[] = {
       /* 0x00 */ 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
                  0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f,
       /* 0x10 */ 0x04, 'l', 'w', 'i', 'p', 0x05, 'l', 'o', 'c', 'a', 'l', 0x00, 0xc0, 0x00, 0x02, 0x00,
@@ -844,7 +844,7 @@ END_TEST
 
 START_TEST(compress_long_match)
 {
-  static const u8_t data[] = {
+  static const uint8_t data[] = {
       0x00, 0x00,
       0x06, 'f', 'o', 'o', 'b', 'a', 'r', 0x05, 'l', 'o', 'c', 'a', 'l', 0x03, 'c', 'o', 'm', 0x00
   };

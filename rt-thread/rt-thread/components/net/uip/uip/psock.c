@@ -73,15 +73,15 @@
 /*---------------------------------------------------------------------------*/
 static void
 buf_setup(struct psock_buf *buf,
-	  u8_t *bufptr, u16_t bufsize)
+	  uint8_t *bufptr, u16_t bufsize)
 {
   buf->ptr = bufptr;
   buf->left = bufsize;
 }
 /*---------------------------------------------------------------------------*/
-static u8_t
+static uint8_t
 buf_bufdata(struct psock_buf *buf, u16_t len,
-	    u8_t **dataptr, u16_t *datalen)
+	    uint8_t **dataptr, u16_t *datalen)
 {
   if(*datalen < buf->left) {
     memcpy(buf->ptr, *dataptr, *datalen);
@@ -107,18 +107,18 @@ buf_bufdata(struct psock_buf *buf, u16_t len,
   }
 }
 /*---------------------------------------------------------------------------*/
-static u8_t
-buf_bufto(register struct psock_buf *buf, u8_t endmarker,
-	  register u8_t **dataptr, register u16_t *datalen)
+static uint8_t
+buf_bufto(register struct psock_buf *buf, uint8_t endmarker,
+	  register uint8_t **dataptr, register u16_t *datalen)
 {
-  u8_t c;
+  uint8_t c;
   while(buf->left > 0 && *datalen > 0) {
     c = *buf->ptr = **dataptr;
     ++*dataptr;
     ++buf->ptr;
     --*datalen;
     --buf->left;
-    
+
     if(c == endmarker) {
       return BUF_FOUND;
     }
@@ -132,12 +132,12 @@ buf_bufto(register struct psock_buf *buf, u8_t endmarker,
     c = **dataptr;
     --*datalen;
     ++*dataptr;
-    
+
     if(c == endmarker) {
       return BUF_FOUND | BUF_FULL;
     }
   }
-  
+
   return BUF_FULL;
 }
 /*---------------------------------------------------------------------------*/
@@ -208,7 +208,7 @@ PT_THREAD(psock_send(register struct psock *s, const char *buf,
   }
 
   s->state = STATE_NONE;
-  
+
   PT_END(&s->psockpt);
 }
 /*---------------------------------------------------------------------------*/
@@ -225,9 +225,9 @@ PT_THREAD(psock_generator_send(register struct psock *s,
   /* Call the generator function to generate the data in the
      uip_appdata buffer. */
   s->sendlen = generate(arg);
-  s->sendptr =(const u8_t*) uip_appdata;
+  s->sendptr =(const uint8_t*) uip_appdata;
 
-  s->state = STATE_NONE;  
+  s->state = STATE_NONE;
   do {
     /* Call the generator function again if we are called to perform a
        retransmission. */
@@ -237,9 +237,9 @@ PT_THREAD(psock_generator_send(register struct psock *s,
     /* Wait until all data is sent and acknowledged. */
     PT_WAIT_UNTIL(&s->psockpt, data_acked(s) & send_data(s));
   } while(s->sendlen > 0);
-  
+
   s->state = STATE_NONE;
-  
+
   PT_END(&s->psockpt);
 }
 /*---------------------------------------------------------------------------*/
@@ -274,7 +274,7 @@ PT_THREAD(psock_readto(register struct psock *psock, unsigned char c))
   PT_BEGIN(&psock->psockpt);
 
   buf_setup(&psock->buf, psock->bufptr, psock->bufsize);
-  
+
   /* XXX: Should add buf_checkmarker() before do{} loop, if
      incoming data has been handled while waiting for a write. */
 
@@ -282,13 +282,13 @@ PT_THREAD(psock_readto(register struct psock *psock, unsigned char c))
     if(psock->readlen == 0) {
       PT_WAIT_UNTIL(&psock->psockpt, psock_newdata(psock));
       psock->state = STATE_READ;
-      psock->readptr = (u8_t *)uip_appdata;
+      psock->readptr = (uint8_t *)uip_appdata;
       psock->readlen = uip_datalen();
     }
   } while((buf_bufto(&psock->buf, c,
 		     &psock->readptr,
 		     &psock->readlen) & BUF_FOUND) == 0);
-  
+
   if(psock_datalen(psock) == 0) {
     psock->state = STATE_NONE;
     PT_RESTART(&psock->psockpt);
@@ -301,7 +301,7 @@ PT_THREAD(psock_readbuf(register struct psock *psock))
   PT_BEGIN(&psock->psockpt);
 
   buf_setup(&psock->buf, psock->bufptr, psock->bufsize);
-  
+
   /* XXX: Should add buf_checkmarker() before do{} loop, if
      incoming data has been handled while waiting for a write. */
 
@@ -310,7 +310,7 @@ PT_THREAD(psock_readbuf(register struct psock *psock))
       PT_WAIT_UNTIL(&psock->psockpt, psock_newdata(psock));
       printf("Waited for newdata\n");
       psock->state = STATE_READ;
-      psock->readptr = (u8_t *)uip_appdata;
+      psock->readptr = (uint8_t *)uip_appdata;
       psock->readlen = uip_datalen();
     }
   } while(buf_bufdata(&psock->buf, psock->bufsize,

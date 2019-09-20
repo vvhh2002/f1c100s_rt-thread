@@ -142,8 +142,8 @@ typedef struct _httpc_state
   altcp_recv_fn recv_fn;
   const httpc_connection_t *conn_settings;
   void* callback_arg;
-  u32_t rx_content_len;
-  u32_t hdr_content_len;
+  uint32_t rx_content_len;
+  uint32_t hdr_content_len;
   httpc_parse_state_t parse_state;
 #if HTTPC_DEBUG_REQUEST
   char* server_name;
@@ -188,7 +188,7 @@ httpc_free_state(httpc_state_t* req)
 
 /** Close the connection: call finished callback and free the state */
 static err_t
-httpc_close(httpc_state_t* req, httpc_result_t result, u32_t server_response, err_t err)
+httpc_close(httpc_state_t* req, httpc_result_t result, uint32_t server_response, err_t err)
 {
   if (req != NULL) {
     if (req->conn_settings != NULL) {
@@ -244,7 +244,7 @@ http_parse_response_status(struct pbuf *p, u16_t *http_version, u16_t *http_stat
 
 /** Wait for all headers to be received, return its length and content-length (if available) */
 static err_t
-http_wait_headers(struct pbuf *p, u32_t *content_length, u16_t *total_header_len)
+http_wait_headers(struct pbuf *p, uint32_t *content_length, u16_t *total_header_len)
 {
   u16_t end1 = pbuf_memfind(p, "\r\n\r\n", 4, 0);
   if (end1 < (0xFFFF - 2)) {
@@ -263,8 +263,8 @@ http_wait_headers(struct pbuf *p, u32_t *content_length, u16_t *total_header_len
         memset(content_len_num, 0, sizeof(content_len_num));
         if (pbuf_copy_partial(p, content_len_num, content_len_num_len, content_len_hdr + 16) == content_len_num_len) {
           int len = atoi(content_len_num);
-          if ((len >= 0) && ((u32_t)len < HTTPC_CONTENT_LEN_INVALID)) {
-            *content_length = (u32_t)len;
+          if ((len >= 0) && ((uint32_t)len < HTTPC_CONTENT_LEN_INVALID)) {
+            *content_length = (uint32_t)len;
           }
         }
       }
@@ -614,7 +614,7 @@ httpc_init_connection_addr(httpc_state_t **connection, const httpc_connection_t 
 }
 
 /**
- * @ingroup httpc 
+ * @ingroup httpc
  * HTTP client API: get a file by passing server IP address
  *
  * @param server_addr IP address of the server to connect
@@ -659,7 +659,7 @@ httpc_get_file(const ip_addr_t* server_addr, u16_t port, const char* uri, const 
 }
 
 /**
- * @ingroup httpc 
+ * @ingroup httpc
  * HTTP client API: get a file by passing server name as string (DNS name or IP address string)
  *
  * @param server_name server name as string (DNS name or IP address string)
@@ -714,8 +714,8 @@ typedef struct _httpc_filestate
   void *callback_arg;
 } httpc_filestate_t;
 
-static void httpc_fs_result(void *arg, httpc_result_t httpc_result, u32_t rx_content_len,
-  u32_t srv_res, err_t err);
+static void httpc_fs_result(void *arg, httpc_result_t httpc_result, uint32_t rx_content_len,
+  uint32_t srv_res, err_t err);
 
 /** Initalize http client state for download to file system */
 static err_t
@@ -769,8 +769,8 @@ httpc_fs_free(httpc_filestate_t *filestate)
 
 /** Connection closed (success or error) */
 static void
-httpc_fs_result(void *arg, httpc_result_t httpc_result, u32_t rx_content_len,
-                u32_t srv_res, err_t err)
+httpc_fs_result(void *arg, httpc_result_t httpc_result, uint32_t rx_content_len,
+                uint32_t srv_res, err_t err)
 {
   httpc_filestate_t *filestate = (httpc_filestate_t *)arg;
   if (filestate != NULL) {
@@ -801,7 +801,7 @@ httpc_fs_tcp_recv(void *arg, struct altcp_pcb *pcb, struct pbuf *p, err_t err)
 }
 
 /**
- * @ingroup httpc 
+ * @ingroup httpc
  * HTTP client API: get a file to disk by passing server IP address
  *
  * @param server_addr IP address of the server to connect
@@ -853,7 +853,7 @@ httpc_get_file_to_disk(const ip_addr_t* server_addr, u16_t port, const char* uri
 }
 
 /**
- * @ingroup httpc 
+ * @ingroup httpc
  * HTTP client API: get a file to disk by passing server name as string (DNS name or IP address string)
  *
  * @param server_name server name as string (DNS name or IP address string)

@@ -60,7 +60,7 @@
 static s16_t
 udp_get_value(struct snmp_node_instance *instance, void *value)
 {
-  u32_t *uint_ptr = (u32_t *)value;
+  uint32_t *uint_ptr = (uint32_t *)value;
 
   switch (instance->node->oid) {
     case 1: /* udpInDatagrams */
@@ -100,7 +100,7 @@ udp_get_value(struct snmp_node_instance *instance, void *value)
 /* --- udpEndpointTable --- */
 
 static snmp_err_t
-udp_endpointTable_get_cell_value_core(const u32_t *column, union snmp_variant_value *value)
+udp_endpointTable_get_cell_value_core(const uint32_t *column, union snmp_variant_value *value)
 {
   /* all items except udpEndpointProcess are declared as not-accessible */
   switch (*column) {
@@ -115,12 +115,12 @@ udp_endpointTable_get_cell_value_core(const u32_t *column, union snmp_variant_va
 }
 
 static snmp_err_t
-udp_endpointTable_get_cell_value(const u32_t *column, const u32_t *row_oid, u8_t row_oid_len, union snmp_variant_value *value, u32_t *value_len)
+udp_endpointTable_get_cell_value(const uint32_t *column, const uint32_t *row_oid, uint8_t row_oid_len, union snmp_variant_value *value, uint32_t *value_len)
 {
   ip_addr_t local_ip, remote_ip;
   u16_t local_port, remote_port;
   struct udp_pcb *pcb;
-  u8_t idx = 0;
+  uint8_t idx = 0;
 
   LWIP_UNUSED_ARG(value_len);
 
@@ -162,7 +162,7 @@ udp_endpointTable_get_cell_value(const u32_t *column, const u32_t *row_oid, u8_t
 }
 
 static snmp_err_t
-udp_endpointTable_get_next_cell_instance_and_value(const u32_t *column, struct snmp_obj_id *row_oid, union snmp_variant_value *value, u32_t *value_len)
+udp_endpointTable_get_next_cell_instance_and_value(const uint32_t *column, struct snmp_obj_id *row_oid, union snmp_variant_value *value, uint32_t *value_len)
 {
   struct udp_pcb *pcb;
   struct snmp_next_oid_state state;
@@ -170,7 +170,7 @@ udp_endpointTable_get_next_cell_instance_and_value(const u32_t *column, struct s
    * 1x udpEndpointRemoteAddressType + 1x OID len + 16x udpEndpointRemoteAddress + 1x udpEndpointRemotePort +
    * 1x udpEndpointInstance = 39
    */
-  u32_t  result_temp[39];
+  uint32_t  result_temp[39];
 
   LWIP_UNUSED_ARG(value_len);
 
@@ -180,8 +180,8 @@ udp_endpointTable_get_next_cell_instance_and_value(const u32_t *column, struct s
   /* iterate over all possible OIDs to find the next one */
   pcb = udp_pcbs;
   while (pcb != NULL) {
-    u32_t test_oid[LWIP_ARRAYSIZE(result_temp)];
-    u8_t idx = 0;
+    uint32_t test_oid[LWIP_ARRAYSIZE(result_temp)];
+    uint8_t idx = 0;
 
     /* udpEndpointLocalAddressType + udpEndpointLocalAddress + udpEndpointLocalPort */
     idx += snmp_ip_port_to_oid(&pcb->local_ip, pcb->local_port, &test_oid[idx]);
@@ -223,7 +223,7 @@ static const struct snmp_oid_range udp_Table_oid_ranges[] = {
 };
 
 static snmp_err_t
-udp_Table_get_cell_value_core(struct udp_pcb *pcb, const u32_t *column, union snmp_variant_value *value, u32_t *value_len)
+udp_Table_get_cell_value_core(struct udp_pcb *pcb, const uint32_t *column, union snmp_variant_value *value, uint32_t *value_len)
 {
   LWIP_UNUSED_ARG(value_len);
 
@@ -244,7 +244,7 @@ udp_Table_get_cell_value_core(struct udp_pcb *pcb, const u32_t *column, union sn
 }
 
 static snmp_err_t
-udp_Table_get_cell_value(const u32_t *column, const u32_t *row_oid, u8_t row_oid_len, union snmp_variant_value *value, u32_t *value_len)
+udp_Table_get_cell_value(const uint32_t *column, const uint32_t *row_oid, uint8_t row_oid_len, union snmp_variant_value *value, uint32_t *value_len)
 {
   ip4_addr_t ip;
   u16_t port;
@@ -276,11 +276,11 @@ udp_Table_get_cell_value(const u32_t *column, const u32_t *row_oid, u8_t row_oid
 }
 
 static snmp_err_t
-udp_Table_get_next_cell_instance_and_value(const u32_t *column, struct snmp_obj_id *row_oid, union snmp_variant_value *value, u32_t *value_len)
+udp_Table_get_next_cell_instance_and_value(const uint32_t *column, struct snmp_obj_id *row_oid, union snmp_variant_value *value, uint32_t *value_len)
 {
   struct udp_pcb *pcb;
   struct snmp_next_oid_state state;
-  u32_t  result_temp[LWIP_ARRAYSIZE(udp_Table_oid_ranges)];
+  uint32_t  result_temp[LWIP_ARRAYSIZE(udp_Table_oid_ranges)];
 
   /* init struct to search next oid */
   snmp_next_oid_init(&state, row_oid->id, row_oid->len, result_temp, LWIP_ARRAYSIZE(udp_Table_oid_ranges));
@@ -288,7 +288,7 @@ udp_Table_get_next_cell_instance_and_value(const u32_t *column, struct snmp_obj_
   /* iterate over all possible OIDs to find the next one */
   pcb = udp_pcbs;
   while (pcb != NULL) {
-    u32_t test_oid[LWIP_ARRAYSIZE(udp_Table_oid_ranges)];
+    uint32_t test_oid[LWIP_ARRAYSIZE(udp_Table_oid_ranges)];
 
     if (IP_IS_V4_VAL(pcb->local_ip)) {
       snmp_ip4_to_oid(ip_2_ip4(&pcb->local_ip), &test_oid[0]);

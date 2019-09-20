@@ -78,13 +78,13 @@ extern "C" {
   ip_addr_t local_ip;                      \
   ip_addr_t remote_ip;                     \
   /* Bound netif index */                  \
-  u8_t netif_idx;                          \
+  uint8_t netif_idx;                          \
   /* Socket options */                     \
-  u8_t so_options;                         \
+  uint8_t so_options;                         \
   /* Type Of Service */                    \
-  u8_t tos;                                \
+  uint8_t tos;                                \
   /* Time To Live */                       \
-  u8_t ttl                                 \
+  uint8_t ttl                                 \
   /* link layer address resolution hint */ \
   IP_PCB_NETIFHINT
 
@@ -165,7 +165,7 @@ extern struct ip_globals ip_data;
                                    IPH_PROTO(ip4_current_header()))
 /** Get the transport layer header */
 #define ip_next_header_ptr()     ((const void*)((ip_current_is_v6() ? \
-  (const u8_t*)ip6_current_header() : (const u8_t*)ip4_current_header())  + ip_current_header_tot_len()))
+  (const uint8_t*)ip6_current_header() : (const uint8_t*)ip4_current_header())  + ip_current_header_tot_len()))
 
 /** Source IP4 address of current_header */
 #define ip4_current_src_addr()     (ip_2_ip4(&ip_data.current_iphdr_src))
@@ -183,7 +183,7 @@ extern struct ip_globals ip_data;
 /** Get the transport layer protocol */
 #define ip_current_header_proto() IPH_PROTO(ip4_current_header())
 /** Get the transport layer header */
-#define ip_next_header_ptr()     ((const void*)((const u8_t*)ip4_current_header() + ip_current_header_tot_len()))
+#define ip_next_header_ptr()     ((const void*)((const uint8_t*)ip4_current_header() + ip_current_header_tot_len()))
 /** Source IP4 address of current_header */
 #define ip4_current_src_addr()     (&ip_data.current_iphdr_src)
 /** Destination IP4 address of current_header */
@@ -200,7 +200,7 @@ extern struct ip_globals ip_data;
 /** Get the transport layer protocol */
 #define ip_current_header_proto() IP6H_NEXTH(ip6_current_header())
 /** Get the transport layer header */
-#define ip_next_header_ptr()     ((const void*)(((const u8_t*)ip6_current_header()) + ip_current_header_tot_len()))
+#define ip_next_header_ptr()     ((const void*)(((const uint8_t*)ip6_current_header()) + ip_current_header_tot_len()))
 /** Source IP6 address of current_header */
 #define ip6_current_src_addr()    (&ip_data.current_iphdr_src)
 /** Destination IP6 address of current_header */
@@ -216,9 +216,9 @@ extern struct ip_globals ip_data;
 /** Gets an IP pcb option (SOF_* flags) */
 #define ip_get_option(pcb, opt)   ((pcb)->so_options & (opt))
 /** Sets an IP pcb option (SOF_* flags) */
-#define ip_set_option(pcb, opt)   ((pcb)->so_options = (u8_t)((pcb)->so_options | (opt)))
+#define ip_set_option(pcb, opt)   ((pcb)->so_options = (uint8_t)((pcb)->so_options | (opt)))
 /** Resets an IP pcb option (SOF_* flags) */
-#define ip_reset_option(pcb, opt) ((pcb)->so_options = (u8_t)((pcb)->so_options & ~(opt)))
+#define ip_reset_option(pcb, opt) ((pcb)->so_options = (uint8_t)((pcb)->so_options & ~(opt)))
 
 #if LWIP_IPV4 && LWIP_IPV6
 /**

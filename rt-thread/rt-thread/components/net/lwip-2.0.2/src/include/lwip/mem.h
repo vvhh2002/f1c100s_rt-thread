@@ -61,7 +61,7 @@ typedef u16_t mem_size_t;
  * 65535 leaves some room for alignment...
  */
 #if MEM_SIZE > 64000L
-typedef u32_t mem_size_t;
+typedef uint32_t mem_size_t;
 #define MEM_SIZE_F U32_F
 #else
 typedef u16_t mem_size_t;

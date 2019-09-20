@@ -57,13 +57,13 @@ struct snmp_msg_trap
   /* source IP address, raw network order format */
   ip_addr_t sip;
   /* generic trap code */
-  u32_t gen_trap;
+  uint32_t gen_trap;
   /* specific trap code */
-  u32_t spc_trap;
+  uint32_t spc_trap;
   /* timestamp */
-  u32_t ts;
+  uint32_t ts;
   /* snmp_version */
-  u32_t snmp_version;
+  uint32_t snmp_version;
 
   /* output trap lengths used in ASN encoding */
   /* encoding pdu length */
@@ -91,11 +91,11 @@ struct snmp_trap_dst
   /* destination IP address in network order */
   ip_addr_t dip;
   /* set to 0 when disabled, >0 when enabled */
-  u8_t enable;
+  uint8_t enable;
 };
 static struct snmp_trap_dst trap_dst[SNMP_TRAP_DESTINATIONS];
 
-static u8_t snmp_auth_traps_enabled = 0;
+static uint8_t snmp_auth_traps_enabled = 0;
 
 /**
  * @ingroup snmp_traps
@@ -104,7 +104,7 @@ static u8_t snmp_auth_traps_enabled = 0;
  * @param enable switch if 0 destination is disabled >0 enabled.
  */
 void
-snmp_trap_dst_enable(u8_t dst_idx, u8_t enable)
+snmp_trap_dst_enable(uint8_t dst_idx, uint8_t enable)
 {
   if (dst_idx < SNMP_TRAP_DESTINATIONS) {
     trap_dst[dst_idx].enable = enable;
@@ -118,7 +118,7 @@ snmp_trap_dst_enable(u8_t dst_idx, u8_t enable)
  * @param dst IPv4 address in host order.
  */
 void
-snmp_trap_dst_ip_set(u8_t dst_idx, const ip_addr_t *dst)
+snmp_trap_dst_ip_set(uint8_t dst_idx, const ip_addr_t *dst)
 {
   if (dst_idx < SNMP_TRAP_DESTINATIONS) {
     ip_addr_set(&trap_dst[dst_idx].dip, dst);
@@ -130,7 +130,7 @@ snmp_trap_dst_ip_set(u8_t dst_idx, const ip_addr_t *dst)
  * Enable/disable authentication traps
  */
 void
-snmp_set_auth_traps_enabled(u8_t enable)
+snmp_set_auth_traps_enabled(uint8_t enable)
 {
   snmp_auth_traps_enabled = enable;
 }
@@ -139,7 +139,7 @@ snmp_set_auth_traps_enabled(u8_t enable)
  * @ingroup snmp_traps
  * Get authentication traps enabled state
  */
-u8_t
+uint8_t
 snmp_get_auth_traps_enabled(void)
 {
   return snmp_auth_traps_enabled;
@@ -228,7 +228,7 @@ snmp_send_trap(const struct snmp_obj_id* eoid, s32_t generic_trap, s32_t specifi
  * @ingroup snmp_traps
  * Send generic SNMP trap
  */
-err_t 
+err_t
 snmp_send_trap_generic(s32_t generic_trap)
 {
   static const struct snmp_obj_id oid = { 7, { 1, 3, 6, 1, 2, 1, 11 } };
@@ -257,7 +257,7 @@ snmp_coldstart_trap(void)
 
 /**
  * @ingroup snmp_traps
- * Send authentication failure trap (used internally by agent) 
+ * Send authentication failure trap (used internally by agent)
  */
 void
 snmp_authfail_trap(void)
@@ -272,7 +272,7 @@ snmp_trap_varbind_sum(struct snmp_msg_trap *trap, struct snmp_varbind *varbinds)
 {
   struct snmp_varbind *varbind;
   u16_t tot_len;
-  u8_t tot_len_len;
+  uint8_t tot_len_len;
 
   tot_len = 0;
   varbind = varbinds;
@@ -306,7 +306,7 @@ snmp_trap_header_sum(struct snmp_msg_trap *trap, u16_t vb_len)
 {
   u16_t tot_len;
   u16_t len;
-  u8_t lenlen;
+  uint8_t lenlen;
 
   tot_len = vb_len;
 
@@ -396,7 +396,7 @@ snmp_trap_header_enc(struct snmp_msg_trap *trap, struct snmp_pbuf_stream *pbuf_s
   /* community */
   SNMP_ASN1_SET_TLV_PARAMS(tlv, SNMP_ASN1_TYPE_OCTET_STRING, 0, trap->comlen);
   snmp_ans1_enc_tlv(pbuf_stream, &tlv);
-  snmp_asn1_enc_raw(pbuf_stream,  (const u8_t *)snmp_community_trap, trap->comlen);
+  snmp_asn1_enc_raw(pbuf_stream,  (const uint8_t *)snmp_community_trap, trap->comlen);
 
   /* 'PDU' sequence */
   SNMP_ASN1_SET_TLV_PARAMS(tlv, (SNMP_ASN1_CLASS_CONTEXT | SNMP_ASN1_CONTENTTYPE_CONSTRUCTED | SNMP_ASN1_CONTEXT_PDU_TRAP), 0, trap->pdulen);
@@ -413,13 +413,13 @@ snmp_trap_header_enc(struct snmp_msg_trap *trap, struct snmp_pbuf_stream *pbuf_s
 #if LWIP_IPV6
     SNMP_ASN1_SET_TLV_PARAMS(tlv, SNMP_ASN1_TYPE_IPADDR, 0, sizeof(ip_2_ip6(&trap->sip)->addr));
     snmp_ans1_enc_tlv(pbuf_stream, &tlv);
-    snmp_asn1_enc_raw(pbuf_stream, (const u8_t *)&ip_2_ip6(&trap->sip)->addr, sizeof(ip_2_ip6(&trap->sip)->addr));
+    snmp_asn1_enc_raw(pbuf_stream, (const uint8_t *)&ip_2_ip6(&trap->sip)->addr, sizeof(ip_2_ip6(&trap->sip)->addr));
 #endif
   } else {
 #if LWIP_IPV4
     SNMP_ASN1_SET_TLV_PARAMS(tlv, SNMP_ASN1_TYPE_IPADDR, 0, sizeof(ip_2_ip4(&trap->sip)->addr));
     snmp_ans1_enc_tlv(pbuf_stream, &tlv);
-    snmp_asn1_enc_raw(pbuf_stream, (const u8_t *)&ip_2_ip4(&trap->sip)->addr, sizeof(ip_2_ip4(&trap->sip)->addr));
+    snmp_asn1_enc_raw(pbuf_stream, (const uint8_t *)&ip_2_ip4(&trap->sip)->addr, sizeof(ip_2_ip4(&trap->sip)->addr));
 #endif
   }
 

@@ -75,7 +75,7 @@
 /** \internal The DNS message header. */
 struct dns_hdr {
   u16_t id;
-  u8_t flags1, flags2;
+  uint8_t flags1, flags2;
 #define DNS_FLAG1_RESPONSE        0x80
 #define DNS_FLAG1_OPCODE_STATUS   0x10
 #define DNS_FLAG1_OPCODE_INVERSE  0x08
@@ -110,11 +110,11 @@ struct namemap {
 #define STATE_ASKING 2
 #define STATE_DONE   3
 #define STATE_ERROR  4
-  u8_t state;
-  u8_t tmr;
-  u8_t retries;
-  u8_t seqno;
-  u8_t err;
+  uint8_t state;
+  uint8_t tmr;
+  uint8_t retries;
+  uint8_t seqno;
+  uint8_t err;
   char name[32];
   uip_ipaddr_t ipaddr;
 };
@@ -128,7 +128,7 @@ struct namemap {
 
 static struct namemap names[RESOLV_ENTRIES];
 
-static u8_t seqno;
+static uint8_t seqno;
 
 static struct uip_udp_conn *resolv_conn = NULL;
 
@@ -147,7 +147,7 @@ parse_name(unsigned char *query)
 
   do {
     n = *query++;
-    
+
     while(n > 0) {
       /*      printf("%c", *query);*/
       ++query;
@@ -169,10 +169,10 @@ check_entries(void)
 {
   register struct dns_hdr *hdr;
   char *query, *nptr, *nameptr;
-  static u8_t i;
-  static u8_t n;
+  static uint8_t i;
+  static uint8_t n;
   register struct namemap *namemapptr;
-  
+
   for(i = 0; i < RESOLV_ENTRIES; ++i) {
     namemapptr = &names[i];
     if(namemapptr->state == STATE_NEW ||
@@ -237,10 +237,10 @@ newdata(void)
   char *nameptr;
   struct dns_answer *ans;
   struct dns_hdr *hdr;
-  static u8_t nquestions, nanswers;
-  static u8_t i;
+  static uint8_t nquestions, nanswers;
+  static uint8_t i;
   register struct namemap *namemapptr;
-  
+
   hdr = (struct dns_hdr *)uip_appdata;
   /*  printf("ID %d\n", htons(hdr->id));
       printf("Query %d\n", hdr->flags1 & DNS_FLAG1_RESPONSE);
@@ -311,7 +311,7 @@ newdata(void)
 	   we want. */
 	namemapptr->ipaddr[0] = ans->ipaddr[0];
 	namemapptr->ipaddr[1] = ans->ipaddr[1];
-	
+
 	resolv_found(namemapptr->name, namemapptr->ipaddr);
 	return;
       } else {
@@ -349,12 +349,12 @@ resolv_appcall(void)
 void
 resolv_query(char *name)
 {
-  static u8_t i;
-  static u8_t lseq, lseqi;
+  static uint8_t i;
+  static uint8_t lseq, lseqi;
   register struct namemap *nameptr;
-      
+
   lseq = lseqi = 0;
-  
+
   for(i = 0; i < RESOLV_ENTRIES; ++i) {
     nameptr = &names[i];
     if(nameptr->state == STATE_UNUSED) {
@@ -395,9 +395,9 @@ resolv_query(char *name)
 u16_t *
 resolv_lookup(char *name)
 {
-  static u8_t i;
+  static uint8_t i;
   struct namemap *nameptr;
-  
+
   /* Walk through the list to see if the name is in there. If it is
      not, we return NULL. */
   for(i = 0; i < RESOLV_ENTRIES; ++i) {
@@ -440,7 +440,7 @@ resolv_conf(u16_t *dnsserver)
   if(resolv_conn != NULL) {
     uip_udp_remove(resolv_conn);
   }
-  
+
   resolv_conn = uip_udp_new(dnsserver, HTONS(53));
 }
 /*---------------------------------------------------------------------------*/
@@ -451,8 +451,8 @@ resolv_conf(u16_t *dnsserver)
 void
 resolv_init(void)
 {
-  static u8_t i;
-  
+  static uint8_t i;
+
   for(i = 0; i < RESOLV_ENTRIES; ++i) {
     names[i].state = STATE_DONE;
   }

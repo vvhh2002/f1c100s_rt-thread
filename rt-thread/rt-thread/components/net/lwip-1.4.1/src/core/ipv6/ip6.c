@@ -258,8 +258,8 @@ ip_input(struct pbuf *p, struct netif *inp) {
 
 err_t
 ip_output_if (struct pbuf *p, struct ip_addr *src, struct ip_addr *dest,
-       u8_t ttl,
-       u8_t proto, struct netif *netif)
+       uint8_t ttl,
+       uint8_t proto, struct netif *netif)
 {
   struct ip_hdr *iphdr;
 
@@ -315,7 +315,7 @@ ip_output_if (struct pbuf *p, struct ip_addr *src, struct ip_addr *dest,
 
 err_t
 ip_output(struct pbuf *p, struct ip_addr *src, struct ip_addr *dest,
-    u8_t ttl, u8_t proto)
+    uint8_t ttl, uint8_t proto)
 {
   struct netif *netif;
   if ((netif = ip_route(dest)) == NULL) {
@@ -330,7 +330,7 @@ ip_output(struct pbuf *p, struct ip_addr *src, struct ip_addr *dest,
 #if LWIP_NETIF_HWADDRHINT
 err_t
 ip_output_hinted(struct pbuf *p, struct ip_addr *src, struct ip_addr *dest,
-          u8_t ttl, u8_t tos, u8_t proto, u8_t *addr_hint)
+          uint8_t ttl, uint8_t tos, uint8_t proto, uint8_t *addr_hint)
 {
   struct netif *netif;
   err_t err;

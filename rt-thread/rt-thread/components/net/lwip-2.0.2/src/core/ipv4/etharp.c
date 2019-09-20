@@ -100,13 +100,13 @@ struct etharp_entry {
   struct netif *netif;
   struct eth_addr ethaddr;
   u16_t ctime;
-  u8_t state;
+  uint8_t state;
 };
 
 static struct etharp_entry arp_table[ARP_TABLE_SIZE];
 
 #if !LWIP_NETIF_HWADDRHINT
-static u8_t etharp_cached_entry;
+static uint8_t etharp_cached_entry;
 #endif /* !LWIP_NETIF_HWADDRHINT */
 
 /** Try hard to create a new entry - we want the IP address to appear in
@@ -198,12 +198,12 @@ etharp_free_entry(int i)
 void
 etharp_tmr(void)
 {
-  u8_t i;
+  uint8_t i;
 
   LWIP_DEBUGF(ETHARP_DEBUG, ("etharp_timer\n"));
   /* remove expired entries from the ARP table */
   for (i = 0; i < ARP_TABLE_SIZE; ++i) {
-    u8_t state = arp_table[i].state;
+    uint8_t state = arp_table[i].state;
     if (state != ETHARP_STATE_EMPTY
 #if ETHARP_SUPPORT_STATIC_ENTRIES
       && (state != ETHARP_STATE_STATIC)
@@ -255,11 +255,11 @@ etharp_tmr(void)
  * entry is found or could be recycled.
  */
 static s8_t
-etharp_find_entry(const ip4_addr_t *ipaddr, u8_t flags, struct netif* netif)
+etharp_find_entry(const ip4_addr_t *ipaddr, uint8_t flags, struct netif* netif)
 {
   s8_t old_pending = ARP_TABLE_SIZE, old_stable = ARP_TABLE_SIZE;
   s8_t empty = ARP_TABLE_SIZE;
-  u8_t i = 0;
+  uint8_t i = 0;
   /* oldest entry with packets on queue */
   s8_t old_queue = ARP_TABLE_SIZE;
   /* its age */
@@ -283,7 +283,7 @@ etharp_find_entry(const ip4_addr_t *ipaddr, u8_t flags, struct netif* netif)
    */
 
   for (i = 0; i < ARP_TABLE_SIZE; ++i) {
-    u8_t state = arp_table[i].state;
+    uint8_t state = arp_table[i].state;
     /* no empty entry found yet and now we do find one? */
     if ((empty == ARP_TABLE_SIZE) && (state == ETHARP_STATE_EMPTY)) {
       LWIP_DEBUGF(ETHARP_DEBUG, ("etharp_find_entry: found empty entry %"U16_F"\n", (u16_t)i));
@@ -421,7 +421,7 @@ etharp_find_entry(const ip4_addr_t *ipaddr, u8_t flags, struct netif* netif)
  * @see pbuf_free()
  */
 static err_t
-etharp_update_arp_entry(struct netif *netif, const ip4_addr_t *ipaddr, struct eth_addr *ethaddr, u8_t flags)
+etharp_update_arp_entry(struct netif *netif, const ip4_addr_t *ipaddr, struct eth_addr *ethaddr, uint8_t flags)
 {
   s8_t i;
   LWIP_ASSERT("netif->hwaddr_len == ETH_HWADDR_LEN", netif->hwaddr_len == ETH_HWADDR_LEN);
@@ -558,10 +558,10 @@ etharp_remove_static_entry(const ip4_addr_t *ipaddr)
 void
 etharp_cleanup_netif(struct netif *netif)
 {
-  u8_t i;
+  uint8_t i;
 
   for (i = 0; i < ARP_TABLE_SIZE; ++i) {
-    u8_t state = arp_table[i].state;
+    uint8_t state = arp_table[i].state;
     if ((state != ETHARP_STATE_EMPTY) && (arp_table[i].netif == netif)) {
       etharp_free_entry(i);
     }
@@ -608,8 +608,8 @@ etharp_find_addr(struct netif *netif, const ip4_addr_t *ipaddr,
  * @param eth_ret return value: ETH address
  * @return 1 on valid index, 0 otherwise
  */
-u8_t
-etharp_get_entry(u8_t i, ip4_addr_t **ipaddr, struct netif **netif, struct eth_addr **eth_ret)
+uint8_t
+etharp_get_entry(uint8_t i, ip4_addr_t **ipaddr, struct netif **netif, struct eth_addr **eth_ret)
 {
   LWIP_ASSERT("ipaddr != NULL", ipaddr != NULL);
   LWIP_ASSERT("netif != NULL", netif != NULL);
@@ -643,7 +643,7 @@ etharp_input(struct pbuf *p, struct netif *netif)
   struct etharp_hdr *hdr;
   /* these are aligned properly, whereas the ARP header fields might not be */
   ip4_addr_t sipaddr, dipaddr;
-  u8_t for_us;
+  uint8_t for_us;
 
   LWIP_ERROR("netif != NULL", (netif != NULL), return;);
 
@@ -681,7 +681,7 @@ etharp_input(struct pbuf *p, struct netif *netif)
     for_us = 0;
   } else {
     /* ARP packet directed to us? */
-    for_us = (u8_t)ip4_addr_cmp(&dipaddr, netif_ip4_addr(netif));
+    for_us = (uint8_t)ip4_addr_cmp(&dipaddr, netif_ip4_addr(netif));
   }
 
   /* ARP message directed to us?
@@ -743,7 +743,7 @@ etharp_input(struct pbuf *p, struct netif *netif)
  * in the arp_table specified by the index 'arp_idx'.
  */
 static err_t
-etharp_output_to_arp_index(struct netif *netif, struct pbuf *q, u8_t arp_idx)
+etharp_output_to_arp_index(struct netif *netif, struct pbuf *q, uint8_t arp_idx)
 {
   LWIP_ASSERT("arp_table[arp_idx].state >= ETHARP_STATE_STABLE",
               arp_table[arp_idx].state >= ETHARP_STATE_STABLE);
@@ -852,7 +852,7 @@ etharp_output(struct netif *netif, struct pbuf *q, const ip4_addr_t *ipaddr)
 #if LWIP_NETIF_HWADDRHINT
     if (netif->addr_hint != NULL) {
       /* per-pcb cached entry was given */
-      u8_t etharp_cached_entry = *(netif->addr_hint);
+      uint8_t etharp_cached_entry = *(netif->addr_hint);
       if (etharp_cached_entry < ARP_TABLE_SIZE) {
 #endif /* LWIP_NETIF_HWADDRHINT */
         if ((arp_table[etharp_cached_entry].state >= ETHARP_STATE_STABLE) &&

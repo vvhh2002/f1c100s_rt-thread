@@ -49,13 +49,13 @@
  * The lwIP version of the resolver also adds a non-blocking version of
  * gethostbyname() that will work with a raw API application. This function
  * checks for an IP address string first and converts it if it is valid.
- * gethostbyname() then does a dns_lookup() to see if the name is 
- * already in the table. If so, the IP is returned. If not, a query is 
+ * gethostbyname() then does a dns_lookup() to see if the name is
+ * already in the table. If so, the IP is returned. If not, a query is
  * issued and the function returns with a ERR_INPROGRESS status. The app
  * using the dns client must then go into a waiting state.
  *
  * Once a hostname has been resolved (or found to be non-existent),
- * the resolver code calls a specified callback function (which 
+ * the resolver code calls a specified callback function (which
  * must be implemented by the module that uses the resolver).
  */
 
@@ -131,8 +131,8 @@ PACK_STRUCT_BEGIN
 /** DNS message header */
 struct dns_hdr {
   PACK_STRUCT_FIELD(u16_t id);
-  PACK_STRUCT_FIELD(u8_t flags1);
-  PACK_STRUCT_FIELD(u8_t flags2);
+  PACK_STRUCT_FIELD(uint8_t flags1);
+  PACK_STRUCT_FIELD(uint8_t flags2);
   PACK_STRUCT_FIELD(u16_t numquestions);
   PACK_STRUCT_FIELD(u16_t numanswers);
   PACK_STRUCT_FIELD(u16_t numauthrr);
@@ -161,20 +161,20 @@ struct dns_answer {
      to a name already present somewhere in the packet. */
   u16_t type;
   u16_t cls;
-  u32_t ttl;
+  uint32_t ttl;
   u16_t len;
 };
 #define SIZEOF_DNS_ANSWER 10
 
 /** DNS table entry */
 struct dns_table_entry {
-  u8_t  state;
-  u8_t  numdns;
-  u8_t  tmr;
-  u8_t  retries;
-  u8_t  seqno;
-  u8_t  err;
-  u32_t ttl;
+  uint8_t  state;
+  uint8_t  numdns;
+  uint8_t  tmr;
+  uint8_t  retries;
+  uint8_t  seqno;
+  uint8_t  err;
+  uint32_t ttl;
   char name[DNS_MAX_NAME_LENGTH];
   ip_addr_t ipaddr;
   /* pointer to callback on DNS query done */
@@ -219,12 +219,12 @@ static void dns_check_entries(void);
 
 /* DNS variables */
 static struct udp_pcb        *dns_pcb;
-static u8_t                   dns_seqno;
+static uint8_t                   dns_seqno;
 static struct dns_table_entry dns_table[DNS_TABLE_SIZE];
 static ip_addr_t              dns_servers[DNS_MAX_SERVERS];
 /** Contiguous buffer for processing responses */
-static u8_t                   dns_payload_buffer[LWIP_MEM_ALIGN_BUFFER(DNS_MSG_SIZE)];
-static u8_t*                  dns_payload;
+static uint8_t                   dns_payload_buffer[LWIP_MEM_ALIGN_BUFFER(DNS_MSG_SIZE)];
+static uint8_t*                  dns_payload;
 
 /**
  * Initialize the resolver: set up the UDP pcb and configure the default server
@@ -235,8 +235,8 @@ dns_init()
 {
   ip_addr_t dnsserver;
 
-  dns_payload = (u8_t *)LWIP_MEM_ALIGN(dns_payload_buffer);
-  
+  dns_payload = (uint8_t *)LWIP_MEM_ALIGN(dns_payload_buffer);
+
   /* initialize default DNS server address */
   DNS_SERVER_ADDRESS(&dnsserver);
 
@@ -272,12 +272,12 @@ dns_init()
  * @param dnsserver IP address of the DNS server to set
  */
 void
-dns_setserver(u8_t numdns, ip_addr_t *dnsserver)
+dns_setserver(uint8_t numdns, ip_addr_t *dnsserver)
 {
   if ((numdns < DNS_MAX_SERVERS) && (dns_pcb != NULL) &&
       (dnsserver != NULL) && !ip_addr_isany(dnsserver)) {
     dns_servers[numdns] = (*dnsserver);
-    
+
 #ifdef RT_USING_NETDEV
       extern struct netif *netif_list;
       extern struct netdev *netdev_get_by_name(const char *name);
@@ -300,7 +300,7 @@ dns_setserver(u8_t numdns, ip_addr_t *dnsserver)
  *         server has not been configured.
  */
 ip_addr_t
-dns_getserver(u8_t numdns)
+dns_getserver(uint8_t numdns)
 {
   if (numdns < DNS_MAX_SERVERS) {
     return dns_servers[numdns];
@@ -358,7 +358,7 @@ dns_init_local()
  * @return The first IP address for the hostname in the local host-list or
  *         IPADDR_NONE if not found.
  */
-static u32_t
+static uint32_t
 dns_lookup_local(const char *hostname)
 {
 #if DNS_LOCAL_HOSTLIST_IS_DYNAMIC
@@ -456,16 +456,16 @@ dns_local_addhost(const char *hostname, const ip_addr_t *addr)
  * for a hostname.
  *
  * @param name the hostname to look up
- * @return the hostname's IP address, as u32_t (instead of ip_addr_t to
+ * @return the hostname's IP address, as uint32_t (instead of ip_addr_t to
  *         better check for failure: != IPADDR_NONE) or IPADDR_NONE if the hostname
  *         was not found in the cached dns_table.
  */
-static u32_t
+static uint32_t
 dns_lookup(const char *name)
 {
-  u8_t i;
+  uint8_t i;
 #if DNS_LOCAL_HOSTLIST || defined(DNS_LOOKUP_LOCAL_EXTERN)
-  u32_t addr;
+  uint32_t addr;
 #endif /* DNS_LOCAL_HOSTLIST || defined(DNS_LOOKUP_LOCAL_EXTERN) */
 #if DNS_LOCAL_HOSTLIST
   if ((addr = dns_lookup_local(name)) != IPADDR_NONE) {
@@ -503,7 +503,7 @@ dns_lookup(const char *name)
  * @param response encoded hostname in the DNS response
  * @return 0: names equal; 1: names differ
  */
-static u8_t
+static uint8_t
 dns_compare_name(unsigned char *query, unsigned char *response)
 {
   unsigned char n;
@@ -571,7 +571,7 @@ dns_parse_name(unsigned char *query)
  * @return ERR_OK if packet is sent; an err_t indicating the problem otherwise
  */
 static err_t
-dns_send(u8_t numdns, const char* name, u8_t id)
+dns_send(uint8_t numdns, const char* name, uint8_t id)
 {
   err_t err;
   struct dns_hdr *hdr;
@@ -579,7 +579,7 @@ dns_send(u8_t numdns, const char* name, u8_t id)
   struct pbuf *p;
   char *query, *nptr;
   const char *pHostname;
-  u8_t n;
+  uint8_t n;
 
   LWIP_DEBUGF(DNS_DEBUG, ("dns_send: dns_servers[%"U16_F"] \"%s\": request\n",
               (u16_t)(numdns), name));
@@ -647,7 +647,7 @@ dns_send(u8_t numdns, const char* name, u8_t id)
  * @param i index of the dns_table entry to check
  */
 static void
-dns_check_entry(u8_t i)
+dns_check_entry(uint8_t i)
 {
   err_t err;
   struct dns_table_entry *pEntry = &dns_table[i];
@@ -662,7 +662,7 @@ dns_check_entry(u8_t i)
       pEntry->numdns  = 0;
       pEntry->tmr     = 1;
       pEntry->retries = 0;
-      
+
       /* send DNS packet for this entry */
       err = dns_send(pEntry->numdns, pEntry->name, i);
       if (err != ERR_OK) {
@@ -731,7 +731,7 @@ dns_check_entry(u8_t i)
 static void
 dns_check_entries(void)
 {
-  u8_t i;
+  uint8_t i;
 
   for (i = 0; i < DNS_TABLE_SIZE; ++i) {
     dns_check_entry(i);
@@ -772,7 +772,7 @@ dns_recv(void *arg, struct udp_pcb *pcb, struct pbuf *p, ip_addr_t *addr, u16_t 
     goto memerr;
   }
 
-  /* copy dns payload inside static buffer for processing */ 
+  /* copy dns payload inside static buffer for processing */
   if (pbuf_copy_partial(p, dns_payload, p->tot_len, 0) == p->tot_len) {
     /* The ID in the DNS header should be our entry into the name table. */
     hdr = (struct dns_hdr*)dns_payload;
@@ -873,8 +873,8 @@ memerr:
 static err_t
 dns_enqueue(const char *name, dns_found_callback found, void *callback_arg)
 {
-  u8_t i;
-  u8_t lseq, lseqi;
+  uint8_t i;
+  uint8_t lseq, lseqi;
   struct dns_table_entry *pEntry = NULL;
   size_t namelen;
 
@@ -950,7 +950,7 @@ err_t
 dns_gethostbyname(const char *hostname, ip_addr_t *addr, dns_found_callback found,
                   void *callback_arg)
 {
-  u32_t ipaddr;
+  uint32_t ipaddr;
   /* not initialized or no valid server yet, or invalid addr pointer
    * or invalid hostname or invalid hostname length */
   if ((dns_pcb == NULL) || (addr == NULL) ||

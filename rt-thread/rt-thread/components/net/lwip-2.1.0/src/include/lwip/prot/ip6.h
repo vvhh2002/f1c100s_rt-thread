@@ -51,7 +51,7 @@ extern "C" {
 #endif
 PACK_STRUCT_BEGIN
 struct ip6_addr_packed {
-  PACK_STRUCT_FIELD(u32_t addr[4]);
+  PACK_STRUCT_FIELD(uint32_t addr[4]);
 } PACK_STRUCT_STRUCT;
 PACK_STRUCT_END
 #ifdef PACK_STRUCT_USE_INCLUDES
@@ -79,13 +79,13 @@ typedef struct ip6_addr_packed ip6_addr_p_t;
 PACK_STRUCT_BEGIN
 struct ip6_hdr {
   /** version / traffic class / flow label */
-  PACK_STRUCT_FIELD(u32_t _v_tc_fl);
+  PACK_STRUCT_FIELD(uint32_t _v_tc_fl);
   /** payload length */
   PACK_STRUCT_FIELD(u16_t _plen);
   /** next header */
-  PACK_STRUCT_FLD_8(u8_t _nexth);
+  PACK_STRUCT_FLD_8(uint8_t _nexth);
   /** hop limit */
-  PACK_STRUCT_FLD_8(u8_t _hoplim);
+  PACK_STRUCT_FLD_8(uint8_t _hoplim);
   /** source and destination IP addresses */
   PACK_STRUCT_FLD_S(ip6_addr_p_t src);
   PACK_STRUCT_FLD_S(ip6_addr_p_t dest);
@@ -99,12 +99,12 @@ PACK_STRUCT_END
 #define IP6H_FL(hdr) (lwip_ntohl((hdr)->_v_tc_fl) & 0x000fffff)
 #define IP6H_PLEN(hdr) (lwip_ntohs((hdr)->_plen))
 #define IP6H_NEXTH(hdr) ((hdr)->_nexth)
-#define IP6H_NEXTH_P(hdr) ((u8_t *)(hdr) + 6)
+#define IP6H_NEXTH_P(hdr) ((uint8_t *)(hdr) + 6)
 #define IP6H_HOPLIM(hdr) ((hdr)->_hoplim)
-#define IP6H_VTCFL_SET(hdr, v, tc, fl) (hdr)->_v_tc_fl = (lwip_htonl((((u32_t)(v)) << 28) | (((u32_t)(tc)) << 20) | (fl)))
+#define IP6H_VTCFL_SET(hdr, v, tc, fl) (hdr)->_v_tc_fl = (lwip_htonl((((uint32_t)(v)) << 28) | (((uint32_t)(tc)) << 20) | (fl)))
 #define IP6H_PLEN_SET(hdr, plen) (hdr)->_plen = lwip_htons(plen)
 #define IP6H_NEXTH_SET(hdr, nexth) (hdr)->_nexth = (nexth)
-#define IP6H_HOPLIM_SET(hdr, hl) (hdr)->_hoplim = (u8_t)(hl)
+#define IP6H_HOPLIM_SET(hdr, hl) (hdr)->_hoplim = (uint8_t)(hl)
 
 /* ipv6 extended options header */
 #define IP6_PAD1_OPTION             0
@@ -121,9 +121,9 @@ PACK_STRUCT_END
 PACK_STRUCT_BEGIN
 struct ip6_opt_hdr {
   /* router alert option type */
-  PACK_STRUCT_FLD_8(u8_t _opt_type);
+  PACK_STRUCT_FLD_8(uint8_t _opt_type);
   /* router alert option data len */
-  PACK_STRUCT_FLD_8(u8_t _opt_dlen);
+  PACK_STRUCT_FLD_8(uint8_t _opt_dlen);
 } PACK_STRUCT_STRUCT;
 PACK_STRUCT_END
 #ifdef PACK_STRUCT_USE_INCLUDES
@@ -144,9 +144,9 @@ PACK_STRUCT_END
 PACK_STRUCT_BEGIN
 struct ip6_hbh_hdr {
   /* next header */
-  PACK_STRUCT_FLD_8(u8_t _nexth);
+  PACK_STRUCT_FLD_8(uint8_t _nexth);
   /* header length in 8-octet units */
-  PACK_STRUCT_FLD_8(u8_t _hlen);
+  PACK_STRUCT_FLD_8(uint8_t _hlen);
 } PACK_STRUCT_STRUCT;
 PACK_STRUCT_END
 #ifdef PACK_STRUCT_USE_INCLUDES
@@ -163,9 +163,9 @@ PACK_STRUCT_END
 PACK_STRUCT_BEGIN
 struct ip6_dest_hdr {
   /* next header */
-  PACK_STRUCT_FLD_8(u8_t _nexth);
+  PACK_STRUCT_FLD_8(uint8_t _nexth);
   /* header length in 8-octet units */
-  PACK_STRUCT_FLD_8(u8_t _hlen);
+  PACK_STRUCT_FLD_8(uint8_t _hlen);
 } PACK_STRUCT_STRUCT;
 PACK_STRUCT_END
 #ifdef PACK_STRUCT_USE_INCLUDES
@@ -183,13 +183,13 @@ PACK_STRUCT_END
 PACK_STRUCT_BEGIN
 struct ip6_rout_hdr {
   /* next header */
-  PACK_STRUCT_FLD_8(u8_t _nexth);
+  PACK_STRUCT_FLD_8(uint8_t _nexth);
   /* reserved */
-  PACK_STRUCT_FLD_8(u8_t _hlen);
+  PACK_STRUCT_FLD_8(uint8_t _hlen);
   /* fragment offset */
-  PACK_STRUCT_FIELD(u8_t _routing_type);
+  PACK_STRUCT_FIELD(uint8_t _routing_type);
   /* fragmented packet identification */
-  PACK_STRUCT_FIELD(u8_t _segments_left);
+  PACK_STRUCT_FIELD(uint8_t _segments_left);
 } PACK_STRUCT_STRUCT;
 PACK_STRUCT_END
 #ifdef PACK_STRUCT_USE_INCLUDES
@@ -210,13 +210,13 @@ PACK_STRUCT_END
 PACK_STRUCT_BEGIN
 struct ip6_frag_hdr {
   /* next header */
-  PACK_STRUCT_FLD_8(u8_t _nexth);
+  PACK_STRUCT_FLD_8(uint8_t _nexth);
   /* reserved */
-  PACK_STRUCT_FLD_8(u8_t reserved);
+  PACK_STRUCT_FLD_8(uint8_t reserved);
   /* fragment offset */
   PACK_STRUCT_FIELD(u16_t _fragment_offset);
   /* fragmented packet identification */
-  PACK_STRUCT_FIELD(u32_t _identification);
+  PACK_STRUCT_FIELD(uint32_t _identification);
 } PACK_STRUCT_STRUCT;
 PACK_STRUCT_END
 #ifdef PACK_STRUCT_USE_INCLUDES

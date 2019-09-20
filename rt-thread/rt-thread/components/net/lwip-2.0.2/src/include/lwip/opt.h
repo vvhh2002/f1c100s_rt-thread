@@ -870,7 +870,7 @@
 /**
  * LWIP_DHCP_GETS_NTP==1: Request NTP servers with discover/select. For each
  * response packet, an callback is called, which has to be provided by the port:
- * void dhcp_set_ntp_servers(u8_t num_ntp_servers, ip_addr_t* ntp_server_addrs);
+ * void dhcp_set_ntp_servers(uint8_t num_ntp_servers, ip_addr_t* ntp_server_addrs);
 */
 #if !defined LWIP_DHCP_GET_NTP_SRV || defined __DOXYGEN__
 #define LWIP_DHCP_GET_NTP_SRV           0
@@ -1052,7 +1052,7 @@
  *                                    DNS_LOCAL_HOSTLIST_ELEM("host_ip6", IPADDR6_INIT_HOST(123, 234, 345, 456)}
  *
  *  Instead, you can also use an external function:
- *  \#define DNS_LOOKUP_LOCAL_EXTERN(x) extern err_t my_lookup_function(const char *name, ip_addr_t *addr, u8_t dns_addrtype)
+ *  \#define DNS_LOOKUP_LOCAL_EXTERN(x) extern err_t my_lookup_function(const char *name, ip_addr_t *addr, uint8_t dns_addrtype)
  *  that looks up the IP address and returns ERR_OK if found (LWIP_DNS_ADDRTYPE_xxx is passed in dns_addrtype).
  */
 #if !defined DNS_LOCAL_HOSTLIST || defined __DOXYGEN__
@@ -1256,7 +1256,7 @@
 /**
  * The maximum allowed backlog for TCP listen netconns.
  * This backlog is used unless another is explicitly specified.
- * 0xff is the maximum (u8_t).
+ * 0xff is the maximum (uint8_t).
  */
 #if !defined TCP_DEFAULT_LISTEN_BACKLOG || defined __DOXYGEN__
 #define TCP_DEFAULT_LISTEN_BACKLOG      0xff
@@ -2431,7 +2431,7 @@
  * or any other desired algorithm as a replacement.
  * Called from tcp_connect() and tcp_listen_input() when an ISN is needed for
  * a new TCP connection, if TCP support (@ref LWIP_TCP) is enabled.\n
- * Signature: u32_t my_hook_tcp_isn(const ip_addr_t* local_ip, u16_t local_port, const ip_addr_t* remote_ip, u16_t remote_port);
+ * Signature: uint32_t my_hook_tcp_isn(const ip_addr_t* local_ip, u16_t local_port, const ip_addr_t* remote_ip, u16_t remote_port);
  * - it may be necessary to use "struct ip_addr" (ip4_addr, ip6_addr) instead of "ip_addr_t" in function declarations\n
  * Arguments:
  * - local_ip: pointer to the local IP address of the connection
@@ -2564,8 +2564,8 @@
  * - src: source eth address
  * - dst: destination eth address
  * - eth_type: ethernet type to packet to be sent\n
- * 
- * 
+ *
+ *
  * Return values:
  * - &lt;0: Packet shall not contain VLAN header.
  * - 0 &lt;= return value &lt;= 0xFFFF: Packet shall contain VLAN header. Return value is prio_vid in host byte order.

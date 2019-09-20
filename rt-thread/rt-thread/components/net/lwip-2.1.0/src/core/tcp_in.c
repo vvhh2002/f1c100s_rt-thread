@@ -75,14 +75,14 @@ static struct tcp_seg inseg;
 static struct tcp_hdr *tcphdr;
 static u16_t tcphdr_optlen;
 static u16_t tcphdr_opt1len;
-static u8_t *tcphdr_opt2;
+static uint8_t *tcphdr_opt2;
 static u16_t tcp_optidx;
-static u32_t seqno, ackno;
+static uint32_t seqno, ackno;
 static tcpwnd_size_t recv_acked;
 static u16_t tcplen;
-static u8_t flags;
+static uint8_t flags;
 
-static u8_t recv_flags;
+static uint8_t recv_flags;
 static struct pbuf *recv_data;
 
 struct tcp_pcb *tcp_input_pcb;
@@ -98,10 +98,10 @@ static void tcp_timewait_input(struct tcp_pcb *pcb);
 static int tcp_input_delayed_close(struct tcp_pcb *pcb);
 
 #if LWIP_TCP_SACK_OUT
-static void tcp_add_sack(struct tcp_pcb *pcb, u32_t left, u32_t right);
-static void tcp_remove_sacks_lt(struct tcp_pcb *pcb, u32_t seq);
+static void tcp_add_sack(struct tcp_pcb *pcb, uint32_t left, uint32_t right);
+static void tcp_remove_sacks_lt(struct tcp_pcb *pcb, uint32_t seq);
 #if defined(TCP_OOSEQ_BYTES_LIMIT) || defined(TCP_OOSEQ_PBUFS_LIMIT)
-static void tcp_remove_sacks_gt(struct tcp_pcb *pcb, u32_t seq);
+static void tcp_remove_sacks_gt(struct tcp_pcb *pcb, uint32_t seq);
 #endif /* TCP_OOSEQ_BYTES_LIMIT || TCP_OOSEQ_PBUFS_LIMIT */
 #endif /* LWIP_TCP_SACK_OUT */
 
@@ -123,7 +123,7 @@ tcp_input(struct pbuf *p, struct netif *inp)
   struct tcp_pcb *lpcb_prev = NULL;
   struct tcp_pcb_listen *lpcb_any = NULL;
 #endif /* SO_REUSE */
-  u8_t hdrlen_bytes;
+  uint8_t hdrlen_bytes;
   err_t err;
 
   LWIP_UNUSED_ARG(inp);
@@ -213,7 +213,7 @@ tcp_input(struct pbuf *p, struct netif *inp)
     }
 
     /* remember the pointer to the second part of the options */
-    tcphdr_opt2 = (u8_t *)p->next->payload;
+    tcphdr_opt2 = (uint8_t *)p->next->payload;
 
     /* advance p->next to point after the options, and manually
         adjust p->tot_len to keep it consistent with the changed p->next */
@@ -455,9 +455,9 @@ tcp_input(struct pbuf *p, struct netif *inp)
         if (recv_acked > 0) {
           u16_t acked16;
 #if LWIP_WND_SCALE
-          /* recv_acked is u32_t but the sent callback only takes a u16_t,
+          /* recv_acked is uint32_t but the sent callback only takes a u16_t,
              so we might have to call it multiple times. */
-          u32_t acked = recv_acked;
+          uint32_t acked = recv_acked;
           while (acked > 0) {
             acked16 = (u16_t)LWIP_MIN(acked, 0xffffu);
             acked -= acked16;
@@ -630,7 +630,7 @@ static void
 tcp_listen_input(struct tcp_pcb_listen *pcb)
 {
   struct tcp_pcb *npcb;
-  u32_t iss;
+  uint32_t iss;
   err_t rc;
 
   if (flags & TCP_RST) {
@@ -788,7 +788,7 @@ static err_t
 tcp_process(struct tcp_pcb *pcb)
 {
   struct tcp_seg *rseg;
-  u8_t acceptable = 0;
+  uint8_t acceptable = 0;
   err_t err;
 
   err = ERR_OK;
@@ -1141,7 +1141,7 @@ static void
 tcp_receive(struct tcp_pcb *pcb)
 {
   s16_t m;
-  u32_t right_wnd_edge;
+  uint32_t right_wnd_edge;
   int found_dupack = 0;
 
   LWIP_ASSERT("tcp_receive: invalid pcb", pcb != NULL);
@@ -1153,7 +1153,7 @@ tcp_receive(struct tcp_pcb *pcb)
     /* Update window. */
     if (TCP_SEQ_LT(pcb->snd_wl1, seqno) ||
         (pcb->snd_wl1 == seqno && TCP_SEQ_LT(pcb->snd_wl2, ackno)) ||
-        (pcb->snd_wl2 == ackno && (u32_t)SND_WND_SCALE(pcb, tcphdr->wnd) > pcb->snd_wnd)) {
+        (pcb->snd_wl2 == ackno && (uint32_t)SND_WND_SCALE(pcb, tcphdr->wnd) > pcb->snd_wnd)) {
       pcb->snd_wnd = SND_WND_SCALE(pcb, tcphdr->wnd);
       /* keep track of the biggest window announced by the remote host to calculate
          the maximum segment size */
@@ -1205,7 +1205,7 @@ tcp_receive(struct tcp_pcb *pcb)
             /* Clause 5 */
             if (pcb->lastack == ackno) {
               found_dupack = 1;
-              if ((u8_t)(pcb->dupacks + 1) > pcb->dupacks) {
+              if ((uint8_t)(pcb->dupacks + 1) > pcb->dupacks) {
                 ++pcb->dupacks;
               }
               if (pcb->dupacks > 3) {
@@ -1257,7 +1257,7 @@ tcp_receive(struct tcp_pcb *pcb)
         if (pcb->cwnd < pcb->ssthresh) {
           tcpwnd_size_t increase;
           /* limit to 1 SMSS segment during period following RTO */
-          u8_t num_seg = (pcb->flags & TF_RTO) ? 1 : 2;
+          uint8_t num_seg = (pcb->flags & TF_RTO) ? 1 : 2;
           /* RFC 3465, section 2.2 Slow Start */
           increase = LWIP_MIN(acked, (tcpwnd_size_t)(num_seg * pcb->mss));
           TCP_WND_INC(pcb->cwnd, increase);
@@ -1423,7 +1423,7 @@ tcp_receive(struct tcp_pcb *pcb)
          length.*/
 
       struct pbuf *p = inseg.p;
-      u32_t off32 = pcb->rcv_nxt - seqno;
+      uint32_t off32 = pcb->rcv_nxt - seqno;
       u16_t new_tot_len, off;
       LWIP_ASSERT("inseg.p != NULL", inseg.p);
       LWIP_ASSERT("insane offset!", (off32 < 0xffff));
@@ -1671,7 +1671,7 @@ tcp_receive(struct tcp_pcb *pcb)
 #if LWIP_TCP_SACK_OUT
           /* This is the left edge of the lowest possible SACK range.
              It may start before the newly received segment (possibly adjusted below). */
-          u32_t sackbeg = TCP_SEQ_LT(seqno, pcb->ooseq->tcphdr->seqno) ? seqno : pcb->ooseq->tcphdr->seqno;
+          uint32_t sackbeg = TCP_SEQ_LT(seqno, pcb->ooseq->tcphdr->seqno) ? seqno : pcb->ooseq->tcphdr->seqno;
 #endif /* LWIP_TCP_SACK_OUT */
           struct tcp_seg *next, *prev = NULL;
           for (next = pcb->ooseq; next != NULL; next = next->next) {
@@ -1767,7 +1767,7 @@ tcp_receive(struct tcp_pcb *pcb)
                     pbuf_realloc(next->p, next->len);
                   }
                   /* check if the remote side overruns our receive window */
-                  if (TCP_SEQ_GT((u32_t)tcplen + seqno, pcb->rcv_nxt + (u32_t)pcb->rcv_wnd)) {
+                  if (TCP_SEQ_GT((uint32_t)tcplen + seqno, pcb->rcv_nxt + (uint32_t)pcb->rcv_wnd)) {
                     LWIP_DEBUGF(TCP_INPUT_DEBUG,
                                 ("tcp_receive: other end overran receive window"
                                  "seqno %"U32_F" len %"U16_F" right edge %"U32_F"\n",
@@ -1807,7 +1807,7 @@ tcp_receive(struct tcp_pcb *pcb)
               next = NULL;
             }
             if (next != NULL) {
-              u32_t sackend = next->tcphdr->seqno;
+              uint32_t sackend = next->tcphdr->seqno;
               for ( ; (next != NULL) && (sackend == next->tcphdr->seqno); next = next->next) {
                 sackend += next->len;
               }
@@ -1821,8 +1821,8 @@ tcp_receive(struct tcp_pcb *pcb)
           /* Check that the data on ooseq doesn't exceed one of the limits
              and throw away everything above that limit. */
 #ifdef TCP_OOSEQ_BYTES_LIMIT
-          const u32_t ooseq_max_blen = TCP_OOSEQ_BYTES_LIMIT(pcb);
-          u32_t ooseq_blen = 0;
+          const uint32_t ooseq_max_blen = TCP_OOSEQ_BYTES_LIMIT(pcb);
+          uint32_t ooseq_blen = 0;
 #endif
 #ifdef TCP_OOSEQ_PBUFS_LIMIT
           const u16_t ooseq_max_qlen = TCP_OOSEQ_PBUFS_LIMIT(pcb);
@@ -1884,15 +1884,15 @@ tcp_receive(struct tcp_pcb *pcb)
   }
 }
 
-static u8_t
+static uint8_t
 tcp_get_next_optbyte(void)
 {
   u16_t optidx = tcp_optidx++;
   if ((tcphdr_opt2 == NULL) || (optidx < tcphdr_opt1len)) {
-    u8_t *opts = (u8_t *)tcphdr + TCP_HLEN;
+    uint8_t *opts = (uint8_t *)tcphdr + TCP_HLEN;
     return opts[optidx];
   } else {
-    u8_t idx = (u8_t)(optidx - tcphdr_opt1len);
+    uint8_t idx = (uint8_t)(optidx - tcphdr_opt1len);
     return tcphdr_opt2[idx];
   }
 }
@@ -1908,10 +1908,10 @@ tcp_get_next_optbyte(void)
 static void
 tcp_parseopt(struct tcp_pcb *pcb)
 {
-  u8_t data;
+  uint8_t data;
   u16_t mss;
 #if LWIP_TCP_TIMESTAMPS
-  u32_t tsval;
+  uint32_t tsval;
 #endif
 
   LWIP_ASSERT("tcp_parseopt: invalid pcb", pcb != NULL);
@@ -1919,7 +1919,7 @@ tcp_parseopt(struct tcp_pcb *pcb)
   /* Parse the TCP MSS option, if present. */
   if (tcphdr_optlen != 0) {
     for (tcp_optidx = 0; tcp_optidx < tcphdr_optlen; ) {
-      u8_t opt = tcp_get_next_optbyte();
+      uint8_t opt = tcp_get_next_optbyte();
       switch (opt) {
         case LWIP_TCP_OPT_EOL:
           /* End of options. */
@@ -2044,10 +2044,10 @@ tcp_trigger_input_pcb_close(void)
  * @param right the right side of the SACK (the first sequence number past this SACK)
  */
 static void
-tcp_add_sack(struct tcp_pcb *pcb, u32_t left, u32_t right)
+tcp_add_sack(struct tcp_pcb *pcb, uint32_t left, uint32_t right)
 {
-  u8_t i;
-  u8_t unused_idx;
+  uint8_t i;
+  uint8_t unused_idx;
 
   if ((pcb->flags & TF_SACK) == 0 || !TCP_SEQ_LT(left, right)) {
     return;
@@ -2104,10 +2104,10 @@ tcp_add_sack(struct tcp_pcb *pcb, u32_t left, u32_t right)
  * @param seq the lowest sequence number to keep in SACK entries
  */
 static void
-tcp_remove_sacks_lt(struct tcp_pcb *pcb, u32_t seq)
+tcp_remove_sacks_lt(struct tcp_pcb *pcb, uint32_t seq)
 {
-  u8_t i;
-  u8_t unused_idx;
+  uint8_t i;
+  uint8_t unused_idx;
 
   /* We run this loop for all entries, until we find the first invalid one.
      There is no point checking after that. */
@@ -2144,10 +2144,10 @@ tcp_remove_sacks_lt(struct tcp_pcb *pcb, u32_t seq)
  * @param seq the highest sequence number to keep in SACK entries
  */
 static void
-tcp_remove_sacks_gt(struct tcp_pcb *pcb, u32_t seq)
+tcp_remove_sacks_gt(struct tcp_pcb *pcb, uint32_t seq)
 {
-  u8_t i;
-  u8_t unused_idx;
+  uint8_t i;
+  uint8_t unused_idx;
 
   /* We run this loop for all entries, until we find the first invalid one.
      There is no point checking after that. */

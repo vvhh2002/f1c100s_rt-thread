@@ -144,6 +144,7 @@ enum dram_gate
     CSI_GATING_DRAM         = 1,
     VE_GATING_DRAM          = 0
 };
+
 enum mmc_clk_id
 {
     SDMMC0,

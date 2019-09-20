@@ -1,7 +1,7 @@
 /**
  * @file
  * Ethernet common functions
- * 
+ *
  * @defgroup ethernet Ethernet
  * @ingroup callbackstyle_api
  */
@@ -72,7 +72,7 @@ const struct eth_addr ethzero = {{0,0,0,0,0,0}};
  *
  * @param p the received packet, p->payload pointing to the ethernet header
  * @param netif the network interface on which the packet was received
- * 
+ *
  * @see LWIP_HOOK_UNKNOWN_ETH_PROTOCOL
  * @see ETHARP_SUPPORT_VLAN
  * @see LWIP_HOOK_VLAN_CHECK
@@ -278,7 +278,7 @@ ethernet_output(struct netif* netif, struct pbuf* p,
     if (pbuf_header(p, SIZEOF_ETH_HDR + SIZEOF_VLAN_HDR) != 0) {
       goto pbuf_header_failed;
     }
-    vlanhdr = (struct eth_vlan_hdr*)(((u8_t*)p->payload) + SIZEOF_ETH_HDR);
+    vlanhdr = (struct eth_vlan_hdr*)(((uint8_t*)p->payload) + SIZEOF_ETH_HDR);
     vlanhdr->tpid     = eth_type_be;
     vlanhdr->prio_vid = lwip_htons((u16_t)vlan_prio_vid);
 

@@ -57,31 +57,31 @@
 /* --- system .1.3.6.1.2.1.1 ----------------------------------------------------- */
 
 /** mib-2.system.sysDescr */
-static const u8_t   sysdescr_default[] = SNMP_LWIP_MIB2_SYSDESC;
-static const u8_t*  sysdescr           = sysdescr_default;
+static const uint8_t   sysdescr_default[] = SNMP_LWIP_MIB2_SYSDESC;
+static const uint8_t*  sysdescr           = sysdescr_default;
 static const u16_t* sysdescr_len       = NULL; /* use strlen for determining len */
 
 /** mib-2.system.sysContact */
-static const u8_t   syscontact_default[]     = SNMP_LWIP_MIB2_SYSCONTACT;
-static const u8_t*  syscontact               = syscontact_default;
+static const uint8_t   syscontact_default[]     = SNMP_LWIP_MIB2_SYSCONTACT;
+static const uint8_t*  syscontact               = syscontact_default;
 static const u16_t* syscontact_len           = NULL; /* use strlen for determining len */
-static u8_t*        syscontact_wr            = NULL; /* if writable, points to the same buffer as syscontact (required for correct constness) */
+static uint8_t*        syscontact_wr            = NULL; /* if writable, points to the same buffer as syscontact (required for correct constness) */
 static u16_t*       syscontact_wr_len        = NULL; /* if writable, points to the same buffer as syscontact_len (required for correct constness) */
 static u16_t        syscontact_bufsize       = 0;    /* 0=not writable */
 
 /** mib-2.system.sysName */
-static const u8_t   sysname_default[]        = SNMP_LWIP_MIB2_SYSNAME;
-static const u8_t*  sysname                  = sysname_default;
+static const uint8_t   sysname_default[]        = SNMP_LWIP_MIB2_SYSNAME;
+static const uint8_t*  sysname                  = sysname_default;
 static const u16_t* sysname_len              = NULL; /* use strlen for determining len */
-static u8_t*        sysname_wr               = NULL; /* if writable, points to the same buffer as sysname (required for correct constness) */
+static uint8_t*        sysname_wr               = NULL; /* if writable, points to the same buffer as sysname (required for correct constness) */
 static u16_t*       sysname_wr_len           = NULL; /* if writable, points to the same buffer as sysname_len (required for correct constness) */
 static u16_t        sysname_bufsize          = 0;    /* 0=not writable */
 
 /** mib-2.system.sysLocation */
-static const u8_t   syslocation_default[]    = SNMP_LWIP_MIB2_SYSLOCATION;
-static const u8_t*  syslocation              = syslocation_default;
+static const uint8_t   syslocation_default[]    = SNMP_LWIP_MIB2_SYSLOCATION;
+static const uint8_t*  syslocation              = syslocation_default;
 static const u16_t* syslocation_len           = NULL; /* use strlen for determining len */
-static u8_t*        syslocation_wr            = NULL; /* if writable, points to the same buffer as syslocation (required for correct constness) */
+static uint8_t*        syslocation_wr            = NULL; /* if writable, points to the same buffer as syslocation (required for correct constness) */
 static u16_t*       syslocation_wr_len        = NULL; /* if writable, points to the same buffer as syslocation_len (required for correct constness) */
 static u16_t        syslocation_bufsize       = 0;    /* 0=not writable */
 
@@ -93,7 +93,7 @@ static u16_t        syslocation_bufsize       = 0;    /* 0=not writable */
  * @param len points to string length, excluding zero terminator
  */
 void
-snmp_mib2_set_sysdescr(const u8_t *str, const u16_t *len)
+snmp_mib2_set_sysdescr(const uint8_t *str, const u16_t *len)
 {
   if (str != NULL) {
     sysdescr     = str;
@@ -115,7 +115,7 @@ snmp_mib2_set_sysdescr(const u8_t *str, const u16_t *len)
  *        if bufsize is set to 0, the value is regarded as read-only.
  */
 void
-snmp_mib2_set_syscontact(u8_t *ocstr, u16_t *ocstrlen, u16_t bufsize)
+snmp_mib2_set_syscontact(uint8_t *ocstr, u16_t *ocstrlen, u16_t bufsize)
 {
   if (ocstr != NULL) {
     syscontact         = ocstr;
@@ -131,7 +131,7 @@ snmp_mib2_set_syscontact(u8_t *ocstr, u16_t *ocstrlen, u16_t bufsize)
  * see \ref snmp_mib2_set_syscontact but set pointer to readonly memory
  */
 void
-snmp_mib2_set_syscontact_readonly(const u8_t *ocstr, const u16_t *ocstrlen)
+snmp_mib2_set_syscontact_readonly(const uint8_t *ocstr, const u16_t *ocstrlen)
 {
   if (ocstr != NULL) {
     syscontact         = ocstr;
@@ -157,7 +157,7 @@ snmp_mib2_set_syscontact_readonly(const u8_t *ocstr, const u16_t *ocstrlen)
  *        if bufsize is set to 0, the value is regarded as read-only.
  */
 void
-snmp_mib2_set_sysname(u8_t *ocstr, u16_t *ocstrlen, u16_t bufsize)
+snmp_mib2_set_sysname(uint8_t *ocstr, u16_t *ocstrlen, u16_t bufsize)
 {
   if (ocstr != NULL) {
     sysname         = ocstr;
@@ -173,7 +173,7 @@ snmp_mib2_set_sysname(u8_t *ocstr, u16_t *ocstrlen, u16_t bufsize)
  * see \ref snmp_mib2_set_sysname but set pointer to readonly memory
  */
 void
-snmp_mib2_set_sysname_readonly(const u8_t *ocstr, const u16_t *ocstrlen)
+snmp_mib2_set_sysname_readonly(const uint8_t *ocstr, const u16_t *ocstrlen)
 {
   if (ocstr != NULL) {
     sysname         = ocstr;
@@ -198,7 +198,7 @@ snmp_mib2_set_sysname_readonly(const u8_t *ocstr, const u16_t *ocstrlen)
  *        if bufsize is set to 0, the value is regarded as read-only.
  */
 void
-snmp_mib2_set_syslocation(u8_t *ocstr, u16_t *ocstrlen, u16_t bufsize)
+snmp_mib2_set_syslocation(uint8_t *ocstr, u16_t *ocstrlen, u16_t bufsize)
 {
   if (ocstr != NULL) {
     syslocation         = ocstr;
@@ -214,7 +214,7 @@ snmp_mib2_set_syslocation(u8_t *ocstr, u16_t *ocstrlen, u16_t bufsize)
  * see \ref snmp_mib2_set_syslocation but set pointer to readonly memory
  */
 void
-snmp_mib2_set_syslocation_readonly(const u8_t *ocstr, const u16_t *ocstrlen)
+snmp_mib2_set_syslocation_readonly(const uint8_t *ocstr, const u16_t *ocstrlen)
 {
   if (ocstr != NULL) {
     syslocation         = ocstr;
@@ -229,7 +229,7 @@ snmp_mib2_set_syslocation_readonly(const u8_t *ocstr, const u16_t *ocstrlen)
 static s16_t
 system_get_value(const struct snmp_scalar_array_node_def *node, void *value)
 {
-  const u8_t*  var = NULL;
+  const uint8_t*  var = NULL;
   const s16_t* var_len;
   u16_t result;
 
@@ -241,12 +241,12 @@ system_get_value(const struct snmp_scalar_array_node_def *node, void *value)
   case 2: /* sysObjectID */
     {
       const struct snmp_obj_id* dev_enterprise_oid = snmp_get_device_enterprise_oid();
-      MEMCPY(value, dev_enterprise_oid->id, dev_enterprise_oid->len * sizeof(u32_t));
-      return dev_enterprise_oid->len * sizeof(u32_t);
+      MEMCPY(value, dev_enterprise_oid->id, dev_enterprise_oid->len * sizeof(uint32_t));
+      return dev_enterprise_oid->len * sizeof(uint32_t);
     }
   case 3: /* sysUpTime */
-    MIB2_COPY_SYSUPTIME_TO((u32_t*)value);
-    return sizeof(u32_t);
+    MIB2_COPY_SYSUPTIME_TO((uint32_t*)value);
+    return sizeof(uint32_t);
   case 4: /* sysContact */
     var     = syscontact;
     var_len = (const s16_t*)syscontact_len;
@@ -327,7 +327,7 @@ system_set_test(const struct snmp_scalar_array_node_def *node, u16_t len, void *
 static snmp_err_t
 system_set_value(const struct snmp_scalar_array_node_def *node, u16_t len, void *value)
 {
-  u8_t*  var_wr = NULL;
+  uint8_t*  var_wr = NULL;
   u16_t* var_wr_len;
 
   switch (node->oid) {
@@ -351,7 +351,7 @@ system_set_value(const struct snmp_scalar_array_node_def *node, u16_t len, void 
   /* no need to check size of target buffer, this was already done in set_test method */
   LWIP_ASSERT("", var_wr != NULL);
   MEMCPY(var_wr, value, len);
-  
+
   if (var_wr_len == NULL) {
     /* add terminating 0 */
     var_wr[len] = 0;

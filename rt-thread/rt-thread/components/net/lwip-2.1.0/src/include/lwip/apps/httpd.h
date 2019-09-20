@@ -208,7 +208,7 @@ void http_set_ssi_handler(tSSIHandler pfnSSIHandler,
  */
 err_t httpd_post_begin(void *connection, const char *uri, const char *http_request,
                        u16_t http_request_len, int content_len, char *response_uri,
-                       u16_t response_uri_len, u8_t *post_auto_wnd);
+                       u16_t response_uri_len, uint8_t *post_auto_wnd);
 
 /**
  * @ingroup httpd

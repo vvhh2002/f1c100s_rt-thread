@@ -140,7 +140,7 @@ struct file_entry
 int process_sub(FILE *data_file, FILE *struct_file);
 int process_file(FILE *data_file, FILE *struct_file, const char *filename);
 int file_write_http_header(FILE *data_file, const char *filename, int file_size, u16_t *http_hdr_len,
-                           u16_t *http_hdr_chksum, u8_t provide_content_len, int is_compressed);
+                           u16_t *http_hdr_chksum, uint8_t provide_content_len, int is_compressed);
 int file_put_ascii(FILE *file, const char *ascii_string, int len, int *i);
 int s_put_ascii(char *buf, const char *ascii_string, int len, int *i);
 void concat_files(const char *file1, const char *file2, const char *targetfile);
@@ -478,11 +478,11 @@ int process_sub(FILE *data_file, FILE *struct_file)
   return filesProcessed;
 }
 
-u8_t* get_file_data(const char* filename, int* file_size, int can_be_compressed, int* is_compressed)
+uint8_t* get_file_data(const char* filename, int* file_size, int can_be_compressed, int* is_compressed)
 {
   FILE *inFile;
   size_t fsize = 0;
-  u8_t* buf;
+  uint8_t* buf;
   size_t r;
   int rs;
   inFile = fopen(filename, "rb");
@@ -498,7 +498,7 @@ u8_t* get_file_data(const char* filename, int* file_size, int can_be_compressed,
   }
   fsize = (size_t)rs;
   fseek(inFile, 0, SEEK_SET);
-  buf = (u8_t*)malloc(fsize);
+  buf = (uint8_t*)malloc(fsize);
   LWIP_ASSERT("buf != NULL", buf != NULL);
   r = fread(buf, 1, fsize, inFile);
   *file_size = fsize;
@@ -508,7 +508,7 @@ u8_t* get_file_data(const char* filename, int* file_size, int can_be_compressed,
   if (deflateNonSsiFiles) {
     if (can_be_compressed) {
       if (fsize < OUT_BUF_SIZE) {
-        u8_t* ret_buf;
+        uint8_t* ret_buf;
         tdefl_status status;
         size_t in_bytes = fsize;
         size_t out_bytes = OUT_BUF_SIZE;
@@ -532,7 +532,7 @@ u8_t* get_file_data(const char* filename, int* file_size, int can_be_compressed,
         }
         LWIP_ASSERT("out_bytes <= COPY_BUFSIZE", out_bytes <= OUT_BUF_SIZE);
         if (out_bytes < fsize) {
-          ret_buf = (u8_t*)malloc(out_bytes);
+          ret_buf = (uint8_t*)malloc(out_bytes);
           LWIP_ASSERT("ret_buf != NULL", ret_buf != NULL);
           memcpy(ret_buf, s_outbuf, out_bytes);
           {
@@ -574,7 +574,7 @@ u8_t* get_file_data(const char* filename, int* file_size, int can_be_compressed,
   return buf;
 }
 
-void process_file_data(FILE* data_file, u8_t* file_data, size_t file_size)
+void process_file_data(FILE* data_file, uint8_t* file_data, size_t file_size)
 {
   size_t written, i, src_off=0;
 
@@ -599,7 +599,7 @@ void process_file_data(FILE* data_file, u8_t* file_data, size_t file_size)
 }
 
 int write_checksums(FILE *struct_file, const char *varname,
-                    u16_t hdr_len, u16_t hdr_chksum, const u8_t* file_data, size_t file_size)
+                    u16_t hdr_len, u16_t hdr_chksum, const uint8_t* file_data, size_t file_size)
 {
   int chunk_size = TCP_MSS;
   int offset, src_offset;
@@ -718,10 +718,10 @@ int process_file(FILE *data_file, FILE *struct_file, const char *filename)
   u16_t http_hdr_chksum = 0;
   u16_t http_hdr_len = 0;
   int chksum_count = 0;
-  u8_t flags = 0;
+  uint8_t flags = 0;
   const char* flags_str;
-  u8_t has_content_len;
-  u8_t* file_data;
+  uint8_t has_content_len;
+  uint8_t* file_data;
   int is_compressed = 0;
 
   /* create qualified name (@todo: prepend slash or not?) */
@@ -803,7 +803,7 @@ int process_file(FILE *data_file, FILE *struct_file, const char *filename)
 }
 
 int file_write_http_header(FILE *data_file, const char *filename, int file_size, u16_t *http_hdr_len,
-                           u16_t *http_hdr_chksum, u8_t provide_content_len, int is_compressed)
+                           u16_t *http_hdr_chksum, uint8_t provide_content_len, int is_compressed)
 {
   int i = 0;
   int response_type = HTTP_HDR_OK;
@@ -815,7 +815,7 @@ int file_write_http_header(FILE *data_file, const char *filename, int file_size,
   u16_t acc;
   const char *file_ext;
   int j;
-  u8_t provide_last_modified = includeLastModified;
+  uint8_t provide_last_modified = includeLastModified;
 
   memset(hdr_buf, 0, sizeof(hdr_buf));
 

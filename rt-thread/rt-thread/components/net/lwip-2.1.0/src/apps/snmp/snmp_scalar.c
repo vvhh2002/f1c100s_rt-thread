@@ -47,7 +47,7 @@ static snmp_err_t  snmp_scalar_array_set_test(struct snmp_node_instance *instanc
 static snmp_err_t  snmp_scalar_array_set_value(struct snmp_node_instance *instance, u16_t value_len, void *value);
 
 snmp_err_t
-snmp_scalar_get_instance(const u32_t *root_oid, u8_t root_oid_len, struct snmp_node_instance *instance)
+snmp_scalar_get_instance(const uint32_t *root_oid, uint8_t root_oid_len, struct snmp_node_instance *instance)
 {
   const struct snmp_scalar_node *scalar_node = (const struct snmp_scalar_node *)(const void *)instance->node;
 
@@ -68,7 +68,7 @@ snmp_scalar_get_instance(const u32_t *root_oid, u8_t root_oid_len, struct snmp_n
 }
 
 snmp_err_t
-snmp_scalar_get_next_instance(const u32_t *root_oid, u8_t root_oid_len, struct snmp_node_instance *instance)
+snmp_scalar_get_next_instance(const uint32_t *root_oid, uint8_t root_oid_len, struct snmp_node_instance *instance)
 {
   /* because our only instance is .0 we can only return a next instance if no instance oid is passed */
   if (instance->instance_oid.len == 0) {
@@ -83,7 +83,7 @@ snmp_scalar_get_next_instance(const u32_t *root_oid, u8_t root_oid_len, struct s
 
 
 snmp_err_t
-snmp_scalar_array_get_instance(const u32_t *root_oid, u8_t root_oid_len, struct snmp_node_instance *instance)
+snmp_scalar_array_get_instance(const uint32_t *root_oid, uint8_t root_oid_len, struct snmp_node_instance *instance)
 {
   LWIP_UNUSED_ARG(root_oid);
   LWIP_UNUSED_ARG(root_oid_len);
@@ -91,7 +91,7 @@ snmp_scalar_array_get_instance(const u32_t *root_oid, u8_t root_oid_len, struct 
   if ((instance->instance_oid.len == 2) && (instance->instance_oid.id[1] == 0)) {
     const struct snmp_scalar_array_node *array_node = (const struct snmp_scalar_array_node *)(const void *)instance->node;
     const struct snmp_scalar_array_node_def *array_node_def = array_node->array_nodes;
-    u32_t i = 0;
+    uint32_t i = 0;
 
     while (i < array_node->array_node_count) {
       if (array_node_def->oid == instance->instance_oid.id[0]) {
@@ -118,7 +118,7 @@ snmp_scalar_array_get_instance(const u32_t *root_oid, u8_t root_oid_len, struct 
 }
 
 snmp_err_t
-snmp_scalar_array_get_next_instance(const u32_t *root_oid, u8_t root_oid_len, struct snmp_node_instance *instance)
+snmp_scalar_array_get_next_instance(const uint32_t *root_oid, uint8_t root_oid_len, struct snmp_node_instance *instance)
 {
   const struct snmp_scalar_array_node *array_node = (const struct snmp_scalar_array_node *)(const void *)instance->node;
   const struct snmp_scalar_array_node_def *array_node_def = array_node->array_nodes;
@@ -155,12 +155,12 @@ snmp_scalar_array_get_next_instance(const u32_t *root_oid, u8_t root_oid_len, st
       }
     }
     if (result == NULL) {
-      u32_t oid_dist = 0xFFFFFFFFUL;
+      uint32_t oid_dist = 0xFFFFFFFFUL;
       u16_t i        = 0;
       array_node_def = array_node->array_nodes; /* may be already at the end when if case before was executed without result -> reinitialize to start */
       while (i < array_node->array_node_count) {
         if ((array_node_def->oid > instance->instance_oid.id[0]) &&
-            ((u32_t)(array_node_def->oid - instance->instance_oid.id[0]) < oid_dist)) {
+            ((uint32_t)(array_node_def->oid - instance->instance_oid.id[0]) < oid_dist)) {
           result   = array_node_def;
           oid_dist = array_node_def->oid - instance->instance_oid.id[0];
         }

@@ -69,14 +69,14 @@ static struct tcp_seg inseg;
 static struct tcp_hdr *tcphdr;
 static u16_t tcphdr_optlen;
 static u16_t tcphdr_opt1len;
-static u8_t* tcphdr_opt2;
+static uint8_t* tcphdr_opt2;
 static u16_t tcp_optidx;
-static u32_t seqno, ackno;
+static uint32_t seqno, ackno;
 static tcpwnd_size_t recv_acked;
 static u16_t tcplen;
-static u8_t flags;
+static uint8_t flags;
 
-static u8_t recv_flags;
+static uint8_t recv_flags;
 static struct pbuf *recv_data;
 
 struct tcp_pcb *tcp_input_pcb;
@@ -107,7 +107,7 @@ tcp_input(struct pbuf *p, struct netif *inp)
   struct tcp_pcb *lpcb_prev = NULL;
   struct tcp_pcb_listen *lpcb_any = NULL;
 #endif /* SO_REUSE */
-  u8_t hdrlen_bytes;
+  uint8_t hdrlen_bytes;
   err_t err;
 
   LWIP_UNUSED_ARG(inp);
@@ -195,7 +195,7 @@ tcp_input(struct pbuf *p, struct netif *inp)
     }
 
     /* remember the pointer to the second part of the options */
-    tcphdr_opt2 = (u8_t*)p->next->payload;
+    tcphdr_opt2 = (uint8_t*)p->next->payload;
 
     /* advance p->next to point after the options, and manually
         adjust p->tot_len to keep it consistent with the changed p->next */
@@ -387,9 +387,9 @@ tcp_input(struct pbuf *p, struct netif *inp)
         if (recv_acked > 0) {
           u16_t acked16;
 #if LWIP_WND_SCALE
-          /* recv_acked is u32_t but the sent callback only takes a u16_t,
+          /* recv_acked is uint32_t but the sent callback only takes a u16_t,
              so we might have to call it multiple times. */
-          u32_t acked = recv_acked;
+          uint32_t acked = recv_acked;
           while (acked > 0) {
             acked16 = (u16_t)LWIP_MIN(acked, 0xffffu);
             acked -= acked16;
@@ -545,7 +545,7 @@ static void
 tcp_listen_input(struct tcp_pcb_listen *pcb)
 {
   struct tcp_pcb *npcb;
-  u32_t iss;
+  uint32_t iss;
   err_t rc;
 
   if (flags & TCP_RST) {
@@ -690,7 +690,7 @@ static err_t
 tcp_process(struct tcp_pcb *pcb)
 {
   struct tcp_seg *rseg;
-  u8_t acceptable = 0;
+  uint8_t acceptable = 0;
   err_t err;
 
   err = ERR_OK;
@@ -1002,11 +1002,11 @@ tcp_receive(struct tcp_pcb *pcb)
 #endif /* TCP_QUEUE_OOSEQ */
   s32_t off;
   s16_t m;
-  u32_t right_wnd_edge;
+  uint32_t right_wnd_edge;
   u16_t new_tot_len;
   int found_dupack = 0;
 #if TCP_OOSEQ_MAX_BYTES || TCP_OOSEQ_MAX_PBUFS
-  u32_t ooseq_blen;
+  uint32_t ooseq_blen;
   u16_t ooseq_qlen;
 #endif /* TCP_OOSEQ_MAX_BYTES || TCP_OOSEQ_MAX_PBUFS */
 
@@ -1018,7 +1018,7 @@ tcp_receive(struct tcp_pcb *pcb)
     /* Update window. */
     if (TCP_SEQ_LT(pcb->snd_wl1, seqno) ||
        (pcb->snd_wl1 == seqno && TCP_SEQ_LT(pcb->snd_wl2, ackno)) ||
-       (pcb->snd_wl2 == ackno && (u32_t)SND_WND_SCALE(pcb, tcphdr->wnd) > pcb->snd_wnd)) {
+       (pcb->snd_wl2 == ackno && (uint32_t)SND_WND_SCALE(pcb, tcphdr->wnd) > pcb->snd_wnd)) {
       pcb->snd_wnd = SND_WND_SCALE(pcb, tcphdr->wnd);
       /* keep track of the biggest window announced by the remote host to calculate
          the maximum segment size */
@@ -1080,7 +1080,7 @@ tcp_receive(struct tcp_pcb *pcb)
             /* Clause 5 */
             if (pcb->lastack == ackno) {
               found_dupack = 1;
-              if ((u8_t)(pcb->dupacks + 1) > pcb->dupacks) {
+              if ((uint8_t)(pcb->dupacks + 1) > pcb->dupacks) {
                 ++pcb->dupacks;
               }
               if (pcb->dupacks > 3) {
@@ -1622,7 +1622,7 @@ tcp_receive(struct tcp_pcb *pcb)
                     pbuf_realloc(next->p, next->len);
                   }
                   /* check if the remote side overruns our receive window */
-                  if (TCP_SEQ_GT((u32_t)tcplen + seqno, pcb->rcv_nxt + (u32_t)pcb->rcv_wnd)) {
+                  if (TCP_SEQ_GT((uint32_t)tcplen + seqno, pcb->rcv_nxt + (uint32_t)pcb->rcv_wnd)) {
                     LWIP_DEBUGF(TCP_INPUT_DEBUG,
                                 ("tcp_receive: other end overran receive window"
                                  "seqno %"U32_F" len %"U16_F" right edge %"U32_F"\n",
@@ -1686,14 +1686,14 @@ tcp_receive(struct tcp_pcb *pcb)
   }
 }
 
-static u8_t
+static uint8_t
 tcp_getoptbyte(void)
 {
   if ((tcphdr_opt2 == NULL) || (tcp_optidx < tcphdr_opt1len)) {
-    u8_t* opts = (u8_t *)tcphdr + TCP_HLEN;
+    uint8_t* opts = (uint8_t *)tcphdr + TCP_HLEN;
     return opts[tcp_optidx++];
   } else {
-    u8_t idx = (u8_t)(tcp_optidx++ - tcphdr_opt1len);
+    uint8_t idx = (uint8_t)(tcp_optidx++ - tcphdr_opt1len);
     return tcphdr_opt2[idx];
   }
 }
@@ -1709,16 +1709,16 @@ tcp_getoptbyte(void)
 static void
 tcp_parseopt(struct tcp_pcb *pcb)
 {
-  u8_t data;
+  uint8_t data;
   u16_t mss;
 #if LWIP_TCP_TIMESTAMPS
-  u32_t tsval;
+  uint32_t tsval;
 #endif
 
   /* Parse the TCP MSS option, if present. */
   if (tcphdr_optlen != 0) {
     for (tcp_optidx = 0; tcp_optidx < tcphdr_optlen; ) {
-      u8_t opt = tcp_getoptbyte();
+      uint8_t opt = tcp_getoptbyte();
       switch (opt) {
       case LWIP_TCP_OPT_EOL:
         /* End of options. */

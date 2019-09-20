@@ -81,10 +81,10 @@ struct ip6_reassdata {
   struct ip6_reassdata *next;
   struct pbuf *p;
   struct ip6_hdr IPV6_FRAG_HDRPTR iphdr;
-  u32_t identification;
+  uint32_t identification;
   u16_t datagram_len;
-  u8_t nexth;
-  u8_t timer;
+  uint8_t nexth;
+  uint8_t timer;
 };
 
 #define ip6_reass_init() /* Compatibility define */

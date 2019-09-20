@@ -64,7 +64,7 @@
  *
  * \hideinitializer
  */
-typedef uint8_t u8_t;
+typedef uint8_t uint8_t;
 
 /**
  * 16 bit datatype

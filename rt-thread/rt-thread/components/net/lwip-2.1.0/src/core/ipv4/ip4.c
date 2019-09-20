@@ -238,7 +238,7 @@ ip4_route(const ip4_addr_t *dest)
 static int
 ip4_canforward(struct pbuf *p)
 {
-  u32_t addr = lwip_htonl(ip4_addr_get_u32(ip4_current_dest_addr()));
+  uint32_t addr = lwip_htonl(ip4_addr_get_u32(ip4_current_dest_addr()));
 
 #ifdef LWIP_HOOK_IP4_CANFORWARD
   int ret = LWIP_HOOK_IP4_CANFORWARD(p, addr);
@@ -259,8 +259,8 @@ ip4_canforward(struct pbuf *p)
     return 0;
   }
   if (IP_CLASSA(addr)) {
-    u32_t net = addr & IP_CLASSA_NET;
-    if ((net == 0) || (net == ((u32_t)IP_LOOPBACKNET << IP_CLASSA_NSHIFT))) {
+    uint32_t net = addr & IP_CLASSA_NET;
+    if ((net == 0) || (net == ((uint32_t)IP_LOOPBACKNET << IP_CLASSA_NSHIFT))) {
       /* don't route loopback packets */
       return 0;
     }
@@ -579,7 +579,7 @@ ip4_input(struct pbuf *p, struct netif *inp)
   if (netif == NULL) {
     /* remote port is DHCP server? */
     if (IPH_PROTO(iphdr) == IP_PROTO_UDP) {
-      const struct udp_hdr *udphdr = (const struct udp_hdr *)((const u8_t *)iphdr + iphdr_hlen);
+      const struct udp_hdr *udphdr = (const struct udp_hdr *)((const uint8_t *)iphdr + iphdr_hlen);
       LWIP_DEBUGF(IP_DEBUG | LWIP_DBG_TRACE, ("ip4_input: UDP packet to DHCP client port %"U16_F"\n",
                                               lwip_ntohs(udphdr->dest)));
       if (IP_ACCEPT_LINK_LAYER_ADDRESSED_PORT(udphdr->dest)) {
@@ -785,8 +785,8 @@ ip4_input(struct pbuf *p, struct netif *inp)
  */
 err_t
 ip4_output_if(struct pbuf *p, const ip4_addr_t *src, const ip4_addr_t *dest,
-              u8_t ttl, u8_t tos,
-              u8_t proto, struct netif *netif)
+              uint8_t ttl, uint8_t tos,
+              uint8_t proto, struct netif *netif)
 {
 #if IP_OPTIONS_SEND
   return ip4_output_if_opt(p, src, dest, ttl, tos, proto, netif, NULL, 0);
@@ -800,7 +800,7 @@ ip4_output_if(struct pbuf *p, const ip4_addr_t *src, const ip4_addr_t *dest,
  */
 err_t
 ip4_output_if_opt(struct pbuf *p, const ip4_addr_t *src, const ip4_addr_t *dest,
-                  u8_t ttl, u8_t tos, u8_t proto, struct netif *netif, void *ip_options,
+                  uint8_t ttl, uint8_t tos, uint8_t proto, struct netif *netif, void *ip_options,
                   u16_t optlen)
 {
 #endif /* IP_OPTIONS_SEND */
@@ -825,8 +825,8 @@ ip4_output_if_opt(struct pbuf *p, const ip4_addr_t *src, const ip4_addr_t *dest,
  */
 err_t
 ip4_output_if_src(struct pbuf *p, const ip4_addr_t *src, const ip4_addr_t *dest,
-                  u8_t ttl, u8_t tos,
-                  u8_t proto, struct netif *netif)
+                  uint8_t ttl, uint8_t tos,
+                  uint8_t proto, struct netif *netif)
 {
 #if IP_OPTIONS_SEND
   return ip4_output_if_opt_src(p, src, dest, ttl, tos, proto, netif, NULL, 0);
@@ -838,14 +838,14 @@ ip4_output_if_src(struct pbuf *p, const ip4_addr_t *src, const ip4_addr_t *dest,
  */
 err_t
 ip4_output_if_opt_src(struct pbuf *p, const ip4_addr_t *src, const ip4_addr_t *dest,
-                      u8_t ttl, u8_t tos, u8_t proto, struct netif *netif, void *ip_options,
+                      uint8_t ttl, uint8_t tos, uint8_t proto, struct netif *netif, void *ip_options,
                       u16_t optlen)
 {
 #endif /* IP_OPTIONS_SEND */
   struct ip_hdr *iphdr;
   ip4_addr_t dest_addr;
 #if CHECKSUM_GEN_IP_INLINE
-  u32_t chk_sum = 0;
+  uint32_t chk_sum = 0;
 #endif /* CHECKSUM_GEN_IP_INLINE */
 
   LWIP_ASSERT_CORE_LOCKED();
@@ -1026,7 +1026,7 @@ ip4_output_if_opt_src(struct pbuf *p, const ip4_addr_t *src, const ip4_addr_t *d
  */
 err_t
 ip4_output(struct pbuf *p, const ip4_addr_t *src, const ip4_addr_t *dest,
-           u8_t ttl, u8_t tos, u8_t proto)
+           uint8_t ttl, uint8_t tos, uint8_t proto)
 {
   struct netif *netif;
 
@@ -1063,7 +1063,7 @@ ip4_output(struct pbuf *p, const ip4_addr_t *src, const ip4_addr_t *dest,
  */
 err_t
 ip4_output_hinted(struct pbuf *p, const ip4_addr_t *src, const ip4_addr_t *dest,
-                  u8_t ttl, u8_t tos, u8_t proto, struct netif_hint *netif_hint)
+                  uint8_t ttl, uint8_t tos, uint8_t proto, struct netif_hint *netif_hint)
 {
   struct netif *netif;
   err_t err;

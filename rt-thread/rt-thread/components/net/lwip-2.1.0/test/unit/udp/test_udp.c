@@ -9,8 +9,8 @@
 #endif
 
 struct test_udp_rxdata {
-  u32_t rx_cnt;
-  u32_t rx_bytes;
+  uint32_t rx_cnt;
+  uint32_t rx_bytes;
   struct udp_pcb *pcb;
 };
 
@@ -169,14 +169,14 @@ static void test_recv(void *arg, struct udp_pcb *pcb, struct pbuf *p,
 }
 
 static struct pbuf *
-test_udp_create_test_packet(u16_t length, u16_t port, u32_t dst_addr)
+test_udp_create_test_packet(u16_t length, u16_t port, uint32_t dst_addr)
 {
   err_t err;
-  u8_t ret;
+  uint8_t ret;
   struct udp_hdr *uh;
   struct ip_hdr *ih;
   struct pbuf *p;
-  const u8_t test_data[16] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0xa, 0xb, 0xc, 0xd, 0xe, 0xf};
+  const uint8_t test_data[16] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0xa, 0xb, 0xc, 0xd, 0xe, 0xf};
 
   p = pbuf_alloc(PBUF_TRANSPORT, length, PBUF_POOL);
   fail_unless(p != NULL);

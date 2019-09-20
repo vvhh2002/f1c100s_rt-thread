@@ -3,12 +3,12 @@
  * Sequential API External module
  *
  */
- 
+
 /*
  * Copyright (c) 2001-2004 Swedish Institute of Computer Science.
- * All rights reserved. 
- * 
- * Redistribution and use in source and binary forms, with or without modification, 
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification,
  * are permitted provided that the following conditions are met:
  *
  * 1. Redistributions of source code must retain the above copyright notice,
@@ -17,21 +17,21 @@
  *    this list of conditions and the following disclaimer in the documentation
  *    and/or other materials provided with the distribution.
  * 3. The name of the author may not be used to endorse or promote products
- *    derived from this software without specific prior written permission. 
+ *    derived from this software without specific prior written permission.
  *
- * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR IMPLIED 
- * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
- * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT 
- * SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, 
- * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT 
- * OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING 
- * IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+ * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT
+ * SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT
+ * OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
+ * IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY
  * OF SUCH DAMAGE.
  *
  * This file is part of the lwIP TCP/IP stack.
- * 
+ *
  * Author: Adam Dunkels <adam@sics.se>
  *
  */
@@ -65,7 +65,7 @@
  *         NULL on memory error
  */
 struct netconn*
-netconn_new_with_proto_and_callback(enum netconn_type t, u8_t proto, netconn_callback callback)
+netconn_new_with_proto_and_callback(enum netconn_type t, uint8_t proto, netconn_callback callback)
 {
   struct netconn *conn;
   struct api_msg msg;
@@ -132,7 +132,7 @@ netconn_delete(struct netconn *conn)
  *         ERR_OK if the information was retrieved
  */
 err_t
-netconn_getaddr(struct netconn *conn, ip_addr_t *addr, u16_t *port, u8_t local)
+netconn_getaddr(struct netconn *conn, ip_addr_t *addr, u16_t *port, uint8_t local)
 {
   struct api_msg msg;
   err_t err;
@@ -238,7 +238,7 @@ netconn_disconnect(struct netconn *conn)
  *         don't return any error (yet?))
  */
 err_t
-netconn_listen_with_backlog(struct netconn *conn, u8_t backlog)
+netconn_listen_with_backlog(struct netconn *conn, uint8_t backlog)
 {
 #if LWIP_TCP
   struct api_msg msg;
@@ -514,7 +514,7 @@ netconn_recv(struct netconn *conn, struct netbuf **new_buf)
  * @param length amount of data processed (ATTENTION: this must be accurate!)
  */
 void
-netconn_recved(struct netconn *conn, u32_t length)
+netconn_recved(struct netconn *conn, uint32_t length)
 {
 #if LWIP_TCP
   if ((conn != NULL) && (conn->type == NETCONN_TCP) &&
@@ -596,11 +596,11 @@ netconn_send(struct netconn *conn, struct netbuf *buf)
  */
 err_t
 netconn_write_partly(struct netconn *conn, const void *dataptr, size_t size,
-                     u8_t apiflags, size_t *bytes_written)
+                     uint8_t apiflags, size_t *bytes_written)
 {
   struct api_msg msg;
   err_t err;
-  u8_t dontblock;
+  uint8_t dontblock;
 
   LWIP_ERROR("netconn_write: invalid conn",  (conn != NULL), return ERR_ARG;);
   LWIP_ERROR("netconn_write: invalid conn->type",  (conn->type == NETCONN_TCP), return ERR_VAL;);
@@ -660,7 +660,7 @@ netconn_write_partly(struct netconn *conn, const void *dataptr, size_t size,
  * @return ERR_OK if the netconn was closed, any other err_t on error
  */
 static err_t
-netconn_close_shutdown(struct netconn *conn, u8_t how)
+netconn_close_shutdown(struct netconn *conn, uint8_t how)
 {
   struct api_msg msg;
   err_t err;
@@ -699,7 +699,7 @@ netconn_close(struct netconn *conn)
  * @return ERR_OK if the netconn was closed, any other err_t on error
  */
 err_t
-netconn_shutdown(struct netconn *conn, u8_t shut_rx, u8_t shut_tx)
+netconn_shutdown(struct netconn *conn, uint8_t shut_rx, uint8_t shut_tx)
 {
   return netconn_close_shutdown(conn, (shut_rx ? NETCONN_SHUT_RD : 0) | (shut_tx ? NETCONN_SHUT_WR : 0));
 }

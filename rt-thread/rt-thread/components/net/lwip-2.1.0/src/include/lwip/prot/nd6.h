@@ -51,10 +51,10 @@ extern "C" {
 #endif
 PACK_STRUCT_BEGIN
 struct ns_header {
-  PACK_STRUCT_FLD_8(u8_t type);
-  PACK_STRUCT_FLD_8(u8_t code);
+  PACK_STRUCT_FLD_8(uint8_t type);
+  PACK_STRUCT_FLD_8(uint8_t code);
   PACK_STRUCT_FIELD(u16_t chksum);
-  PACK_STRUCT_FIELD(u32_t reserved);
+  PACK_STRUCT_FIELD(uint32_t reserved);
   PACK_STRUCT_FLD_S(ip6_addr_p_t target_address);
   /* Options follow. */
 } PACK_STRUCT_STRUCT;
@@ -69,11 +69,11 @@ PACK_STRUCT_END
 #endif
 PACK_STRUCT_BEGIN
 struct na_header {
-  PACK_STRUCT_FLD_8(u8_t type);
-  PACK_STRUCT_FLD_8(u8_t code);
+  PACK_STRUCT_FLD_8(uint8_t type);
+  PACK_STRUCT_FLD_8(uint8_t code);
   PACK_STRUCT_FIELD(u16_t chksum);
-  PACK_STRUCT_FLD_8(u8_t flags);
-  PACK_STRUCT_FLD_8(u8_t reserved[3]);
+  PACK_STRUCT_FLD_8(uint8_t flags);
+  PACK_STRUCT_FLD_8(uint8_t reserved[3]);
   PACK_STRUCT_FLD_S(ip6_addr_p_t target_address);
   /* Options follow. */
 } PACK_STRUCT_STRUCT;
@@ -91,10 +91,10 @@ PACK_STRUCT_END
 #endif
 PACK_STRUCT_BEGIN
 struct rs_header {
-  PACK_STRUCT_FLD_8(u8_t type);
-  PACK_STRUCT_FLD_8(u8_t code);
+  PACK_STRUCT_FLD_8(uint8_t type);
+  PACK_STRUCT_FLD_8(uint8_t code);
   PACK_STRUCT_FIELD(u16_t chksum);
-  PACK_STRUCT_FIELD(u32_t reserved);
+  PACK_STRUCT_FIELD(uint32_t reserved);
   /* Options follow. */
 } PACK_STRUCT_STRUCT;
 PACK_STRUCT_END
@@ -116,14 +116,14 @@ PACK_STRUCT_END
 #endif
 PACK_STRUCT_BEGIN
 struct ra_header {
-  PACK_STRUCT_FLD_8(u8_t type);
-  PACK_STRUCT_FLD_8(u8_t code);
+  PACK_STRUCT_FLD_8(uint8_t type);
+  PACK_STRUCT_FLD_8(uint8_t code);
   PACK_STRUCT_FIELD(u16_t chksum);
-  PACK_STRUCT_FLD_8(u8_t current_hop_limit);
-  PACK_STRUCT_FLD_8(u8_t flags);
+  PACK_STRUCT_FLD_8(uint8_t current_hop_limit);
+  PACK_STRUCT_FLD_8(uint8_t flags);
   PACK_STRUCT_FIELD(u16_t router_lifetime);
-  PACK_STRUCT_FIELD(u32_t reachable_time);
-  PACK_STRUCT_FIELD(u32_t retrans_timer);
+  PACK_STRUCT_FIELD(uint32_t reachable_time);
+  PACK_STRUCT_FIELD(uint32_t retrans_timer);
   /* Options follow. */
 } PACK_STRUCT_STRUCT;
 PACK_STRUCT_END
@@ -137,10 +137,10 @@ PACK_STRUCT_END
 #endif
 PACK_STRUCT_BEGIN
 struct redirect_header {
-  PACK_STRUCT_FLD_8(u8_t type);
-  PACK_STRUCT_FLD_8(u8_t code);
+  PACK_STRUCT_FLD_8(uint8_t type);
+  PACK_STRUCT_FLD_8(uint8_t code);
   PACK_STRUCT_FIELD(u16_t chksum);
-  PACK_STRUCT_FIELD(u32_t reserved);
+  PACK_STRUCT_FIELD(uint32_t reserved);
   PACK_STRUCT_FLD_S(ip6_addr_p_t target_address);
   PACK_STRUCT_FLD_S(ip6_addr_p_t destination_address);
   /* Options follow. */
@@ -158,9 +158,9 @@ PACK_STRUCT_END
 #endif
 PACK_STRUCT_BEGIN
 struct lladdr_option {
-  PACK_STRUCT_FLD_8(u8_t type);
-  PACK_STRUCT_FLD_8(u8_t length);
-  PACK_STRUCT_FLD_8(u8_t addr[NETIF_MAX_HWADDR_LEN]);
+  PACK_STRUCT_FLD_8(uint8_t type);
+  PACK_STRUCT_FLD_8(uint8_t length);
+  PACK_STRUCT_FLD_8(uint8_t addr[NETIF_MAX_HWADDR_LEN]);
 } PACK_STRUCT_STRUCT;
 PACK_STRUCT_END
 #ifdef PACK_STRUCT_USE_INCLUDES
@@ -178,14 +178,14 @@ PACK_STRUCT_END
 #endif
 PACK_STRUCT_BEGIN
 struct prefix_option {
-  PACK_STRUCT_FLD_8(u8_t type);
-  PACK_STRUCT_FLD_8(u8_t length);
-  PACK_STRUCT_FLD_8(u8_t prefix_length);
-  PACK_STRUCT_FLD_8(u8_t flags);
-  PACK_STRUCT_FIELD(u32_t valid_lifetime);
-  PACK_STRUCT_FIELD(u32_t preferred_lifetime);
-  PACK_STRUCT_FLD_8(u8_t reserved2[3]);
-  PACK_STRUCT_FLD_8(u8_t site_prefix_length);
+  PACK_STRUCT_FLD_8(uint8_t type);
+  PACK_STRUCT_FLD_8(uint8_t length);
+  PACK_STRUCT_FLD_8(uint8_t prefix_length);
+  PACK_STRUCT_FLD_8(uint8_t flags);
+  PACK_STRUCT_FIELD(uint32_t valid_lifetime);
+  PACK_STRUCT_FIELD(uint32_t preferred_lifetime);
+  PACK_STRUCT_FLD_8(uint8_t reserved2[3]);
+  PACK_STRUCT_FLD_8(uint8_t site_prefix_length);
   PACK_STRUCT_FLD_S(ip6_addr_p_t prefix);
 } PACK_STRUCT_STRUCT;
 PACK_STRUCT_END
@@ -200,11 +200,11 @@ PACK_STRUCT_END
 #endif
 PACK_STRUCT_BEGIN
 struct redirected_header_option {
-  PACK_STRUCT_FLD_8(u8_t type);
-  PACK_STRUCT_FLD_8(u8_t length);
-  PACK_STRUCT_FLD_8(u8_t reserved[6]);
+  PACK_STRUCT_FLD_8(uint8_t type);
+  PACK_STRUCT_FLD_8(uint8_t length);
+  PACK_STRUCT_FLD_8(uint8_t reserved[6]);
   /* Portion of redirected packet follows. */
-  /* PACK_STRUCT_FLD_8(u8_t redirected[8]); */
+  /* PACK_STRUCT_FLD_8(uint8_t redirected[8]); */
 } PACK_STRUCT_STRUCT;
 PACK_STRUCT_END
 #ifdef PACK_STRUCT_USE_INCLUDES
@@ -218,10 +218,10 @@ PACK_STRUCT_END
 #endif
 PACK_STRUCT_BEGIN
 struct mtu_option {
-  PACK_STRUCT_FLD_8(u8_t type);
-  PACK_STRUCT_FLD_8(u8_t length);
+  PACK_STRUCT_FLD_8(uint8_t type);
+  PACK_STRUCT_FLD_8(uint8_t length);
   PACK_STRUCT_FIELD(u16_t reserved);
-  PACK_STRUCT_FIELD(u32_t mtu);
+  PACK_STRUCT_FIELD(uint32_t mtu);
 } PACK_STRUCT_STRUCT;
 PACK_STRUCT_END
 #ifdef PACK_STRUCT_USE_INCLUDES
@@ -235,11 +235,11 @@ PACK_STRUCT_END
 #endif
 PACK_STRUCT_BEGIN
 struct route_option {
-  PACK_STRUCT_FLD_8(u8_t type);
-  PACK_STRUCT_FLD_8(u8_t length);
-  PACK_STRUCT_FLD_8(u8_t prefix_length);
-  PACK_STRUCT_FLD_8(u8_t preference);
-  PACK_STRUCT_FIELD(u32_t route_lifetime);
+  PACK_STRUCT_FLD_8(uint8_t type);
+  PACK_STRUCT_FLD_8(uint8_t length);
+  PACK_STRUCT_FLD_8(uint8_t prefix_length);
+  PACK_STRUCT_FLD_8(uint8_t preference);
+  PACK_STRUCT_FIELD(uint32_t route_lifetime);
   PACK_STRUCT_FLD_S(ip6_addr_p_t prefix);
 } PACK_STRUCT_STRUCT;
 PACK_STRUCT_END
@@ -254,10 +254,10 @@ PACK_STRUCT_END
 #endif
 PACK_STRUCT_BEGIN
 struct rdnss_option {
-  PACK_STRUCT_FLD_8(u8_t type);
-  PACK_STRUCT_FLD_8(u8_t length);
+  PACK_STRUCT_FLD_8(uint8_t type);
+  PACK_STRUCT_FLD_8(uint8_t length);
   PACK_STRUCT_FIELD(u16_t reserved);
-  PACK_STRUCT_FIELD(u32_t lifetime);
+  PACK_STRUCT_FIELD(uint32_t lifetime);
   PACK_STRUCT_FLD_S(ip6_addr_p_t rdnss_address[1]);
 } PACK_STRUCT_STRUCT;
 PACK_STRUCT_END

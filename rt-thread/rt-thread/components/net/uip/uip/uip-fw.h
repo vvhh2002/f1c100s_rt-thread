@@ -56,7 +56,7 @@ struct uip_fw_netif {
 				 linked in a list. */
   u16_t ipaddr[2];            /**< The IP address of this interface. */
   u16_t netmask[2];           /**< The netmask of the interface. */
-  u8_t (* output)(void);
+  uint8_t (* output)(void);
                               /**< A pointer to the function that
 				 sends a packet. */
 };
@@ -109,8 +109,8 @@ struct uip_fw_netif {
              (netif)->netmask[1] = ((u16_t *)(addr))[1]; } while(0)
 
 void uip_fw_init(void);
-u8_t uip_fw_forward(void);
-u8_t uip_fw_output(void);
+uint8_t uip_fw_forward(void);
+uint8_t uip_fw_output(void);
 void uip_fw_register(struct uip_fw_netif *netif);
 void uip_fw_default(struct uip_fw_netif *netif);
 void uip_fw_periodic(void);

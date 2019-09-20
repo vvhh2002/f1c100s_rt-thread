@@ -63,8 +63,8 @@ struct ip_reassdata {
   struct pbuf *p;
   struct ip_hdr iphdr;
   u16_t datagram_len;
-  u8_t flags;
-  u8_t timer;
+  uint8_t flags;
+  uint8_t timer;
 };
 
 void ip_reass_init(void);

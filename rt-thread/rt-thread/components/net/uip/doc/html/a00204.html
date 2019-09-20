@@ -43,7 +43,7 @@
 <a name="l00023"></a>00023 <span class="comment"> * \author Adam Dunkels &lt;adam@dunkels.com&gt;</span>
 <a name="l00024"></a>00024 <span class="comment"> *</span>
 <a name="l00025"></a>00025 <span class="comment"> */</span>
-<a name="l00026"></a>00026 
+<a name="l00026"></a>00026
 <a name="l00027"></a>00027 <span class="comment">/*</span>
 <a name="l00028"></a>00028 <span class="comment"> * Copyright (c) 2001-2003, Adam Dunkels.</span>
 <a name="l00029"></a>00029 <span class="comment"> * All rights reserved.</span>
@@ -77,29 +77,29 @@
 <a name="l00057"></a>00057 <span class="comment"> * $Id: uip_arp.c,v 1.8 2006/06/02 23:36:21 adam Exp $</span>
 <a name="l00058"></a>00058 <span class="comment"> *</span>
 <a name="l00059"></a>00059 <span class="comment"> */</span>
-<a name="l00060"></a>00060 
-<a name="l00061"></a>00061 
+<a name="l00060"></a>00060
+<a name="l00061"></a>00061
 <a name="l00062"></a>00062 <span class="preprocessor">#include "<a class="code" href="a00139.html">uip_arp.h</a>"</span>
-<a name="l00063"></a>00063 
+<a name="l00063"></a>00063
 <a name="l00064"></a>00064 <span class="preprocessor">#include &lt;string.h&gt;</span>
-<a name="l00065"></a>00065 
+<a name="l00065"></a>00065
 <a name="l00066"></a>00066 <span class="keyword">struct </span>arp_hdr {
 <a name="l00067"></a>00067   <span class="keyword">struct </span><a class="code" href="a00090.html">uip_eth_hdr</a> ethhdr;
 <a name="l00068"></a>00068   <a class="code" href="a00153.html#g77570ac4fcab86864fa1916e55676da2">u16_t</a> hwtype;
 <a name="l00069"></a>00069   <a class="code" href="a00153.html#g77570ac4fcab86864fa1916e55676da2">u16_t</a> protocol;
-<a name="l00070"></a>00070   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a> hwlen;
-<a name="l00071"></a>00071   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a> protolen;
+<a name="l00070"></a>00070   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a> hwlen;
+<a name="l00071"></a>00071   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a> protolen;
 <a name="l00072"></a>00072   <a class="code" href="a00153.html#g77570ac4fcab86864fa1916e55676da2">u16_t</a> opcode;
 <a name="l00073"></a>00073   <span class="keyword">struct </span><a class="code" href="a00089.html">uip_eth_addr</a> shwaddr;
 <a name="l00074"></a>00074   <a class="code" href="a00153.html#g77570ac4fcab86864fa1916e55676da2">u16_t</a> sipaddr[2];
 <a name="l00075"></a>00075   <span class="keyword">struct </span><a class="code" href="a00089.html">uip_eth_addr</a> dhwaddr;
 <a name="l00076"></a>00076   <a class="code" href="a00153.html#g77570ac4fcab86864fa1916e55676da2">u16_t</a> dipaddr[2];
 <a name="l00077"></a>00077 };
-<a name="l00078"></a>00078 
+<a name="l00078"></a>00078
 <a name="l00079"></a>00079 <span class="keyword">struct </span>ethip_hdr {
 <a name="l00080"></a>00080   <span class="keyword">struct </span><a class="code" href="a00090.html">uip_eth_hdr</a> ethhdr;
 <a name="l00081"></a>00081   <span class="comment">/* IP header. */</span>
-<a name="l00082"></a>00082   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a> vhl,
+<a name="l00082"></a>00082   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a> vhl,
 <a name="l00083"></a>00083     tos,
 <a name="l00084"></a>00084     len[2],
 <a name="l00085"></a>00085     ipid[2],
@@ -110,7 +110,7 @@
 <a name="l00090"></a>00090   <a class="code" href="a00153.html#g77570ac4fcab86864fa1916e55676da2">u16_t</a> srcipaddr[2],
 <a name="l00091"></a>00091     destipaddr[2];
 <a name="l00092"></a>00092 };
-<a name="l00093"></a>00093 
+<a name="l00093"></a>00093
 <a name="l00094"></a><a class="code" href="a00152.html#g7a7c46ffaba30477b8c9e3e61bd2e106">00094</a> <span class="preprocessor">#define ARP_REQUEST 1</span>
 <a name="l00095"></a><a class="code" href="a00152.html#g06ba7b414e718081998f2814090debf1">00095</a> <span class="preprocessor"></span><span class="preprocessor">#define ARP_REPLY   2</span>
 <a name="l00096"></a>00096 <span class="preprocessor"></span>
@@ -119,20 +119,20 @@
 <a name="l00099"></a>00099 <span class="keyword">struct </span>arp_entry {
 <a name="l00100"></a>00100   <a class="code" href="a00153.html#g77570ac4fcab86864fa1916e55676da2">u16_t</a> ipaddr[2];
 <a name="l00101"></a>00101   <span class="keyword">struct </span><a class="code" href="a00089.html">uip_eth_addr</a> ethaddr;
-<a name="l00102"></a>00102   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a> time;
+<a name="l00102"></a>00102   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a> time;
 <a name="l00103"></a>00103 };
-<a name="l00104"></a>00104 
+<a name="l00104"></a>00104
 <a name="l00105"></a>00105 <span class="keyword">static</span> <span class="keyword">const</span> <span class="keyword">struct </span><a class="code" href="a00089.html">uip_eth_addr</a> broadcast_ethaddr =
 <a name="l00106"></a>00106   {{0xff,0xff,0xff,0xff,0xff,0xff}};
 <a name="l00107"></a>00107 <span class="keyword">static</span> <span class="keyword">const</span> <a class="code" href="a00153.html#g77570ac4fcab86864fa1916e55676da2">u16_t</a> broadcast_ipaddr[2] = {0xffff,0xffff};
-<a name="l00108"></a>00108 
+<a name="l00108"></a>00108
 <a name="l00109"></a>00109 <span class="keyword">static</span> <span class="keyword">struct </span>arp_entry arp_table[<a class="code" href="a00153.html#gb1455b27c06532a399cf06d2c1d6d08d">UIP_ARPTAB_SIZE</a>];
 <a name="l00110"></a>00110 <span class="keyword">static</span> <a class="code" href="a00153.html#g77570ac4fcab86864fa1916e55676da2">u16_t</a> ipaddr[2];
-<a name="l00111"></a>00111 <span class="keyword">static</span> <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a> i, c;
-<a name="l00112"></a>00112 
-<a name="l00113"></a>00113 <span class="keyword">static</span> <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a> arptime;
-<a name="l00114"></a>00114 <span class="keyword">static</span> <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a> tmpage;
-<a name="l00115"></a>00115 
+<a name="l00111"></a>00111 <span class="keyword">static</span> <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a> i, c;
+<a name="l00112"></a>00112
+<a name="l00113"></a>00113 <span class="keyword">static</span> <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a> arptime;
+<a name="l00114"></a>00114 <span class="keyword">static</span> <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a> tmpage;
+<a name="l00115"></a>00115
 <a name="l00116"></a><a class="code" href="a00152.html#g24f52ac52d6e714cb04a5aa01be3bdd0">00116</a> <span class="preprocessor">#define BUF   ((struct arp_hdr *)&amp;uip_buf[0])</span>
 <a name="l00117"></a><a class="code" href="a00152.html#g9f2196e2705036869611962425e404bf">00117</a> <span class="preprocessor"></span><span class="preprocessor">#define IPBUF ((struct ethip_hdr *)&amp;uip_buf[0])</span>
 <a name="l00118"></a>00118 <span class="preprocessor"></span><span class="comment">/*-----------------------------------------------------------------------------------*/</span><span class="comment"></span>
@@ -162,7 +162,7 @@
 <a name="l00142"></a><a class="code" href="a00152.html#g058a8e6025f67b021862281f1911fcef">00142</a> <a class="code" href="a00152.html#g058a8e6025f67b021862281f1911fcef">uip_arp_timer</a>(<span class="keywordtype">void</span>)
 <a name="l00143"></a>00143 {
 <a name="l00144"></a>00144   <span class="keyword">struct </span>arp_entry *tabptr;
-<a name="l00145"></a>00145   
+<a name="l00145"></a>00145
 <a name="l00146"></a>00146   ++arptime;
 <a name="l00147"></a>00147   <span class="keywordflow">for</span>(i = 0; i &lt; <a class="code" href="a00153.html#gb1455b27c06532a399cf06d2c1d6d08d">UIP_ARPTAB_SIZE</a>; ++i) {
 <a name="l00148"></a>00148     tabptr = &amp;arp_table[i];
@@ -171,7 +171,7 @@
 <a name="l00151"></a>00151       memset(tabptr-&gt;ipaddr, 0, 4);
 <a name="l00152"></a>00152     }
 <a name="l00153"></a>00153   }
-<a name="l00154"></a>00154 
+<a name="l00154"></a>00154
 <a name="l00155"></a>00155 }
 <a name="l00156"></a>00156 <span class="comment">/*-----------------------------------------------------------------------------------*/</span>
 <a name="l00157"></a>00157 <span class="keyword">static</span> <span class="keywordtype">void</span>
@@ -182,29 +182,29 @@
 <a name="l00162"></a>00162 <span class="comment">     update. If none is found, the IP -&gt; MAC address mapping is</span>
 <a name="l00163"></a>00163 <span class="comment">     inserted in the ARP table. */</span>
 <a name="l00164"></a>00164   <span class="keywordflow">for</span>(i = 0; i &lt; <a class="code" href="a00153.html#gb1455b27c06532a399cf06d2c1d6d08d">UIP_ARPTAB_SIZE</a>; ++i) {
-<a name="l00165"></a>00165 
+<a name="l00165"></a>00165
 <a name="l00166"></a>00166     tabptr = &amp;arp_table[i];
 <a name="l00167"></a>00167     <span class="comment">/* Only check those entries that are actually in use. */</span>
 <a name="l00168"></a>00168     <span class="keywordflow">if</span>(tabptr-&gt;ipaddr[0] != 0 &amp;&amp;
 <a name="l00169"></a>00169        tabptr-&gt;ipaddr[1] != 0) {
-<a name="l00170"></a>00170 
+<a name="l00170"></a>00170
 <a name="l00171"></a>00171       <span class="comment">/* Check if the source IP address of the incoming packet matches</span>
 <a name="l00172"></a>00172 <span class="comment">         the IP address in this ARP table entry. */</span>
 <a name="l00173"></a>00173       <span class="keywordflow">if</span>(ipaddr[0] == tabptr-&gt;ipaddr[0] &amp;&amp;
 <a name="l00174"></a>00174          ipaddr[1] == tabptr-&gt;ipaddr[1]) {
-<a name="l00175"></a>00175          
+<a name="l00175"></a>00175
 <a name="l00176"></a>00176         <span class="comment">/* An old entry found, update this and return. */</span>
 <a name="l00177"></a>00177         memcpy(tabptr-&gt;ethaddr.addr, ethaddr-&gt;<a class="code" href="a00089.html#aacd5fa1806e0f0dd0bc96dd36507ad8">addr</a>, 6);
 <a name="l00178"></a>00178         tabptr-&gt;time = arptime;
-<a name="l00179"></a>00179 
+<a name="l00179"></a>00179
 <a name="l00180"></a>00180         <span class="keywordflow">return</span>;
 <a name="l00181"></a>00181       }
 <a name="l00182"></a>00182     }
 <a name="l00183"></a>00183   }
-<a name="l00184"></a>00184 
+<a name="l00184"></a>00184
 <a name="l00185"></a>00185   <span class="comment">/* If we get here, no existing ARP table entry was found, so we</span>
 <a name="l00186"></a>00186 <span class="comment">     create one. */</span>
-<a name="l00187"></a>00187 
+<a name="l00187"></a>00187
 <a name="l00188"></a>00188   <span class="comment">/* First, we try to find an unused entry in the ARP table. */</span>
 <a name="l00189"></a>00189   <span class="keywordflow">for</span>(i = 0; i &lt; <a class="code" href="a00153.html#gb1455b27c06532a399cf06d2c1d6d08d">UIP_ARPTAB_SIZE</a>; ++i) {
 <a name="l00190"></a>00190     tabptr = &amp;arp_table[i];
@@ -213,7 +213,7 @@
 <a name="l00193"></a>00193       <span class="keywordflow">break</span>;
 <a name="l00194"></a>00194     }
 <a name="l00195"></a>00195   }
-<a name="l00196"></a>00196 
+<a name="l00196"></a>00196
 <a name="l00197"></a>00197   <span class="comment">/* If no unused entry is found, we try to find the oldest entry and</span>
 <a name="l00198"></a>00198 <span class="comment">     throw it away. */</span>
 <a name="l00199"></a>00199   <span class="keywordflow">if</span>(i == <a class="code" href="a00153.html#gb1455b27c06532a399cf06d2c1d6d08d">UIP_ARPTAB_SIZE</a>) {
@@ -229,7 +229,7 @@
 <a name="l00209"></a>00209     i = c;
 <a name="l00210"></a>00210     tabptr = &amp;arp_table[i];
 <a name="l00211"></a>00211   }
-<a name="l00212"></a>00212 
+<a name="l00212"></a>00212
 <a name="l00213"></a>00213   <span class="comment">/* Now, i is the ARP table entry which we will fill with the new</span>
 <a name="l00214"></a>00214 <span class="comment">     information. */</span>
 <a name="l00215"></a>00215   memcpy(tabptr-&gt;ipaddr, ipaddr, 4);
@@ -255,7 +255,7 @@
 <a name="l00235"></a>00235 <a class="code" href="a00152.html#g737337d6a51e31b236c8233d024138a8">uip_arp_ipin</a>(<span class="keywordtype">void</span>)
 <a name="l00236"></a>00236 {
 <a name="l00237"></a>00237   <a class="code" href="a00149.html#g12a33f0c09711167bdf3dd7d7cf8c5a1">uip_len</a> -= <span class="keyword">sizeof</span>(<span class="keyword">struct </span><a class="code" href="a00090.html">uip_eth_hdr</a>);
-<a name="l00238"></a>00238         
+<a name="l00238"></a>00238
 <a name="l00239"></a>00239   <span class="comment">/* Only insert/update an entry if the source IP address of the</span>
 <a name="l00240"></a>00240 <span class="comment">     incoming IP packet comes from a host on the local network. */</span>
 <a name="l00241"></a>00241   <span class="keywordflow">if</span>((<a class="code" href="a00152.html#g9f2196e2705036869611962425e404bf">IPBUF</a>-&gt;srcipaddr[0] &amp; <a class="code" href="a00150.html#g3237be0d9ec457de0177689ee23c0d5c">uip_netmask</a>[0]) !=
@@ -267,7 +267,7 @@
 <a name="l00247"></a>00247     <span class="keywordflow">return</span>;
 <a name="l00248"></a>00248   }
 <a name="l00249"></a>00249   uip_arp_update(<a class="code" href="a00152.html#g9f2196e2705036869611962425e404bf">IPBUF</a>-&gt;srcipaddr, &amp;(<a class="code" href="a00152.html#g9f2196e2705036869611962425e404bf">IPBUF</a>-&gt;ethhdr.src));
-<a name="l00250"></a>00250   
+<a name="l00250"></a>00250
 <a name="l00251"></a>00251   <span class="keywordflow">return</span>;
 <a name="l00252"></a>00252 }
 <a name="l00253"></a>00253 <span class="preprocessor">#endif </span><span class="comment">/* 0 */</span>
@@ -297,13 +297,13 @@
 <a name="l00277"></a>00277 <span class="keywordtype">void</span>
 <a name="l00278"></a><a class="code" href="a00152.html#g902c4a360134096224bc2655f623aa5f">00278</a> <a class="code" href="a00152.html#g902c4a360134096224bc2655f623aa5f">uip_arp_arpin</a>(<span class="keywordtype">void</span>)
 <a name="l00279"></a>00279 {
-<a name="l00280"></a>00280   
+<a name="l00280"></a>00280
 <a name="l00281"></a>00281   <span class="keywordflow">if</span>(<a class="code" href="a00149.html#g12a33f0c09711167bdf3dd7d7cf8c5a1">uip_len</a> &lt; <span class="keyword">sizeof</span>(<span class="keyword">struct</span> arp_hdr)) {
 <a name="l00282"></a>00282     <a class="code" href="a00149.html#g12a33f0c09711167bdf3dd7d7cf8c5a1">uip_len</a> = 0;
 <a name="l00283"></a>00283     <span class="keywordflow">return</span>;
 <a name="l00284"></a>00284   }
 <a name="l00285"></a>00285   <a class="code" href="a00149.html#g12a33f0c09711167bdf3dd7d7cf8c5a1">uip_len</a> = 0;
-<a name="l00286"></a>00286   
+<a name="l00286"></a>00286
 <a name="l00287"></a>00287   <span class="keywordflow">switch</span>(<a class="code" href="a00150.html#g24f52ac52d6e714cb04a5aa01be3bdd0">BUF</a>-&gt;opcode) {
 <a name="l00288"></a>00288   <span class="keywordflow">case</span> <a class="code" href="a00148.html#g69a7a4951ff21b302267532c21ee78fc">HTONS</a>(<a class="code" href="a00152.html#g7a7c46ffaba30477b8c9e3e61bd2e106">ARP_REQUEST</a>):
 <a name="l00289"></a>00289     <span class="comment">/* ARP request. If it asked for our address, we send out a</span>
@@ -313,20 +313,20 @@
 <a name="l00293"></a>00293 <span class="comment">         table, since it is likely that we will do more communication</span>
 <a name="l00294"></a>00294 <span class="comment">         with this host in the future. */</span>
 <a name="l00295"></a>00295       uip_arp_update(<a class="code" href="a00150.html#g24f52ac52d6e714cb04a5aa01be3bdd0">BUF</a>-&gt;sipaddr, &amp;<a class="code" href="a00150.html#g24f52ac52d6e714cb04a5aa01be3bdd0">BUF</a>-&gt;shwaddr);
-<a name="l00296"></a>00296       
+<a name="l00296"></a>00296
 <a name="l00297"></a>00297       <span class="comment">/* The reply opcode is 2. */</span>
 <a name="l00298"></a>00298       <a class="code" href="a00150.html#g24f52ac52d6e714cb04a5aa01be3bdd0">BUF</a>-&gt;opcode = <a class="code" href="a00148.html#g69a7a4951ff21b302267532c21ee78fc">HTONS</a>(2);
-<a name="l00299"></a>00299 
+<a name="l00299"></a>00299
 <a name="l00300"></a>00300       memcpy(<a class="code" href="a00150.html#g24f52ac52d6e714cb04a5aa01be3bdd0">BUF</a>-&gt;dhwaddr.addr, <a class="code" href="a00150.html#g24f52ac52d6e714cb04a5aa01be3bdd0">BUF</a>-&gt;shwaddr.addr, 6);
 <a name="l00301"></a>00301       memcpy(<a class="code" href="a00150.html#g24f52ac52d6e714cb04a5aa01be3bdd0">BUF</a>-&gt;shwaddr.addr, <a class="code" href="a00150.html#g499bb98a0b4ae9a98553ede81317606d">uip_ethaddr</a>.<a class="code" href="a00089.html#aacd5fa1806e0f0dd0bc96dd36507ad8">addr</a>, 6);
 <a name="l00302"></a>00302       memcpy(<a class="code" href="a00150.html#g24f52ac52d6e714cb04a5aa01be3bdd0">BUF</a>-&gt;ethhdr.src.addr, <a class="code" href="a00150.html#g499bb98a0b4ae9a98553ede81317606d">uip_ethaddr</a>.<a class="code" href="a00089.html#aacd5fa1806e0f0dd0bc96dd36507ad8">addr</a>, 6);
 <a name="l00303"></a>00303       memcpy(<a class="code" href="a00150.html#g24f52ac52d6e714cb04a5aa01be3bdd0">BUF</a>-&gt;ethhdr.dest.addr, <a class="code" href="a00150.html#g24f52ac52d6e714cb04a5aa01be3bdd0">BUF</a>-&gt;dhwaddr.addr, 6);
-<a name="l00304"></a>00304       
+<a name="l00304"></a>00304
 <a name="l00305"></a>00305       <a class="code" href="a00150.html#g24f52ac52d6e714cb04a5aa01be3bdd0">BUF</a>-&gt;dipaddr[0] = <a class="code" href="a00150.html#g24f52ac52d6e714cb04a5aa01be3bdd0">BUF</a>-&gt;sipaddr[0];
 <a name="l00306"></a>00306       <a class="code" href="a00150.html#g24f52ac52d6e714cb04a5aa01be3bdd0">BUF</a>-&gt;dipaddr[1] = <a class="code" href="a00150.html#g24f52ac52d6e714cb04a5aa01be3bdd0">BUF</a>-&gt;sipaddr[1];
 <a name="l00307"></a>00307       <a class="code" href="a00150.html#g24f52ac52d6e714cb04a5aa01be3bdd0">BUF</a>-&gt;sipaddr[0] = <a class="code" href="a00150.html#g7d3673f52f5846b6961d23b150decd54">uip_hostaddr</a>[0];
 <a name="l00308"></a>00308       <a class="code" href="a00150.html#g24f52ac52d6e714cb04a5aa01be3bdd0">BUF</a>-&gt;sipaddr[1] = <a class="code" href="a00150.html#g7d3673f52f5846b6961d23b150decd54">uip_hostaddr</a>[1];
-<a name="l00309"></a>00309 
+<a name="l00309"></a>00309
 <a name="l00310"></a>00310       <a class="code" href="a00150.html#g24f52ac52d6e714cb04a5aa01be3bdd0">BUF</a>-&gt;ethhdr.type = <a class="code" href="a00148.html#g69a7a4951ff21b302267532c21ee78fc">HTONS</a>(<a class="code" href="a00152.html#g3e1562e8a6de32268e5df92a52152f91">UIP_ETHTYPE_ARP</a>);
 <a name="l00311"></a>00311       <a class="code" href="a00149.html#g12a33f0c09711167bdf3dd7d7cf8c5a1">uip_len</a> = <span class="keyword">sizeof</span>(<span class="keyword">struct </span>arp_hdr);
 <a name="l00312"></a>00312     }
@@ -339,7 +339,7 @@
 <a name="l00319"></a>00319     }
 <a name="l00320"></a>00320     <span class="keywordflow">break</span>;
 <a name="l00321"></a>00321   }
-<a name="l00322"></a>00322 
+<a name="l00322"></a>00322
 <a name="l00323"></a>00323   <span class="keywordflow">return</span>;
 <a name="l00324"></a>00324 }
 <a name="l00325"></a>00325 <span class="comment">/*-----------------------------------------------------------------------------------*/</span><span class="comment"></span>
@@ -374,14 +374,14 @@
 <a name="l00354"></a><a class="code" href="a00152.html#g54b27e45df15e10a0eb1a3e3a91417d2">00354</a> <a class="code" href="a00152.html#g54b27e45df15e10a0eb1a3e3a91417d2">uip_arp_out</a>(<span class="keywordtype">void</span>)
 <a name="l00355"></a>00355 {
 <a name="l00356"></a>00356   <span class="keyword">struct </span>arp_entry *tabptr;
-<a name="l00357"></a>00357   
+<a name="l00357"></a>00357
 <a name="l00358"></a>00358   <span class="comment">/* Find the destination IP address in the ARP table and construct</span>
 <a name="l00359"></a>00359 <span class="comment">     the Ethernet header. If the destination IP addres isn't on the</span>
 <a name="l00360"></a>00360 <span class="comment">     local network, we use the default router's IP address instead.</span>
 <a name="l00361"></a>00361 <span class="comment"></span>
 <a name="l00362"></a>00362 <span class="comment">     If not ARP table entry is found, we overwrite the original IP</span>
 <a name="l00363"></a>00363 <span class="comment">     packet with an ARP request for the IP address. */</span>
-<a name="l00364"></a>00364 
+<a name="l00364"></a>00364
 <a name="l00365"></a>00365   <span class="comment">/* First check if destination is a local broadcast. */</span>
 <a name="l00366"></a>00366   <span class="keywordflow">if</span>(<a class="code" href="a00148.html#g210e629f7252e4bc8458cbdf260b3318">uip_ipaddr_cmp</a>(<a class="code" href="a00152.html#g9f2196e2705036869611962425e404bf">IPBUF</a>-&gt;destipaddr, broadcast_ipaddr)) {
 <a name="l00367"></a>00367     memcpy(<a class="code" href="a00152.html#g9f2196e2705036869611962425e404bf">IPBUF</a>-&gt;ethhdr.dest.addr, broadcast_ethaddr.<a class="code" href="a00089.html#aacd5fa1806e0f0dd0bc96dd36507ad8">addr</a>, 6);
@@ -396,23 +396,23 @@
 <a name="l00376"></a>00376       <span class="comment">/* Else, we use the destination IP address. */</span>
 <a name="l00377"></a>00377       <a class="code" href="a00148.html#g769512993b7b27271909d6daa4748b60">uip_ipaddr_copy</a>(ipaddr, <a class="code" href="a00152.html#g9f2196e2705036869611962425e404bf">IPBUF</a>-&gt;destipaddr);
 <a name="l00378"></a>00378     }
-<a name="l00379"></a>00379       
+<a name="l00379"></a>00379
 <a name="l00380"></a>00380     <span class="keywordflow">for</span>(i = 0; i &lt; <a class="code" href="a00153.html#gb1455b27c06532a399cf06d2c1d6d08d">UIP_ARPTAB_SIZE</a>; ++i) {
 <a name="l00381"></a>00381       tabptr = &amp;arp_table[i];
 <a name="l00382"></a>00382       <span class="keywordflow">if</span>(<a class="code" href="a00148.html#g210e629f7252e4bc8458cbdf260b3318">uip_ipaddr_cmp</a>(ipaddr, tabptr-&gt;ipaddr)) {
 <a name="l00383"></a>00383         <span class="keywordflow">break</span>;
 <a name="l00384"></a>00384       }
 <a name="l00385"></a>00385     }
-<a name="l00386"></a>00386 
+<a name="l00386"></a>00386
 <a name="l00387"></a>00387     <span class="keywordflow">if</span>(i == <a class="code" href="a00153.html#gb1455b27c06532a399cf06d2c1d6d08d">UIP_ARPTAB_SIZE</a>) {
 <a name="l00388"></a>00388       <span class="comment">/* The destination address was not in our ARP table, so we</span>
 <a name="l00389"></a>00389 <span class="comment">         overwrite the IP packet with an ARP request. */</span>
-<a name="l00390"></a>00390 
+<a name="l00390"></a>00390
 <a name="l00391"></a>00391       memset(<a class="code" href="a00150.html#g24f52ac52d6e714cb04a5aa01be3bdd0">BUF</a>-&gt;ethhdr.dest.addr, 0xff, 6);
 <a name="l00392"></a>00392       memset(<a class="code" href="a00150.html#g24f52ac52d6e714cb04a5aa01be3bdd0">BUF</a>-&gt;dhwaddr.addr, 0x00, 6);
 <a name="l00393"></a>00393       memcpy(<a class="code" href="a00150.html#g24f52ac52d6e714cb04a5aa01be3bdd0">BUF</a>-&gt;ethhdr.src.addr, <a class="code" href="a00150.html#g499bb98a0b4ae9a98553ede81317606d">uip_ethaddr</a>.<a class="code" href="a00089.html#aacd5fa1806e0f0dd0bc96dd36507ad8">addr</a>, 6);
 <a name="l00394"></a>00394       memcpy(<a class="code" href="a00150.html#g24f52ac52d6e714cb04a5aa01be3bdd0">BUF</a>-&gt;shwaddr.addr, <a class="code" href="a00150.html#g499bb98a0b4ae9a98553ede81317606d">uip_ethaddr</a>.<a class="code" href="a00089.html#aacd5fa1806e0f0dd0bc96dd36507ad8">addr</a>, 6);
-<a name="l00395"></a>00395     
+<a name="l00395"></a>00395
 <a name="l00396"></a>00396       <a class="code" href="a00148.html#g769512993b7b27271909d6daa4748b60">uip_ipaddr_copy</a>(<a class="code" href="a00150.html#g24f52ac52d6e714cb04a5aa01be3bdd0">BUF</a>-&gt;dipaddr, ipaddr);
 <a name="l00397"></a>00397       <a class="code" href="a00148.html#g769512993b7b27271909d6daa4748b60">uip_ipaddr_copy</a>(<a class="code" href="a00150.html#g24f52ac52d6e714cb04a5aa01be3bdd0">BUF</a>-&gt;sipaddr, <a class="code" href="a00150.html#g7d3673f52f5846b6961d23b150decd54">uip_hostaddr</a>);
 <a name="l00398"></a>00398       <a class="code" href="a00150.html#g24f52ac52d6e714cb04a5aa01be3bdd0">BUF</a>-&gt;opcode = <a class="code" href="a00148.html#g69a7a4951ff21b302267532c21ee78fc">HTONS</a>(<a class="code" href="a00152.html#g7a7c46ffaba30477b8c9e3e61bd2e106">ARP_REQUEST</a>); <span class="comment">/* ARP request. */</span>
@@ -421,20 +421,20 @@
 <a name="l00401"></a>00401       <a class="code" href="a00150.html#g24f52ac52d6e714cb04a5aa01be3bdd0">BUF</a>-&gt;hwlen = 6;
 <a name="l00402"></a>00402       <a class="code" href="a00150.html#g24f52ac52d6e714cb04a5aa01be3bdd0">BUF</a>-&gt;protolen = 4;
 <a name="l00403"></a>00403       <a class="code" href="a00150.html#g24f52ac52d6e714cb04a5aa01be3bdd0">BUF</a>-&gt;ethhdr.type = <a class="code" href="a00148.html#g69a7a4951ff21b302267532c21ee78fc">HTONS</a>(<a class="code" href="a00152.html#g3e1562e8a6de32268e5df92a52152f91">UIP_ETHTYPE_ARP</a>);
-<a name="l00404"></a>00404 
+<a name="l00404"></a>00404
 <a name="l00405"></a>00405       <a class="code" href="a00150.html#g561b8eda32e059d4e7397f776268cc63">uip_appdata</a> = &amp;<a class="code" href="a00146.html#gb81e78f890dbbee50c533a9734b74fd9">uip_buf</a>[<a class="code" href="a00150.html#gee37386b2ab828787c05227eb109def7">UIP_TCPIP_HLEN</a> + <a class="code" href="a00153.html#ge6f4a2453dbd8bc60e6a82774552366a">UIP_LLH_LEN</a>];
-<a name="l00406"></a>00406     
+<a name="l00406"></a>00406
 <a name="l00407"></a>00407       <a class="code" href="a00149.html#g12a33f0c09711167bdf3dd7d7cf8c5a1">uip_len</a> = <span class="keyword">sizeof</span>(<span class="keyword">struct </span>arp_hdr);
 <a name="l00408"></a>00408       <span class="keywordflow">return</span>;
 <a name="l00409"></a>00409     }
-<a name="l00410"></a>00410 
+<a name="l00410"></a>00410
 <a name="l00411"></a>00411     <span class="comment">/* Build an ethernet header. */</span>
 <a name="l00412"></a>00412     memcpy(<a class="code" href="a00152.html#g9f2196e2705036869611962425e404bf">IPBUF</a>-&gt;ethhdr.dest.addr, tabptr-&gt;ethaddr.addr, 6);
 <a name="l00413"></a>00413   }
 <a name="l00414"></a>00414   memcpy(<a class="code" href="a00152.html#g9f2196e2705036869611962425e404bf">IPBUF</a>-&gt;ethhdr.src.addr, <a class="code" href="a00150.html#g499bb98a0b4ae9a98553ede81317606d">uip_ethaddr</a>.<a class="code" href="a00089.html#aacd5fa1806e0f0dd0bc96dd36507ad8">addr</a>, 6);
-<a name="l00415"></a>00415   
+<a name="l00415"></a>00415
 <a name="l00416"></a>00416   <a class="code" href="a00152.html#g9f2196e2705036869611962425e404bf">IPBUF</a>-&gt;ethhdr.type = <a class="code" href="a00148.html#g69a7a4951ff21b302267532c21ee78fc">HTONS</a>(<a class="code" href="a00152.html#g03d140db75de3d3cdfbbab1c4fed8d8d">UIP_ETHTYPE_IP</a>);
-<a name="l00417"></a>00417 
+<a name="l00417"></a>00417
 <a name="l00418"></a>00418   <a class="code" href="a00149.html#g12a33f0c09711167bdf3dd7d7cf8c5a1">uip_len</a> += <span class="keyword">sizeof</span>(<span class="keyword">struct </span><a class="code" href="a00090.html">uip_eth_hdr</a>);
 <a name="l00419"></a>00419 }
 <a name="l00420"></a>00420 <span class="comment">/*-----------------------------------------------------------------------------------*/</span>

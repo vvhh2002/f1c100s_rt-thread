@@ -45,7 +45,7 @@
 <a name="l00025"></a>00025 <span class="comment"> *</span>
 <a name="l00026"></a>00026 <span class="comment"> * This file implements a DNS host name to IP address resolver.</span>
 <a name="l00027"></a>00027 <span class="comment"> */</span>
-<a name="l00028"></a>00028 
+<a name="l00028"></a>00028
 <a name="l00029"></a>00029 <span class="comment">/*</span>
 <a name="l00030"></a>00030 <span class="comment"> * Copyright (c) 2002-2003, Adam Dunkels.</span>
 <a name="l00031"></a>00031 <span class="comment"> * All rights reserved.</span>
@@ -79,12 +79,12 @@
 <a name="l00059"></a>00059 <span class="comment"> * $Id: resolv.c,v 1.5 2006/06/11 21:46:37 adam Exp $</span>
 <a name="l00060"></a>00060 <span class="comment"> *</span>
 <a name="l00061"></a>00061 <span class="comment"> */</span>
-<a name="l00062"></a>00062 
+<a name="l00062"></a>00062
 <a name="l00063"></a>00063 <span class="preprocessor">#include "<a class="code" href="a00103.html">resolv.h</a>"</span>
 <a name="l00064"></a>00064 <span class="preprocessor">#include "<a class="code" href="a00136.html">uip.h</a>"</span>
-<a name="l00065"></a>00065 
+<a name="l00065"></a>00065
 <a name="l00066"></a>00066 <span class="preprocessor">#include &lt;string.h&gt;</span>
-<a name="l00067"></a>00067 
+<a name="l00067"></a>00067
 <a name="l00068"></a>00068 <span class="preprocessor">#ifndef NULL</span>
 <a name="l00069"></a><a class="code" href="a00160.html#g070d2ce7b6bb7e5c05602aa8c308d0c4">00069</a> <span class="preprocessor"></span><span class="preprocessor">#define NULL (void *)0</span>
 <a name="l00070"></a>00070 <span class="preprocessor"></span><span class="preprocessor">#endif </span><span class="comment">/* NULL */</span>
@@ -95,7 +95,7 @@
 <a name="l00075"></a>00075 <span class="comment">/** \internal The DNS message header. */</span>
 <a name="l00076"></a>00076 <span class="keyword">struct </span>dns_hdr {
 <a name="l00077"></a>00077   <a class="code" href="a00153.html#g77570ac4fcab86864fa1916e55676da2">u16_t</a> id;
-<a name="l00078"></a>00078   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a> flags1, flags2;
+<a name="l00078"></a>00078   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a> flags1, flags2;
 <a name="l00079"></a><a class="code" href="a00102.html#96eb4534b574ece96ed36806039f73d3">00079</a> <span class="preprocessor">#define DNS_FLAG1_RESPONSE        0x80</span>
 <a name="l00080"></a><a class="code" href="a00102.html#4350350ce0d4595876743d4c0a720bcc">00080</a> <span class="preprocessor"></span><span class="preprocessor">#define DNS_FLAG1_OPCODE_STATUS   0x10</span>
 <a name="l00081"></a><a class="code" href="a00102.html#e7250008b68d1909d54040515eef8ebb">00081</a> <span class="preprocessor"></span><span class="preprocessor">#define DNS_FLAG1_OPCODE_INVERSE  0x08</span>
@@ -123,36 +123,36 @@
 <a name="l00103"></a>00103   <a class="code" href="a00153.html#g77570ac4fcab86864fa1916e55676da2">u16_t</a> len;
 <a name="l00104"></a>00104   <a class="code" href="a00150.html#g1ef35301f43a5bbb9f89f07b5a36b9a0">uip_ipaddr_t</a> ipaddr;
 <a name="l00105"></a>00105 };
-<a name="l00106"></a>00106 
+<a name="l00106"></a>00106
 <a name="l00107"></a>00107 <span class="keyword">struct </span>namemap {
 <a name="l00108"></a><a class="code" href="a00102.html#ee60b8757bacab269b0ccd7c240bf01d">00108</a> <span class="preprocessor">#define STATE_UNUSED 0</span>
 <a name="l00109"></a><a class="code" href="a00102.html#bf4401501f1389872141a78b63f325a3">00109</a> <span class="preprocessor"></span><span class="preprocessor">#define STATE_NEW    1</span>
 <a name="l00110"></a><a class="code" href="a00102.html#55735650f879293d9b7b5fda6753d147">00110</a> <span class="preprocessor"></span><span class="preprocessor">#define STATE_ASKING 2</span>
 <a name="l00111"></a><a class="code" href="a00102.html#876c82c946543cd70c141e41417138e0">00111</a> <span class="preprocessor"></span><span class="preprocessor">#define STATE_DONE   3</span>
 <a name="l00112"></a><a class="code" href="a00102.html#7bf0c086c7c41c12cc63324327932d91">00112</a> <span class="preprocessor"></span><span class="preprocessor">#define STATE_ERROR  4</span>
-<a name="l00113"></a>00113 <span class="preprocessor"></span>  <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a> state;
-<a name="l00114"></a>00114   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a> tmr;
-<a name="l00115"></a>00115   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a> retries;
-<a name="l00116"></a>00116   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a> seqno;
-<a name="l00117"></a>00117   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a> err;
+<a name="l00113"></a>00113 <span class="preprocessor"></span>  <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a> state;
+<a name="l00114"></a>00114   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a> tmr;
+<a name="l00115"></a>00115   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a> retries;
+<a name="l00116"></a>00116   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a> seqno;
+<a name="l00117"></a>00117   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a> err;
 <a name="l00118"></a>00118   <span class="keywordtype">char</span> name[32];
 <a name="l00119"></a>00119   <a class="code" href="a00150.html#g1ef35301f43a5bbb9f89f07b5a36b9a0">uip_ipaddr_t</a> ipaddr;
 <a name="l00120"></a>00120 };
-<a name="l00121"></a>00121 
+<a name="l00121"></a>00121
 <a name="l00122"></a>00122 <span class="preprocessor">#ifndef UIP_CONF_RESOLV_ENTRIES</span>
 <a name="l00123"></a><a class="code" href="a00160.html#g221d37ccde7e3fd0dd2c2eb0a6b15493">00123</a> <span class="preprocessor"></span><span class="preprocessor">#define RESOLV_ENTRIES 4</span>
 <a name="l00124"></a>00124 <span class="preprocessor"></span><span class="preprocessor">#else </span><span class="comment">/* UIP_CONF_RESOLV_ENTRIES */</span>
 <a name="l00125"></a>00125 <span class="preprocessor">#define RESOLV_ENTRIES UIP_CONF_RESOLV_ENTRIES</span>
 <a name="l00126"></a>00126 <span class="preprocessor"></span><span class="preprocessor">#endif </span><span class="comment">/* UIP_CONF_RESOLV_ENTRIES */</span>
-<a name="l00127"></a>00127 
-<a name="l00128"></a>00128 
+<a name="l00127"></a>00127
+<a name="l00128"></a>00128
 <a name="l00129"></a>00129 <span class="keyword">static</span> <span class="keyword">struct </span>namemap names[<a class="code" href="a00160.html#g221d37ccde7e3fd0dd2c2eb0a6b15493">RESOLV_ENTRIES</a>];
-<a name="l00130"></a>00130 
-<a name="l00131"></a>00131 <span class="keyword">static</span> <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a> seqno;
-<a name="l00132"></a>00132 
+<a name="l00130"></a>00130
+<a name="l00131"></a>00131 <span class="keyword">static</span> <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a> seqno;
+<a name="l00132"></a>00132
 <a name="l00133"></a>00133 <span class="keyword">static</span> <span class="keyword">struct </span><a class="code" href="a00095.html">uip_udp_conn</a> *resolv_conn = <a class="code" href="a00160.html#g070d2ce7b6bb7e5c05602aa8c308d0c4">NULL</a>;
-<a name="l00134"></a>00134 
-<a name="l00135"></a>00135 
+<a name="l00134"></a>00134
+<a name="l00135"></a>00135
 <a name="l00136"></a>00136 <span class="comment">/*---------------------------------------------------------------------------*/</span><span class="comment"></span>
 <a name="l00137"></a>00137 <span class="comment">/** \internal</span>
 <a name="l00138"></a>00138 <span class="comment"> * Walk through a compact encoded DNS name and return the end of it.</span>
@@ -164,10 +164,10 @@
 <a name="l00144"></a>00144 parse_name(<span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> *query)
 <a name="l00145"></a>00145 {
 <a name="l00146"></a>00146   <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> n;
-<a name="l00147"></a>00147 
+<a name="l00147"></a>00147
 <a name="l00148"></a>00148   <span class="keywordflow">do</span> {
 <a name="l00149"></a>00149     n = *query++;
-<a name="l00150"></a>00150     
+<a name="l00150"></a>00150
 <a name="l00151"></a>00151     <span class="keywordflow">while</span>(n &gt; 0) {
 <a name="l00152"></a>00152       <span class="comment">/*      printf("%c", *query);*/</span>
 <a name="l00153"></a>00153       ++query;
@@ -189,10 +189,10 @@
 <a name="l00169"></a>00169 {
 <a name="l00170"></a>00170   <span class="keyword">register</span> <span class="keyword">struct </span>dns_hdr *hdr;
 <a name="l00171"></a>00171   <span class="keywordtype">char</span> *query, *nptr, *nameptr;
-<a name="l00172"></a>00172   <span class="keyword">static</span> <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a> i;
-<a name="l00173"></a>00173   <span class="keyword">static</span> <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a> n;
+<a name="l00172"></a>00172   <span class="keyword">static</span> <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a> i;
+<a name="l00173"></a>00173   <span class="keyword">static</span> <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a> n;
 <a name="l00174"></a>00174   <span class="keyword">register</span> <span class="keyword">struct </span>namemap *namemapptr;
-<a name="l00175"></a>00175   
+<a name="l00175"></a>00175
 <a name="l00176"></a>00176   <span class="keywordflow">for</span>(i = 0; i &lt; <a class="code" href="a00160.html#g221d37ccde7e3fd0dd2c2eb0a6b15493">RESOLV_ENTRIES</a>; ++i) {
 <a name="l00177"></a>00177     namemapptr = &amp;names[i];
 <a name="l00178"></a>00178     <span class="keywordflow">if</span>(namemapptr-&gt;state == <a class="code" href="a00102.html#bf4401501f1389872141a78b63f325a3">STATE_NEW</a> ||
@@ -257,10 +257,10 @@
 <a name="l00237"></a>00237   <span class="keywordtype">char</span> *nameptr;
 <a name="l00238"></a>00238   <span class="keyword">struct </span>dns_answer *ans;
 <a name="l00239"></a>00239   <span class="keyword">struct </span>dns_hdr *hdr;
-<a name="l00240"></a>00240   <span class="keyword">static</span> <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a> nquestions, nanswers;
-<a name="l00241"></a>00241   <span class="keyword">static</span> <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a> i;
+<a name="l00240"></a>00240   <span class="keyword">static</span> <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a> nquestions, nanswers;
+<a name="l00241"></a>00241   <span class="keyword">static</span> <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a> i;
 <a name="l00242"></a>00242   <span class="keyword">register</span> <span class="keyword">struct </span>namemap *namemapptr;
-<a name="l00243"></a>00243   
+<a name="l00243"></a>00243
 <a name="l00244"></a>00244   hdr = (<span class="keyword">struct </span>dns_hdr *)<a class="code" href="a00150.html#g561b8eda32e059d4e7397f776268cc63">uip_appdata</a>;
 <a name="l00245"></a>00245   <span class="comment">/*  printf("ID %d\n", htons(hdr-&gt;id));</span>
 <a name="l00246"></a>00246 <span class="comment">      printf("Query %d\n", hdr-&gt;flags1 &amp; DNS_FLAG1_RESPONSE);</span>
@@ -271,35 +271,35 @@
 <a name="l00251"></a>00251 <span class="comment">      htons(hdr-&gt;numauthrr),</span>
 <a name="l00252"></a>00252 <span class="comment">      htons(hdr-&gt;numextrarr));</span>
 <a name="l00253"></a>00253 <span class="comment">  */</span>
-<a name="l00254"></a>00254 
+<a name="l00254"></a>00254
 <a name="l00255"></a>00255   <span class="comment">/* The ID in the DNS header should be our entry into the name</span>
 <a name="l00256"></a>00256 <span class="comment">     table. */</span>
 <a name="l00257"></a>00257   i = <a class="code" href="a00148.html#ga22b04cac8cf283ca12f028578bebc06">htons</a>(hdr-&gt;id);
 <a name="l00258"></a>00258   namemapptr = &amp;names[i];
 <a name="l00259"></a>00259   <span class="keywordflow">if</span>(i &lt; <a class="code" href="a00160.html#g221d37ccde7e3fd0dd2c2eb0a6b15493">RESOLV_ENTRIES</a> &amp;&amp;
 <a name="l00260"></a>00260      namemapptr-&gt;state == <a class="code" href="a00102.html#55735650f879293d9b7b5fda6753d147">STATE_ASKING</a>) {
-<a name="l00261"></a>00261 
+<a name="l00261"></a>00261
 <a name="l00262"></a>00262     <span class="comment">/* This entry is now finished. */</span>
 <a name="l00263"></a>00263     namemapptr-&gt;state = <a class="code" href="a00102.html#876c82c946543cd70c141e41417138e0">STATE_DONE</a>;
 <a name="l00264"></a>00264     namemapptr-&gt;err = hdr-&gt;flags2 &amp; <a class="code" href="a00102.html#9f6c329c04baba17fe0f5b2a6597d713">DNS_FLAG2_ERR_MASK</a>;
-<a name="l00265"></a>00265 
+<a name="l00265"></a>00265
 <a name="l00266"></a>00266     <span class="comment">/* Check for error. If so, call callback to inform. */</span>
 <a name="l00267"></a>00267     <span class="keywordflow">if</span>(namemapptr-&gt;err != 0) {
 <a name="l00268"></a>00268       namemapptr-&gt;state = <a class="code" href="a00102.html#7bf0c086c7c41c12cc63324327932d91">STATE_ERROR</a>;
 <a name="l00269"></a>00269       <a class="code" href="a00160.html#g6d9751d534453425c7a5a215d1d4414c">resolv_found</a>(namemapptr-&gt;name, <a class="code" href="a00160.html#g070d2ce7b6bb7e5c05602aa8c308d0c4">NULL</a>);
 <a name="l00270"></a>00270       <span class="keywordflow">return</span>;
 <a name="l00271"></a>00271     }
-<a name="l00272"></a>00272 
+<a name="l00272"></a>00272
 <a name="l00273"></a>00273     <span class="comment">/* We only care about the question(s) and the answers. The authrr</span>
 <a name="l00274"></a>00274 <span class="comment">       and the extrarr are simply discarded. */</span>
 <a name="l00275"></a>00275     nquestions = <a class="code" href="a00148.html#ga22b04cac8cf283ca12f028578bebc06">htons</a>(hdr-&gt;numquestions);
 <a name="l00276"></a>00276     nanswers = <a class="code" href="a00148.html#ga22b04cac8cf283ca12f028578bebc06">htons</a>(hdr-&gt;numanswers);
-<a name="l00277"></a>00277 
+<a name="l00277"></a>00277
 <a name="l00278"></a>00278     <span class="comment">/* Skip the name in the question. XXX: This should really be</span>
 <a name="l00279"></a>00279 <span class="comment">       checked agains the name in the question, to be sure that they</span>
 <a name="l00280"></a>00280 <span class="comment">       match. */</span>
 <a name="l00281"></a>00281     nameptr = parse_name((<span class="keywordtype">char</span> *)<a class="code" href="a00150.html#g561b8eda32e059d4e7397f776268cc63">uip_appdata</a> + 12) + 4;
-<a name="l00282"></a>00282 
+<a name="l00282"></a>00282
 <a name="l00283"></a>00283     <span class="keywordflow">while</span>(nanswers &gt; 0) {
 <a name="l00284"></a>00284       <span class="comment">/* The first byte in the answer resource record determines if it</span>
 <a name="l00285"></a>00285 <span class="comment">         is a compressed record or a normal one. */</span>
@@ -311,12 +311,12 @@
 <a name="l00291"></a>00291         <span class="comment">/* Not compressed name. */</span>
 <a name="l00292"></a>00292         nameptr = parse_name((<span class="keywordtype">char</span> *)nameptr);
 <a name="l00293"></a>00293       }
-<a name="l00294"></a>00294 
+<a name="l00294"></a>00294
 <a name="l00295"></a>00295       ans = (<span class="keyword">struct </span>dns_answer *)nameptr;
 <a name="l00296"></a>00296       <span class="comment">/*      printf("Answer: type %x, class %x, ttl %x, length %x\n",</span>
 <a name="l00297"></a>00297 <span class="comment">             htons(ans-&gt;type), htons(ans-&gt;class), (htons(ans-&gt;ttl[0])</span>
 <a name="l00298"></a>00298 <span class="comment">             &lt;&lt; 16) | htons(ans-&gt;ttl[1]), htons(ans-&gt;len));*/</span>
-<a name="l00299"></a>00299 
+<a name="l00299"></a>00299
 <a name="l00300"></a>00300       <span class="comment">/* Check for IP address type and Internet class. Others are</span>
 <a name="l00301"></a>00301 <span class="comment">         discarded. */</span>
 <a name="l00302"></a>00302       <span class="keywordflow">if</span>(ans-&gt;type == <a class="code" href="a00148.html#g69a7a4951ff21b302267532c21ee78fc">HTONS</a>(1) &amp;&amp;
@@ -331,7 +331,7 @@
 <a name="l00311"></a>00311 <span class="comment">           we want. */</span>
 <a name="l00312"></a>00312         namemapptr-&gt;ipaddr[0] = ans-&gt;ipaddr[0];
 <a name="l00313"></a>00313         namemapptr-&gt;ipaddr[1] = ans-&gt;ipaddr[1];
-<a name="l00314"></a>00314         
+<a name="l00314"></a>00314
 <a name="l00315"></a>00315         <a class="code" href="a00160.html#g6d9751d534453425c7a5a215d1d4414c">resolv_found</a>(namemapptr-&gt;name, namemapptr-&gt;ipaddr);
 <a name="l00316"></a>00316         <span class="keywordflow">return</span>;
 <a name="l00317"></a>00317       } <span class="keywordflow">else</span> {
@@ -340,7 +340,7 @@
 <a name="l00320"></a>00320       --nanswers;
 <a name="l00321"></a>00321     }
 <a name="l00322"></a>00322   }
-<a name="l00323"></a>00323 
+<a name="l00323"></a>00323
 <a name="l00324"></a>00324 }
 <a name="l00325"></a>00325 <span class="comment">/*---------------------------------------------------------------------------*/</span><span class="comment"></span>
 <a name="l00326"></a>00326 <span class="comment">/** \internal</span>
@@ -369,12 +369,12 @@
 <a name="l00349"></a>00349 <span class="keywordtype">void</span>
 <a name="l00350"></a><a class="code" href="a00160.html#ge4dcbbe6c641d2e3b8537b479df5fc99">00350</a> <a class="code" href="a00160.html#ge4dcbbe6c641d2e3b8537b479df5fc99">resolv_query</a>(<span class="keywordtype">char</span> *name)
 <a name="l00351"></a>00351 {
-<a name="l00352"></a>00352   <span class="keyword">static</span> <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a> i;
-<a name="l00353"></a>00353   <span class="keyword">static</span> <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a> lseq, lseqi;
+<a name="l00352"></a>00352   <span class="keyword">static</span> <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a> i;
+<a name="l00353"></a>00353   <span class="keyword">static</span> <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a> lseq, lseqi;
 <a name="l00354"></a>00354   <span class="keyword">register</span> <span class="keyword">struct </span>namemap *nameptr;
-<a name="l00355"></a>00355       
+<a name="l00355"></a>00355
 <a name="l00356"></a>00356   lseq = lseqi = 0;
-<a name="l00357"></a>00357   
+<a name="l00357"></a>00357
 <a name="l00358"></a>00358   <span class="keywordflow">for</span>(i = 0; i &lt; <a class="code" href="a00160.html#g221d37ccde7e3fd0dd2c2eb0a6b15493">RESOLV_ENTRIES</a>; ++i) {
 <a name="l00359"></a>00359     nameptr = &amp;names[i];
 <a name="l00360"></a>00360     <span class="keywordflow">if</span>(nameptr-&gt;state == <a class="code" href="a00102.html#ee60b8757bacab269b0ccd7c240bf01d">STATE_UNUSED</a>) {
@@ -385,14 +385,14 @@
 <a name="l00365"></a>00365       lseqi = i;
 <a name="l00366"></a>00366     }
 <a name="l00367"></a>00367   }
-<a name="l00368"></a>00368 
+<a name="l00368"></a>00368
 <a name="l00369"></a>00369   <span class="keywordflow">if</span>(i == <a class="code" href="a00160.html#g221d37ccde7e3fd0dd2c2eb0a6b15493">RESOLV_ENTRIES</a>) {
 <a name="l00370"></a>00370     i = lseqi;
 <a name="l00371"></a>00371     nameptr = &amp;names[i];
 <a name="l00372"></a>00372   }
-<a name="l00373"></a>00373 
+<a name="l00373"></a>00373
 <a name="l00374"></a>00374   <span class="comment">/*  printf("Using entry %d\n", i);*/</span>
-<a name="l00375"></a>00375 
+<a name="l00375"></a>00375
 <a name="l00376"></a>00376   strcpy(nameptr-&gt;name, name);
 <a name="l00377"></a>00377   nameptr-&gt;state = <a class="code" href="a00102.html#bf4401501f1389872141a78b63f325a3">STATE_NEW</a>;
 <a name="l00378"></a>00378   nameptr-&gt;seqno = seqno;
@@ -415,9 +415,9 @@
 <a name="l00395"></a>00395 <a class="code" href="a00153.html#g77570ac4fcab86864fa1916e55676da2">u16_t</a> *
 <a name="l00396"></a><a class="code" href="a00160.html#g66d19181ad5fe8b8f7c84d1f1d46a2ec">00396</a> <a class="code" href="a00160.html#g66d19181ad5fe8b8f7c84d1f1d46a2ec">resolv_lookup</a>(<span class="keywordtype">char</span> *name)
 <a name="l00397"></a>00397 {
-<a name="l00398"></a>00398   <span class="keyword">static</span> <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a> i;
+<a name="l00398"></a>00398   <span class="keyword">static</span> <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a> i;
 <a name="l00399"></a>00399   <span class="keyword">struct </span>namemap *nameptr;
-<a name="l00400"></a>00400   
+<a name="l00400"></a>00400
 <a name="l00401"></a>00401   <span class="comment">/* Walk through the list to see if the name is in there. If it is</span>
 <a name="l00402"></a>00402 <span class="comment">     not, we return NULL. */</span>
 <a name="l00403"></a>00403   <span class="keywordflow">for</span>(i = 0; i &lt; <a class="code" href="a00160.html#g221d37ccde7e3fd0dd2c2eb0a6b15493">RESOLV_ENTRIES</a>; ++i) {
@@ -460,7 +460,7 @@
 <a name="l00440"></a>00440   <span class="keywordflow">if</span>(resolv_conn != <a class="code" href="a00160.html#g070d2ce7b6bb7e5c05602aa8c308d0c4">NULL</a>) {
 <a name="l00441"></a>00441     <a class="code" href="a00147.html#gf2dbaceb10c67783a115075b5b6d66df">uip_udp_remove</a>(resolv_conn);
 <a name="l00442"></a>00442   }
-<a name="l00443"></a>00443   
+<a name="l00443"></a>00443
 <a name="l00444"></a>00444   resolv_conn = <a class="code" href="a00147.html#g79c4110211247df3fb30b8cf1c4c02af">uip_udp_new</a>(dnsserver, <a class="code" href="a00148.html#g69a7a4951ff21b302267532c21ee78fc">HTONS</a>(53));
 <a name="l00445"></a>00445 }
 <a name="l00446"></a>00446 <span class="comment">/*---------------------------------------------------------------------------*/</span><span class="comment"></span>
@@ -471,12 +471,12 @@
 <a name="l00451"></a>00451 <span class="keywordtype">void</span>
 <a name="l00452"></a><a class="code" href="a00160.html#gb50f78bbf36d912d69f6c1685d0b40e3">00452</a> <a class="code" href="a00160.html#gb50f78bbf36d912d69f6c1685d0b40e3">resolv_init</a>(<span class="keywordtype">void</span>)
 <a name="l00453"></a>00453 {
-<a name="l00454"></a>00454   <span class="keyword">static</span> <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a> i;
-<a name="l00455"></a>00455   
+<a name="l00454"></a>00454   <span class="keyword">static</span> <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a> i;
+<a name="l00455"></a>00455
 <a name="l00456"></a>00456   <span class="keywordflow">for</span>(i = 0; i &lt; <a class="code" href="a00160.html#g221d37ccde7e3fd0dd2c2eb0a6b15493">RESOLV_ENTRIES</a>; ++i) {
 <a name="l00457"></a>00457     names[i].state = <a class="code" href="a00102.html#876c82c946543cd70c141e41417138e0">STATE_DONE</a>;
 <a name="l00458"></a>00458   }
-<a name="l00459"></a>00459 
+<a name="l00459"></a>00459
 <a name="l00460"></a>00460 }
 <a name="l00461"></a>00461 <span class="comment">/*---------------------------------------------------------------------------*/</span>
 <a name="l00462"></a>00462 <span class="comment"></span>

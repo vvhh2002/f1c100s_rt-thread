@@ -21,7 +21,7 @@
   <LI><OBJECT type="text/sitemap"><param name="Local" value="a00153.html"><param name="Name" value="Configuration options for uIP"></OBJECT>
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="a00153.html#g77570ac4fcab86864fa1916e55676da2"><param name="Name" value="u16_t"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e"><param name="Name" value="u8_t"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e"><param name="Name" value="uint8_t"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="a00153.html#gac0de06236b02659460445de30776e00"><param name="Name" value="UIP_ACTIVE_OPEN"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="a00153.html#g3090117ef3ff5775b77cb1960e442d07"><param name="Name" value="UIP_ARP_MAXAGE"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="a00153.html#gb1455b27c06532a399cf06d2c1d6d08d"><param name="Name" value="UIP_ARPTAB_SIZE"></OBJECT>
@@ -199,7 +199,7 @@
   <LI><OBJECT type="text/sitemap"><param name="Local" value="a00156.html#gcb807bd57e5489b386b876af5c1f163a"><param name="Name" value="timer_restart"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="a00156.html#g6614d96fdfcd95c95ec6e6f63071ff51"><param name="Name" value="timer_set"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="a00153.html#g77570ac4fcab86864fa1916e55676da2"><param name="Name" value="u16_t"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e"><param name="Name" value="u8_t"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e"><param name="Name" value="uint8_t"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="a00152.html"><param name="Name" value="uIP Address Resolution Protocol"></OBJECT>
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="a00152.html#g902c4a360134096224bc2655f623aa5f"><param name="Name" value="uip_arp_arpin"></OBJECT>

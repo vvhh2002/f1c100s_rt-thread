@@ -65,8 +65,8 @@
 /** The list of RAW PCBs */
 static struct raw_pcb *raw_pcbs;
 
-static u8_t
-raw_input_local_match(struct raw_pcb *pcb, u8_t broadcast)
+static uint8_t
+raw_input_local_match(struct raw_pcb *pcb, uint8_t broadcast)
 {
   LWIP_UNUSED_ARG(broadcast); /* in IPv6 only case */
 
@@ -137,7 +137,7 @@ raw_input(struct pbuf *p, struct netif *inp)
   struct raw_pcb *pcb, *prev;
   s16_t proto;
   raw_input_state_t ret = RAW_INPUT_NONE;
-  u8_t broadcast = ip_addr_isbroadcast(ip_current_dest_addr(), ip_current_netif());
+  uint8_t broadcast = ip_addr_isbroadcast(ip_current_dest_addr(), ip_current_netif());
 
   LWIP_UNUSED_ARG(inp);
 
@@ -169,7 +169,7 @@ raw_input(struct pbuf *p, struct netif *inp)
          ip_addr_cmp(&pcb->remote_ip, ip_current_src_addr()))) {
       /* receive callback function available? */
       if (pcb->recv != NULL) {
-        u8_t eaten;
+        uint8_t eaten;
 #ifndef LWIP_NOASSERT
         void *old_payload = p->payload;
 #endif
@@ -423,7 +423,7 @@ raw_sendto_if_src(struct raw_pcb *pcb, struct pbuf *p, const ip_addr_t *dst_ip,
   err_t err;
   struct pbuf *q; /* q will be sent down the stack */
   u16_t header_size;
-  u8_t ttl;
+  uint8_t ttl;
 
   LWIP_ASSERT_CORE_LOCKED();
 
@@ -511,7 +511,7 @@ raw_sendto_if_src(struct raw_pcb *pcb, struct pbuf *p, const ip_addr_t *dst_ip,
   if (IP_IS_V6(dst_ip) && pcb->chksum_reqd) {
     u16_t chksum = ip6_chksum_pseudo(p, pcb->protocol, p->tot_len, ip_2_ip6(src_ip), ip_2_ip6(dst_ip));
     LWIP_ASSERT("Checksum must fit into first pbuf", p->len >= (pcb->chksum_offset + 2));
-    SMEMCPY(((u8_t *)p->payload) + pcb->chksum_offset, &chksum, sizeof(u16_t));
+    SMEMCPY(((uint8_t *)p->payload) + pcb->chksum_offset, &chksum, sizeof(u16_t));
   }
 #endif
 
@@ -592,7 +592,7 @@ raw_remove(struct raw_pcb *pcb)
  * @see raw_remove()
  */
 struct raw_pcb *
-raw_new(u8_t proto)
+raw_new(uint8_t proto)
 {
   struct raw_pcb *pcb;
 
@@ -631,7 +631,7 @@ raw_new(u8_t proto)
  * @see raw_remove()
  */
 struct raw_pcb *
-raw_new_ip_type(u8_t type, u8_t proto)
+raw_new_ip_type(uint8_t type, uint8_t proto)
 {
   struct raw_pcb *pcb;
   LWIP_ASSERT_CORE_LOCKED();

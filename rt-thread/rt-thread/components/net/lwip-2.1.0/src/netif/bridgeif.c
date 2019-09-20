@@ -98,11 +98,11 @@ struct bridgeif_private_s;
 typedef struct bridgeif_port_private_s {
   struct bridgeif_private_s *bridge;
   struct netif *port_netif;
-  u8_t port_num;
+  uint8_t port_num;
 } bridgeif_port_t;
 
 typedef struct bridgeif_fdb_static_entry_s {
-  u8_t used;
+  uint8_t used;
   bridgeif_portmask_t dst_ports;
   struct eth_addr addr;
 } bridgeif_fdb_static_entry_t;
@@ -110,8 +110,8 @@ typedef struct bridgeif_fdb_static_entry_s {
 typedef struct bridgeif_private_s {
   struct netif     *netif;
   struct eth_addr   ethaddr;
-  u8_t              max_ports;
-  u8_t              num_ports;
+  uint8_t              max_ports;
+  uint8_t              num_ports;
   bridgeif_port_t  *ports;
   u16_t             max_fdbs_entries;
   bridgeif_fdb_static_entry_t *fdbs;
@@ -120,7 +120,7 @@ typedef struct bridgeif_private_s {
 } bridgeif_private_t;
 
 /* netif data index to get the bridge on input */
-u8_t bridgeif_netif_client_id = 0xff;
+uint8_t bridgeif_netif_client_id = 0xff;
 
 /**
  * @ingroup bridgeif
@@ -246,7 +246,7 @@ bridgeif_is_local_mac(bridgeif_private_t *br, struct eth_addr *addr)
 
 /* Output helper function */
 static err_t
-bridgeif_send_to_port(bridgeif_private_t *br, struct pbuf *p, u8_t dstport_idx)
+bridgeif_send_to_port(bridgeif_private_t *br, struct pbuf *p, uint8_t dstport_idx)
 {
   if (dstport_idx < BRIDGEIF_MAX_PORTS) {
     /* possibly an external port */
@@ -274,7 +274,7 @@ static err_t
 bridgeif_send_to_ports(bridgeif_private_t *br, struct pbuf *p, bridgeif_portmask_t dstports)
 {
   err_t err, ret_err = ERR_OK;
-  u8_t i;
+  uint8_t i;
   bridgeif_portmask_t mask = 1;
   BRIDGEIF_DECL_PROTECT(lev);
   BRIDGEIF_READ_PROTECT(lev);
@@ -305,7 +305,7 @@ bridgeif_output(struct netif *netif, struct pbuf *p)
   err = bridgeif_send_to_ports(br, p, dstports);
 
   MIB2_STATS_NETIF_ADD(netif, ifoutoctets, p->tot_len);
-  if (((u8_t *)p->payload)[0] & 1) {
+  if (((uint8_t *)p->payload)[0] & 1) {
     /* broadcast or multicast packet*/
     MIB2_STATS_NETIF_INC(netif, ifoutnucastpkts);
   } else {
@@ -325,7 +325,7 @@ bridgeif_output(struct netif *netif, struct pbuf *p)
 static err_t
 bridgeif_input(struct pbuf *p, struct netif *netif)
 {
-  u8_t rx_idx;
+  uint8_t rx_idx;
   bridgeif_portmask_t dstports;
   struct eth_addr *src, *dst;
   bridgeif_private_t *br;
@@ -344,7 +344,7 @@ bridgeif_input(struct pbuf *p, struct netif *netif)
   p->if_idx = rx_idx;
 
   dst = (struct eth_addr *)p->payload;
-  src = (struct eth_addr *)(((u8_t *)p->payload) + sizeof(struct eth_addr));
+  src = (struct eth_addr *)(((uint8_t *)p->payload) + sizeof(struct eth_addr));
 
   if ((src->addr[0] & 1) == 0) {
     /* update src for all non-group addresses */
@@ -450,7 +450,7 @@ bridgeif_init(struct netif *netif)
   br->ports = (bridgeif_port_t *)(br + 1);
 
   br->max_fdbs_entries = init_data->max_fdb_static_entries;
-  br->fdbs = (bridgeif_fdb_static_entry_t *)(((u8_t *)(br + 1)) + (init_data->max_ports * sizeof(bridgeif_port_t)));
+  br->fdbs = (bridgeif_fdb_static_entry_t *)(((uint8_t *)(br + 1)) + (init_data->max_ports * sizeof(bridgeif_port_t)));
 
   br->max_fdbd_entries = init_data->max_fdb_dynamic_entries;
   br->fdbd = bridgeif_fdb_init(init_data->max_fdb_dynamic_entries);

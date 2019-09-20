@@ -76,7 +76,7 @@ void             tcp_txnow   (void);
 /* Only used by IP to pass a TCP segment to TCP: */
 void             tcp_input   (struct pbuf *p, struct netif *inp);
 /* Used within the TCP code only: */
-struct tcp_pcb * tcp_alloc   (u8_t prio);
+struct tcp_pcb * tcp_alloc   (uint8_t prio);
 void             tcp_free    (struct tcp_pcb *pcb);
 void             tcp_abandon (struct tcp_pcb *pcb, int reset);
 err_t            tcp_send_empty_ack(struct tcp_pcb *pcb);
@@ -85,7 +85,7 @@ err_t            tcp_rexmit_rto_prepare(struct tcp_pcb *pcb);
 void             tcp_rexmit_rto_commit(struct tcp_pcb *pcb);
 void             tcp_rexmit_rto  (struct tcp_pcb *pcb);
 void             tcp_rexmit_fast (struct tcp_pcb *pcb);
-u32_t            tcp_update_rcv_ann_wnd(struct tcp_pcb *pcb);
+uint32_t            tcp_update_rcv_ann_wnd(struct tcp_pcb *pcb);
 err_t            tcp_process_refused_data(struct tcp_pcb *pcb);
 
 /**
@@ -106,10 +106,10 @@ err_t            tcp_process_refused_data(struct tcp_pcb *pcb);
 #define tcp_output_nagle(tpcb) (tcp_do_output_nagle(tpcb) ? tcp_output(tpcb) : ERR_OK)
 
 
-#define TCP_SEQ_LT(a,b)     ((s32_t)((u32_t)(a) - (u32_t)(b)) < 0)
-#define TCP_SEQ_LEQ(a,b)    ((s32_t)((u32_t)(a) - (u32_t)(b)) <= 0)
-#define TCP_SEQ_GT(a,b)     ((s32_t)((u32_t)(a) - (u32_t)(b)) > 0)
-#define TCP_SEQ_GEQ(a,b)    ((s32_t)((u32_t)(a) - (u32_t)(b)) >= 0)
+#define TCP_SEQ_LT(a,b)     ((s32_t)((uint32_t)(a) - (uint32_t)(b)) < 0)
+#define TCP_SEQ_LEQ(a,b)    ((s32_t)((uint32_t)(a) - (uint32_t)(b)) <= 0)
+#define TCP_SEQ_GT(a,b)     ((s32_t)((uint32_t)(a) - (uint32_t)(b)) > 0)
+#define TCP_SEQ_GEQ(a,b)    ((s32_t)((uint32_t)(a) - (uint32_t)(b)) >= 0)
 /* is b<=a<=c? */
 #if 0 /* see bug #10548 */
 #define TCP_SEQ_BETWEEN(a,b,c) ((c)-(b) >= (a)-(b))
@@ -156,9 +156,9 @@ err_t            tcp_process_refused_data(struct tcp_pcb *pcb);
 
 /** Flags used on input processing, not on pcb->flags
 */
-#define TF_RESET     (u8_t)0x08U   /* Connection was reset. */
-#define TF_CLOSED    (u8_t)0x10U   /* Connection was successfully closed. */
-#define TF_GOT_FIN   (u8_t)0x20U   /* Connection was closed by the remote end. */
+#define TF_RESET     (uint8_t)0x08U   /* Connection was reset. */
+#define TF_CLOSED    (uint8_t)0x10U   /* Connection was successfully closed. */
+#define TF_GOT_FIN   (uint8_t)0x20U   /* Connection was closed by the remote end. */
 
 
 #if LWIP_EVENT_API
@@ -261,15 +261,15 @@ struct tcp_seg {
 #endif /* TCP_OVERSIZE_DBGCHECK */
 #if TCP_CHECKSUM_ON_COPY
   u16_t chksum;
-  u8_t  chksum_swapped;
+  uint8_t  chksum_swapped;
 #endif /* TCP_CHECKSUM_ON_COPY */
-  u8_t  flags;
-#define TF_SEG_OPTS_MSS         (u8_t)0x01U /* Include MSS option (only used in SYN segments) */
-#define TF_SEG_OPTS_TS          (u8_t)0x02U /* Include timestamp option. */
-#define TF_SEG_DATA_CHECKSUMMED (u8_t)0x04U /* ALL data (not the header) is
+  uint8_t  flags;
+#define TF_SEG_OPTS_MSS         (uint8_t)0x01U /* Include MSS option (only used in SYN segments) */
+#define TF_SEG_OPTS_TS          (uint8_t)0x02U /* Include timestamp option. */
+#define TF_SEG_DATA_CHECKSUMMED (uint8_t)0x04U /* ALL data (not the header) is
                                                checksummed into 'chksum' */
-#define TF_SEG_OPTS_WND_SCALE   (u8_t)0x08U /* Include WND SCALE option (only used in SYN segments) */
-#define TF_SEG_OPTS_SACK_PERM   (u8_t)0x10U /* Include SACK Permitted option (only used in SYN segments) */
+#define TF_SEG_OPTS_WND_SCALE   (uint8_t)0x08U /* Include WND SCALE option (only used in SYN segments) */
+#define TF_SEG_OPTS_SACK_PERM   (uint8_t)0x10U /* Include SACK Permitted option (only used in SYN segments) */
   struct tcp_hdr *tcphdr;  /* the TCP header */
 };
 
@@ -307,7 +307,7 @@ struct tcp_seg {
   ((flags) & TF_SEG_OPTS_WND_SCALE ? LWIP_TCP_OPT_LEN_WS_OUT        : 0) + \
   ((flags) & TF_SEG_OPTS_SACK_PERM ? LWIP_TCP_OPT_LEN_SACK_PERM_OUT : 0)
 
-/** This returns a TCP header option for MSS in an u32_t */
+/** This returns a TCP header option for MSS in an uint32_t */
 #define TCP_BUILD_MSS_OPTION(mss) lwip_htonl(0x02040000 | ((mss) & 0xFFFF))
 
 #if LWIP_WND_SCALE
@@ -324,8 +324,8 @@ struct tcp_seg {
 
 /* Global variables: */
 extern struct tcp_pcb *tcp_input_pcb;
-extern u32_t tcp_ticks;
-extern u8_t tcp_active_pcbs_changed;
+extern uint32_t tcp_ticks;
+extern uint8_t tcp_active_pcbs_changed;
 
 /* The TCP PCB lists. */
 union tcp_listen_pcbs_t { /* List of all TCP PCBs in LISTEN state. */
@@ -460,15 +460,15 @@ struct tcp_seg *tcp_seg_copy(struct tcp_seg *seg);
   tcp_set_flags(pcb, TF_ACK_NOW)
 
 err_t tcp_send_fin(struct tcp_pcb *pcb);
-err_t tcp_enqueue_flags(struct tcp_pcb *pcb, u8_t flags);
+err_t tcp_enqueue_flags(struct tcp_pcb *pcb, uint8_t flags);
 
 void tcp_rexmit_seg(struct tcp_pcb *pcb, struct tcp_seg *seg);
 
-void tcp_rst(const struct tcp_pcb* pcb, u32_t seqno, u32_t ackno,
+void tcp_rst(const struct tcp_pcb* pcb, uint32_t seqno, uint32_t ackno,
        const ip_addr_t *local_ip, const ip_addr_t *remote_ip,
        u16_t local_port, u16_t remote_port);
 
-u32_t tcp_next_iss(struct tcp_pcb *pcb);
+uint32_t tcp_next_iss(struct tcp_pcb *pcb);
 
 err_t tcp_keepalive(struct tcp_pcb *pcb);
 err_t tcp_split_unsent_seg(struct tcp_pcb *pcb, u16_t split);
@@ -488,7 +488,7 @@ err_t tcp_recv_null(void *arg, struct tcp_pcb *pcb, struct pbuf *p, err_t err);
 
 #if TCP_DEBUG || TCP_INPUT_DEBUG || TCP_OUTPUT_DEBUG
 void tcp_debug_print(struct tcp_hdr *tcphdr);
-void tcp_debug_print_flags(u8_t flags);
+void tcp_debug_print_flags(uint8_t flags);
 void tcp_debug_print_state(enum tcp_state s);
 void tcp_debug_print_pcbs(void);
 s16_t tcp_pcbs_sane(void);

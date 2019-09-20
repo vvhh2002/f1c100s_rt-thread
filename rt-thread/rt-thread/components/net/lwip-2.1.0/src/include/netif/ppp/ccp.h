@@ -141,7 +141,7 @@ typedef struct ccp_options {
 #endif /* PREDICTOR_SUPPORT */
 
 #if MPPE_SUPPORT
-    u8_t mppe;			/* MPPE bitfield */
+    uint8_t mppe;			/* MPPE bitfield */
 #endif /* MPPE_SUPPORT */
 #if BSDCOMPRESS_SUPPORT
     u_short bsd_bits;		/* # bits/code for BSD Compress */
@@ -149,7 +149,7 @@ typedef struct ccp_options {
 #if DEFLATE_SUPPORT
     u_short deflate_size;	/* lg(window size) for Deflate */
 #endif /* DEFLATE_SUPPORT */
-    u8_t method;		/* code for chosen compression method */
+    uint8_t method;		/* code for chosen compression method */
 } ccp_options;
 
 extern const struct protent ccp_protent;

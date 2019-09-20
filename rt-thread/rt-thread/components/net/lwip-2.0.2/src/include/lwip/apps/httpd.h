@@ -102,7 +102,7 @@ void http_set_cgi_handlers(const tCGI *pCGIs, int iNumHandlers);
 #if LWIP_HTTPD_CGI_SSI
 /** Define this generic CGI handler in your application.
  * It is called once for every URI with parameters.
- * The parameters can be stored to 
+ * The parameters can be stored to
  */
 extern void httpd_cgi_handler(const char* uri, int iNumParams, char **pcParam, char **pcValue
 #if defined(LWIP_HTTPD_FILE_STATE) && LWIP_HTTPD_FILE_STATE
@@ -197,7 +197,7 @@ void http_set_ssi_handler(tSSIHandler pfnSSIHandler,
  */
 err_t httpd_post_begin(void *connection, const char *uri, const char *http_request,
                        u16_t http_request_len, int content_len, char *response_uri,
-                       u16_t response_uri_len, u8_t *post_auto_wnd);
+                       u16_t response_uri_len, uint8_t *post_auto_wnd);
 
 /** Called for each pbuf of data that has been received for a POST.
  * ATTENTION: The application is responsible for freeing the pbufs passed in!

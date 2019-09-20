@@ -97,13 +97,13 @@
 <a name="l00077"></a>00077 <span class="comment"> * Adam Dunkels &lt;adam@sics.se&gt;</span>
 <a name="l00078"></a>00078 <span class="comment"> *</span>
 <a name="l00079"></a>00079 <span class="comment"> */</span>
-<a name="l00080"></a>00080 
+<a name="l00080"></a>00080
 <a name="l00081"></a>00081 <span class="preprocessor">#ifndef __PSOCK_H__</span>
 <a name="l00082"></a>00082 <span class="preprocessor"></span><span class="preprocessor">#define __PSOCK_H__</span>
 <a name="l00083"></a>00083 <span class="preprocessor"></span>
 <a name="l00084"></a>00084 <span class="preprocessor">#include "<a class="code" href="a00140.html">uipopt.h</a>"</span>
 <a name="l00085"></a>00085 <span class="preprocessor">#include "<a class="code" href="a00128.html">pt.h</a>"</span>
-<a name="l00086"></a>00086 
+<a name="l00086"></a>00086
 <a name="l00087"></a>00087  <span class="comment">/*</span>
 <a name="l00088"></a>00088 <span class="comment"> * The structure that holds the state of a buffer.</span>
 <a name="l00089"></a>00089 <span class="comment"> *</span>
@@ -113,7 +113,7 @@
 <a name="l00093"></a>00093 <span class="comment"> *</span>
 <a name="l00094"></a>00094 <span class="comment"> */</span>
 <a name="l00095"></a><a class="code" href="a00083.html">00095</a> <span class="keyword">struct </span><a class="code" href="a00083.html">psock_buf</a> {
-<a name="l00096"></a><a class="code" href="a00083.html#5e8637b1514d03eb3eb12dc9a502e27e">00096</a>   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a> *<a class="code" href="a00083.html#5e8637b1514d03eb3eb12dc9a502e27e">ptr</a>;
+<a name="l00096"></a><a class="code" href="a00083.html#5e8637b1514d03eb3eb12dc9a502e27e">00096</a>   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a> *<a class="code" href="a00083.html#5e8637b1514d03eb3eb12dc9a502e27e">ptr</a>;
 <a name="l00097"></a><a class="code" href="a00083.html#20fae11b540a561c622a0d74cb4b9f97">00097</a>   <span class="keywordtype">unsigned</span> <span class="keywordtype">short</span> <a class="code" href="a00083.html#20fae11b540a561c622a0d74cb4b9f97">left</a>;
 <a name="l00098"></a>00098 };
 <a name="l00099"></a>00099 <span class="comment"></span>
@@ -127,22 +127,22 @@
 <a name="l00107"></a><a class="code" href="a00082.html#17aacf7c5e2046c1f3ab50faa1b2f7eb">00107</a>   <span class="keyword">struct </span><a class="code" href="a00084.html">pt</a> pt, <a class="code" href="a00082.html#17aacf7c5e2046c1f3ab50faa1b2f7eb">psockpt</a>; <span class="comment">/* Protothreads - one that's using the psock</span>
 <a name="l00108"></a>00108 <span class="comment">                            functions, and one that runs inside the</span>
 <a name="l00109"></a>00109 <span class="comment">                            psock functions. */</span>
-<a name="l00110"></a><a class="code" href="a00082.html#31f25efccba9fd043047133d0d0ba5ab">00110</a>   <span class="keyword">const</span> <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a> *<a class="code" href="a00082.html#31f25efccba9fd043047133d0d0ba5ab">sendptr</a>;   <span class="comment">/* Pointer to the next data to be sent. */</span>
-<a name="l00111"></a><a class="code" href="a00082.html#b973f2e16c2883a8a0164d716cce5a31">00111</a>   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a> *<a class="code" href="a00082.html#b973f2e16c2883a8a0164d716cce5a31">readptr</a>;         <span class="comment">/* Pointer to the next data to be read. */</span>
-<a name="l00112"></a>00112   
+<a name="l00110"></a><a class="code" href="a00082.html#31f25efccba9fd043047133d0d0ba5ab">00110</a>   <span class="keyword">const</span> <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a> *<a class="code" href="a00082.html#31f25efccba9fd043047133d0d0ba5ab">sendptr</a>;   <span class="comment">/* Pointer to the next data to be sent. */</span>
+<a name="l00111"></a><a class="code" href="a00082.html#b973f2e16c2883a8a0164d716cce5a31">00111</a>   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a> *<a class="code" href="a00082.html#b973f2e16c2883a8a0164d716cce5a31">readptr</a>;         <span class="comment">/* Pointer to the next data to be read. */</span>
+<a name="l00112"></a>00112
 <a name="l00113"></a><a class="code" href="a00082.html#c3d1bfbb1abde31973c015de97ce2f84">00113</a>   <span class="keywordtype">char</span> *<a class="code" href="a00082.html#c3d1bfbb1abde31973c015de97ce2f84">bufptr</a>;          <span class="comment">/* Pointer to the buffer used for buffering</span>
 <a name="l00114"></a>00114 <span class="comment">                            incoming data. */</span>
-<a name="l00115"></a>00115   
+<a name="l00115"></a>00115
 <a name="l00116"></a><a class="code" href="a00082.html#19b82696bd84a803250cbf9812f2f125">00116</a>   <a class="code" href="a00153.html#g77570ac4fcab86864fa1916e55676da2">u16_t</a> <a class="code" href="a00082.html#19b82696bd84a803250cbf9812f2f125">sendlen</a>;         <span class="comment">/* The number of bytes left to be sent. */</span>
 <a name="l00117"></a><a class="code" href="a00082.html#a408ca8630154ebd039f37a828399f7b">00117</a>   <a class="code" href="a00153.html#g77570ac4fcab86864fa1916e55676da2">u16_t</a> <a class="code" href="a00082.html#a408ca8630154ebd039f37a828399f7b">readlen</a>;         <span class="comment">/* The number of bytes left to be read. */</span>
-<a name="l00118"></a>00118 
+<a name="l00118"></a>00118
 <a name="l00119"></a><a class="code" href="a00082.html#d6bd03239291629676e4c0286ebb650f">00119</a>   <span class="keyword">struct </span><a class="code" href="a00083.html">psock_buf</a> <a class="code" href="a00082.html#d6bd03239291629676e4c0286ebb650f">buf</a>;  <span class="comment">/* The structure holding the state of the</span>
 <a name="l00120"></a>00120 <span class="comment">                            input buffer. */</span>
 <a name="l00121"></a><a class="code" href="a00082.html#a6bfaf327ce839ba70accd71014398d0">00121</a>   <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="a00082.html#a6bfaf327ce839ba70accd71014398d0">bufsize</a>;  <span class="comment">/* The size of the input buffer. */</span>
-<a name="l00122"></a>00122   
+<a name="l00122"></a>00122
 <a name="l00123"></a><a class="code" href="a00082.html#fda184638130452f3570966acc5b97f9">00123</a>   <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> <a class="code" href="a00082.html#fda184638130452f3570966acc5b97f9">state</a>;   <span class="comment">/* The state of the protosocket. */</span>
 <a name="l00124"></a>00124 };
-<a name="l00125"></a>00125 
+<a name="l00125"></a>00125
 <a name="l00126"></a>00126 <span class="keywordtype">void</span> psock_init(<span class="keyword">struct</span> <a class="code" href="a00082.html">psock</a> *<a class="code" href="a00082.html">psock</a>, <span class="keywordtype">char</span> *buffer, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> buffersize);<span class="comment"></span>
 <a name="l00127"></a>00127 <span class="comment">/**</span>
 <a name="l00128"></a>00128 <span class="comment"> * Initialize a protosocket.</span>

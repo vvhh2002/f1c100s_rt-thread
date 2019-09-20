@@ -68,11 +68,11 @@ extern "C" {
 /* Get the number of entries in an array ('x' must NOT be a pointer!) */
 #define LWIP_ARRAYSIZE(x) (sizeof(x)/sizeof((x)[0]))
 
-/** Create u32_t value from bytes */
-#define LWIP_MAKEU32(a,b,c,d) (((u32_t)((a) & 0xff) << 24) | \
-                               ((u32_t)((b) & 0xff) << 16) | \
-                               ((u32_t)((c) & 0xff) << 8)  | \
-                                (u32_t)((d) & 0xff))
+/** Create uint32_t value from bytes */
+#define LWIP_MAKEU32(a,b,c,d) (((uint32_t)((a) & 0xff) << 24) | \
+                               ((uint32_t)((b) & 0xff) << 16) | \
+                               ((uint32_t)((c) & 0xff) << 8)  | \
+                                (uint32_t)((d) & 0xff))
 
 #ifndef NULL
 #ifdef __cplusplus
@@ -98,7 +98,7 @@ u16_t lwip_htons(u16_t x);
 #define lwip_ntohs(x) lwip_htons(x)
 
 #ifndef lwip_htonl
-u32_t lwip_htonl(u32_t x);
+uint32_t lwip_htonl(uint32_t x);
 #endif
 #define lwip_ntohl(x) lwip_htonl(x)
 
@@ -107,10 +107,10 @@ u32_t lwip_htonl(u32_t x);
    overhead at runtime). */
 #define PP_HTONS(x) ((u16_t)((((x) & (u16_t)0x00ffU) << 8) | (((x) & (u16_t)0xff00U) >> 8)))
 #define PP_NTOHS(x) PP_HTONS(x)
-#define PP_HTONL(x) ((((x) & (u32_t)0x000000ffUL) << 24) | \
-                     (((x) & (u32_t)0x0000ff00UL) <<  8) | \
-                     (((x) & (u32_t)0x00ff0000UL) >>  8) | \
-                     (((x) & (u32_t)0xff000000UL) >> 24))
+#define PP_HTONL(x) ((((x) & (uint32_t)0x000000ffUL) << 24) | \
+                     (((x) & (uint32_t)0x0000ff00UL) <<  8) | \
+                     (((x) & (uint32_t)0x00ff0000UL) >>  8) | \
+                     (((x) & (uint32_t)0xff000000UL) >> 24))
 #define PP_NTOHL(x) PP_HTONL(x)
 #endif /* BYTE_ORDER == BIG_ENDIAN */
 

@@ -88,19 +88,19 @@ struct api_msg {
     struct netbuf *b;
     /** used for lwip_netconn_do_newconn */
     struct {
-      u8_t proto;
+      uint8_t proto;
     } n;
     /** used for lwip_netconn_do_bind and lwip_netconn_do_connect */
     struct {
       API_MSG_M_DEF_C(ip_addr_t, ipaddr);
       u16_t port;
-      u8_t if_idx;
+      uint8_t if_idx;
     } bc;
     /** used for lwip_netconn_do_getaddr */
     struct {
       ip_addr_t API_MSG_M_DEF(ipaddr);
       u16_t API_MSG_M_DEF(port);
-      u8_t local;
+      uint8_t local;
     } ad;
     /** used for lwip_netconn_do_write */
     struct {
@@ -114,9 +114,9 @@ struct api_msg {
       size_t len;
       /** offset into total length/output of bytes written when err == ERR_OK */
       size_t offset;
-      u8_t apiflags;
+      uint8_t apiflags;
 #if LWIP_SO_SNDTIMEO
-      u32_t time_started;
+      uint32_t time_started;
 #endif /* LWIP_SO_SNDTIMEO */
     } w;
     /** used for lwip_netconn_do_recv */
@@ -126,11 +126,11 @@ struct api_msg {
 #if LWIP_TCP
     /** used for lwip_netconn_do_close (/shutdown) */
     struct {
-      u8_t shut;
+      uint8_t shut;
 #if LWIP_SO_SNDTIMEO || LWIP_SO_LINGER
-      u32_t time_started;
+      uint32_t time_started;
 #else /* LWIP_SO_SNDTIMEO || LWIP_SO_LINGER */
-      u8_t polls_left;
+      uint8_t polls_left;
 #endif /* LWIP_SO_SNDTIMEO || LWIP_SO_LINGER */
     } sd;
 #endif /* LWIP_TCP */
@@ -139,13 +139,13 @@ struct api_msg {
     struct {
       API_MSG_M_DEF_C(ip_addr_t, multiaddr);
       API_MSG_M_DEF_C(ip_addr_t, netif_addr);
-      u8_t if_idx;
+      uint8_t if_idx;
       enum netconn_igmp join_or_leave;
     } jl;
 #endif /* LWIP_IGMP || (LWIP_IPV6 && LWIP_IPV6_MLD) */
 #if TCP_LISTEN_BACKLOG
     struct {
-      u8_t backlog;
+      uint8_t backlog;
     } lb;
 #endif /* TCP_LISTEN_BACKLOG */
   } msg;
@@ -177,7 +177,7 @@ struct dns_api_msg {
   ip_addr_t API_MSG_M_DEF(addr);
 #if LWIP_IPV4 && LWIP_IPV6
   /** Type of resolve call */
-  u8_t dns_addrtype;
+  uint8_t dns_addrtype;
 #endif /* LWIP_IPV4 && LWIP_IPV6 */
   /** This semaphore is posted when the name is resolved, the application thread
       should wait on it. */
@@ -258,7 +258,7 @@ struct netifapi_msg {
 #else /* LWIP_MPU_COMPATIBLE */
       char *name;
 #endif /* LWIP_MPU_COMPATIBLE */
-      u8_t index;
+      uint8_t index;
     } ifs;
   } msg;
 };

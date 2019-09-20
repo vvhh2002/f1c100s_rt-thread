@@ -47,9 +47,9 @@ extern "C" {
 
 /* For a totally minimal and standalone system, we provide null
    definitions of the sys_ functions. */
-typedef u8_t sys_sem_t;
-typedef u8_t sys_mutex_t;
-typedef u8_t sys_mbox_t;
+typedef uint8_t sys_sem_t;
+typedef uint8_t sys_mutex_t;
+typedef uint8_t sys_mbox_t;
 
 #define sys_sem_new(s, c) ERR_OK
 #define sys_sem_signal(s)
@@ -172,7 +172,7 @@ void sys_mutex_set_invalid(sys_mutex_t *mutex);
  * @param count initial count of the semaphore
  * @return ERR_OK if successful, another err_t otherwise
  */
-err_t sys_sem_new(sys_sem_t *sem, u8_t count);
+err_t sys_sem_new(sys_sem_t *sem, uint8_t count);
 /**
  * @ingroup sys_sem
  * Signals a semaphore
@@ -187,7 +187,7 @@ void sys_sem_signal(sys_sem_t *sem);
  * @return time (in milliseconds) waited for the semaphore
  *         or SYS_ARCH_TIMEOUT on timeout
  */
-u32_t sys_arch_sem_wait(sys_sem_t *sem, u32_t timeout);
+uint32_t sys_arch_sem_wait(sys_sem_t *sem, uint32_t timeout);
 /**
  * @ingroup sys_sem
  * Delete a semaphore
@@ -228,7 +228,7 @@ void sys_sem_set_invalid(sys_sem_t *sem);
  * @ingroup sys_misc
  * Sleep for specified number of ms
  */
-void sys_msleep(u32_t ms); /* only has a (close to) 1 ms resolution. */
+void sys_msleep(uint32_t ms); /* only has a (close to) 1 ms resolution. */
 #endif
 
 /* Mailbox functions. */
@@ -266,7 +266,7 @@ err_t sys_mbox_trypost(sys_mbox_t *mbox, void *msg);
            or SYS_ARCH_TIMEOUT on timeout
  *         The returned time has to be accurate to prevent timer jitter!
  */
-u32_t sys_arch_mbox_fetch(sys_mbox_t *mbox, void **msg, u32_t timeout);
+uint32_t sys_arch_mbox_fetch(sys_mbox_t *mbox, void **msg, uint32_t timeout);
 /* Allow port to override with a macro, e.g. special timeout for sys_arch_mbox_fetch() */
 #ifndef sys_arch_mbox_tryfetch
 /**
@@ -277,7 +277,7 @@ u32_t sys_arch_mbox_fetch(sys_mbox_t *mbox, void **msg, u32_t timeout);
  * @return 0 (milliseconds) if a message has been received
  *         or SYS_MBOX_EMPTY if the mailbox is empty
  */
-u32_t sys_arch_mbox_tryfetch(sys_mbox_t *mbox, void **msg);
+uint32_t sys_arch_mbox_tryfetch(sys_mbox_t *mbox, void **msg);
 #endif
 /**
  * For now, we map straight to sys_arch implementation.
@@ -339,7 +339,7 @@ void sys_init(void);
 /**
  * Ticks/jiffies since power up.
  */
-u32_t sys_jiffies(void);
+uint32_t sys_jiffies(void);
 #endif
 
 /**
@@ -347,7 +347,7 @@ u32_t sys_jiffies(void);
  * Returns the current time in milliseconds,
  * may be the same as sys_jiffies or at least based on it.
  */
-u32_t sys_now(void);
+uint32_t sys_now(void);
 
 /* Critical Region Protection */
 /* These functions must be implemented in the sys_arch.c file.

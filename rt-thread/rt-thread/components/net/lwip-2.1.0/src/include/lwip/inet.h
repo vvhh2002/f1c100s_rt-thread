@@ -52,7 +52,7 @@ extern "C" {
 /* If your port already typedef's in_addr_t, define IN_ADDR_T_DEFINED
    to prevent this code from redefining it. */
 #if !defined(in_addr_t) && !defined(IN_ADDR_T_DEFINED)
-typedef u32_t in_addr_t;
+typedef uint32_t in_addr_t;
 #endif
 
 struct in_addr {
@@ -61,8 +61,8 @@ struct in_addr {
 
 struct in6_addr {
   union {
-    u32_t u32_addr[4];
-    u8_t  u8_addr[16];
+    uint32_t u32_addr[4];
+    uint8_t  u8_addr[16];
   } un;
 #define s6_addr  un.u8_addr
 };

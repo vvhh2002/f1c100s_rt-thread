@@ -102,7 +102,7 @@ struct tcpip_api_call_data
   sys_sem_t sem;
 #endif /* LWIP_NETCONN_SEM_PER_THREAD */
 #else /* !LWIP_TCPIP_CORE_LOCKING */
-  u8_t dummy; /* avoid empty struct :-( */
+  uint8_t dummy; /* avoid empty struct :-( */
 #endif /* !LWIP_TCPIP_CORE_LOCKING */
 };
 typedef err_t (*tcpip_api_call_fn)(struct tcpip_api_call_data* call);
@@ -143,7 +143,7 @@ struct tcpip_msg {
     } cb;
 #if LWIP_TCPIP_TIMEOUT && LWIP_TIMERS
     struct {
-      u32_t msecs;
+      uint32_t msecs;
       sys_timeout_handler h;
       void *arg;
     } tmo;

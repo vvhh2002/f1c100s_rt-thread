@@ -34,8 +34,8 @@
 <a name="l00014"></a>00014 <span class="comment"> * structures, TCP/IP header structures and function declarations.</span>
 <a name="l00015"></a>00015 <span class="comment"> *</span>
 <a name="l00016"></a>00016 <span class="comment"> */</span>
-<a name="l00017"></a>00017 
-<a name="l00018"></a>00018 
+<a name="l00017"></a>00017
+<a name="l00018"></a>00018
 <a name="l00019"></a>00019 <span class="comment">/*</span>
 <a name="l00020"></a>00020 <span class="comment"> * Copyright (c) 2001-2003, Adam Dunkels.</span>
 <a name="l00021"></a>00021 <span class="comment"> * All rights reserved.</span>
@@ -69,7 +69,7 @@
 <a name="l00049"></a>00049 <span class="comment"> * $Id: uip.h,v 1.40 2006/06/08 07:12:07 adam Exp $</span>
 <a name="l00050"></a>00050 <span class="comment"> *</span>
 <a name="l00051"></a>00051 <span class="comment"> */</span>
-<a name="l00052"></a>00052 
+<a name="l00052"></a>00052
 <a name="l00053"></a>00053 <span class="preprocessor">#ifndef __UIP_H__</span>
 <a name="l00054"></a>00054 <span class="preprocessor"></span><span class="preprocessor">#define __UIP_H__</span>
 <a name="l00055"></a>00055 <span class="preprocessor"></span>
@@ -86,7 +86,7 @@
 <a name="l00066"></a>00066 <span class="preprocessor">#else </span><span class="comment">/* UIP_CONF_IPV6 */</span>
 <a name="l00067"></a><a class="code" href="a00150.html#g1ef35301f43a5bbb9f89f07b5a36b9a0">00067</a> <span class="keyword">typedef</span> <a class="code" href="a00150.html#g20ceef9d0868d391c2f33041b02cb1f1">uip_ip4addr_t</a> <a class="code" href="a00150.html#g1ef35301f43a5bbb9f89f07b5a36b9a0">uip_ipaddr_t</a>;
 <a name="l00068"></a>00068 <span class="preprocessor">#endif </span><span class="comment">/* UIP_CONF_IPV6 */</span>
-<a name="l00069"></a>00069 
+<a name="l00069"></a>00069
 <a name="l00070"></a>00070 <span class="comment">/*---------------------------------------------------------------------------*/</span>
 <a name="l00071"></a>00071 <span class="comment">/* First, the functions that should be called from the</span>
 <a name="l00072"></a>00072 <span class="comment"> * system. Initialization, the periodic timer and incoming packets are</span>
@@ -357,7 +357,7 @@
 <a name="l00337"></a><a class="code" href="a00146.html#gf20aaf4292cb0d2a1b10bc0a568b51fa">00337</a> <span class="preprocessor">#define uip_poll_conn(conn) do { uip_conn = conn; \</span>
 <a name="l00338"></a>00338 <span class="preprocessor">                                 uip_process(UIP_POLL_REQUEST); } while (0)</span>
 <a name="l00339"></a>00339 <span class="preprocessor"></span>
-<a name="l00340"></a>00340 
+<a name="l00340"></a>00340
 <a name="l00341"></a>00341 <span class="preprocessor">#if UIP_UDP</span>
 <a name="l00342"></a>00342 <span class="preprocessor"></span><span class="comment">/**</span>
 <a name="l00343"></a>00343 <span class="comment"> * Periodic processing for a UDP connection identified by its number.</span>
@@ -410,7 +410,7 @@
 <a name="l00390"></a><a class="code" href="a00146.html#gf5c2ad5acf3cc23b8262e9ba6a15136b">00390</a> <span class="preprocessor">#define uip_udp_periodic_conn(conn) do { uip_udp_conn = conn; \</span>
 <a name="l00391"></a>00391 <span class="preprocessor">                                         uip_process(UIP_UDP_TIMER); } while (0)</span>
 <a name="l00392"></a>00392 <span class="preprocessor"></span>
-<a name="l00393"></a>00393 
+<a name="l00393"></a>00393
 <a name="l00394"></a>00394 <span class="preprocessor">#endif </span><span class="comment">/* UIP_UDP */</span>
 <a name="l00395"></a>00395 <span class="comment"></span>
 <a name="l00396"></a>00396 <span class="comment">/**</span>
@@ -439,10 +439,10 @@
 <a name="l00419"></a>00419 <span class="comment"> }</span>
 <a name="l00420"></a>00420 <span class="comment"> \endcode</span>
 <a name="l00421"></a>00421 <span class="comment"> */</span>
-<a name="l00422"></a>00422 <span class="keyword">extern</span> <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a> <a class="code" href="a00146.html#gb81e78f890dbbee50c533a9734b74fd9">uip_buf</a>[<a class="code" href="a00153.html#g3589822ecb9d9c4145209756396b8a6b">UIP_BUFSIZE</a>+2];
+<a name="l00422"></a>00422 <span class="keyword">extern</span> <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a> <a class="code" href="a00146.html#gb81e78f890dbbee50c533a9734b74fd9">uip_buf</a>[<a class="code" href="a00153.html#g3589822ecb9d9c4145209756396b8a6b">UIP_BUFSIZE</a>+2];
 <a name="l00423"></a>00423 <span class="comment"></span>
 <a name="l00424"></a>00424 <span class="comment">/** @} */</span>
-<a name="l00425"></a>00425 
+<a name="l00425"></a>00425
 <a name="l00426"></a>00426 <span class="comment">/*---------------------------------------------------------------------------*/</span>
 <a name="l00427"></a>00427 <span class="comment">/* Functions that are used by the uIP application program. Opening and</span>
 <a name="l00428"></a>00428 <span class="comment"> * closing connections, sending and receiving data, etc. is all</span>
@@ -516,8 +516,8 @@
 <a name="l00496"></a>00496 <span class="comment"> *</span>
 <a name="l00497"></a>00497 <span class="comment"> */</span>
 <a name="l00498"></a>00498 <span class="keyword">struct </span><a class="code" href="a00088.html">uip_conn</a> *<a class="code" href="a00147.html#g8096b0c4b543dc408f4dd031ddae7240">uip_connect</a>(<a class="code" href="a00150.html#g1ef35301f43a5bbb9f89f07b5a36b9a0">uip_ipaddr_t</a> *<a class="code" href="a00088.html#79510aa86d3fa0a0fc6cfc49b1da7279">ripaddr</a>, <a class="code" href="a00153.html#g77570ac4fcab86864fa1916e55676da2">u16_t</a> port);
-<a name="l00499"></a>00499 
-<a name="l00500"></a>00500 
+<a name="l00499"></a>00499
+<a name="l00500"></a>00500
 <a name="l00501"></a>00501 <span class="comment"></span>
 <a name="l00502"></a>00502 <span class="comment">/**</span>
 <a name="l00503"></a>00503 <span class="comment"> * \internal</span>
@@ -631,7 +631,7 @@
 <a name="l00611"></a>00611 <span class="preprocessor">                                   uip_conn-&gt;tcpstateflags &amp;= ~UIP_STOPPED; \</span>
 <a name="l00612"></a>00612 <span class="preprocessor">                              } while(0)</span>
 <a name="l00613"></a>00613 <span class="preprocessor"></span>
-<a name="l00614"></a>00614 
+<a name="l00614"></a>00614
 <a name="l00615"></a>00615 <span class="comment">/* uIP tests that can be made to determine in what state the current</span>
 <a name="l00616"></a>00616 <span class="comment">   connection is, and what the application function should do. */</span>
 <a name="l00617"></a>00617 <span class="comment"></span>
@@ -820,7 +820,7 @@
 <a name="l00800"></a><a class="code" href="a00147.html#ge5ab69d40013e6cf86ef1763c95d920e">00800</a> <span class="preprocessor">#define uip_udp_send(len) uip_send((char *)uip_appdata, len)</span>
 <a name="l00801"></a>00801 <span class="preprocessor"></span><span class="comment"></span>
 <a name="l00802"></a>00802 <span class="comment">/** @} */</span>
-<a name="l00803"></a>00803 
+<a name="l00803"></a>00803
 <a name="l00804"></a>00804 <span class="comment">/* uIP convenience and converting functions. */</span>
 <a name="l00805"></a>00805 <span class="comment"></span>
 <a name="l00806"></a>00806 <span class="comment">/**</span>
@@ -1002,7 +1002,7 @@
 <a name="l00982"></a>00982 <span class="comment"> * Example:</span>
 <a name="l00983"></a>00983 <span class="comment"> \code</span>
 <a name="l00984"></a>00984 <span class="comment"> uip_ipaddr_t ipaddr;</span>
-<a name="l00985"></a>00985 <span class="comment"> u8_t octet;</span>
+<a name="l00985"></a>00985 <span class="comment"> uint8_t octet;</span>
 <a name="l00986"></a>00986 <span class="comment"></span>
 <a name="l00987"></a>00987 <span class="comment"> uip_ipaddr(&amp;ipaddr, 1,2,3,4);</span>
 <a name="l00988"></a>00988 <span class="comment"> octet = uip_ipaddr1(&amp;ipaddr);</span>
@@ -1022,7 +1022,7 @@
 <a name="l01002"></a>01002 <span class="comment"> * Example:</span>
 <a name="l01003"></a>01003 <span class="comment"> \code</span>
 <a name="l01004"></a>01004 <span class="comment"> uip_ipaddr_t ipaddr;</span>
-<a name="l01005"></a>01005 <span class="comment"> u8_t octet;</span>
+<a name="l01005"></a>01005 <span class="comment"> uint8_t octet;</span>
 <a name="l01006"></a>01006 <span class="comment"></span>
 <a name="l01007"></a>01007 <span class="comment"> uip_ipaddr(&amp;ipaddr, 1,2,3,4);</span>
 <a name="l01008"></a>01008 <span class="comment"> octet = uip_ipaddr2(&amp;ipaddr);</span>
@@ -1042,7 +1042,7 @@
 <a name="l01022"></a>01022 <span class="comment"> * Example:</span>
 <a name="l01023"></a>01023 <span class="comment"> \code</span>
 <a name="l01024"></a>01024 <span class="comment"> uip_ipaddr_t ipaddr;</span>
-<a name="l01025"></a>01025 <span class="comment"> u8_t octet;</span>
+<a name="l01025"></a>01025 <span class="comment"> uint8_t octet;</span>
 <a name="l01026"></a>01026 <span class="comment"></span>
 <a name="l01027"></a>01027 <span class="comment"> uip_ipaddr(&amp;ipaddr, 1,2,3,4);</span>
 <a name="l01028"></a>01028 <span class="comment"> octet = uip_ipaddr3(&amp;ipaddr);</span>
@@ -1062,7 +1062,7 @@
 <a name="l01042"></a>01042 <span class="comment"> * Example:</span>
 <a name="l01043"></a>01043 <span class="comment"> \code</span>
 <a name="l01044"></a>01044 <span class="comment"> uip_ipaddr_t ipaddr;</span>
-<a name="l01045"></a>01045 <span class="comment"> u8_t octet;</span>
+<a name="l01045"></a>01045 <span class="comment"> uint8_t octet;</span>
 <a name="l01046"></a>01046 <span class="comment"></span>
 <a name="l01047"></a>01047 <span class="comment"> uip_ipaddr(&amp;ipaddr, 1,2,3,4);</span>
 <a name="l01048"></a>01048 <span class="comment"> octet = uip_ipaddr4(&amp;ipaddr);</span>
@@ -1117,16 +1117,16 @@
 <a name="l01097"></a>01097 <span class="comment"> * use this space to write the data into before calling uip_send().</span>
 <a name="l01098"></a>01098 <span class="comment"> */</span>
 <a name="l01099"></a>01099 <span class="keyword">extern</span> <span class="keywordtype">void</span> *<a class="code" href="a00150.html#g561b8eda32e059d4e7397f776268cc63">uip_appdata</a>;
-<a name="l01100"></a>01100 
+<a name="l01100"></a>01100
 <a name="l01101"></a>01101 <span class="preprocessor">#if UIP_URGDATA &gt; 0</span>
-<a name="l01102"></a>01102 <span class="preprocessor"></span><span class="comment">/* u8_t *uip_urgdata:</span>
+<a name="l01102"></a>01102 <span class="preprocessor"></span><span class="comment">/* uint8_t *uip_urgdata:</span>
 <a name="l01103"></a>01103 <span class="comment"> *</span>
 <a name="l01104"></a>01104 <span class="comment"> * This pointer points to any urgent data that has been received. Only</span>
 <a name="l01105"></a>01105 <span class="comment"> * present if compiled with support for urgent data (UIP_URGDATA).</span>
 <a name="l01106"></a>01106 <span class="comment"> */</span>
 <a name="l01107"></a>01107 <span class="keyword">extern</span> <span class="keywordtype">void</span> *uip_urgdata;
 <a name="l01108"></a>01108 <span class="preprocessor">#endif </span><span class="comment">/* UIP_URGDATA &gt; 0 */</span>
-<a name="l01109"></a>01109 
+<a name="l01109"></a>01109
 <a name="l01110"></a>01110 <span class="comment"></span>
 <a name="l01111"></a>01111 <span class="comment">/**</span>
 <a name="l01112"></a>01112 <span class="comment"> * \defgroup uipdrivervars Variables used in uIP device drivers</span>
@@ -1154,11 +1154,11 @@
 <a name="l01134"></a>01134 <span class="keyword">extern</span> <a class="code" href="a00153.html#g77570ac4fcab86864fa1916e55676da2">u16_t</a> <a class="code" href="a00149.html#g12a33f0c09711167bdf3dd7d7cf8c5a1">uip_len</a>;
 <a name="l01135"></a>01135 <span class="comment"></span>
 <a name="l01136"></a>01136 <span class="comment">/** @} */</span>
-<a name="l01137"></a>01137 
+<a name="l01137"></a>01137
 <a name="l01138"></a>01138 <span class="preprocessor">#if UIP_URGDATA &gt; 0</span>
 <a name="l01139"></a>01139 <span class="preprocessor"></span><span class="keyword">extern</span> <a class="code" href="a00153.html#g77570ac4fcab86864fa1916e55676da2">u16_t</a> uip_urglen, uip_surglen;
 <a name="l01140"></a>01140 <span class="preprocessor">#endif </span><span class="comment">/* UIP_URGDATA &gt; 0 */</span>
-<a name="l01141"></a>01141 
+<a name="l01141"></a>01141
 <a name="l01142"></a>01142 <span class="comment"></span>
 <a name="l01143"></a>01143 <span class="comment">/**</span>
 <a name="l01144"></a>01144 <span class="comment"> * Representation of a uIP TCP connection.</span>
@@ -1172,34 +1172,34 @@
 <a name="l01152"></a>01152 <span class="comment"> */</span>
 <a name="l01153"></a><a class="code" href="a00088.html">01153</a> <span class="keyword">struct </span><a class="code" href="a00088.html">uip_conn</a> {
 <a name="l01154"></a><a class="code" href="a00088.html#79510aa86d3fa0a0fc6cfc49b1da7279">01154</a>   <a class="code" href="a00150.html#g1ef35301f43a5bbb9f89f07b5a36b9a0">uip_ipaddr_t</a> <a class="code" href="a00088.html#79510aa86d3fa0a0fc6cfc49b1da7279">ripaddr</a>;   <span class="comment">/**&lt; The IP address of the remote host. */</span>
-<a name="l01155"></a>01155   
+<a name="l01155"></a>01155
 <a name="l01156"></a><a class="code" href="a00088.html#0cd09beee671e7e9efb0b4aced10249e">01156</a>   <a class="code" href="a00153.html#g77570ac4fcab86864fa1916e55676da2">u16_t</a> <a class="code" href="a00088.html#0cd09beee671e7e9efb0b4aced10249e">lport</a>;        <span class="comment">/**&lt; The local TCP port, in network byte order. */</span>
 <a name="l01157"></a><a class="code" href="a00088.html#1df6aa054ef2fa634ac4c6f418228285">01157</a>   <a class="code" href="a00153.html#g77570ac4fcab86864fa1916e55676da2">u16_t</a> <a class="code" href="a00088.html#1df6aa054ef2fa634ac4c6f418228285">rport</a>;        <span class="comment">/**&lt; The local remote TCP port, in network byte</span>
 <a name="l01158"></a>01158 <span class="comment">                         order. */</span>
-<a name="l01159"></a>01159   
-<a name="l01160"></a><a class="code" href="a00088.html#70297b3e6d4eaae7bd828cb50bd1efe3">01160</a>   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a> <a class="code" href="a00088.html#70297b3e6d4eaae7bd828cb50bd1efe3">rcv_nxt</a>[4];    <span class="comment">/**&lt; The sequence number that we expect to</span>
+<a name="l01159"></a>01159
+<a name="l01160"></a><a class="code" href="a00088.html#70297b3e6d4eaae7bd828cb50bd1efe3">01160</a>   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a> <a class="code" href="a00088.html#70297b3e6d4eaae7bd828cb50bd1efe3">rcv_nxt</a>[4];    <span class="comment">/**&lt; The sequence number that we expect to</span>
 <a name="l01161"></a>01161 <span class="comment">                         receive next. */</span>
-<a name="l01162"></a><a class="code" href="a00088.html#8f6b08a5ba2a8d75ca7279e2056aa8c6">01162</a>   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a> <a class="code" href="a00088.html#8f6b08a5ba2a8d75ca7279e2056aa8c6">snd_nxt</a>[4];    <span class="comment">/**&lt; The sequence number that was last sent by</span>
+<a name="l01162"></a><a class="code" href="a00088.html#8f6b08a5ba2a8d75ca7279e2056aa8c6">01162</a>   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a> <a class="code" href="a00088.html#8f6b08a5ba2a8d75ca7279e2056aa8c6">snd_nxt</a>[4];    <span class="comment">/**&lt; The sequence number that was last sent by</span>
 <a name="l01163"></a>01163 <span class="comment">                         us. */</span>
 <a name="l01164"></a><a class="code" href="a00088.html#0ef3ae2764714bf90620075c374c262e">01164</a>   <a class="code" href="a00153.html#g77570ac4fcab86864fa1916e55676da2">u16_t</a> <a class="code" href="a00088.html#0ef3ae2764714bf90620075c374c262e">len</a>;          <span class="comment">/**&lt; Length of the data that was previously sent. */</span>
 <a name="l01165"></a><a class="code" href="a00088.html#3347ef1b6e8581402445d1a0280c7a14">01165</a>   <a class="code" href="a00153.html#g77570ac4fcab86864fa1916e55676da2">u16_t</a> <a class="code" href="a00088.html#3347ef1b6e8581402445d1a0280c7a14">mss</a>;          <span class="comment">/**&lt; Current maximum segment size for the</span>
 <a name="l01166"></a>01166 <span class="comment">                         connection. */</span>
 <a name="l01167"></a><a class="code" href="a00088.html#db7a3fadb68df5fdd37e8b91a2c751ea">01167</a>   <a class="code" href="a00153.html#g77570ac4fcab86864fa1916e55676da2">u16_t</a> <a class="code" href="a00088.html#db7a3fadb68df5fdd37e8b91a2c751ea">initialmss</a>;   <span class="comment">/**&lt; Initial maximum segment size for the</span>
 <a name="l01168"></a>01168 <span class="comment">                         connection. */</span>
-<a name="l01169"></a><a class="code" href="a00088.html#ef661afb3aa82f0437d2ed8d3c20be76">01169</a>   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a> <a class="code" href="a00088.html#ef661afb3aa82f0437d2ed8d3c20be76">sa</a>;            <span class="comment">/**&lt; Retransmission time-out calculation state</span>
+<a name="l01169"></a><a class="code" href="a00088.html#ef661afb3aa82f0437d2ed8d3c20be76">01169</a>   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a> <a class="code" href="a00088.html#ef661afb3aa82f0437d2ed8d3c20be76">sa</a>;            <span class="comment">/**&lt; Retransmission time-out calculation state</span>
 <a name="l01170"></a>01170 <span class="comment">                         variable. */</span>
-<a name="l01171"></a><a class="code" href="a00088.html#eb9fcbd3c9b0a795dcd63f33c323d65c">01171</a>   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a> <a class="code" href="a00088.html#eb9fcbd3c9b0a795dcd63f33c323d65c">sv</a>;            <span class="comment">/**&lt; Retransmission time-out calculation state</span>
+<a name="l01171"></a><a class="code" href="a00088.html#eb9fcbd3c9b0a795dcd63f33c323d65c">01171</a>   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a> <a class="code" href="a00088.html#eb9fcbd3c9b0a795dcd63f33c323d65c">sv</a>;            <span class="comment">/**&lt; Retransmission time-out calculation state</span>
 <a name="l01172"></a>01172 <span class="comment">                         variable. */</span>
-<a name="l01173"></a><a class="code" href="a00088.html#e3aa9cc25e45b663e6aabc54c013019e">01173</a>   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a> <a class="code" href="a00088.html#e3aa9cc25e45b663e6aabc54c013019e">rto</a>;           <span class="comment">/**&lt; Retransmission time-out. */</span>
-<a name="l01174"></a><a class="code" href="a00088.html#a5f58074435cdc180f17de69651beebd">01174</a>   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a> <a class="code" href="a00088.html#a5f58074435cdc180f17de69651beebd">tcpstateflags</a>; <span class="comment">/**&lt; TCP state and flags. */</span>
-<a name="l01175"></a><a class="code" href="a00088.html#2d9732cf5752d30bd11cb25dc7d0c8d3">01175</a>   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a> <a class="code" href="a00087.html">timer</a>;         <span class="comment">/**&lt; The retransmission timer. */</span>
-<a name="l01176"></a><a class="code" href="a00088.html#4289c59840b128f2f6526e9da2711d47">01176</a>   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a> <a class="code" href="a00088.html#4289c59840b128f2f6526e9da2711d47">nrtx</a>;          <span class="comment">/**&lt; The number of retransmissions for the last</span>
+<a name="l01173"></a><a class="code" href="a00088.html#e3aa9cc25e45b663e6aabc54c013019e">01173</a>   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a> <a class="code" href="a00088.html#e3aa9cc25e45b663e6aabc54c013019e">rto</a>;           <span class="comment">/**&lt; Retransmission time-out. */</span>
+<a name="l01174"></a><a class="code" href="a00088.html#a5f58074435cdc180f17de69651beebd">01174</a>   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a> <a class="code" href="a00088.html#a5f58074435cdc180f17de69651beebd">tcpstateflags</a>; <span class="comment">/**&lt; TCP state and flags. */</span>
+<a name="l01175"></a><a class="code" href="a00088.html#2d9732cf5752d30bd11cb25dc7d0c8d3">01175</a>   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a> <a class="code" href="a00087.html">timer</a>;         <span class="comment">/**&lt; The retransmission timer. */</span>
+<a name="l01176"></a><a class="code" href="a00088.html#4289c59840b128f2f6526e9da2711d47">01176</a>   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a> <a class="code" href="a00088.html#4289c59840b128f2f6526e9da2711d47">nrtx</a>;          <span class="comment">/**&lt; The number of retransmissions for the last</span>
 <a name="l01177"></a>01177 <span class="comment">                         segment sent. */</span>
 <a name="l01178"></a>01178 <span class="comment"></span>
 <a name="l01179"></a>01179 <span class="comment">  /** The application state. */</span>
 <a name="l01180"></a><a class="code" href="a00088.html#97f9e1fda815bfb8b1f4577c355ade20">01180</a>   <a class="code" href="a00085.html">uip_tcp_appstate_t</a> <a class="code" href="a00088.html#97f9e1fda815bfb8b1f4577c355ade20">appstate</a>;
 <a name="l01181"></a>01181 };
-<a name="l01182"></a>01182 
+<a name="l01182"></a>01182
 <a name="l01183"></a>01183 <span class="comment"></span>
 <a name="l01184"></a>01184 <span class="comment">/**</span>
 <a name="l01185"></a>01185 <span class="comment"> * Pointer to the current TCP connection.</span>
@@ -1218,11 +1218,11 @@
 <a name="l01198"></a>01198 <span class="comment">/**</span>
 <a name="l01199"></a>01199 <span class="comment"> * 4-byte array used for the 32-bit sequence number calculations.</span>
 <a name="l01200"></a>01200 <span class="comment"> */</span>
-<a name="l01201"></a>01201 <span class="keyword">extern</span> <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a> <a class="code" href="a00151.html#g2a0cf5d86c58fab216414ce59bf1fea1">uip_acc32</a>[4];
+<a name="l01201"></a>01201 <span class="keyword">extern</span> <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a> <a class="code" href="a00151.html#g2a0cf5d86c58fab216414ce59bf1fea1">uip_acc32</a>[4];
 <a name="l01202"></a>01202 <span class="comment"></span>
 <a name="l01203"></a>01203 <span class="comment">/** @} */</span>
-<a name="l01204"></a>01204 
-<a name="l01205"></a>01205 
+<a name="l01204"></a>01204
+<a name="l01205"></a>01205
 <a name="l01206"></a>01206 <span class="preprocessor">#if UIP_UDP</span>
 <a name="l01207"></a>01207 <span class="preprocessor"></span><span class="comment">/**</span>
 <a name="l01208"></a>01208 <span class="comment"> * Representation of a uIP UDP connection.</span>
@@ -1231,7 +1231,7 @@
 <a name="l01211"></a><a class="code" href="a00095.html#8a661a2d544100b82d0d14a1985083d5">01211</a>   <a class="code" href="a00150.html#g1ef35301f43a5bbb9f89f07b5a36b9a0">uip_ipaddr_t</a> <a class="code" href="a00095.html#8a661a2d544100b82d0d14a1985083d5">ripaddr</a>;   <span class="comment">/**&lt; The IP address of the remote peer. */</span>
 <a name="l01212"></a><a class="code" href="a00095.html#981392e295db4d024eea95805c51c371">01212</a>   <a class="code" href="a00153.html#g77570ac4fcab86864fa1916e55676da2">u16_t</a> <a class="code" href="a00095.html#981392e295db4d024eea95805c51c371">lport</a>;        <span class="comment">/**&lt; The local port number in network byte order. */</span>
 <a name="l01213"></a><a class="code" href="a00095.html#280a0c2a93544e597f92bbacf36ee1dc">01213</a>   <a class="code" href="a00153.html#g77570ac4fcab86864fa1916e55676da2">u16_t</a> <a class="code" href="a00095.html#280a0c2a93544e597f92bbacf36ee1dc">rport</a>;        <span class="comment">/**&lt; The remote port number in network byte order. */</span>
-<a name="l01214"></a><a class="code" href="a00095.html#4da1d7815516cd2b5bda3a66fdf05198">01214</a>   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a>  <a class="code" href="a00095.html#4da1d7815516cd2b5bda3a66fdf05198">ttl</a>;          <span class="comment">/**&lt; Default time-to-live. */</span>
+<a name="l01214"></a><a class="code" href="a00095.html#4da1d7815516cd2b5bda3a66fdf05198">01214</a>   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a>  <a class="code" href="a00095.html#4da1d7815516cd2b5bda3a66fdf05198">ttl</a>;          <span class="comment">/**&lt; Default time-to-live. */</span>
 <a name="l01215"></a>01215 <span class="comment"></span>
 <a name="l01216"></a>01216 <span class="comment">  /** The application state. */</span>
 <a name="l01217"></a><a class="code" href="a00095.html#c8afa29e0aa5e789d6929b366d98ba56">01217</a>   <a class="code" href="a00153.html#ga92afb113e122f860392bfbd385f842e">uip_udp_appstate_t</a> <a class="code" href="a00095.html#c8afa29e0aa5e789d6929b366d98ba56">appstate</a>;
@@ -1309,28 +1309,28 @@
 <a name="l01289"></a>01289 <span class="comment"> * This is the variable in which the uIP TCP/IP statistics are gathered.</span>
 <a name="l01290"></a>01290 <span class="comment"> */</span>
 <a name="l01291"></a>01291 <span class="keyword">extern</span> <span class="keyword">struct </span><a class="code" href="a00093.html">uip_stats</a> <a class="code" href="a00150.html#g9ee50a40597e67fce96541ab56c3b712">uip_stat</a>;
-<a name="l01292"></a>01292 
-<a name="l01293"></a>01293 
+<a name="l01292"></a>01292
+<a name="l01293"></a>01293
 <a name="l01294"></a>01294 <span class="comment">/*---------------------------------------------------------------------------*/</span>
 <a name="l01295"></a>01295 <span class="comment">/* All the stuff below this point is internal to uIP and should not be</span>
 <a name="l01296"></a>01296 <span class="comment"> * used directly by an application or by a device driver.</span>
 <a name="l01297"></a>01297 <span class="comment"> */</span>
 <a name="l01298"></a>01298 <span class="comment">/*---------------------------------------------------------------------------*/</span>
-<a name="l01299"></a>01299 <span class="comment">/* u8_t uip_flags:</span>
+<a name="l01299"></a>01299 <span class="comment">/* uint8_t uip_flags:</span>
 <a name="l01300"></a>01300 <span class="comment"> *</span>
 <a name="l01301"></a>01301 <span class="comment"> * When the application is called, uip_flags will contain the flags</span>
 <a name="l01302"></a>01302 <span class="comment"> * that are defined in this file. Please read below for more</span>
 <a name="l01303"></a>01303 <span class="comment"> * infomation.</span>
 <a name="l01304"></a>01304 <span class="comment"> */</span>
-<a name="l01305"></a>01305 <span class="keyword">extern</span> <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a> <a class="code" href="a00150.html#gb4ef6b00924990e7a293f66715b6d1d1">uip_flags</a>;
-<a name="l01306"></a>01306 
+<a name="l01305"></a>01305 <span class="keyword">extern</span> <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a> <a class="code" href="a00150.html#gb4ef6b00924990e7a293f66715b6d1d1">uip_flags</a>;
+<a name="l01306"></a>01306
 <a name="l01307"></a>01307 <span class="comment">/* The following flags may be set in the global variable uip_flags</span>
 <a name="l01308"></a>01308 <span class="comment">   before calling the application callback. The UIP_ACKDATA,</span>
 <a name="l01309"></a>01309 <span class="comment">   UIP_NEWDATA, and UIP_CLOSE flags may both be set at the same time,</span>
 <a name="l01310"></a>01310 <span class="comment">   whereas the others are mutualy exclusive. Note that these flags</span>
 <a name="l01311"></a>01311 <span class="comment">   should *NOT* be accessed directly, but only through the uIP</span>
 <a name="l01312"></a>01312 <span class="comment">   functions/macros. */</span>
-<a name="l01313"></a>01313 
+<a name="l01313"></a>01313
 <a name="l01314"></a><a class="code" href="a00150.html#g6bfa488f87f68a6f7f4a3efb9e45eaf8">01314</a> <span class="preprocessor">#define UIP_ACKDATA   1     </span><span class="comment">/* Signifies that the outstanding data was</span>
 <a name="l01315"></a>01315 <span class="comment">                               acked and the application should send</span>
 <a name="l01316"></a>01316 <span class="comment">                               out new data instead of retransmitting</span>
@@ -1356,23 +1356,23 @@
 <a name="l01336"></a>01336 <span class="comment">                               host and have set up a new connection</span>
 <a name="l01337"></a>01337 <span class="comment">                               for it, or an active connection has</span>
 <a name="l01338"></a>01338 <span class="comment">                               been successfully established. */</span>
-<a name="l01339"></a>01339 
+<a name="l01339"></a>01339
 <a name="l01340"></a><a class="code" href="a00150.html#g2d3ba4b14d6d2f6576f9b547800b7945">01340</a> <span class="preprocessor">#define UIP_TIMEDOUT  128   </span><span class="comment">/* The connection has been aborted due to</span>
 <a name="l01341"></a>01341 <span class="comment">                               too many retransmissions. */</span>
-<a name="l01342"></a>01342 
+<a name="l01342"></a>01342
 <a name="l01343"></a>01343 <span class="comment">/* uip_process(flag):</span>
 <a name="l01344"></a>01344 <span class="comment"> *</span>
 <a name="l01345"></a>01345 <span class="comment"> * The actual uIP function which does all the work.</span>
 <a name="l01346"></a>01346 <span class="comment"> */</span>
-<a name="l01347"></a>01347 <span class="keywordtype">void</span> <a class="code" href="a00150.html#g266263ac78a1361a2b1d15741d3b0675">uip_process</a>(<a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a> flag);
-<a name="l01348"></a>01348 
+<a name="l01347"></a>01347 <span class="keywordtype">void</span> <a class="code" href="a00150.html#g266263ac78a1361a2b1d15741d3b0675">uip_process</a>(<a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a> flag);
+<a name="l01348"></a>01348
 <a name="l01349"></a>01349 <span class="comment">/* The following flags are passed as an argument to the uip_process()</span>
 <a name="l01350"></a>01350 <span class="comment">   function. They are used to distinguish between the two cases where</span>
 <a name="l01351"></a>01351 <span class="comment">   uip_process() is called. It can be called either because we have</span>
 <a name="l01352"></a>01352 <span class="comment">   incoming data that should be processed, or because the periodic</span>
 <a name="l01353"></a>01353 <span class="comment">   timer has fired. These values are never used directly, but only in</span>
 <a name="l01354"></a>01354 <span class="comment">   the macrose defined in this file. */</span>
-<a name="l01355"></a>01355  
+<a name="l01355"></a>01355
 <a name="l01356"></a><a class="code" href="a00150.html#gabc40c09f49d15acb1b1a7f02bb3a807">01356</a> <span class="preprocessor">#define UIP_DATA          1     </span><span class="comment">/* Tells uIP that there is incoming</span>
 <a name="l01357"></a>01357 <span class="comment">                                   data in the uip_buf buffer. The</span>
 <a name="l01358"></a>01358 <span class="comment">                                   length of the data is stored in the</span>
@@ -1387,7 +1387,7 @@
 <a name="l01367"></a>01367 <span class="preprocessor">#if UIP_UDP</span>
 <a name="l01368"></a><a class="code" href="a00150.html#gf0ccbc3bb2a3ba1ebc255c7b3fcedd24">01368</a> <span class="preprocessor"></span><span class="preprocessor">#define UIP_UDP_TIMER     5</span>
 <a name="l01369"></a>01369 <span class="preprocessor"></span><span class="preprocessor">#endif </span><span class="comment">/* UIP_UDP */</span>
-<a name="l01370"></a>01370 
+<a name="l01370"></a>01370
 <a name="l01371"></a>01371 <span class="comment">/* The TCP states used in the uip_conn-&gt;tcpstateflags. */</span>
 <a name="l01372"></a><a class="code" href="a00150.html#g28eda870cff3d8e3cf2949e6f57a502b">01372</a> <span class="preprocessor">#define UIP_CLOSED      0</span>
 <a name="l01373"></a><a class="code" href="a00150.html#ga5e3c856b86725125d19fccc34cd9eb5">01373</a> <span class="preprocessor"></span><span class="preprocessor">#define UIP_SYN_RCVD    1</span>
@@ -1399,22 +1399,22 @@
 <a name="l01379"></a><a class="code" href="a00150.html#gfff0ed43201bf1e2020de1a0d6cac070">01379</a> <span class="preprocessor"></span><span class="preprocessor">#define UIP_TIME_WAIT   7</span>
 <a name="l01380"></a><a class="code" href="a00150.html#gd135fb0cfdfb2c212f0f51865a3640e4">01380</a> <span class="preprocessor"></span><span class="preprocessor">#define UIP_LAST_ACK    8</span>
 <a name="l01381"></a><a class="code" href="a00150.html#g13dfcb4a5f920e108253ade527a66cc2">01381</a> <span class="preprocessor"></span><span class="preprocessor">#define UIP_TS_MASK     15</span>
-<a name="l01382"></a>01382 <span class="preprocessor"></span>  
+<a name="l01382"></a>01382 <span class="preprocessor"></span>
 <a name="l01383"></a><a class="code" href="a00150.html#gde29ec025e6754afd8cc24c954a8dec8">01383</a> <span class="preprocessor">#define UIP_STOPPED      16</span>
 <a name="l01384"></a>01384 <span class="preprocessor"></span>
 <a name="l01385"></a>01385 <span class="comment">/* The TCP and IP headers. */</span>
 <a name="l01386"></a><a class="code" href="a00094.html">01386</a> <span class="keyword">struct </span><a class="code" href="a00094.html">uip_tcpip_hdr</a> {
 <a name="l01387"></a>01387 <span class="preprocessor">#if UIP_CONF_IPV6</span>
 <a name="l01388"></a>01388 <span class="preprocessor"></span>  <span class="comment">/* IPv6 header. */</span>
-<a name="l01389"></a>01389   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a> vtc,
+<a name="l01389"></a>01389   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a> vtc,
 <a name="l01390"></a>01390     tcflow;
 <a name="l01391"></a>01391   <a class="code" href="a00153.html#g77570ac4fcab86864fa1916e55676da2">u16_t</a> flow;
-<a name="l01392"></a>01392   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a> <a class="code" href="a00094.html#e57281f5bef284bc9545834ef8ed4a96">len</a>[2];
-<a name="l01393"></a>01393   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a> <a class="code" href="a00094.html#e45b31a0a277dd5325ad2a332358b21b">proto</a>, <a class="code" href="a00094.html#0f27e16ddcf7199d514968204966f559">ttl</a>;
+<a name="l01392"></a>01392   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a> <a class="code" href="a00094.html#e57281f5bef284bc9545834ef8ed4a96">len</a>[2];
+<a name="l01393"></a>01393   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a> <a class="code" href="a00094.html#e45b31a0a277dd5325ad2a332358b21b">proto</a>, <a class="code" href="a00094.html#0f27e16ddcf7199d514968204966f559">ttl</a>;
 <a name="l01394"></a>01394   <a class="code" href="a00150.html#g9ebb4dac683163840eab9c6c41ad61f7">uip_ip6addr_t</a> <a class="code" href="a00094.html#c8f124419a231f38bb6cdf5041757a27">srcipaddr</a>, <a class="code" href="a00094.html#8d4e08d051b35b1c710c3be5b8bbfa05">destipaddr</a>;
 <a name="l01395"></a>01395 <span class="preprocessor">#else </span><span class="comment">/* UIP_CONF_IPV6 */</span>
 <a name="l01396"></a>01396   <span class="comment">/* IPv4 header. */</span>
-<a name="l01397"></a><a class="code" href="a00094.html#e1e60d56ea87dfa09230e25ca5ecf2fc">01397</a>   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a> <a class="code" href="a00094.html#e1e60d56ea87dfa09230e25ca5ecf2fc">vhl</a>,
+<a name="l01397"></a><a class="code" href="a00094.html#e1e60d56ea87dfa09230e25ca5ecf2fc">01397</a>   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a> <a class="code" href="a00094.html#e1e60d56ea87dfa09230e25ca5ecf2fc">vhl</a>,
 <a name="l01398"></a>01398     <a class="code" href="a00094.html#8cf0ca17b115ff2e3071b3fabcc43b53">tos</a>,
 <a name="l01399"></a>01399     <a class="code" href="a00094.html#e57281f5bef284bc9545834ef8ed4a96">len</a>[2],
 <a name="l01400"></a>01400     <a class="code" href="a00094.html#7a59f0dad059786238d8ab604630e7f3">ipid</a>[2],
@@ -1425,33 +1425,33 @@
 <a name="l01405"></a><a class="code" href="a00094.html#c8f124419a231f38bb6cdf5041757a27">01405</a>   <a class="code" href="a00153.html#g77570ac4fcab86864fa1916e55676da2">u16_t</a> <a class="code" href="a00094.html#c8f124419a231f38bb6cdf5041757a27">srcipaddr</a>[2],
 <a name="l01406"></a>01406     <a class="code" href="a00094.html#8d4e08d051b35b1c710c3be5b8bbfa05">destipaddr</a>[2];
 <a name="l01407"></a>01407 <span class="preprocessor">#endif </span><span class="comment">/* UIP_CONF_IPV6 */</span>
-<a name="l01408"></a>01408   
+<a name="l01408"></a>01408
 <a name="l01409"></a>01409   <span class="comment">/* TCP header. */</span>
 <a name="l01410"></a><a class="code" href="a00094.html#a81fff4836049cb3c018304d77337554">01410</a>   <a class="code" href="a00153.html#g77570ac4fcab86864fa1916e55676da2">u16_t</a> <a class="code" href="a00094.html#a81fff4836049cb3c018304d77337554">srcport</a>,
 <a name="l01411"></a>01411     <a class="code" href="a00094.html#025ffa46b799fa6952719c499a3ae17c">destport</a>;
-<a name="l01412"></a><a class="code" href="a00094.html#7f0ab3fe3bcf1e3ed9f5950cb4474ec1">01412</a>   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a> <a class="code" href="a00094.html#2541fae506eb111ff1be2372e0919839">seqno</a>[4],
+<a name="l01412"></a><a class="code" href="a00094.html#7f0ab3fe3bcf1e3ed9f5950cb4474ec1">01412</a>   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a> <a class="code" href="a00094.html#2541fae506eb111ff1be2372e0919839">seqno</a>[4],
 <a name="l01413"></a>01413     <a class="code" href="a00094.html#71721395f1c7c42b8bcc111b339bea7c">ackno</a>[4],
 <a name="l01414"></a>01414     <a class="code" href="a00094.html#6af8a59d0ab8967aacea749d6e59ac90">tcpoffset</a>,
 <a name="l01415"></a>01415     <a class="code" href="a00094.html#619d9755a5d4aaabdb2e5e6ea4c1e0bf">flags</a>,
 <a name="l01416"></a>01416     <a class="code" href="a00094.html#7f0ab3fe3bcf1e3ed9f5950cb4474ec1">wnd</a>[2];
 <a name="l01417"></a><a class="code" href="a00094.html#f4a1d8cfbe270393a2de02b0c743e474">01417</a>   <a class="code" href="a00153.html#g77570ac4fcab86864fa1916e55676da2">u16_t</a> <a class="code" href="a00094.html#f4a1d8cfbe270393a2de02b0c743e474">tcpchksum</a>;
-<a name="l01418"></a><a class="code" href="a00094.html#dc7001682017599549f57771f4cd1b9a">01418</a>   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a> <a class="code" href="a00094.html#dc7001682017599549f57771f4cd1b9a">urgp</a>[2];
-<a name="l01419"></a><a class="code" href="a00094.html#dde3cf9a57445814d01b3c67da08afdb">01419</a>   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a> <a class="code" href="a00094.html#dde3cf9a57445814d01b3c67da08afdb">optdata</a>[4];
+<a name="l01418"></a><a class="code" href="a00094.html#dc7001682017599549f57771f4cd1b9a">01418</a>   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a> <a class="code" href="a00094.html#dc7001682017599549f57771f4cd1b9a">urgp</a>[2];
+<a name="l01419"></a><a class="code" href="a00094.html#dde3cf9a57445814d01b3c67da08afdb">01419</a>   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a> <a class="code" href="a00094.html#dde3cf9a57445814d01b3c67da08afdb">optdata</a>[4];
 <a name="l01420"></a>01420 };
-<a name="l01421"></a>01421 
+<a name="l01421"></a>01421
 <a name="l01422"></a>01422 <span class="comment">/* The ICMP and IP headers. */</span>
 <a name="l01423"></a><a class="code" href="a00091.html">01423</a> <span class="keyword">struct </span><a class="code" href="a00091.html">uip_icmpip_hdr</a> {
 <a name="l01424"></a>01424 <span class="preprocessor">#if UIP_CONF_IPV6</span>
 <a name="l01425"></a>01425 <span class="preprocessor"></span>  <span class="comment">/* IPv6 header. */</span>
-<a name="l01426"></a>01426   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a> vtc,
+<a name="l01426"></a>01426   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a> vtc,
 <a name="l01427"></a>01427     tcf;
 <a name="l01428"></a>01428   <a class="code" href="a00153.html#g77570ac4fcab86864fa1916e55676da2">u16_t</a> flow;
-<a name="l01429"></a>01429   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a> <a class="code" href="a00091.html#b15853725b233d526b291db0347d4ecd">len</a>[2];
-<a name="l01430"></a>01430   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a> <a class="code" href="a00091.html#55e7764a9f6ed05aaa98076b9f6770a5">proto</a>, <a class="code" href="a00091.html#55be3d5413ce49c5c4f5576def12d7ec">ttl</a>;
+<a name="l01429"></a>01429   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a> <a class="code" href="a00091.html#b15853725b233d526b291db0347d4ecd">len</a>[2];
+<a name="l01430"></a>01430   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a> <a class="code" href="a00091.html#55e7764a9f6ed05aaa98076b9f6770a5">proto</a>, <a class="code" href="a00091.html#55be3d5413ce49c5c4f5576def12d7ec">ttl</a>;
 <a name="l01431"></a>01431   <a class="code" href="a00150.html#g9ebb4dac683163840eab9c6c41ad61f7">uip_ip6addr_t</a> <a class="code" href="a00091.html#0ec6a6cbcbfd191d393738c16d54e5e1">srcipaddr</a>, <a class="code" href="a00091.html#e27f4949613fe3c1de5a839af01d99dd">destipaddr</a>;
 <a name="l01432"></a>01432 <span class="preprocessor">#else </span><span class="comment">/* UIP_CONF_IPV6 */</span>
 <a name="l01433"></a>01433   <span class="comment">/* IPv4 header. */</span>
-<a name="l01434"></a><a class="code" href="a00091.html#7d472d8b3c41618d39c93c4ca92fb3f4">01434</a>   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a> <a class="code" href="a00091.html#7d472d8b3c41618d39c93c4ca92fb3f4">vhl</a>,
+<a name="l01434"></a><a class="code" href="a00091.html#7d472d8b3c41618d39c93c4ca92fb3f4">01434</a>   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a> <a class="code" href="a00091.html#7d472d8b3c41618d39c93c4ca92fb3f4">vhl</a>,
 <a name="l01435"></a>01435     <a class="code" href="a00091.html#a3f2d9cb20290019b2743e8df31a2f8b">tos</a>,
 <a name="l01436"></a>01436     <a class="code" href="a00091.html#b15853725b233d526b291db0347d4ecd">len</a>[2],
 <a name="l01437"></a>01437     <a class="code" href="a00091.html#308463cc7b3d45d2dbcdcedd4cde9bb9">ipid</a>[2],
@@ -1462,33 +1462,33 @@
 <a name="l01442"></a><a class="code" href="a00091.html#0ec6a6cbcbfd191d393738c16d54e5e1">01442</a>   <a class="code" href="a00153.html#g77570ac4fcab86864fa1916e55676da2">u16_t</a> <a class="code" href="a00091.html#0ec6a6cbcbfd191d393738c16d54e5e1">srcipaddr</a>[2],
 <a name="l01443"></a>01443     <a class="code" href="a00091.html#e27f4949613fe3c1de5a839af01d99dd">destipaddr</a>[2];
 <a name="l01444"></a>01444 <span class="preprocessor">#endif </span><span class="comment">/* UIP_CONF_IPV6 */</span>
-<a name="l01445"></a>01445   
+<a name="l01445"></a>01445
 <a name="l01446"></a>01446   <span class="comment">/* ICMP (echo) header. */</span>
-<a name="l01447"></a><a class="code" href="a00091.html#fa0fe6ca88f692d22af70ff007411252">01447</a>   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a> <a class="code" href="a00091.html#fa0fe6ca88f692d22af70ff007411252">type</a>, <a class="code" href="a00091.html#266ea23d75c83f15b915ce54100e51c5">icode</a>;
+<a name="l01447"></a><a class="code" href="a00091.html#fa0fe6ca88f692d22af70ff007411252">01447</a>   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a> <a class="code" href="a00091.html#fa0fe6ca88f692d22af70ff007411252">type</a>, <a class="code" href="a00091.html#266ea23d75c83f15b915ce54100e51c5">icode</a>;
 <a name="l01448"></a><a class="code" href="a00091.html#805f8fd5533a6d4b6793e0645005da4c">01448</a>   <a class="code" href="a00153.html#g77570ac4fcab86864fa1916e55676da2">u16_t</a> <a class="code" href="a00091.html#805f8fd5533a6d4b6793e0645005da4c">icmpchksum</a>;
 <a name="l01449"></a>01449 <span class="preprocessor">#if !UIP_CONF_IPV6</span>
 <a name="l01450"></a><a class="code" href="a00091.html#967def494c68cfc8a08d5a6c4dbbc25d">01450</a> <span class="preprocessor"></span>  <a class="code" href="a00153.html#g77570ac4fcab86864fa1916e55676da2">u16_t</a> <a class="code" href="a00091.html#a6d51f3fa5da9b7f9cd37ae69600c04a">id</a>, <a class="code" href="a00091.html#967def494c68cfc8a08d5a6c4dbbc25d">seqno</a>;
 <a name="l01451"></a>01451 <span class="preprocessor">#else </span><span class="comment">/* !UIP_CONF_IPV6 */</span>
-<a name="l01452"></a>01452   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a> flags, reserved1, reserved2, reserved3;
-<a name="l01453"></a>01453   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a> icmp6data[16];
-<a name="l01454"></a>01454   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a> options[1];
+<a name="l01452"></a>01452   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a> flags, reserved1, reserved2, reserved3;
+<a name="l01453"></a>01453   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a> icmp6data[16];
+<a name="l01454"></a>01454   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a> options[1];
 <a name="l01455"></a>01455 <span class="preprocessor">#endif </span><span class="comment">/* !UIP_CONF_IPV6 */</span>
 <a name="l01456"></a>01456 };
-<a name="l01457"></a>01457 
-<a name="l01458"></a>01458 
+<a name="l01457"></a>01457
+<a name="l01458"></a>01458
 <a name="l01459"></a>01459 <span class="comment">/* The UDP and IP headers. */</span>
 <a name="l01460"></a><a class="code" href="a00096.html">01460</a> <span class="keyword">struct </span><a class="code" href="a00096.html">uip_udpip_hdr</a> {
 <a name="l01461"></a>01461 <span class="preprocessor">#if UIP_CONF_IPV6</span>
 <a name="l01462"></a>01462 <span class="preprocessor"></span>  <span class="comment">/* IPv6 header. */</span>
-<a name="l01463"></a>01463   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a> vtc,
+<a name="l01463"></a>01463   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a> vtc,
 <a name="l01464"></a>01464     tcf;
 <a name="l01465"></a>01465   <a class="code" href="a00153.html#g77570ac4fcab86864fa1916e55676da2">u16_t</a> flow;
-<a name="l01466"></a>01466   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a> <a class="code" href="a00096.html#47140aa52cb9e6a2de38fdfc5da08df1">len</a>[2];
-<a name="l01467"></a>01467   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a> <a class="code" href="a00096.html#51bbbe3099c10ef26119ddc2aa51e35e">proto</a>, <a class="code" href="a00096.html#6f8c65cfc8242197bcc3cb5b4735b16f">ttl</a>;
+<a name="l01466"></a>01466   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a> <a class="code" href="a00096.html#47140aa52cb9e6a2de38fdfc5da08df1">len</a>[2];
+<a name="l01467"></a>01467   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a> <a class="code" href="a00096.html#51bbbe3099c10ef26119ddc2aa51e35e">proto</a>, <a class="code" href="a00096.html#6f8c65cfc8242197bcc3cb5b4735b16f">ttl</a>;
 <a name="l01468"></a>01468   <a class="code" href="a00150.html#g9ebb4dac683163840eab9c6c41ad61f7">uip_ip6addr_t</a> <a class="code" href="a00096.html#a80e8d0fc768525fa3bfb3d4e4cf260d">srcipaddr</a>, <a class="code" href="a00096.html#be2c98748e180c1747823cd2fb8ecf0e">destipaddr</a>;
 <a name="l01469"></a>01469 <span class="preprocessor">#else </span><span class="comment">/* UIP_CONF_IPV6 */</span>
 <a name="l01470"></a>01470   <span class="comment">/* IP header. */</span>
-<a name="l01471"></a><a class="code" href="a00096.html#f1684ad96b8acf54154688df3883b801">01471</a>   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a> <a class="code" href="a00096.html#f1684ad96b8acf54154688df3883b801">vhl</a>,
+<a name="l01471"></a><a class="code" href="a00096.html#f1684ad96b8acf54154688df3883b801">01471</a>   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a> <a class="code" href="a00096.html#f1684ad96b8acf54154688df3883b801">vhl</a>,
 <a name="l01472"></a>01472     <a class="code" href="a00096.html#ed119a030ebd3bf7c30a12071c27d441">tos</a>,
 <a name="l01473"></a>01473     <a class="code" href="a00096.html#47140aa52cb9e6a2de38fdfc5da08df1">len</a>[2],
 <a name="l01474"></a>01474     <a class="code" href="a00096.html#569382bc53aa64c227e57efe88fe13ac">ipid</a>[2],
@@ -1499,15 +1499,15 @@
 <a name="l01479"></a><a class="code" href="a00096.html#a80e8d0fc768525fa3bfb3d4e4cf260d">01479</a>   <a class="code" href="a00153.html#g77570ac4fcab86864fa1916e55676da2">u16_t</a> <a class="code" href="a00096.html#a80e8d0fc768525fa3bfb3d4e4cf260d">srcipaddr</a>[2],
 <a name="l01480"></a>01480     <a class="code" href="a00096.html#be2c98748e180c1747823cd2fb8ecf0e">destipaddr</a>[2];
 <a name="l01481"></a>01481 <span class="preprocessor">#endif </span><span class="comment">/* UIP_CONF_IPV6 */</span>
-<a name="l01482"></a>01482   
+<a name="l01482"></a>01482
 <a name="l01483"></a>01483   <span class="comment">/* UDP header. */</span>
 <a name="l01484"></a><a class="code" href="a00096.html#b20096ae4953caaa42f6bb2373c4494c">01484</a>   <a class="code" href="a00153.html#g77570ac4fcab86864fa1916e55676da2">u16_t</a> <a class="code" href="a00096.html#b20096ae4953caaa42f6bb2373c4494c">srcport</a>,
 <a name="l01485"></a>01485     <a class="code" href="a00096.html#e82f68cb91d8688a619d55d2a8572979">destport</a>;
 <a name="l01486"></a><a class="code" href="a00096.html#c92d2f194f096e84791f95d7e8f0ba92">01486</a>   <a class="code" href="a00153.html#g77570ac4fcab86864fa1916e55676da2">u16_t</a> <a class="code" href="a00096.html#c92d2f194f096e84791f95d7e8f0ba92">udplen</a>;
 <a name="l01487"></a><a class="code" href="a00096.html#858f970feb7462871c814953697a8ad7">01487</a>   <a class="code" href="a00153.html#g77570ac4fcab86864fa1916e55676da2">u16_t</a> <a class="code" href="a00096.html#858f970feb7462871c814953697a8ad7">udpchksum</a>;
 <a name="l01488"></a>01488 };
-<a name="l01489"></a>01489 
-<a name="l01490"></a>01490 
+<a name="l01489"></a>01489
+<a name="l01490"></a>01490
 <a name="l01491"></a>01491 <span class="comment"></span>
 <a name="l01492"></a>01492 <span class="comment">/**</span>
 <a name="l01493"></a>01493 <span class="comment"> * The buffer size available for user data in the \ref uip_buf buffer.</span>
@@ -1525,7 +1525,7 @@
 <a name="l01505"></a>01505 <span class="comment"> */</span>
 <a name="l01506"></a><a class="code" href="a00150.html#ge0825474feee11b4e038bfe71757875f">01506</a> <span class="preprocessor">#define UIP_APPDATA_SIZE (UIP_BUFSIZE - UIP_LLH_LEN - UIP_TCPIP_HLEN)</span>
 <a name="l01507"></a>01507 <span class="preprocessor"></span>
-<a name="l01508"></a>01508 
+<a name="l01508"></a>01508
 <a name="l01509"></a><a class="code" href="a00150.html#g359951eecd80541c2101f628a9da9146">01509</a> <span class="preprocessor">#define UIP_PROTO_ICMP  1</span>
 <a name="l01510"></a><a class="code" href="a00150.html#g517c770991459cc62dc009c0d3875c6a">01510</a> <span class="preprocessor"></span><span class="preprocessor">#define UIP_PROTO_TCP   6</span>
 <a name="l01511"></a><a class="code" href="a00150.html#gf72d7b9a737707dcfb2c41fec2b6792e">01511</a> <span class="preprocessor"></span><span class="preprocessor">#define UIP_PROTO_UDP   17</span>
@@ -1547,20 +1547,20 @@
 <a name="l01527"></a>01527 <span class="comment">                                                          header */</span>
 <a name="l01528"></a><a class="code" href="a00150.html#gee37386b2ab828787c05227eb109def7">01528</a> <span class="preprocessor">#define UIP_TCPIP_HLEN UIP_IPTCPH_LEN</span>
 <a name="l01529"></a>01529 <span class="preprocessor"></span>
-<a name="l01530"></a>01530 
+<a name="l01530"></a>01530
 <a name="l01531"></a>01531 <span class="preprocessor">#if UIP_FIXEDADDR</span>
 <a name="l01532"></a>01532 <span class="preprocessor"></span><span class="keyword">extern</span> <span class="keyword">const</span> <a class="code" href="a00150.html#g1ef35301f43a5bbb9f89f07b5a36b9a0">uip_ipaddr_t</a> <a class="code" href="a00150.html#g7d3673f52f5846b6961d23b150decd54">uip_hostaddr</a>, <a class="code" href="a00150.html#g3237be0d9ec457de0177689ee23c0d5c">uip_netmask</a>, <a class="code" href="a00150.html#g20df5c82f2a15a508c19e505b5d9de2b">uip_draddr</a>;
 <a name="l01533"></a>01533 <span class="preprocessor">#else </span><span class="comment">/* UIP_FIXEDADDR */</span>
 <a name="l01534"></a>01534 <span class="keyword">extern</span> <a class="code" href="a00150.html#g1ef35301f43a5bbb9f89f07b5a36b9a0">uip_ipaddr_t</a> <a class="code" href="a00150.html#g7d3673f52f5846b6961d23b150decd54">uip_hostaddr</a>, <a class="code" href="a00150.html#g3237be0d9ec457de0177689ee23c0d5c">uip_netmask</a>, <a class="code" href="a00150.html#g20df5c82f2a15a508c19e505b5d9de2b">uip_draddr</a>;
 <a name="l01535"></a>01535 <span class="preprocessor">#endif </span><span class="comment">/* UIP_FIXEDADDR */</span>
-<a name="l01536"></a>01536 
-<a name="l01537"></a>01537 
+<a name="l01536"></a>01536
+<a name="l01537"></a>01537
 <a name="l01538"></a>01538 <span class="comment"></span>
 <a name="l01539"></a>01539 <span class="comment">/**</span>
 <a name="l01540"></a>01540 <span class="comment"> * Representation of a 48-bit Ethernet address.</span>
 <a name="l01541"></a>01541 <span class="comment"> */</span>
 <a name="l01542"></a><a class="code" href="a00089.html">01542</a> <span class="keyword">struct </span><a class="code" href="a00089.html">uip_eth_addr</a> {
-<a name="l01543"></a><a class="code" href="a00089.html#aacd5fa1806e0f0dd0bc96dd36507ad8">01543</a>   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a> <a class="code" href="a00089.html#aacd5fa1806e0f0dd0bc96dd36507ad8">addr</a>[6];
+<a name="l01543"></a><a class="code" href="a00089.html#aacd5fa1806e0f0dd0bc96dd36507ad8">01543</a>   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a> <a class="code" href="a00089.html#aacd5fa1806e0f0dd0bc96dd36507ad8">addr</a>[6];
 <a name="l01544"></a>01544 };
 <a name="l01545"></a>01545 <span class="comment"></span>
 <a name="l01546"></a>01546 <span class="comment">/**</span>
@@ -1613,10 +1613,10 @@
 <a name="l01593"></a>01593 <span class="comment"> * to by uip_appdata.</span>
 <a name="l01594"></a>01594 <span class="comment"> */</span>
 <a name="l01595"></a>01595 <a class="code" href="a00153.html#g77570ac4fcab86864fa1916e55676da2">u16_t</a> <a class="code" href="a00150.html#g7023a34ba9e9d03b5fbedbcb32924453">uip_udpchksum</a>(<span class="keywordtype">void</span>);
-<a name="l01596"></a>01596 
-<a name="l01597"></a>01597 
+<a name="l01596"></a>01596
+<a name="l01597"></a>01597
 <a name="l01598"></a>01598 <span class="preprocessor">#endif </span><span class="comment">/* __UIP_H__ */</span>
-<a name="l01599"></a>01599 
+<a name="l01599"></a>01599
 <a name="l01600"></a>01600 <span class="comment"></span>
 <a name="l01601"></a>01601 <span class="comment">/** @} */</span>
 </pre></div><hr size="1"><address style="align: right;"><small>Generated on Mon Jun 12 10:23:01 2006 for uIP 1.0 by&nbsp;

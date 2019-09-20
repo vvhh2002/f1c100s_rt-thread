@@ -215,7 +215,7 @@ static err_t ppp_netif_output(struct netif *netif, struct pbuf *pb, u16_t protoc
 /*** PUBLIC FUNCTION DEFINITIONS ***/
 /***********************************/
 #if PPP_AUTH_SUPPORT
-void ppp_set_auth(ppp_pcb *pcb, u8_t authtype, const char *user, const char *passwd) {
+void ppp_set_auth(ppp_pcb *pcb, uint8_t authtype, const char *user, const char *passwd) {
 #if PAP_SUPPORT
   pcb->settings.refuse_pap = !(authtype & PPPAUTHTYPE_PAP);
 #endif /* PAP_SUPPORT */
@@ -236,7 +236,7 @@ void ppp_set_auth(ppp_pcb *pcb, u8_t authtype, const char *user, const char *pas
 
 #if MPPE_SUPPORT
 /* Set MPPE configuration */
-void ppp_set_mppe(ppp_pcb *pcb, u8_t flags) {
+void ppp_set_mppe(ppp_pcb *pcb, uint8_t flags) {
   if (flags == PPP_MPPE_DISABLE) {
     pcb->settings.require_mppe = 0;
     return;
@@ -280,7 +280,7 @@ err_t ppp_connect(ppp_pcb *pcb, u16_t holdoff) {
   }
 
   new_phase(pcb, PPP_PHASE_HOLDOFF);
-  sys_timeout((u32_t)(holdoff*1000), ppp_do_connect, pcb);
+  sys_timeout((uint32_t)(holdoff*1000), ppp_do_connect, pcb);
   return ERR_OK;
 }
 
@@ -321,7 +321,7 @@ err_t ppp_listen(ppp_pcb *pcb) {
  * Return 0 on success, an error code on failure.
  */
 err_t
-ppp_close(ppp_pcb *pcb, u8_t nocarrier)
+ppp_close(ppp_pcb *pcb, uint8_t nocarrier)
 {
   pcb->err_code = PPPERR_USER;
 
@@ -400,7 +400,7 @@ err_t ppp_free(ppp_pcb *pcb) {
 /* Get and set parameters for the given connection.
  * Return 0 on success, an error code on failure. */
 err_t
-ppp_ioctl(ppp_pcb *pcb, u8_t cmd, void *arg)
+ppp_ioctl(ppp_pcb *pcb, uint8_t cmd, void *arg)
 {
   if (pcb == NULL) {
     return ERR_VAL;
@@ -629,7 +629,7 @@ int ppp_init(void)
 
   return 0;
 }
- 
+
 /*
  * Create a new PPP control block.
  *
@@ -778,7 +778,7 @@ void ppp_input(ppp_pcb *pcb, struct pbuf *pb) {
     PPPDEBUG(LOG_ERR, ("ppp_input[%d]: packet too short\n", pcb->netif->num));
     goto drop;
   }
-  protocol = (((u8_t *)pb->payload)[0] << 8) | ((u8_t*)pb->payload)[1];
+  protocol = (((uint8_t *)pb->payload)[0] << 8) | ((uint8_t*)pb->payload)[1];
 
 #if PRINTPKT_SUPPORT
   ppp_dump_packet(pcb, "rcvd", (unsigned char *)pb->payload, pb->len);
@@ -836,7 +836,7 @@ void ppp_input(ppp_pcb *pcb, struct pbuf *pb) {
 #endif /* MPPE_SUPPORT */
 
   if (protocol == PPP_COMP) {
-    u8_t *pl;
+    uint8_t *pl;
 
     switch (pcb->ccp_receive_method) {
 #if MPPE_SUPPORT
@@ -857,7 +857,7 @@ void ppp_input(ppp_pcb *pcb, struct pbuf *pb) {
     }
 
     /* Extract and hide protocol (do PFC decompression if necessary) */
-    pl = (u8_t*)pb->payload;
+    pl = (uint8_t*)pb->payload;
     if (pl[0] & 0x01) {
       protocol = pl[0];
       pbuf_header(pb, -(s16_t)1);
@@ -924,7 +924,7 @@ void ppp_input(ppp_pcb *pcb, struct pbuf *pb) {
       for (i = 0; (protp = protocols[i]) != NULL; ++i) {
         if (protp->protocol == protocol) {
           pb = ppp_singlebuf(pb);
-          (*protp->input)(pcb, (u8_t*)pb->payload, pb->len);
+          (*protp->input)(pcb, (uint8_t*)pb->payload, pb->len);
           goto out;
         }
 #if 0   /* UNUSED
@@ -958,7 +958,7 @@ void ppp_input(ppp_pcb *pcb, struct pbuf *pb) {
         ppp_warn("Unsupported protocol 0x%x received", protocol);
 #endif /* PPP_DEBUG */
         pbuf_header(pb, (s16_t)sizeof(protocol));
-        lcp_sprotrej(pcb, (u8_t*)pb->payload, pb->len);
+        lcp_sprotrej(pcb, (uint8_t*)pb->payload, pb->len);
       }
       break;
   }
@@ -974,7 +974,7 @@ out:
 /* merge a pbuf chain into one pbuf */
 struct pbuf *ppp_singlebuf(struct pbuf *p) {
   struct pbuf *q, *b;
-  u8_t *pl;
+  uint8_t *pl;
 
   if(p->tot_len == p->len) {
     return p;
@@ -987,7 +987,7 @@ struct pbuf *ppp_singlebuf(struct pbuf *p) {
     return p; /* live dangerously */
   }
 
-  for(b = p, pl = (u8_t*)q->payload; b != NULL; b = b->next) {
+  for(b = p, pl = (uint8_t*)q->payload; b != NULL; b = b->next) {
     MEMCPY(pl, b->payload, b->len);
     pl += b->len;
   }
@@ -1041,7 +1041,7 @@ void new_phase(ppp_pcb *pcb, int p) {
  * ppp_send_config - configure the transmit-side characteristics of
  * the ppp interface.
  */
-int ppp_send_config(ppp_pcb *pcb, int mtu, u32_t accm, int pcomp, int accomp) {
+int ppp_send_config(ppp_pcb *pcb, int mtu, uint32_t accm, int pcomp, int accomp) {
   LWIP_UNUSED_ARG(mtu);
   /* pcb->mtu = mtu; -- set correctly with netif_set_mtu */
 
@@ -1057,7 +1057,7 @@ int ppp_send_config(ppp_pcb *pcb, int mtu, u32_t accm, int pcomp, int accomp) {
  * ppp_recv_config - configure the receive-side characteristics of
  * the ppp interface.
  */
-int ppp_recv_config(ppp_pcb *pcb, int mru, u32_t accm, int pcomp, int accomp) {
+int ppp_recv_config(ppp_pcb *pcb, int mru, uint32_t accm, int pcomp, int accomp) {
   LWIP_UNUSED_ARG(mru);
 
   if (pcb->link_cb->recv_config) {
@@ -1072,7 +1072,7 @@ int ppp_recv_config(ppp_pcb *pcb, int mru, u32_t accm, int pcomp, int accomp) {
 /*
  * sifaddr - Config the interface IP addresses and netmask.
  */
-int sifaddr(ppp_pcb *pcb, u32_t our_adr, u32_t his_adr, u32_t netmask) {
+int sifaddr(ppp_pcb *pcb, uint32_t our_adr, uint32_t his_adr, uint32_t netmask) {
   ip4_addr_t ip, nm, gw;
 
   ip4_addr_set_u32(&ip, our_adr);
@@ -1087,7 +1087,7 @@ int sifaddr(ppp_pcb *pcb, u32_t our_adr, u32_t his_adr, u32_t netmask) {
  * cifaddr - Clear the interface IP addresses, and delete routes
  * through the interface if possible.
  */
-int cifaddr(ppp_pcb *pcb, u32_t our_adr, u32_t his_adr) {
+int cifaddr(ppp_pcb *pcb, uint32_t our_adr, uint32_t his_adr) {
   LWIP_UNUSED_ARG(our_adr);
   LWIP_UNUSED_ARG(his_adr);
 
@@ -1101,7 +1101,7 @@ int cifaddr(ppp_pcb *pcb, u32_t our_adr, u32_t his_adr) {
  * sifproxyarp - Make a proxy ARP entry for the peer.
  */
 
-int sifproxyarp(ppp_pcb *pcb, u32_t his_adr) {
+int sifproxyarp(ppp_pcb *pcb, uint32_t his_adr) {
   LWIP_UNUSED_ARG(pcb);
   LWIP_UNUSED_ARG(his_adr);
   return 0;
@@ -1112,7 +1112,7 @@ int sifproxyarp(ppp_pcb *pcb, u32_t his_adr) {
  * cifproxyarp - Delete the proxy ARP entry for the peer.
  */
 
-int cifproxyarp(ppp_pcb *pcb, u32_t his_adr) {
+int cifproxyarp(ppp_pcb *pcb, uint32_t his_adr) {
   LWIP_UNUSED_ARG(pcb);
   LWIP_UNUSED_ARG(his_adr);
   return 0;
@@ -1123,7 +1123,7 @@ int cifproxyarp(ppp_pcb *pcb, u32_t his_adr) {
 /*
  * sdns - Config the DNS servers
  */
-int sdns(ppp_pcb *pcb, u32_t ns1, u32_t ns2) {
+int sdns(ppp_pcb *pcb, uint32_t ns1, uint32_t ns2) {
   ip_addr_t ns;
   LWIP_UNUSED_ARG(pcb);
 
@@ -1138,7 +1138,7 @@ int sdns(ppp_pcb *pcb, u32_t ns1, u32_t ns2) {
  *
  * cdns - Clear the DNS servers
  */
-int cdns(ppp_pcb *pcb, u32_t ns1, u32_t ns2) {
+int cdns(ppp_pcb *pcb, uint32_t ns1, uint32_t ns2) {
   const ip_addr_t *nsa;
   ip_addr_t nsb;
   LWIP_UNUSED_ARG(pcb);
@@ -1216,9 +1216,9 @@ int sifdown(ppp_pcb *pcb) {
  * network as `addr'.  If we find any, we OR in their netmask to the
  * user-specified netmask.
  */
-u32_t get_mask(u32_t addr) {
+uint32_t get_mask(uint32_t addr) {
 #if 0
-  u32_t mask, nmask;
+  uint32_t mask, nmask;
 
   addr = lwip_htonl(addr);
   if (IP_CLASSA(addr)) { /* determine network mask for address class */
@@ -1365,7 +1365,7 @@ ccp_test(ppp_pcb *pcb, u_char *opt_ptr, int opt_len, int for_transmit)
  * ccp_set - inform about the current state of CCP.
  */
 void
-ccp_set(ppp_pcb *pcb, u8_t isopen, u8_t isup, u8_t receive_method, u8_t transmit_method)
+ccp_set(ppp_pcb *pcb, uint8_t isopen, uint8_t isup, uint8_t receive_method, uint8_t transmit_method)
 {
   LWIP_UNUSED_ARG(isopen);
   LWIP_UNUSED_ARG(isup);

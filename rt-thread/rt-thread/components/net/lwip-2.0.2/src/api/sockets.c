@@ -193,7 +193,7 @@ static void sockaddr_to_ipaddr_port(const struct sockaddr* sockaddr, ip_addr_t* 
  * select on the same socket...
  */
 #ifndef SELWAIT_T
-#define SELWAIT_T u8_t
+#define SELWAIT_T uint8_t
 #endif
 
 #include <rtthread.h>
@@ -217,8 +217,8 @@ struct lwip_sock {
   u16_t sendevent;
   /** error happened for this socket, set by event_callback(), tested by select */
   u16_t errevent;
-  /** last error that occurred on this socket (in fact, all our errnos fit into an u8_t) */
-  u8_t err;
+  /** last error that occurred on this socket (in fact, all our errnos fit into an uint8_t) */
+  uint8_t err;
   /** counter of how many threads are waiting for this socket using select */
   SELWAIT_T select_waiting;
 
@@ -308,7 +308,7 @@ static volatile int select_cb_ctr;
 
 #define sock_set_errno(sk, e) do { \
   const int sockerr = (e); \
-  sk->err = (u8_t)sockerr; \
+  sk->err = (uint8_t)sockerr; \
   set_errno(sockerr); \
 } while (0)
 
@@ -318,8 +318,8 @@ static void event_callback(struct netconn *conn, enum netconn_evt evt, u16_t len
 static void lwip_getsockopt_callback(void *arg);
 static void lwip_setsockopt_callback(void *arg);
 #endif
-static u8_t lwip_getsockopt_impl(int s, int level, int optname, void *optval, socklen_t *optlen);
-static u8_t lwip_setsockopt_impl(int s, int level, int optname, const void *optval, socklen_t optlen);
+static uint8_t lwip_getsockopt_impl(int s, int level, int optname, void *optval, socklen_t *optlen);
+static uint8_t lwip_setsockopt_impl(int s, int level, int optname, const void *optval, socklen_t optlen);
 
 #if LWIP_IPV4 && LWIP_IPV6
 static void
@@ -742,10 +742,10 @@ lwip_listen(int s, int backlog)
     return -1;
   }
 
-  /* limit the "backlog" parameter to fit in an u8_t */
+  /* limit the "backlog" parameter to fit in an uint8_t */
   backlog = LWIP_MIN(LWIP_MAX(backlog, 0), 0xff);
 
-  err = netconn_listen_with_backlog(sock->conn, (u8_t)backlog);
+  err = netconn_listen_with_backlog(sock->conn, (uint8_t)backlog);
 
   if (err != ERR_OK) {
     LWIP_DEBUGF(SOCKETS_DEBUG, ("lwip_listen(%d) failed, err=%d\n", s, err));
@@ -770,7 +770,7 @@ lwip_recvfrom(int s, void *mem, size_t len, int flags,
   struct pbuf      *p;
   u16_t            buflen, copylen;
   int              off = 0;
-  u8_t             done = 0;
+  uint8_t             done = 0;
   err_t            err;
 
   LWIP_DEBUGF(SOCKETS_DEBUG, ("lwip_recvfrom(%d, %p, %"SZT_F", 0x%x, ..)\n", s, mem, len, flags));
@@ -851,7 +851,7 @@ lwip_recvfrom(int s, void *mem, size_t len, int flags,
 
     /* copy the contents of the received buffer into
     the supplied memory pointer mem */
-    pbuf_copy_partial(p, (u8_t*)mem + off, copylen, sock->lastoffset);
+    pbuf_copy_partial(p, (uint8_t*)mem + off, copylen, sock->lastoffset);
 
     off += copylen;
 
@@ -954,7 +954,7 @@ lwip_send(int s, const void *data, size_t size, int flags)
 {
   struct lwip_sock *sock;
   err_t err;
-  u8_t write_flags;
+  uint8_t write_flags;
   size_t written;
 
   LWIP_DEBUGF(SOCKETS_DEBUG, ("lwip_send(%d, data=%p, size=%"SZT_F", flags=0x%x)\n",
@@ -991,7 +991,7 @@ lwip_sendmsg(int s, const struct msghdr *msg, int flags)
   struct lwip_sock *sock;
   int i;
 #if LWIP_TCP
-  u8_t write_flags;
+  uint8_t write_flags;
   size_t written;
 #endif
   int size = 0;
@@ -1018,7 +1018,7 @@ lwip_sendmsg(int s, const struct msghdr *msg, int flags)
     ((flags & MSG_DONTWAIT) ? NETCONN_DONTBLOCK : 0);
 
     for (i = 0; i < msg->msg_iovlen; i++) {
-      u8_t apiflags = write_flags;
+      uint8_t apiflags = write_flags;
       if (i + 1 < msg->msg_iovlen) {
         apiflags |= NETCONN_MORE;
       }
@@ -1079,7 +1079,7 @@ lwip_sendmsg(int s, const struct msghdr *msg, int flags)
       /* flatten the IO vectors */
       size_t offset = 0;
       for (i = 0; i < msg->msg_iovlen; i++) {
-        MEMCPY(&((u8_t*)chain_buf->p->payload)[offset], msg->msg_iov[i].iov_base, msg->msg_iov[i].iov_len);
+        MEMCPY(&((uint8_t*)chain_buf->p->payload)[offset], msg->msg_iov[i].iov_base, msg->msg_iov[i].iov_len);
         offset += msg->msg_iov[i].iov_len;
       }
 #if LWIP_CHECKSUM_ON_COPY
@@ -1247,7 +1247,7 @@ lwip_socket(int domain, int type, int protocol)
   switch (type) {
   case SOCK_RAW:
     conn = netconn_new_with_proto_and_callback(DOMAIN_TO_NETCONN_TYPE(domain, NETCONN_RAW),
-                                               (u8_t)protocol, event_callback);
+                                               (uint8_t)protocol, event_callback);
     LWIP_DEBUGF(SOCKETS_DEBUG, ("lwip_socket(%s, SOCK_RAW, %d) = ",
                                  domain == PF_INET ? "PF_INET" : "UNKNOWN", protocol));
     break;
@@ -1395,10 +1395,10 @@ int
 lwip_select(int maxfdp1, fd_set *readset, fd_set *writeset, fd_set *exceptset,
             struct timeval *timeout)
 {
-  u32_t waitres = 0;
+  uint32_t waitres = 0;
   int nready;
   fd_set lreadset, lwriteset, lexceptset;
-  u32_t msectimeout;
+  uint32_t msectimeout;
   struct lwip_select_cb select_cb;
   int i;
   int maxfdp2;
@@ -1716,7 +1716,7 @@ lwip_shutdown(int s, int how)
 {
   struct lwip_sock *sock;
   err_t err;
-  u8_t shut_rx = 0, shut_tx = 0;
+  uint8_t shut_rx = 0, shut_tx = 0;
 
   LWIP_DEBUGF(SOCKETS_DEBUG, ("lwip_shutdown(%d, how=%d)\n", s, how));
 
@@ -1753,7 +1753,7 @@ lwip_shutdown(int s, int how)
 }
 
 static int
-lwip_getaddrname(int s, struct sockaddr *name, socklen_t *namelen, u8_t local)
+lwip_getaddrname(int s, struct sockaddr *name, socklen_t *namelen, uint8_t local)
 {
   struct lwip_sock *sock;
   union sockaddr_aligned saddr;
@@ -1812,7 +1812,7 @@ lwip_getsockname(int s, struct sockaddr *name, socklen_t *namelen)
 int
 lwip_getsockopt(int s, int level, int optname, void *optval, socklen_t *optlen)
 {
-  u8_t err;
+  uint8_t err;
   struct lwip_sock *sock = get_socket(s);
 #if !LWIP_TCPIP_CORE_LOCKING
   LWIP_SETGETSOCKOPT_DATA_VAR_DECLARE(data);
@@ -1907,10 +1907,10 @@ lwip_getsockopt_callback(void *arg)
 /** lwip_getsockopt_impl: the actual implementation of getsockopt:
  * same argument as lwip_getsockopt, either called directly or through callback
  */
-static u8_t
+static uint8_t
 lwip_getsockopt_impl(int s, int level, int optname, void *optval, socklen_t *optlen)
 {
-  u8_t err = 0;
+  uint8_t err = 0;
   struct lwip_sock *sock = tryget_socket(s);
   if (!sock) {
     return EBADF;
@@ -2054,11 +2054,11 @@ lwip_getsockopt_impl(int s, int level, int optname, void *optval, socklen_t *opt
       break;
 #if LWIP_MULTICAST_TX_OPTIONS
     case IP_MULTICAST_TTL:
-      LWIP_SOCKOPT_CHECK_OPTLEN_CONN_PCB(sock, *optlen, u8_t);
+      LWIP_SOCKOPT_CHECK_OPTLEN_CONN_PCB(sock, *optlen, uint8_t);
       if (NETCONNTYPE_GROUP(netconn_type(sock->conn)) != NETCONN_UDP) {
         return ENOPROTOOPT;
       }
-      *(u8_t*)optval = udp_get_multicast_ttl(sock->conn->pcb.udp);
+      *(uint8_t*)optval = udp_get_multicast_ttl(sock->conn->pcb.udp);
       LWIP_DEBUGF(SOCKETS_DEBUG, ("lwip_getsockopt(%d, IPPROTO_IP, IP_MULTICAST_TTL) = %d\n",
                   s, *(int *)optval));
       break;
@@ -2069,14 +2069,14 @@ lwip_getsockopt_impl(int s, int level, int optname, void *optval, socklen_t *opt
       }
       inet_addr_from_ip4addr((struct in_addr*)optval, udp_get_multicast_netif_addr(sock->conn->pcb.udp));
       LWIP_DEBUGF(SOCKETS_DEBUG, ("lwip_getsockopt(%d, IPPROTO_IP, IP_MULTICAST_IF) = 0x%"X32_F"\n",
-                  s, *(u32_t *)optval));
+                  s, *(uint32_t *)optval));
       break;
     case IP_MULTICAST_LOOP:
-      LWIP_SOCKOPT_CHECK_OPTLEN_CONN_PCB(sock, *optlen, u8_t);
+      LWIP_SOCKOPT_CHECK_OPTLEN_CONN_PCB(sock, *optlen, uint8_t);
       if ((sock->conn->pcb.udp->flags & UDP_FLAGS_MULTICAST_LOOP) != 0) {
-        *(u8_t*)optval = 1;
+        *(uint8_t*)optval = 1;
       } else {
-        *(u8_t*)optval = 0;
+        *(uint8_t*)optval = 0;
       }
       LWIP_DEBUGF(SOCKETS_DEBUG, ("lwip_getsockopt(%d, IPPROTO_IP, IP_MULTICAST_LOOP) = %d\n",
                   s, *(int *)optval));
@@ -2218,7 +2218,7 @@ lwip_getsockopt_impl(int s, int level, int optname, void *optval, socklen_t *opt
 int
 lwip_setsockopt(int s, int level, int optname, const void *optval, socklen_t optlen)
 {
-  u8_t err = 0;
+  uint8_t err = 0;
   struct lwip_sock *sock = get_socket(s);
 #if !LWIP_TCPIP_CORE_LOCKING
   LWIP_SETGETSOCKOPT_DATA_VAR_DECLARE(data);
@@ -2308,10 +2308,10 @@ lwip_setsockopt_callback(void *arg)
 /** lwip_setsockopt_impl: the actual implementation of setsockopt:
  * same argument as lwip_setsockopt, either called directly or through callback
  */
-static u8_t
+static uint8_t
 lwip_setsockopt_impl(int s, int level, int optname, const void *optval, socklen_t optlen)
 {
-  u8_t err = 0;
+  uint8_t err = 0;
   struct lwip_sock *sock = tryget_socket(s);
   if (!sock) {
     return EBADF;
@@ -2411,20 +2411,20 @@ lwip_setsockopt_impl(int s, int level, int optname, const void *optval, socklen_
     switch (optname) {
     case IP_TTL:
       LWIP_SOCKOPT_CHECK_OPTLEN_CONN_PCB(sock, optlen, int);
-      sock->conn->pcb.ip->ttl = (u8_t)(*(const int*)optval);
+      sock->conn->pcb.ip->ttl = (uint8_t)(*(const int*)optval);
       LWIP_DEBUGF(SOCKETS_DEBUG, ("lwip_setsockopt(%d, IPPROTO_IP, IP_TTL, ..) -> %d\n",
                   s, sock->conn->pcb.ip->ttl));
       break;
     case IP_TOS:
       LWIP_SOCKOPT_CHECK_OPTLEN_CONN_PCB(sock, optlen, int);
-      sock->conn->pcb.ip->tos = (u8_t)(*(const int*)optval);
+      sock->conn->pcb.ip->tos = (uint8_t)(*(const int*)optval);
       LWIP_DEBUGF(SOCKETS_DEBUG, ("lwip_setsockopt(%d, IPPROTO_IP, IP_TOS, ..)-> %d\n",
                   s, sock->conn->pcb.ip->tos));
       break;
 #if LWIP_MULTICAST_TX_OPTIONS
     case IP_MULTICAST_TTL:
-      LWIP_SOCKOPT_CHECK_OPTLEN_CONN_PCB_TYPE(sock, optlen, u8_t, NETCONN_UDP);
-      udp_set_multicast_ttl(sock->conn->pcb.udp, (u8_t)(*(const u8_t*)optval));
+      LWIP_SOCKOPT_CHECK_OPTLEN_CONN_PCB_TYPE(sock, optlen, uint8_t, NETCONN_UDP);
+      udp_set_multicast_ttl(sock->conn->pcb.udp, (uint8_t)(*(const uint8_t*)optval));
       break;
     case IP_MULTICAST_IF:
       {
@@ -2435,8 +2435,8 @@ lwip_setsockopt_impl(int s, int level, int optname, const void *optval, socklen_
       }
       break;
     case IP_MULTICAST_LOOP:
-      LWIP_SOCKOPT_CHECK_OPTLEN_CONN_PCB_TYPE(sock, optlen, u8_t, NETCONN_UDP);
-      if (*(const u8_t*)optval) {
+      LWIP_SOCKOPT_CHECK_OPTLEN_CONN_PCB_TYPE(sock, optlen, uint8_t, NETCONN_UDP);
+      if (*(const uint8_t*)optval) {
         udp_setflags(sock->conn->pcb.udp, udp_flags(sock->conn->pcb.udp) | UDP_FLAGS_MULTICAST_LOOP);
       } else {
         udp_setflags(sock->conn->pcb.udp, udp_flags(sock->conn->pcb.udp) & ~UDP_FLAGS_MULTICAST_LOOP);
@@ -2501,24 +2501,24 @@ lwip_setsockopt_impl(int s, int level, int optname, const void *optval, socklen_
                   s, (*(const int *)optval)?"on":"off") );
       break;
     case TCP_KEEPALIVE:
-      sock->conn->pcb.tcp->keep_idle = (u32_t)(*(const int*)optval);
+      sock->conn->pcb.tcp->keep_idle = (uint32_t)(*(const int*)optval);
       LWIP_DEBUGF(SOCKETS_DEBUG, ("lwip_setsockopt(%d, IPPROTO_TCP, TCP_KEEPALIVE) -> %"U32_F"\n",
                   s, sock->conn->pcb.tcp->keep_idle));
       break;
 
 #if LWIP_TCP_KEEPALIVE
     case TCP_KEEPIDLE:
-      sock->conn->pcb.tcp->keep_idle = 1000*(u32_t)(*(const int*)optval);
+      sock->conn->pcb.tcp->keep_idle = 1000*(uint32_t)(*(const int*)optval);
       LWIP_DEBUGF(SOCKETS_DEBUG, ("lwip_setsockopt(%d, IPPROTO_TCP, TCP_KEEPIDLE) -> %"U32_F"\n",
                   s, sock->conn->pcb.tcp->keep_idle));
       break;
     case TCP_KEEPINTVL:
-      sock->conn->pcb.tcp->keep_intvl = 1000*(u32_t)(*(const int*)optval);
+      sock->conn->pcb.tcp->keep_intvl = 1000*(uint32_t)(*(const int*)optval);
       LWIP_DEBUGF(SOCKETS_DEBUG, ("lwip_setsockopt(%d, IPPROTO_TCP, TCP_KEEPINTVL) -> %"U32_F"\n",
                   s, sock->conn->pcb.tcp->keep_intvl));
       break;
     case TCP_KEEPCNT:
-      sock->conn->pcb.tcp->keep_cnt = (u32_t)(*(const int*)optval);
+      sock->conn->pcb.tcp->keep_cnt = (uint32_t)(*(const int*)optval);
       LWIP_DEBUGF(SOCKETS_DEBUG, ("lwip_setsockopt(%d, IPPROTO_TCP, TCP_KEEPCNT) -> %"U32_F"\n",
                   s, sock->conn->pcb.tcp->keep_cnt));
       break;
@@ -2639,7 +2639,7 @@ int
 lwip_ioctl(int s, long cmd, void *argp)
 {
   struct lwip_sock *sock = get_socket(s);
-  u8_t val;
+  uint8_t val;
 #if LWIP_SO_RCVBUF
   u16_t buflen = 0;
   int recv_avail;
@@ -2712,7 +2712,7 @@ lwip_ioctl(int s, long cmd, void *argp)
 
   case (long)FIONBIO:
     val = 0;
-    if (argp && *(u32_t*)argp) {
+    if (argp && *(uint32_t*)argp) {
       val = 1;
     }
     netconn_set_nonblocking(sock->conn, val);

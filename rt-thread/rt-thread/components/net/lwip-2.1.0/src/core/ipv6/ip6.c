@@ -286,9 +286,9 @@ ip6_select_source_address(struct netif *netif, const ip6_addr_t *dest)
   const ip6_addr_t *cand_addr;
   s8_t dest_scope, cand_scope;
   s8_t best_scope = IP6_MULTICAST_SCOPE_RESERVED;
-  u8_t i, cand_pref, cand_bits;
-  u8_t best_pref = 0;
-  u8_t best_bits = 0;
+  uint8_t i, cand_pref, cand_bits;
+  uint8_t best_pref = 0;
+  uint8_t best_bits = 0;
 
   /* Start by determining the scope of the given destination address. These
    * tests are hopefully (roughly) in order of likeliness to match. */
@@ -470,7 +470,7 @@ ip6_input_accept(struct netif *netif)
 {
   /* interface is up? */
   if (netif_is_up(netif)) {
-    u8_t i;
+    uint8_t i;
     /* unicast to this interface address? address configured? */
     /* If custom scopes are used, the destination zone will be tested as
       * part of the local-address comparison, but we need to test the source
@@ -510,7 +510,7 @@ ip6_input(struct pbuf *p, struct netif *inp)
 {
   struct ip6_hdr *ip6hdr;
   struct netif *netif;
-  const u8_t *nexth;
+  const uint8_t *nexth;
   u16_t hlen, hlen_tot; /* the current header length */
 #if 0 /*IP_ACCEPT_LINK_LAYER_ADDRESSING*/
   @todo
@@ -605,7 +605,7 @@ ip6_input(struct pbuf *p, struct netif *inp)
     }
 #else /* LWIP_IPV6_MLD */
     else if (ip6_addr_issolicitednode(ip6_current_dest_addr())) {
-      u8_t i;
+      uint8_t i;
       /* Filter solicited node packets when MLD is not enabled
        * (for Neighbor discovery). */
       netif = NULL;
@@ -745,7 +745,7 @@ netif_found:
       {
         s32_t opt_dlen = 0;
 
-        opt_hdr = (struct ip6_opt_hdr *)((u8_t *)hbh_hdr + opt_offset);
+        opt_hdr = (struct ip6_opt_hdr *)((uint8_t *)hbh_hdr + opt_offset);
 
         switch (IP6_OPT_TYPE(opt_hdr)) {
         /* @todo: process IPV6 Hop-by-Hop option data */
@@ -834,7 +834,7 @@ netif_found:
       {
         s32_t opt_dlen = 0;
 
-        opt_hdr = (struct ip6_opt_hdr *)((u8_t *)dest_hdr + opt_offset);
+        opt_hdr = (struct ip6_opt_hdr *)((uint8_t *)dest_hdr + opt_offset);
 
         switch (IP6_OPT_TYPE(opt_hdr))
         {
@@ -1047,7 +1047,7 @@ options_done:
   LWIP_DEBUGF(IP6_DEBUG, ("ip6_input: p->len %"U16_F" p->tot_len %"U16_F"\n", p->len, p->tot_len));
 
   ip_data.current_ip_header_tot_len = hlen_tot;
-  
+
 #if LWIP_RAW
   /* p points to IPv6 header again for raw_input. */
   pbuf_add_header_force(p, hlen_tot);
@@ -1147,8 +1147,8 @@ ip6_input_cleanup:
  */
 err_t
 ip6_output_if(struct pbuf *p, const ip6_addr_t *src, const ip6_addr_t *dest,
-             u8_t hl, u8_t tc,
-             u8_t nexth, struct netif *netif)
+             uint8_t hl, uint8_t tc,
+             uint8_t nexth, struct netif *netif)
 {
   const ip6_addr_t *src_used = src;
   if (dest != LWIP_IP_HDRINCL) {
@@ -1171,8 +1171,8 @@ ip6_output_if(struct pbuf *p, const ip6_addr_t *src, const ip6_addr_t *dest,
  */
 err_t
 ip6_output_if_src(struct pbuf *p, const ip6_addr_t *src, const ip6_addr_t *dest,
-             u8_t hl, u8_t tc,
-             u8_t nexth, struct netif *netif)
+             uint8_t hl, uint8_t tc,
+             uint8_t nexth, struct netif *netif)
 {
   struct ip6_hdr *ip6hdr;
   ip6_addr_t dest_addr;
@@ -1289,7 +1289,7 @@ ip6_output_if_src(struct pbuf *p, const ip6_addr_t *src, const ip6_addr_t *dest,
  */
 err_t
 ip6_output(struct pbuf *p, const ip6_addr_t *src, const ip6_addr_t *dest,
-          u8_t hl, u8_t tc, u8_t nexth)
+          uint8_t hl, uint8_t tc, uint8_t nexth)
 {
   struct netif *netif;
   struct ip6_hdr *ip6hdr;
@@ -1347,7 +1347,7 @@ ip6_output(struct pbuf *p, const ip6_addr_t *src, const ip6_addr_t *dest,
  */
 err_t
 ip6_output_hinted(struct pbuf *p, const ip6_addr_t *src, const ip6_addr_t *dest,
-          u8_t hl, u8_t tc, u8_t nexth, struct netif_hint *netif_hint)
+          uint8_t hl, uint8_t tc, uint8_t nexth, struct netif_hint *netif_hint)
 {
   struct netif *netif;
   struct ip6_hdr *ip6hdr;
@@ -1400,15 +1400,15 @@ ip6_output_hinted(struct pbuf *p, const ip6_addr_t *src, const ip6_addr_t *dest,
  * @return ERR_OK if hop-by-hop header was added, ERR_* otherwise
  */
 err_t
-ip6_options_add_hbh_ra(struct pbuf *p, u8_t nexth, u8_t value)
+ip6_options_add_hbh_ra(struct pbuf *p, uint8_t nexth, uint8_t value)
 {
-  u8_t *opt_data;
-  u32_t offset = 0;
+  uint8_t *opt_data;
+  uint32_t offset = 0;
   struct ip6_hbh_hdr *hbh_hdr;
   struct ip6_opt_hdr *opt_hdr;
 
   /* fixed 4 bytes for router alert option and 2 bytes padding */
-  const u8_t hlen = (sizeof(struct ip6_opt_hdr) * 2) + IP6_ROUTER_ALERT_DLEN;
+  const uint8_t hlen = (sizeof(struct ip6_opt_hdr) * 2) + IP6_ROUTER_ALERT_DLEN;
   /* Move pointer to make room for hop-by-hop options header. */
   if (pbuf_add_header(p, sizeof(struct ip6_hbh_hdr) + hlen)) {
     LWIP_DEBUGF(IP6_DEBUG, ("ip6_options: no space for options header\n"));
@@ -1423,19 +1423,19 @@ ip6_options_add_hbh_ra(struct pbuf *p, u8_t nexth, u8_t value)
   offset = IP6_HBH_HLEN;
 
   /* Set router alert options to Hop-by-Hop extended option header */
-  opt_hdr = (struct ip6_opt_hdr *)((u8_t *)hbh_hdr + offset);
+  opt_hdr = (struct ip6_opt_hdr *)((uint8_t *)hbh_hdr + offset);
   IP6_OPT_TYPE(opt_hdr) = IP6_ROUTER_ALERT_OPTION;
   IP6_OPT_DLEN(opt_hdr) = IP6_ROUTER_ALERT_DLEN;
   offset += IP6_OPT_HLEN;
 
   /* Set router alert option data */
-  opt_data = (u8_t *)hbh_hdr + offset;
+  opt_data = (uint8_t *)hbh_hdr + offset;
   opt_data[0] = value;
   opt_data[1] = 0;
   offset += IP6_OPT_DLEN(opt_hdr);
 
   /* add 2 bytes padding to make 8 bytes Hop-by-Hop header length */
-  opt_hdr = (struct ip6_opt_hdr *)((u8_t *)hbh_hdr + offset);
+  opt_hdr = (struct ip6_opt_hdr *)((uint8_t *)hbh_hdr + offset);
   IP6_OPT_TYPE(opt_hdr) = IP6_PADN_OPTION;
   IP6_OPT_DLEN(opt_hdr) = 0;
 

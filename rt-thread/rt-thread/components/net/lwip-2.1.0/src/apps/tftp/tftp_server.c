@@ -86,8 +86,8 @@ struct tftp_state {
   int timer;
   int last_pkt;
   u16_t blknum;
-  u8_t retries;
-  u8_t mode_write;
+  uint8_t retries;
+  uint8_t mode_write;
 };
 
 static struct tftp_state tftp_state;

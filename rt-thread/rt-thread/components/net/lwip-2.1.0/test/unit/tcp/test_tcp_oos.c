@@ -56,7 +56,7 @@ static int tcp_oos_pbuf_count(struct tcp_pcb* pcb)
  * @param seg_index index of the segment on the ooseq list
  * @return seqno of the segment
  */
-static u32_t
+static uint32_t
 tcp_oos_seg_seqno(struct tcp_pcb* pcb, int seg_index)
 {
   int num = 0;
@@ -781,8 +781,8 @@ START_TEST(test_tcp_recv_ooseq_max_pbufs)
 END_TEST
 
 static void
-check_rx_counters(struct tcp_pcb *pcb, struct test_tcp_counters *counters, u32_t exp_close_calls, u32_t exp_rx_calls,
-                  u32_t exp_rx_bytes, u32_t exp_err_calls, int exp_oos_count, int exp_oos_len)
+check_rx_counters(struct tcp_pcb *pcb, struct test_tcp_counters *counters, uint32_t exp_close_calls, uint32_t exp_rx_calls,
+                  uint32_t exp_rx_bytes, uint32_t exp_err_calls, int exp_oos_count, int exp_oos_len)
 {
   int oos_len;
   EXPECT(counters->close_calls == exp_close_calls);
@@ -810,7 +810,7 @@ static void test_tcp_recv_ooseq_double_FINs(int delay_packet)
   struct tcp_pcb* pcb;
   struct pbuf *p_normal_fin, *p_data_after_fin, *p, *p_2nd_fin_ooseq;
   struct netif netif;
-  u32_t exp_rx_calls = 0, exp_rx_bytes = 0, exp_close_calls = 0, exp_oos_pbufs = 0, exp_oos_tcplen = 0;
+  uint32_t exp_rx_calls = 0, exp_rx_bytes = 0, exp_close_calls = 0, exp_oos_pbufs = 0, exp_oos_tcplen = 0;
   int first_dropped = 0xff;
 
   for(i = 0; i < (int)sizeof(data_full_wnd); i++) {

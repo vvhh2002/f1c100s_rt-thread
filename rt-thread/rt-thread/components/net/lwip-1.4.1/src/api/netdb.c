@@ -5,7 +5,7 @@
  */
 
 /*
- * Redistribution and use in source and binary forms, with or without modification, 
+ * Redistribution and use in source and binary forms, with or without modification,
  * are permitted provided that the following conditions are met:
  *
  * 1. Redistributions of source code must retain the above copyright notice,
@@ -14,21 +14,21 @@
  *    this list of conditions and the following disclaimer in the documentation
  *    and/or other materials provided with the distribution.
  * 3. The name of the author may not be used to endorse or promote products
- *    derived from this software without specific prior written permission. 
+ *    derived from this software without specific prior written permission.
  *
- * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR IMPLIED 
- * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
- * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT 
- * SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, 
- * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT 
- * OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING 
- * IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+ * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT
+ * SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT
+ * OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
+ * IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY
  * OF SUCH DAMAGE.
  *
  * This file is part of the lwIP TCP/IP stack.
- * 
+ *
  * Author: Simon Goldschmidt
  *
  */
@@ -116,7 +116,7 @@ lwip_gethostbyname(const char *name)
   LWIP_DEBUGF(DNS_DEBUG, ("hostent.h_name           == %s\n", s_hostent.h_name));
   LWIP_DEBUGF(DNS_DEBUG, ("hostent.h_aliases        == %p\n", s_hostent.h_aliases));
   if (s_hostent.h_aliases != NULL) {
-    u8_t idx;
+    uint8_t idx;
     for ( idx=0; s_hostent.h_aliases[idx]; idx++) {
       LWIP_DEBUGF(DNS_DEBUG, ("hostent.h_aliases[%i]->   == %p\n", idx, s_hostent.h_aliases[idx]));
       LWIP_DEBUGF(DNS_DEBUG, ("hostent.h_aliases[%i]->   == %s\n", idx, s_hostent.h_aliases[idx]));
@@ -126,7 +126,7 @@ lwip_gethostbyname(const char *name)
   LWIP_DEBUGF(DNS_DEBUG, ("hostent.h_length         == %d\n", s_hostent.h_length));
   LWIP_DEBUGF(DNS_DEBUG, ("hostent.h_addr_list      == %p\n", s_hostent.h_addr_list));
   if (s_hostent.h_addr_list != NULL) {
-    u8_t idx;
+    uint8_t idx;
     for ( idx=0; s_hostent.h_addr_list[idx]; idx++) {
       LWIP_DEBUGF(DNS_DEBUG, ("hostent.h_addr_list[%i]   == %p\n", idx, s_hostent.h_addr_list[idx]));
       LWIP_DEBUGF(DNS_DEBUG, ("hostent.h_addr_list[%i]-> == %s\n", idx, ip_ntoa((ip_addr_t*)s_hostent.h_addr_list[idx])));
@@ -258,7 +258,7 @@ lwip_freeaddrinfo(struct addrinfo *ai)
  *
  * @param nodename descriptive name or address string of the host
  *                 (may be NULL -> local address)
- * @param servname port number as string of NULL 
+ * @param servname port number as string of NULL
  * @param hints structure containing input values that set socktype and protocol
  * @param res pointer to a pointer where to store the result (set to NULL on failure)
  * @return 0 on success, non-zero on failure
@@ -317,7 +317,7 @@ lwip_getaddrinfo(const char *nodename, const char *servname,
     goto memerr;
   }
   memset(ai, 0, total_size);
-  sa = (struct sockaddr_in*)((u8_t*)ai + sizeof(struct addrinfo));
+  sa = (struct sockaddr_in*)((uint8_t*)ai + sizeof(struct addrinfo));
   /* set up sockaddr */
   inet_addr_from_ipaddr(&sa->sin_addr, &addr);
   sa->sin_family = AF_INET;

@@ -67,7 +67,7 @@ struct zepif_init {
   /** If != NULL, the udp pcb is bound to this netif */
   const struct netif *zep_netif;
   /** MAC address of the 6LowPAN device */
-  u8_t                addr[6];
+  uint8_t                addr[6];
 };
 
 err_t zepif_init(struct netif *netif);

@@ -77,7 +77,7 @@ void   tcpip_init(tcpip_init_done_fn tcpip_init_done, void *arg);
 err_t  tcpip_inpkt(struct pbuf *p, struct netif *inp, netif_input_fn input_fn);
 err_t  tcpip_input(struct pbuf *p, struct netif *inp);
 
-err_t  tcpip_callback_with_block(tcpip_callback_fn function, void *ctx, u8_t block);
+err_t  tcpip_callback_with_block(tcpip_callback_fn function, void *ctx, uint8_t block);
 /**
  * @ingroup lwip_os
  * @see tcpip_callback_with_block
@@ -93,7 +93,7 @@ err_t  pbuf_free_callback(struct pbuf *p);
 err_t  mem_free_callback(void *m);
 
 #if LWIP_TCPIP_TIMEOUT && LWIP_TIMERS
-err_t  tcpip_timeout(u32_t msecs, sys_timeout_handler h, void *arg);
+err_t  tcpip_timeout(uint32_t msecs, sys_timeout_handler h, void *arg);
 err_t  tcpip_untimeout(sys_timeout_handler h, void *arg);
 #endif /* LWIP_TCPIP_TIMEOUT && LWIP_TIMERS */
 

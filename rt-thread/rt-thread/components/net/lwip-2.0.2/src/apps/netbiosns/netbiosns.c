@@ -106,11 +106,11 @@ PACK_STRUCT_END
 #endif
 PACK_STRUCT_BEGIN
 struct netbios_name_hdr {
-  PACK_STRUCT_FLD_8(u8_t  nametype);
-  PACK_STRUCT_FLD_8(u8_t  encname[(NETBIOS_NAME_LEN*2)+1]);
+  PACK_STRUCT_FLD_8(uint8_t  nametype);
+  PACK_STRUCT_FLD_8(uint8_t  encname[(NETBIOS_NAME_LEN*2)+1]);
   PACK_STRUCT_FIELD(u16_t type);
   PACK_STRUCT_FIELD(u16_t cls);
-  PACK_STRUCT_FIELD(u32_t ttl);
+  PACK_STRUCT_FIELD(uint32_t ttl);
   PACK_STRUCT_FIELD(u16_t datalen);
   PACK_STRUCT_FIELD(u16_t flags);
   PACK_STRUCT_FLD_S(ip4_addr_p_t addr);
@@ -315,7 +315,7 @@ netbiosns_recv(void *arg, struct udp_pcb *upcb, struct pbuf *p, const ip_addr_t 
 }
 
 /**
- * @ingroup netbiosns 
+ * @ingroup netbiosns
  * Init netbios responder
  */
 void
@@ -336,7 +336,7 @@ netbiosns_init(void)
 
 #ifndef NETBIOS_LWIP_NAME
 /**
- * @ingroup netbiosns 
+ * @ingroup netbiosns
  * Set netbios name. ATTENTION: the hostname must be less than 15 characters!
  */
 void
@@ -352,7 +352,7 @@ netbiosns_set_name(const char* hostname)
 #endif
 
 /**
- * @ingroup netbiosns 
+ * @ingroup netbiosns
  * Stop netbios responder
  */
 void

@@ -80,9 +80,9 @@ struct mqtt_connect_client_info_t {
   /** will_msg, see will_topic */
   const char* will_msg;
   /** will_qos, see will_topic */
-  u8_t will_qos;
+  uint8_t will_qos;
   /** will_retain, see will_topic */
-  u8_t will_retain;
+  uint8_t will_retain;
 #if LWIP_ALTCP && LWIP_ALTCP_TLS
   /** TLS configuration for secure connections */
   struct altcp_tls_config *tls_config;
@@ -134,7 +134,7 @@ enum {
   MQTT_DATA_FLAG_LAST = 1
 };
 
-/** 
+/**
  * @ingroup mqtt
  * Function prototype for MQTT incoming publish data callback function. Called when data
  * arrives to a subscribed topic @see mqtt_subscribe
@@ -146,10 +146,10 @@ enum {
  * @param flags MQTT_DATA_FLAG_LAST set when this call contains the last part of data from publish message
  *
  */
-typedef void (*mqtt_incoming_data_cb_t)(void *arg, const u8_t *data, u16_t len, u8_t flags);
+typedef void (*mqtt_incoming_data_cb_t)(void *arg, const uint8_t *data, u16_t len, uint8_t flags);
 
 
-/** 
+/**
  * @ingroup mqtt
  * Function prototype for MQTT incoming publish function. Called when an incoming publish
  * arrives to a subscribed topic @see mqtt_subscribe
@@ -158,7 +158,7 @@ typedef void (*mqtt_incoming_data_cb_t)(void *arg, const u8_t *data, u16_t len, 
  * @param topic Zero terminated Topic text string, topic may not be referenced after callback return
  * @param tot_len Total length of publish data, if set to 0 (no publish payload) data callback will not be invoked
  */
-typedef void (*mqtt_incoming_publish_cb_t)(void *arg, const char *topic, u32_t tot_len);
+typedef void (*mqtt_incoming_publish_cb_t)(void *arg, const char *topic, uint32_t tot_len);
 
 
 /**
@@ -181,12 +181,12 @@ void mqtt_disconnect(mqtt_client_t *client);
 mqtt_client_t *mqtt_client_new(void);
 void mqtt_client_free(mqtt_client_t* client);
 
-u8_t mqtt_client_is_connected(mqtt_client_t *client);
+uint8_t mqtt_client_is_connected(mqtt_client_t *client);
 
 void mqtt_set_inpub_callback(mqtt_client_t *client, mqtt_incoming_publish_cb_t,
                              mqtt_incoming_data_cb_t data_cb, void *arg);
 
-err_t mqtt_sub_unsub(mqtt_client_t *client, const char *topic, u8_t qos, mqtt_request_cb_t cb, void *arg, u8_t sub);
+err_t mqtt_sub_unsub(mqtt_client_t *client, const char *topic, uint8_t qos, mqtt_request_cb_t cb, void *arg, uint8_t sub);
 
 /** @ingroup mqtt
  *Subscribe to topic */
@@ -195,7 +195,7 @@ err_t mqtt_sub_unsub(mqtt_client_t *client, const char *topic, u8_t qos, mqtt_re
  *  Unsubscribe to topic */
 #define mqtt_unsubscribe(client, topic, cb, arg) mqtt_sub_unsub(client, topic, 0, cb, arg, 0)
 
-err_t mqtt_publish(mqtt_client_t *client, const char *topic, const void *payload, u16_t payload_length, u8_t qos, u8_t retain,
+err_t mqtt_publish(mqtt_client_t *client, const char *topic, const void *payload, u16_t payload_length, uint8_t qos, uint8_t retain,
                                     mqtt_request_cb_t cb, void *arg);
 
 #ifdef __cplusplus

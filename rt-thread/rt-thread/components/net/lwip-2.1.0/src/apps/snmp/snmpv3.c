@@ -101,11 +101,11 @@ snmpv3_get_engine_time_internal(void)
  * @todo: This is a potential thread safety issue.
  */
 err_t
-snmpv3_build_priv_param(u8_t *priv_param)
+snmpv3_build_priv_param(uint8_t *priv_param)
 {
 #ifdef LWIP_RAND /* Based on RFC3826 */
-  static u8_t init;
-  static u32_t priv1, priv2;
+  static uint8_t init;
+  static uint32_t priv1, priv2;
 
   /* Lazy initialisation */
   if (init == 0) {
@@ -123,8 +123,8 @@ snmpv3_build_priv_param(u8_t *priv_param)
     priv2++;
   }
 #else /* Based on RFC3414 */
-  static u32_t ctr;
-  u32_t boots = snmpv3_get_engine_boots_internal();
+  static uint32_t ctr;
+  uint32_t boots = snmpv3_get_engine_boots_internal();
   SMEMCPY(&priv_param[0], &boots, 4);
   SMEMCPY(&priv_param[4], &ctr, 4);
   ctr++;

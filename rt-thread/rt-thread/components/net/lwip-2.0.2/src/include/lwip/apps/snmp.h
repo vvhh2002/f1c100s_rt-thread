@@ -62,7 +62,7 @@ struct snmp_varbind
   struct snmp_obj_id oid;
 
   /** value ASN1 type */
-  u8_t type;
+  uint8_t type;
   /** object value length */
   u16_t value_len;
   /** object value */
@@ -74,13 +74,13 @@ struct snmp_varbind
  * Agent setup, start listening to port 161.
  */
 void snmp_init(void);
-void snmp_set_mibs(const struct snmp_mib **mibs, u8_t num_mibs);
+void snmp_set_mibs(const struct snmp_mib **mibs, uint8_t num_mibs);
 
 void snmp_set_device_enterprise_oid(const struct snmp_obj_id* device_enterprise_oid);
 const struct snmp_obj_id* snmp_get_device_enterprise_oid(void);
 
-void snmp_trap_dst_enable(u8_t dst_idx, u8_t enable);
-void snmp_trap_dst_ip_set(u8_t dst_idx, const ip_addr_t *dst);
+void snmp_trap_dst_enable(uint8_t dst_idx, uint8_t enable);
+void snmp_trap_dst_ip_set(uint8_t dst_idx, const ip_addr_t *dst);
 
 /** Generic trap: cold start */
 #define SNMP_GENTRAP_COLDSTART 0
@@ -103,8 +103,8 @@ err_t snmp_send_trap(const struct snmp_obj_id* oid, s32_t generic_trap, s32_t sp
 
 #define SNMP_AUTH_TRAPS_DISABLED 0
 #define SNMP_AUTH_TRAPS_ENABLED  1
-void snmp_set_auth_traps_enabled(u8_t enable);
-u8_t snmp_get_auth_traps_enabled(void);
+void snmp_set_auth_traps_enabled(uint8_t enable);
+uint8_t snmp_get_auth_traps_enabled(void);
 
 const char * snmp_get_community(void);
 const char * snmp_get_community_write(void);
@@ -116,7 +116,7 @@ void snmp_set_community_trap(const char * const community);
 void snmp_coldstart_trap(void);
 void snmp_authfail_trap(void);
 
-typedef void (*snmp_write_callback_fct)(const u32_t* oid, u8_t oid_len, void* callback_arg);
+typedef void (*snmp_write_callback_fct)(const uint32_t* oid, uint8_t oid_len, void* callback_arg);
 void snmp_set_write_callback(snmp_write_callback_fct write_callback, void* callback_arg);
 
 #endif /* LWIP_SNMP */

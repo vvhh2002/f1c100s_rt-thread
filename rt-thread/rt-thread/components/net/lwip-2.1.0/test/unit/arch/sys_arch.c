@@ -1,8 +1,8 @@
 /*
  * Copyright (c) 2017 Simon Goldschmidt
- * All rights reserved. 
- * 
- * Redistribution and use in source and binary forms, with or without modification, 
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification,
  * are permitted provided that the following conditions are met:
  *
  * 1. Redistributions of source code must retain the above copyright notice,
@@ -11,21 +11,21 @@
  *    this list of conditions and the following disclaimer in the documentation
  *    and/or other materials provided with the distribution.
  * 3. The name of the author may not be used to endorse or promote products
- *    derived from this software without specific prior written permission. 
+ *    derived from this software without specific prior written permission.
  *
- * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR IMPLIED 
- * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
- * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT 
- * SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, 
- * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT 
- * OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING 
- * IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+ * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT
+ * SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT
+ * OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
+ * IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY
  * OF SUCH DAMAGE.
  *
  * This file is part of the lwIP TCP/IP stack.
- * 
+ *
  * Author: Simon Goldschmidt
  *
  */
@@ -42,15 +42,15 @@
 
 #include <string.h>
 
-u32_t lwip_sys_now;
+uint32_t lwip_sys_now;
 
-u32_t
+uint32_t
 sys_jiffies(void)
 {
   return lwip_sys_now;
 }
 
-u32_t
+uint32_t
 sys_now(void)
 {
   return lwip_sys_now;
@@ -72,7 +72,7 @@ test_sys_arch_wait_callback(test_sys_arch_waiting_fn waiting_fn)
 }
 
 err_t
-sys_sem_new(sys_sem_t *sem, u8_t count)
+sys_sem_new(sys_sem_t *sem, uint8_t count)
 {
   LWIP_ASSERT("sem != NULL", sem != NULL);
   *sem = count + 1;
@@ -94,10 +94,10 @@ sys_sem_set_invalid(sys_sem_t *sem)
 }
 
 /* semaphores are 1-based because RAM is initialized as 0, which would be valid */
-u32_t
-sys_arch_sem_wait(sys_sem_t *sem, u32_t timeout)
+uint32_t
+sys_arch_sem_wait(sys_sem_t *sem, uint32_t timeout)
 {
-  u32_t ret = 0;
+  uint32_t ret = 0;
   LWIP_ASSERT("sem != NULL", sem != NULL);
   LWIP_ASSERT("*sem > 0", *sem > 0);
   if (*sem == 1) {
@@ -289,11 +289,11 @@ sys_mbox_trypost_fromisr(sys_mbox_t *q, void *msg)
   return sys_mbox_trypost(q, msg);
 }
 
-u32_t
-sys_arch_mbox_fetch(sys_mbox_t *q, void **msg, u32_t timeout)
+uint32_t
+sys_arch_mbox_fetch(sys_mbox_t *q, void **msg, uint32_t timeout)
 {
-  u32_t ret = 0;
-  u32_t ret2;
+  uint32_t ret = 0;
+  uint32_t ret2;
   LWIP_ASSERT("q != SYS_MBOX_NULL", q != SYS_MBOX_NULL);
   LWIP_ASSERT("q->sem == q", q->sem == q);
   LWIP_ASSERT("q->q_mem != NULL", q->q_mem != NULL);
@@ -339,7 +339,7 @@ sys_arch_mbox_fetch(sys_mbox_t *q, void **msg, u32_t timeout)
   return ret;
 }
 
-u32_t
+uint32_t
 sys_arch_mbox_tryfetch(sys_mbox_t *q, void **msg)
 {
   LWIP_ASSERT("q != SYS_MBOX_NULL", q != SYS_MBOX_NULL);

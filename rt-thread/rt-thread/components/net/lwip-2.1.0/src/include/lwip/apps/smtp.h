@@ -39,7 +39,7 @@ extern "C" {
  * @param err an error returned by internal lwip functions, can help to specify
  *            the source of the error but must not necessarily be != ERR_OK
  */
-typedef void (*smtp_result_fn)(void *arg, u8_t smtp_result, u16_t srv_err, err_t err);
+typedef void (*smtp_result_fn)(void *arg, uint8_t smtp_result, u16_t srv_err, err_t err);
 
 /** This structure is used as argument for smtp_send_mail_int(),
  * which in turn can be used with tcpip_callback() to send mail
@@ -62,7 +62,7 @@ struct smtp_send_request {
    * but used from the pointers supplied in this struct.
    * This means less memory usage, but data must stay untouched until
    * the callback function is called. */
-  u8_t static_data;
+  uint8_t static_data;
 };
 
 
@@ -77,7 +77,7 @@ struct smtp_bodydh {
   u16_t length; /* Length of content in buffer */
   char buffer[SMTP_BODYDH_BUFFER_SIZE]; /* buffer for generated content */
 #ifdef SMTP_BODYDH_USER_SIZE
-  u8_t user[SMTP_BODYDH_USER_SIZE];
+  uint8_t user[SMTP_BODYDH_USER_SIZE];
 #endif /* SMTP_BODYDH_USER_SIZE */
 };
 
@@ -118,7 +118,7 @@ err_t smtp_send_mail_static(const char *from, const char* to, const char* subjec
                      smtp_result_fn callback_fn, void* callback_arg);
 void smtp_send_mail_int(void *arg);
 #ifdef LWIP_DEBUG
-const char* smtp_result_str(u8_t smtp_result);
+const char* smtp_result_str(uint8_t smtp_result);
 #endif
 
 #ifdef __cplusplus

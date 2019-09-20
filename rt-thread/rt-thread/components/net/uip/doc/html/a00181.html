@@ -28,7 +28,7 @@
 <a name="l00008"></a>00008 <span class="comment"> * Header file for the HTTP client.</span>
 <a name="l00009"></a>00009 <span class="comment"> * \author Adam Dunkels &lt;adam@dunkels.com&gt;</span>
 <a name="l00010"></a>00010 <span class="comment"> */</span>
-<a name="l00011"></a>00011 
+<a name="l00011"></a>00011
 <a name="l00012"></a>00012 <span class="comment">/*</span>
 <a name="l00013"></a>00013 <span class="comment"> * Copyright (c) 2002, Adam Dunkels.</span>
 <a name="l00014"></a>00014 <span class="comment"> * All rights reserved.</span>
@@ -66,29 +66,29 @@
 <a name="l00046"></a>00046 <span class="preprocessor">#ifndef __WEBCLIENT_H__</span>
 <a name="l00047"></a>00047 <span class="preprocessor"></span><span class="preprocessor">#define __WEBCLIENT_H__</span>
 <a name="l00048"></a>00048 <span class="preprocessor"></span>
-<a name="l00049"></a>00049 
+<a name="l00049"></a>00049
 <a name="l00050"></a>00050 <span class="preprocessor">#include "webclient-strings.h"</span>
 <a name="l00051"></a>00051 <span class="preprocessor">#include "<a class="code" href="a00140.html">uipopt.h</a>"</span>
-<a name="l00052"></a>00052 
+<a name="l00052"></a>00052
 <a name="l00053"></a><a class="code" href="a00163.html#g5a5bfd7e9060903893481db90645187b">00053</a> <span class="preprocessor">#define WEBCLIENT_CONF_MAX_URLLEN 100</span>
 <a name="l00054"></a>00054 <span class="preprocessor"></span>
 <a name="l00055"></a><a class="code" href="a00097.html">00055</a> <span class="keyword">struct </span><a class="code" href="a00097.html">webclient_state</a> {
-<a name="l00056"></a><a class="code" href="a00097.html#5960d82e7aca2986b8509a0d87d6cbc8">00056</a>   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a> <a class="code" href="a00087.html">timer</a>;
-<a name="l00057"></a><a class="code" href="a00097.html#8ae6395641b7752dce47881e20cee970">00057</a>   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a> <a class="code" href="a00097.html#8ae6395641b7752dce47881e20cee970">state</a>;
-<a name="l00058"></a><a class="code" href="a00097.html#6925d46b2819adb474a5f0036f02dd7d">00058</a>   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a> <a class="code" href="a00097.html#6925d46b2819adb474a5f0036f02dd7d">httpflag</a>;
-<a name="l00059"></a>00059 
+<a name="l00056"></a><a class="code" href="a00097.html#5960d82e7aca2986b8509a0d87d6cbc8">00056</a>   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a> <a class="code" href="a00087.html">timer</a>;
+<a name="l00057"></a><a class="code" href="a00097.html#8ae6395641b7752dce47881e20cee970">00057</a>   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a> <a class="code" href="a00097.html#8ae6395641b7752dce47881e20cee970">state</a>;
+<a name="l00058"></a><a class="code" href="a00097.html#6925d46b2819adb474a5f0036f02dd7d">00058</a>   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a> <a class="code" href="a00097.html#6925d46b2819adb474a5f0036f02dd7d">httpflag</a>;
+<a name="l00059"></a>00059
 <a name="l00060"></a><a class="code" href="a00097.html#7092781c50dcad50f473888585c85b83">00060</a>   <a class="code" href="a00153.html#g77570ac4fcab86864fa1916e55676da2">u16_t</a> <a class="code" href="a00097.html#7092781c50dcad50f473888585c85b83">port</a>;
 <a name="l00061"></a><a class="code" href="a00097.html#a6487b9c1c773b32656065d0e19bf142">00061</a>   <span class="keywordtype">char</span> <a class="code" href="a00097.html#a6487b9c1c773b32656065d0e19bf142">host</a>[40];
 <a name="l00062"></a><a class="code" href="a00097.html#e87913860c6b05c6e6b060639b950098">00062</a>   <span class="keywordtype">char</span> <a class="code" href="a00097.html#e87913860c6b05c6e6b060639b950098">file</a>[<a class="code" href="a00163.html#g5a5bfd7e9060903893481db90645187b">WEBCLIENT_CONF_MAX_URLLEN</a>];
 <a name="l00063"></a><a class="code" href="a00097.html#134ec55c3d5abaebfed4ff8edfedf1ea">00063</a>   <a class="code" href="a00153.html#g77570ac4fcab86864fa1916e55676da2">u16_t</a> <a class="code" href="a00097.html#134ec55c3d5abaebfed4ff8edfedf1ea">getrequestptr</a>;
 <a name="l00064"></a><a class="code" href="a00097.html#5a3116623c6a7da7c82db6c301ae0da3">00064</a>   <a class="code" href="a00153.html#g77570ac4fcab86864fa1916e55676da2">u16_t</a> <a class="code" href="a00097.html#5a3116623c6a7da7c82db6c301ae0da3">getrequestleft</a>;
-<a name="l00065"></a>00065   
+<a name="l00065"></a>00065
 <a name="l00066"></a><a class="code" href="a00097.html#606d2729bf411ade69044828403a72af">00066</a>   <span class="keywordtype">char</span> <a class="code" href="a00097.html#606d2729bf411ade69044828403a72af">httpheaderline</a>[200];
 <a name="l00067"></a><a class="code" href="a00097.html#2fca02673894f222b01ad2d3a4d7dd79">00067</a>   <a class="code" href="a00153.html#g77570ac4fcab86864fa1916e55676da2">u16_t</a> <a class="code" href="a00097.html#2fca02673894f222b01ad2d3a4d7dd79">httpheaderlineptr</a>;
-<a name="l00068"></a>00068 
+<a name="l00068"></a>00068
 <a name="l00069"></a><a class="code" href="a00097.html#fb60f42593d305ea36d9b4303722696e">00069</a>   <span class="keywordtype">char</span> <a class="code" href="a00097.html#fb60f42593d305ea36d9b4303722696e">mimetype</a>[32];
 <a name="l00070"></a>00070 };
-<a name="l00071"></a>00071 
+<a name="l00071"></a>00071
 <a name="l00072"></a><a class="code" href="a00163.html#gdc5aec3587b2c55b714a6c2f37b56cba">00072</a> <span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="a00097.html">webclient_state</a> <a class="code" href="a00153.html#g69646a81a922033c5281445a71f8ffed">uip_tcp_appstate_t</a>;
 <a name="l00073"></a><a class="code" href="a00163.html#ge28f6cb60e86088d8886d0f804b4f37c">00073</a> <span class="preprocessor">#define UIP_APPCALL webclient_appcall</span>
 <a name="l00074"></a>00074 <span class="preprocessor"></span><span class="comment"></span>
@@ -145,8 +145,8 @@
 <a name="l00125"></a>00125 <span class="comment"> * webclient code.</span>
 <a name="l00126"></a>00126 <span class="comment"> */</span>
 <a name="l00127"></a>00127 <span class="keywordtype">void</span> <a class="code" href="a00163.html#gf8f12c820cc08da32aa62898bfc02db3">webclient_closed</a>(<span class="keywordtype">void</span>);
-<a name="l00128"></a>00128 
-<a name="l00129"></a>00129 
+<a name="l00128"></a>00128
+<a name="l00129"></a>00129
 <a name="l00130"></a>00130 <span class="comment"></span>
 <a name="l00131"></a>00131 <span class="comment">/**</span>
 <a name="l00132"></a>00132 <span class="comment"> * Initialize the webclient module.</span>
@@ -240,9 +240,9 @@
 <a name="l00220"></a>00220 <span class="comment"> * \return The port number of the current HTTP data stream, in host byte order.</span>
 <a name="l00221"></a>00221 <span class="comment"> */</span>
 <a name="l00222"></a>00222 <span class="keywordtype">unsigned</span> <span class="keywordtype">short</span> <a class="code" href="a00163.html#g2a939aa4fcffabbce1dc1f784a7e0ad3">webclient_port</a>(<span class="keywordtype">void</span>);
-<a name="l00223"></a>00223 
-<a name="l00224"></a>00224 
-<a name="l00225"></a>00225 
+<a name="l00223"></a>00223
+<a name="l00224"></a>00224
+<a name="l00225"></a>00225
 <a name="l00226"></a>00226 <span class="preprocessor">#endif </span><span class="comment">/* __WEBCLIENT_H__ */</span>
 <a name="l00227"></a>00227 <span class="comment"></span>
 <a name="l00228"></a>00228 <span class="comment">/** @} */</span>

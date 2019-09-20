@@ -71,33 +71,33 @@ static struct uip_fw_netif *defaultnetif = NULL;
 
 struct tcpip_hdr {
   /* IP header. */
-  u8_t vhl,
+  uint8_t vhl,
     tos;
   u16_t len,
     ipid,
     ipoffset;
-  u8_t ttl,
+  uint8_t ttl,
     proto;
   u16_t ipchksum;
   u16_t srcipaddr[2],
     destipaddr[2];
-  
+
   /* TCP header. */
   u16_t srcport,
     destport;
-  u8_t seqno[4],
+  uint8_t seqno[4],
     ackno[4],
     tcpoffset,
     flags,
     wnd[2];
   u16_t tcpchksum;
-  u8_t urgp[2];
-  u8_t optdata[4];
+  uint8_t urgp[2];
+  uint8_t optdata[4];
 };
 
 struct icmpip_hdr {
   /* IP header. */
-  u8_t vhl,
+  uint8_t vhl,
     tos,
     len[2],
     ipid[2],
@@ -108,10 +108,10 @@ struct icmpip_hdr {
   u16_t srcipaddr[2],
     destipaddr[2];
   /* ICMP (echo) header. */
-  u8_t type, icode;
+  uint8_t type, icode;
   u16_t icmpchksum;
   u16_t id, seqno;
-  u8_t payload[1];
+  uint8_t payload[1];
 };
 
 /* ICMP ECHO. */
@@ -136,12 +136,12 @@ struct icmpip_hdr {
  */
 struct fwcache_entry {
   u16_t timer;
-  
+
   u16_t srcipaddr[2];
   u16_t destipaddr[2];
   u16_t ipid;
-  u8_t proto;
-  u8_t unused;
+  uint8_t proto;
+  uint8_t unused;
 
 #if notdef
   u16_t payload[2];
@@ -264,7 +264,7 @@ time_exceeded(void)
   ICMPBUF->ipoffset[0] = ICMPBUF->ipoffset[1] = 0;
   ICMPBUF->ttl  = UIP_TTL;
   ICMPBUF->proto = UIP_PROTO_ICMP;
-  
+
   /* Calculate IP checksum. */
   ICMPBUF->ipchksum = 0;
   ICMPBUF->ipchksum = ~(uip_ipchksum());
@@ -286,7 +286,7 @@ fwcache_register(void)
 
   oldest = FW_TIME;
   fw = NULL;
-  
+
   /* Find the oldest entry in the cache. */
   for(i = 0; i < FWCACHE_SIZE; ++i) {
     if(fwcache[i].timer == 0) {
@@ -324,7 +324,7 @@ static struct uip_fw_netif *
 find_netif(void)
 {
   struct uip_fw_netif *netif;
-  
+
   /* Walk through every network interface to check for a match. */
   for(netif = netifs; netif != NULL; netif = netif->next) {
     if(ipaddr_maskcmp(BUF->destipaddr, netif->ipaddr,
@@ -333,7 +333,7 @@ find_netif(void)
       return netif;
     }
   }
-  
+
   /* If no matching netif was found, we use default netif. */
   return defaultnetif;
 }
@@ -354,7 +354,7 @@ find_netif(void)
  * function is passed unmodified as a return value.
  */
 /*------------------------------------------------------------------------------*/
-u8_t
+uint8_t
 uip_fw_output(void)
 {
   struct uip_fw_netif *netif;
@@ -379,7 +379,7 @@ uip_fw_output(void)
     return UIP_FW_OK;
   }
 #endif /* UIP_BROADCAST */
-  
+
   netif = find_netif();
   /*  printf("uip_fw_output: netif %p ->output %p len %d\n", netif,
 	 netif->output,
@@ -402,7 +402,7 @@ uip_fw_output(void)
  * the packet should be processed locally.
  */
 /*------------------------------------------------------------------------------*/
-u8_t
+uint8_t
 uip_fw_forward(void)
 {
   struct fwcache_entry *fw;
@@ -458,10 +458,10 @@ uip_fw_forward(void)
     }
     time_exceeded();
   }
-  
+
   /* Decrement the TTL (time-to-live) value in the IP header */
   BUF->ttl = BUF->ttl - 1;
-  
+
   /* Update the IP checksum. */
   if(BUF->ipchksum >= HTONS(0xffff - 0x0100)) {
     BUF->ipchksum = BUF->ipchksum + HTONS(0x0100) + 1;

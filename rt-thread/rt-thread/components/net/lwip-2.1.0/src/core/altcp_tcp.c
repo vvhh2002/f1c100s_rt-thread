@@ -186,7 +186,7 @@ altcp_tcp_setup(struct altcp_pcb *conn, struct tcp_pcb *tpcb)
 }
 
 struct altcp_pcb *
-altcp_tcp_new_ip_type(u8_t ip_type)
+altcp_tcp_new_ip_type(uint8_t ip_type)
 {
   /* Allocate the tcp pcb first to invoke the priority handling code
      if we're out of pcbs */
@@ -209,7 +209,7 @@ altcp_tcp_new_ip_type(u8_t ip_type)
 * arg pointer is not used for TCP.
 */
 struct altcp_pcb *
-altcp_tcp_alloc(void *arg, u8_t ip_type)
+altcp_tcp_alloc(void *arg, uint8_t ip_type)
 {
   LWIP_UNUSED_ARG(arg);
   return altcp_tcp_new_ip_type(ip_type);
@@ -231,7 +231,7 @@ altcp_tcp_wrap(struct tcp_pcb *tpcb)
 
 /* "virtual" functions calling into tcp */
 static void
-altcp_tcp_set_poll(struct altcp_pcb *conn, u8_t interval)
+altcp_tcp_set_poll(struct altcp_pcb *conn, uint8_t interval)
 {
   if (conn != NULL) {
     struct tcp_pcb *pcb = (struct tcp_pcb *)conn->state;
@@ -276,7 +276,7 @@ altcp_tcp_connect(struct altcp_pcb *conn, const ip_addr_t *ipaddr, u16_t port, a
 }
 
 static struct altcp_pcb *
-altcp_tcp_listen(struct altcp_pcb *conn, u8_t backlog, err_t *err)
+altcp_tcp_listen(struct altcp_pcb *conn, uint8_t backlog, err_t *err)
 {
   struct tcp_pcb *pcb;
   struct tcp_pcb *lpcb;
@@ -346,7 +346,7 @@ altcp_tcp_shutdown(struct altcp_pcb *conn, int shut_rx, int shut_tx)
 }
 
 static err_t
-altcp_tcp_write(struct altcp_pcb *conn, const void *dataptr, u16_t len, u8_t apiflags)
+altcp_tcp_write(struct altcp_pcb *conn, const void *dataptr, u16_t len, uint8_t apiflags)
 {
   struct tcp_pcb *pcb;
   if (conn == NULL) {
@@ -437,7 +437,7 @@ altcp_tcp_nagle_disabled(struct altcp_pcb *conn)
 }
 
 static void
-altcp_tcp_setprio(struct altcp_pcb *conn, u8_t prio)
+altcp_tcp_setprio(struct altcp_pcb *conn, uint8_t prio)
 {
   if (conn != NULL) {
     struct tcp_pcb *pcb = (struct tcp_pcb *)conn->state;

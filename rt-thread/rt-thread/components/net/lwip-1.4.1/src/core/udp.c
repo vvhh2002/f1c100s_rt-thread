@@ -100,7 +100,7 @@ udp_new_port(void)
 {
   u16_t n = 0;
   struct udp_pcb *pcb;
-  
+
 again:
   if (udp_port++ == UDP_LOCAL_PORT_RANGE_END) {
     udp_port = UDP_LOCAL_PORT_RANGE_START;
@@ -155,8 +155,8 @@ udp_input(struct pbuf *p, struct netif *inp)
   struct udp_pcb *uncon_pcb;
   struct ip_hdr *iphdr;
   u16_t src, dest;
-  u8_t local_match;
-  u8_t broadcast;
+  uint8_t local_match;
+  uint8_t broadcast;
 
   PERF_START;
 
@@ -207,7 +207,7 @@ udp_input(struct pbuf *p, struct netif *inp)
     /* all packets for DHCP_CLIENT_PORT not coming from DHCP_SERVER_PORT are dropped! */
     if (src == DHCP_SERVER_PORT) {
       if ((inp->dhcp != NULL) && (inp->dhcp->pcb != NULL)) {
-        /* accept the packe if 
+        /* accept the packe if
            (- broadcast or directed to us) -> DHCP is link-layer-addressed, local ip is always ANY!
            - inp->dhcp->pcb->remote == ANY or iphdr->src */
         if ((ip_addr_isany(&inp->dhcp->pcb->remote_ip) ||
@@ -253,9 +253,9 @@ udp_input(struct pbuf *p, struct netif *inp)
             (broadcast &&
              (ip_addr_isany(&pcb->local_ip) ||
               ip_addr_netcmp(&pcb->local_ip, ip_current_dest_addr(), &inp->netmask)))) {
-#endif /* IP_SOF_BROADCAST_RECV */ 
+#endif /* IP_SOF_BROADCAST_RECV */
           local_match = 1;
-          if ((uncon_pcb == NULL) && 
+          if ((uncon_pcb == NULL) &&
               ((pcb->flags & UDP_FLAGS_CONNECTED) == 0)) {
             /* the first unconnected matching PCB */
             uncon_pcb = pcb;
@@ -355,7 +355,7 @@ udp_input(struct pbuf *p, struct netif *inp)
         /* pass broadcast- or multicast packets to all multicast pcbs
            if SOF_REUSEADDR is set on the first match */
         struct udp_pcb *mpcb;
-        u8_t p_header_changed = 0;
+        uint8_t p_header_changed = 0;
         for (mpcb = udp_pcbs; mpcb != NULL; mpcb = mpcb->next) {
           if (mpcb != pcb) {
             /* compare PCB local addr+port to UDP destination addr+port */
@@ -462,7 +462,7 @@ udp_send(struct udp_pcb *pcb, struct pbuf *p)
  */
 err_t
 udp_send_chksum(struct udp_pcb *pcb, struct pbuf *p,
-                u8_t have_chksum, u16_t chksum)
+                uint8_t have_chksum, u16_t chksum)
 {
   /* send to the packet using remote ip and port stored in the pcb */
   return udp_sendto_chksum(pcb, p, &pcb->remote_ip, pcb->remote_port,
@@ -482,7 +482,7 @@ udp_send_chksum(struct udp_pcb *pcb, struct pbuf *p,
  *
  * If the PCB already has a remote address association, it will
  * be restored after the data is sent.
- * 
+ *
  * @return lwIP error code (@see udp_send for possible error codes)
  *
  * @see udp_disconnect() udp_send()
@@ -498,7 +498,7 @@ udp_sendto(struct udp_pcb *pcb, struct pbuf *p,
 /** Same as udp_sendto(), but with checksum */
 err_t
 udp_sendto_chksum(struct udp_pcb *pcb, struct pbuf *p, ip_addr_t *dst_ip,
-                  u16_t dst_port, u8_t have_chksum, u16_t chksum)
+                  u16_t dst_port, uint8_t have_chksum, u16_t chksum)
 {
 #endif /* LWIP_CHECKSUM_ON_COPY */
   struct netif *netif;
@@ -556,7 +556,7 @@ udp_sendto_if(struct udp_pcb *pcb, struct pbuf *p,
 /** Same as udp_sendto_if(), but with checksum */
 err_t
 udp_sendto_if_chksum(struct udp_pcb *pcb, struct pbuf *p, ip_addr_t *dst_ip,
-                     u16_t dst_port, struct netif *netif, u8_t have_chksum,
+                     u16_t dst_port, struct netif *netif, uint8_t have_chksum,
                      u16_t chksum)
 {
 #endif /* LWIP_CHECKSUM_ON_COPY */
@@ -613,7 +613,7 @@ udp_sendto_if_chksum(struct udp_pcb *pcb, struct pbuf *p, ip_addr_t *dst_ip,
   udphdr->src = htons(pcb->local_port);
   udphdr->dest = htons(dst_port);
   /* in UDP, 0 checksum means 'no checksum' */
-  udphdr->chksum = 0x0000; 
+  udphdr->chksum = 0x0000;
 
   /* Multicast Loop? */
 #if LWIP_IGMP
@@ -676,7 +676,7 @@ udp_sendto_if_chksum(struct udp_pcb *pcb, struct pbuf *p, ip_addr_t *dst_ip,
 #else /* !LWIP_CHECKSUM_ON_COPY */
       (have_chksum ? UDP_HLEN : chklen));
     if (have_chksum) {
-      u32_t acc;
+      uint32_t acc;
       acc = udphdr->chksum + (u16_t)~(chksum);
       udphdr->chksum = FOLD_U32T(acc);
     }
@@ -703,7 +703,7 @@ udp_sendto_if_chksum(struct udp_pcb *pcb, struct pbuf *p, ip_addr_t *dst_ip,
       u16_t udpchksum;
 #if LWIP_CHECKSUM_ON_COPY
       if (have_chksum) {
-        u32_t acc;
+        uint32_t acc;
         udpchksum = inet_chksum_pseudo_partial(q, src_ip, dst_ip, IP_PROTO_UDP,
           q->tot_len, UDP_HLEN);
         acc = udpchksum + (u16_t)~(chksum);
@@ -766,7 +766,7 @@ err_t
 udp_bind(struct udp_pcb *pcb, ip_addr_t *ipaddr, u16_t port)
 {
   struct udp_pcb *ipcb;
-  u8_t rebind;
+  uint8_t rebind;
 
   LWIP_DEBUGF(UDP_DEBUG | LWIP_DBG_TRACE, ("udp_bind(ipaddr = "));
   ip_addr_debug_print(UDP_DEBUG, ipaddr);

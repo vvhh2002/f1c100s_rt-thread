@@ -48,7 +48,7 @@ extern "C" {
 
 
 #if LWIP_WND_SCALE
-typedef u32_t tcpwnd_size_t;
+typedef uint32_t tcpwnd_size_t;
 #else
 typedef u16_t tcpwnd_size_t;
 #endif

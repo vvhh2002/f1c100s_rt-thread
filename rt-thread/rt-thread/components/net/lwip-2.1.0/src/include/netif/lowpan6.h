@@ -61,8 +61,8 @@ extern "C" {
 
 void lowpan6_tmr(void);
 
-err_t lowpan6_set_context(u8_t idx, const ip6_addr_t * context);
-err_t lowpan6_set_short_addr(u8_t addr_high, u8_t addr_low);
+err_t lowpan6_set_context(uint8_t idx, const ip6_addr_t * context);
+err_t lowpan6_set_short_addr(uint8_t addr_high, uint8_t addr_low);
 
 #if LWIP_IPV4
 err_t lowpan4_output(struct netif *netif, struct pbuf *q, const ip4_addr_t *ipaddr);

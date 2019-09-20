@@ -11,7 +11,7 @@
  * \#define lwip_htonl(x) your_htonl
  *
  * Note lwip_ntohs() and lwip_ntohl() are merely references to the htonx counterparts.
- * 
+ *
  * If you \#define them to htons() and htonl(), you should
  * \#define LWIP_DONT_PROVIDE_BYTEORDER_FUNCTIONS to prevent lwIP from
  * defining htonx/ntohx compatibility macros.
@@ -81,15 +81,15 @@ lwip_htons(u16_t n)
 
 #if !defined(lwip_htonl)
 /**
- * Convert an u32_t from host- to network byte order.
+ * Convert an uint32_t from host- to network byte order.
  *
- * @param n u32_t in host byte order
+ * @param n uint32_t in host byte order
  * @return n in network byte order
  */
-u32_t
-lwip_htonl(u32_t n)
+uint32_t
+lwip_htonl(uint32_t n)
 {
-  return (u32_t)PP_HTONL(n);
+  return (uint32_t)PP_HTONL(n);
 }
 #endif /* lwip_htonl */
 

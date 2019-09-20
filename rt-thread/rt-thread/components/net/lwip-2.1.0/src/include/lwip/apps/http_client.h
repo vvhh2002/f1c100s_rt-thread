@@ -52,7 +52,7 @@ extern "C" {
 #endif
 
 /**
- * @ingroup httpc 
+ * @ingroup httpc
  * HTTPC_HAVE_FILE_IO: define this to 1 to have functions dowloading directly
  * to disk via fopen/fwrite.
  * These functions are example implementations of the interface only.
@@ -62,13 +62,13 @@ extern "C" {
 #endif
 
 /**
- * @ingroup httpc 
+ * @ingroup httpc
  * The default TCP port used for HTTP
  */
 #define HTTP_DEFAULT_PORT         LWIP_IANA_PORT_HTTP
 
 /**
- * @ingroup httpc 
+ * @ingroup httpc
  * HTTP client result codes
  */
 typedef enum ehttpc_result {
@@ -97,7 +97,7 @@ typedef enum ehttpc_result {
 typedef struct _httpc_state httpc_state_t;
 
 /**
- * @ingroup httpc 
+ * @ingroup httpc
  * Prototype of a http client callback function
  *
  * @param arg argument specified when initiating the request
@@ -107,10 +107,10 @@ typedef struct _httpc_state httpc_state_t;
  * @param err an error returned by internal lwip functions, can help to specify
  *            the source of the error but must not necessarily be != ERR_OK
  */
-typedef void (*httpc_result_fn)(void *arg, httpc_result_t httpc_result, u32_t rx_content_len, u32_t srv_res, err_t err);
+typedef void (*httpc_result_fn)(void *arg, httpc_result_t httpc_result, uint32_t rx_content_len, uint32_t srv_res, err_t err);
 
 /**
- * @ingroup httpc 
+ * @ingroup httpc
  * Prototype of http client callback: called when the headers are received
  *
  * @param connection http client connection
@@ -120,12 +120,12 @@ typedef void (*httpc_result_fn)(void *arg, httpc_result_t httpc_result, u32_t rx
  * @param content_len content length as received in the headers (-1 if not received)
  * @return if != ERR_OK is returned, the connection is aborted
  */
-typedef err_t (*httpc_headers_done_fn)(httpc_state_t *connection, void *arg, struct pbuf *hdr, u16_t hdr_len, u32_t content_len);
+typedef err_t (*httpc_headers_done_fn)(httpc_state_t *connection, void *arg, struct pbuf *hdr, u16_t hdr_len, uint32_t content_len);
 
 typedef struct _httpc_connection {
   ip_addr_t proxy_addr;
   u16_t proxy_port;
-  u8_t use_proxy;
+  uint8_t use_proxy;
   /* @todo: add username:pass? */
 
 #if LWIP_ALTCP

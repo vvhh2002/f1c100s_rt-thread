@@ -52,9 +52,9 @@
 #define BR_FDB_TIMEOUT_SEC  (60*5) /* 5 minutes FDB timeout */
 
 typedef struct bridgeif_dfdb_entry_s {
-  u8_t used;
-  u8_t port;
-  u32_t ts;
+  uint8_t used;
+  uint8_t port;
+  uint32_t ts;
   struct eth_addr addr;
 } bridgeif_dfdb_entry_t;
 
@@ -69,11 +69,11 @@ typedef struct bridgeif_dfdb_s {
  * remembers known src mac addresses to know which port to send frames destined for that
  * mac address.
  *
- * ATTENTION: This is meant as an example only, in real-world use, you should 
+ * ATTENTION: This is meant as an example only, in real-world use, you should
  * provide a better implementation :-)
  */
 void
-bridgeif_fdb_update_src(void *fdb_ptr, struct eth_addr *src_addr, u8_t port_idx)
+bridgeif_fdb_update_src(void *fdb_ptr, struct eth_addr *src_addr, uint8_t port_idx)
 {
   int i;
   bridgeif_dfdb_t *fdb = (bridgeif_dfdb_t *)fdb_ptr;
@@ -120,9 +120,9 @@ bridgeif_fdb_update_src(void *fdb_ptr, struct eth_addr *src_addr, u8_t port_idx)
   /* not found, no free entry -> flood */
 }
 
-/** 
+/**
  * @ingroup bridgeif_fdb
- * Walk our list of auto-learnt fdb entries and return a port to forward or BR_FLOOD if unknown 
+ * Walk our list of auto-learnt fdb entries and return a port to forward or BR_FLOOD if unknown
  */
 bridgeif_portmask_t
 bridgeif_fdb_get_dst_ports(void *fdb_ptr, struct eth_addr *dst_addr)

@@ -67,19 +67,19 @@ typedef enum {
 struct dhcp
 {
   /** transaction identifier of last sent request */
-  u32_t xid;
+  uint32_t xid;
   /** incoming msg */
   struct dhcp_msg *msg_in;
   /** track PCB allocation state */
-  u8_t pcb_allocated;
+  uint8_t pcb_allocated;
   /** current DHCP state machine state */
-  u8_t state;
+  uint8_t state;
   /** retries of current request */
-  u8_t tries;
+  uint8_t tries;
 #if LWIP_DHCP_AUTOIP_COOP
-  u8_t autoip_coop_state;
+  uint8_t autoip_coop_state;
 #endif
-  u8_t subnet_mask_given;
+  uint8_t subnet_mask_given;
 
   struct pbuf *p_out; /* pbuf of outcoming msg */
   struct dhcp_msg *msg_out; /* outgoing msg */
@@ -96,9 +96,9 @@ struct dhcp
   ip4_addr_t offered_sn_mask;
   ip4_addr_t offered_gw_addr;
 
-  u32_t offered_t0_lease; /* lease period (in seconds) */
-  u32_t offered_t1_renew; /* recommended renew time (usually 50% of lease period) */
-  u32_t offered_t2_rebind; /* recommended rebind time (usually 87.5 of lease period)  */
+  uint32_t offered_t0_lease; /* lease period (in seconds) */
+  uint32_t offered_t1_renew; /* recommended renew time (usually 50% of lease period) */
+  uint32_t offered_t2_rebind; /* recommended rebind time (usually 87.5 of lease period)  */
 #if LWIP_DHCP_BOOTP_FILE
   ip4_addr_t offered_si_addr;
   char boot_file_name[DHCP_BOOT_FILE_LEN];
@@ -119,7 +119,7 @@ void dhcp_network_changed(struct netif *netif);
 #if DHCP_DOES_ARP_CHECK
 void dhcp_arp_reply(struct netif *netif, const ip4_addr_t *addr);
 #endif
-u8_t dhcp_supplied_address(const struct netif *netif);
+uint8_t dhcp_supplied_address(const struct netif *netif);
 /* to be called every minute */
 void dhcp_coarse_tmr(void);
 /* to be called every half second */
@@ -129,7 +129,7 @@ void dhcp_fine_tmr(void);
 /** This function must exist, in other to add offered NTP servers to
  * the NTP (or SNTP) engine.
  * See LWIP_DHCP_MAX_NTP_SERVERS */
-extern void dhcp_set_ntp_servers(u8_t num_ntp_servers, const ip4_addr_t* ntp_server_addrs);
+extern void dhcp_set_ntp_servers(uint8_t num_ntp_servers, const ip4_addr_t* ntp_server_addrs);
 #endif /* LWIP_DHCP_GET_NTP_SRV */
 
 #define netif_dhcp_data(netif) ((struct dhcp*)netif_get_client_data(netif, LWIP_NETIF_CLIENT_DATA_INDEX_DHCP))

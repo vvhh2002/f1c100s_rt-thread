@@ -22,7 +22,7 @@
  * With DHCP:
  * - define @ref LWIP_DHCP_AUTOIP_COOP 1 in your lwipopts.h.
  * - Configure your DHCP Client.
- * 
+ *
  * @see netifapi_autoip
  */
 
@@ -73,10 +73,10 @@
 /** Pseudo random macro based on netif informations.
  * You could use "rand()" from the C Library if you define LWIP_AUTOIP_RAND in lwipopts.h */
 #ifndef LWIP_AUTOIP_RAND
-#define LWIP_AUTOIP_RAND(netif) ( (((u32_t)((netif->hwaddr[5]) & 0xff) << 24) | \
-                                   ((u32_t)((netif->hwaddr[3]) & 0xff) << 16) | \
-                                   ((u32_t)((netif->hwaddr[2]) & 0xff) << 8) | \
-                                   ((u32_t)((netif->hwaddr[4]) & 0xff))) + \
+#define LWIP_AUTOIP_RAND(netif) ( (((uint32_t)((netif->hwaddr[5]) & 0xff) << 24) | \
+                                   ((uint32_t)((netif->hwaddr[3]) & 0xff) << 16) | \
+                                   ((uint32_t)((netif->hwaddr[2]) & 0xff) << 8) | \
+                                   ((uint32_t)((netif->hwaddr[4]) & 0xff))) + \
                                    (netif_autoip_data(netif)? netif_autoip_data(netif)->tried_llipaddr : 0))
 #endif /* LWIP_AUTOIP_RAND */
 
@@ -86,8 +86,8 @@
  */
 #ifndef LWIP_AUTOIP_CREATE_SEED_ADDR
 #define LWIP_AUTOIP_CREATE_SEED_ADDR(netif) \
-  lwip_htonl(AUTOIP_RANGE_START + ((u32_t)(((u8_t)(netif->hwaddr[4])) | \
-                 ((u32_t)((u8_t)(netif->hwaddr[5]))) << 8)))
+  lwip_htonl(AUTOIP_RANGE_START + ((uint32_t)(((uint8_t)(netif->hwaddr[4])) | \
+                 ((uint32_t)((uint8_t)(netif->hwaddr[5]))) << 8)))
 #endif /* LWIP_AUTOIP_CREATE_SEED_ADDR */
 
 /* static functions */
@@ -95,7 +95,7 @@ static err_t autoip_arp_announce(struct netif *netif);
 static void autoip_start_probing(struct netif *netif);
 
 /**
- * @ingroup autoip 
+ * @ingroup autoip
  * Set a statically allocated struct autoip to work with.
  * Using this prevents autoip_start to allocate it using mem_malloc.
  *
@@ -173,7 +173,7 @@ autoip_create_addr(struct netif *netif, ip4_addr_t *ipaddr)
    * compliant to RFC 3927 Section 2.1
    * We have 254 * 256 possibilities */
 
-  u32_t addr = lwip_ntohl(LWIP_AUTOIP_CREATE_SEED_ADDR(netif));
+  uint32_t addr = lwip_ntohl(LWIP_AUTOIP_CREATE_SEED_ADDR(netif));
   addr += autoip->tried_llipaddr;
   addr = AUTOIP_NET | (addr & 0xffff);
   /* Now, 169.254.0.0 <= addr <= 169.254.255.255 */
@@ -245,7 +245,7 @@ autoip_bind(struct netif *netif)
 }
 
 /**
- * @ingroup autoip 
+ * @ingroup autoip
  * Start AutoIP client
  *
  * @param netif network interface on which start the AutoIP client
@@ -339,7 +339,7 @@ autoip_network_changed(struct netif *netif)
 }
 
 /**
- * @ingroup autoip 
+ * @ingroup autoip
  * Stop AutoIP client
  *
  * @param netif network interface on which stop the AutoIP client
@@ -507,7 +507,7 @@ autoip_arp_reply(struct netif *netif, struct etharp_hdr *hdr)
  * @return 1 if AutoIP supplied netif->ip_addr (state BOUND or ANNOUNCING),
  *         0 otherwise
  */
-u8_t
+uint8_t
 autoip_supplied_address(const struct netif *netif)
 {
   if ((netif != NULL) && (netif_autoip_data(netif) != NULL)) {
@@ -517,7 +517,7 @@ autoip_supplied_address(const struct netif *netif)
   return 0;
 }
 
-u8_t
+uint8_t
 autoip_accept_packet(struct netif *netif, const ip4_addr_t *addr)
 {
   struct autoip* autoip = netif_autoip_data(netif);

@@ -51,14 +51,14 @@
 void TransmitPacket(void)
 {
     int i;
-    u8_t data[1500];
+    uint8_t data[1500];
     // Copy the header portion part
-    for(i=0; i < (UIP_LLH_LEN + 40); ++i) 
+    for(i=0; i < (UIP_LLH_LEN + 40); ++i)
     {
          data[i] =  uip_buf[i];
     }
     // Copy the data portion part
-    for(; i < uip_len; ++i) 
+    for(; i < uip_len; ++i)
     {
         data[i] =  uip_appdata[i - UIP_LLH_LEN - 40 ];
     }
@@ -67,11 +67,11 @@ void TransmitPacket(void)
 void uip_tcpip_thread(void *parameter)
 {
     int i;
-    static u8_t cnt;
+    static uint8_t cnt;
     while(1)
     {
         rt_thread_delay(CLOCK_SECOND*5);
-        for (i = 0; i < UIP_CONNS; i++) 
+        for (i = 0; i < UIP_CONNS; i++)
         {
 	    uip_periodic(i);
 	/* If the above function invocation resulted in data that
@@ -96,7 +96,7 @@ void uip_tcpip_thread(void *parameter)
               TransmitPacket();
 	   }
         }
-#endif /* UIP_UDP */  
+#endif /* UIP_UDP */
       /* Call the ARP timer function every 10 seconds. */
 	 if (++cnt > 2) uip_arp_timer();
     }

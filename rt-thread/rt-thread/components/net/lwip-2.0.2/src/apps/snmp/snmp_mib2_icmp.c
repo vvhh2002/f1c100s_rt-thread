@@ -58,7 +58,7 @@
 static s16_t
 icmp_get_value(const struct snmp_scalar_array_node_def *node, void *value)
 {
-  u32_t *uint_ptr = (u32_t*)value;
+  uint32_t *uint_ptr = (uint32_t*)value;
 
   switch (node->oid) {
   case 1: /* icmpInMsgs */

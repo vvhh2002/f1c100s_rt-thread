@@ -46,14 +46,14 @@
 <a name="l00031"></a>00031 <span class="comment"> * $Id: telnetd.c,v 1.2 2006/06/07 09:43:54 adam Exp $</span>
 <a name="l00032"></a>00032 <span class="comment"> *</span>
 <a name="l00033"></a>00033 <span class="comment"> */</span>
-<a name="l00034"></a>00034 
+<a name="l00034"></a>00034
 <a name="l00035"></a>00035 <span class="preprocessor">#include "<a class="code" href="a00136.html">uip.h</a>"</span>
 <a name="l00036"></a>00036 <span class="preprocessor">#include "telnetd.h"</span>
 <a name="l00037"></a>00037 <span class="preprocessor">#include "<a class="code" href="a00121.html">memb.h</a>"</span>
 <a name="l00038"></a>00038 <span class="preprocessor">#include "<a class="code" href="a00107.html">shell.h</a>"</span>
-<a name="l00039"></a>00039 
+<a name="l00039"></a>00039
 <a name="l00040"></a>00040 <span class="preprocessor">#include &lt;string.h&gt;</span>
-<a name="l00041"></a>00041 
+<a name="l00041"></a>00041
 <a name="l00042"></a>00042 <span class="preprocessor">#define ISO_nl       0x0a</span>
 <a name="l00043"></a>00043 <span class="preprocessor"></span><span class="preprocessor">#define ISO_cr       0x0d</span>
 <a name="l00044"></a>00044 <span class="preprocessor"></span>
@@ -61,7 +61,7 @@
 <a name="l00046"></a>00046   <span class="keywordtype">char</span> line[TELNETD_CONF_LINELEN];
 <a name="l00047"></a>00047 };
 <a name="l00048"></a>00048 <a name="a206"></a><a class="code" href="a00159.html#gf31774d02a69fd3f1c2b282454438cba">MEMB</a>(linemem, <span class="keyword">struct</span> telnetd_line, TELNETD_CONF_NUMLINES);
-<a name="l00049"></a>00049 
+<a name="l00049"></a>00049
 <a name="l00050"></a>00050 <span class="preprocessor">#define STATE_NORMAL 0</span>
 <a name="l00051"></a>00051 <span class="preprocessor"></span><span class="preprocessor">#define STATE_IAC    1</span>
 <a name="l00052"></a>00052 <span class="preprocessor"></span><span class="preprocessor">#define STATE_WILL   2</span>
@@ -71,7 +71,7 @@
 <a name="l00056"></a>00056 <span class="preprocessor"></span><span class="preprocessor">#define STATE_CLOSE  6</span>
 <a name="l00057"></a>00057 <span class="preprocessor"></span>
 <a name="l00058"></a>00058 <span class="keyword">static</span> <span class="keyword">struct </span><a name="_a207"></a><a class="code" href="a00086.html">telnetd_state</a> s;
-<a name="l00059"></a>00059 
+<a name="l00059"></a>00059
 <a name="l00060"></a>00060 <span class="preprocessor">#define TELNET_IAC   255</span>
 <a name="l00061"></a>00061 <span class="preprocessor"></span><span class="preprocessor">#define TELNET_WILL  251</span>
 <a name="l00062"></a>00062 <span class="preprocessor"></span><span class="preprocessor">#define TELNET_WONT  252</span>
@@ -100,7 +100,7 @@
 <a name="l00085"></a>00085 sendline(<span class="keywordtype">char</span> *line)
 <a name="l00086"></a>00086 {
 <a name="l00087"></a>00087   <span class="keyword">static</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> i;
-<a name="l00088"></a>00088   
+<a name="l00088"></a>00088
 <a name="l00089"></a>00089   <span class="keywordflow">for</span>(i = 0; i &lt; TELNETD_CONF_NUMLINES; ++i) {
 <a name="l00090"></a>00090     <span class="keywordflow">if</span>(s.<a name="a212"></a><a class="code" href="a00086.html#cca775e46d4405b7775b328f7694f7e7">lines</a>[i] == <a name="a213"></a><a class="code" href="a00160.html#g070d2ce7b6bb7e5c05602aa8c308d0c4">NULL</a>) {
 <a name="l00091"></a>00091       s.<a class="code" href="a00086.html#cca775e46d4405b7775b328f7694f7e7">lines</a>[i] = line;
@@ -129,7 +129,7 @@
 <a name="l00114"></a>00114 {
 <a name="l00115"></a>00115   <span class="keyword">static</span> <span class="keywordtype">unsigned</span> len;
 <a name="l00116"></a>00116   <span class="keywordtype">char</span> *line;
-<a name="l00117"></a>00117 
+<a name="l00117"></a>00117
 <a name="l00118"></a>00118   line = alloc_line();
 <a name="l00119"></a>00119   <span class="keywordflow">if</span>(line != <a class="code" href="a00160.html#g070d2ce7b6bb7e5c05602aa8c308d0c4">NULL</a>) {
 <a name="l00120"></a>00120     len = strlen(str1);
@@ -160,7 +160,7 @@
 <a name="l00145"></a>00145 acked(<span class="keywordtype">void</span>)
 <a name="l00146"></a>00146 {
 <a name="l00147"></a>00147   <span class="keyword">static</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> i;
-<a name="l00148"></a>00148   
+<a name="l00148"></a>00148
 <a name="l00149"></a>00149   <span class="keywordflow">while</span>(s.<a name="a222"></a><a class="code" href="a00086.html#d85fc90c30d1fc37c63c4844be5fe09d">numsent</a> &gt; 0) {
 <a name="l00150"></a>00150     dealloc_line(s.<a class="code" href="a00086.html#cca775e46d4405b7775b328f7694f7e7">lines</a>[0]);
 <a name="l00151"></a>00151     <span class="keywordflow">for</span>(i = 1; i &lt; TELNETD_CONF_NUMLINES; ++i) {
@@ -176,7 +176,7 @@
 <a name="l00161"></a>00161 {
 <a name="l00162"></a>00162   <span class="keyword">static</span> <span class="keywordtype">char</span> *<a name="a223"></a><a class="code" href="a00086.html#5eced097547fd3fac4ba2a255493d921">bufptr</a>, *lineptr;
 <a name="l00163"></a>00163   <span class="keyword">static</span> <span class="keywordtype">int</span> buflen, linelen;
-<a name="l00164"></a>00164   
+<a name="l00164"></a>00164
 <a name="l00165"></a>00165   bufptr = <a name="a224"></a><a class="code" href="a00150.html#g561b8eda32e059d4e7397f776268cc63">uip_appdata</a>;
 <a name="l00166"></a>00166   buflen = 0;
 <a name="l00167"></a>00167   <span class="keywordflow">for</span>(s.<a class="code" href="a00086.html#d85fc90c30d1fc37c63c4844be5fe09d">numsent</a> = 0; s.<a class="code" href="a00086.html#d85fc90c30d1fc37c63c4844be5fe09d">numsent</a> &lt; TELNETD_CONF_NUMLINES &amp;&amp;
@@ -201,7 +201,7 @@
 <a name="l00186"></a>00186 closed(<span class="keywordtype">void</span>)
 <a name="l00187"></a>00187 {
 <a name="l00188"></a>00188   <span class="keyword">static</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> i;
-<a name="l00189"></a>00189   
+<a name="l00189"></a>00189
 <a name="l00190"></a>00190   <span class="keywordflow">for</span>(i = 0; i &lt; TELNETD_CONF_NUMLINES; ++i) {
 <a name="l00191"></a>00191     <span class="keywordflow">if</span>(s.<a class="code" href="a00086.html#cca775e46d4405b7775b328f7694f7e7">lines</a>[i] != <a class="code" href="a00160.html#g070d2ce7b6bb7e5c05602aa8c308d0c4">NULL</a>) {
 <a name="l00192"></a>00192       dealloc_line(s.<a class="code" href="a00086.html#cca775e46d4405b7775b328f7694f7e7">lines</a>[i]);
@@ -210,12 +210,12 @@
 <a name="l00195"></a>00195 }
 <a name="l00196"></a>00196 <span class="comment">/*---------------------------------------------------------------------------*/</span>
 <a name="l00197"></a>00197 <span class="keyword">static</span> <span class="keywordtype">void</span>
-<a name="l00198"></a>00198 get_char(<a name="a227"></a><a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a> c)
+<a name="l00198"></a>00198 get_char(<a name="a227"></a><a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a> c)
 <a name="l00199"></a>00199 {
 <a name="l00200"></a>00200   <span class="keywordflow">if</span>(c == <a class="code" href="a00161.html#g6cda47c85ce1b58b501b44ac9cccc50e">ISO_cr</a>) {
 <a name="l00201"></a>00201     <span class="keywordflow">return</span>;
 <a name="l00202"></a>00202   }
-<a name="l00203"></a>00203   
+<a name="l00203"></a>00203
 <a name="l00204"></a>00204   s.<a name="a228"></a><a class="code" href="a00086.html#54a466311575a727830a92a6c3621cb2">buf</a>[(int)s.<a class="code" href="a00086.html#5eced097547fd3fac4ba2a255493d921">bufptr</a>] = c;
 <a name="l00205"></a>00205   <span class="keywordflow">if</span>(s.<a class="code" href="a00086.html#54a466311575a727830a92a6c3621cb2">buf</a>[(<span class="keywordtype">int</span>)s.<a class="code" href="a00086.html#5eced097547fd3fac4ba2a255493d921">bufptr</a>] == <a class="code" href="a00161.html#g3212e70c55244608ac16316888c354f0">ISO_nl</a> ||
 <a name="l00206"></a>00206      s.<a class="code" href="a00086.html#5eced097547fd3fac4ba2a255493d921">bufptr</a> == <span class="keyword">sizeof</span>(s.<a class="code" href="a00086.html#54a466311575a727830a92a6c3621cb2">buf</a>) - 1) {
@@ -231,7 +231,7 @@
 <a name="l00216"></a>00216 }
 <a name="l00217"></a>00217 <span class="comment">/*---------------------------------------------------------------------------*/</span>
 <a name="l00218"></a>00218 <span class="keyword">static</span> <span class="keywordtype">void</span>
-<a name="l00219"></a>00219 sendopt(<a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a> option, <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a> value)
+<a name="l00219"></a>00219 sendopt(<a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a> option, <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a> value)
 <a name="l00220"></a>00220 {
 <a name="l00221"></a>00221   <span class="keywordtype">char</span> *line;
 <a name="l00222"></a>00222   line = alloc_line();
@@ -248,13 +248,13 @@
 <a name="l00233"></a>00233 newdata(<span class="keywordtype">void</span>)
 <a name="l00234"></a>00234 {
 <a name="l00235"></a>00235   <a name="a230"></a><a class="code" href="a00153.html#g77570ac4fcab86864fa1916e55676da2">u16_t</a> len;
-<a name="l00236"></a>00236   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a> c;
+<a name="l00236"></a>00236   <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a> c;
 <a name="l00237"></a>00237   <span class="keywordtype">char</span> *dataptr;
-<a name="l00238"></a>00238     
-<a name="l00239"></a>00239   
+<a name="l00238"></a>00238
+<a name="l00239"></a>00239
 <a name="l00240"></a>00240   len = <a name="a231"></a><a class="code" href="a00147.html#g1a1bc437c09ddef238abab41d77c3177">uip_datalen</a>();
 <a name="l00241"></a>00241   dataptr = (<span class="keywordtype">char</span> *)<a class="code" href="a00150.html#g561b8eda32e059d4e7397f776268cc63">uip_appdata</a>;
-<a name="l00242"></a>00242   
+<a name="l00242"></a>00242
 <a name="l00243"></a>00243   <span class="keywordflow">while</span>(len &gt; 0 &amp;&amp; s.<a class="code" href="a00086.html#5eced097547fd3fac4ba2a255493d921">bufptr</a> &lt; <span class="keyword">sizeof</span>(s.<a class="code" href="a00086.html#54a466311575a727830a92a6c3621cb2">buf</a>)) {
 <a name="l00244"></a>00244     c = *dataptr;
 <a name="l00245"></a>00245     ++dataptr;
@@ -289,7 +289,7 @@
 <a name="l00274"></a>00274       sendopt(TELNET_DONT, c);
 <a name="l00275"></a>00275       s.<a class="code" href="a00086.html#41bf109b6a45328d5744c0a76563fb6c">state</a> = STATE_NORMAL;
 <a name="l00276"></a>00276       <span class="keywordflow">break</span>;
-<a name="l00277"></a>00277       
+<a name="l00277"></a>00277
 <a name="l00278"></a>00278     <span class="keywordflow">case</span> STATE_WONT:
 <a name="l00279"></a>00279       <span class="comment">/* Reply with a DONT */</span>
 <a name="l00280"></a>00280       sendopt(TELNET_DONT, c);
@@ -313,10 +313,10 @@
 <a name="l00298"></a>00298       }
 <a name="l00299"></a>00299       <span class="keywordflow">break</span>;
 <a name="l00300"></a>00300     }
-<a name="l00301"></a>00301 
-<a name="l00302"></a>00302     
+<a name="l00301"></a>00301
+<a name="l00302"></a>00302
 <a name="l00303"></a>00303   }
-<a name="l00304"></a>00304   
+<a name="l00304"></a>00304
 <a name="l00305"></a>00305 }
 <a name="l00306"></a>00306 <span class="comment">/*---------------------------------------------------------------------------*/</span>
 <a name="l00307"></a>00307 <span class="keywordtype">void</span>
@@ -330,30 +330,30 @@
 <a name="l00315"></a>00315     }
 <a name="l00316"></a>00316     s.<a class="code" href="a00086.html#5eced097547fd3fac4ba2a255493d921">bufptr</a> = 0;
 <a name="l00317"></a>00317     s.<a class="code" href="a00086.html#41bf109b6a45328d5744c0a76563fb6c">state</a> = STATE_NORMAL;
-<a name="l00318"></a>00318 
+<a name="l00318"></a>00318
 <a name="l00319"></a>00319     <a name="a233"></a><a class="code" href="a00107.html#d1f18f739da7703628c3663209463a0d">shell_start</a>();
 <a name="l00320"></a>00320   }
-<a name="l00321"></a>00321 
+<a name="l00321"></a>00321
 <a name="l00322"></a>00322   <span class="keywordflow">if</span>(s.<a class="code" href="a00086.html#41bf109b6a45328d5744c0a76563fb6c">state</a> == STATE_CLOSE) {
 <a name="l00323"></a>00323     s.<a class="code" href="a00086.html#41bf109b6a45328d5744c0a76563fb6c">state</a> = STATE_NORMAL;
 <a name="l00324"></a>00324     <a name="a234"></a><a class="code" href="a00147.html#g61db1dcb7c760e4dd5d60bf4e5576dca">uip_close</a>();
 <a name="l00325"></a>00325     <span class="keywordflow">return</span>;
 <a name="l00326"></a>00326   }
-<a name="l00327"></a>00327   
+<a name="l00327"></a>00327
 <a name="l00328"></a>00328   <span class="keywordflow">if</span>(<a name="a235"></a><a class="code" href="a00147.html#gef6c4140c632b6a406779342cf3b6eb6">uip_closed</a>() ||
 <a name="l00329"></a>00329      <a name="a236"></a><a class="code" href="a00147.html#gfbd5fc486dfdf6bf6fc9db52b1f418c4">uip_aborted</a>() ||
 <a name="l00330"></a>00330      <a name="a237"></a><a class="code" href="a00147.html#g7b2ac4b18bd2ac3912fe67b3b17158c3">uip_timedout</a>()) {
 <a name="l00331"></a>00331     closed();
 <a name="l00332"></a>00332   }
-<a name="l00333"></a>00333   
+<a name="l00333"></a>00333
 <a name="l00334"></a>00334   <span class="keywordflow">if</span>(<a name="a238"></a><a class="code" href="a00147.html#gde6634974418e3240c212b9b16864368">uip_acked</a>()) {
 <a name="l00335"></a>00335     acked();
 <a name="l00336"></a>00336   }
-<a name="l00337"></a>00337   
+<a name="l00337"></a>00337
 <a name="l00338"></a>00338   <span class="keywordflow">if</span>(<a name="a239"></a><a class="code" href="a00147.html#g26a14b8dae3f861830af9e7cf1e03725">uip_newdata</a>()) {
 <a name="l00339"></a>00339     newdata();
 <a name="l00340"></a>00340   }
-<a name="l00341"></a>00341   
+<a name="l00341"></a>00341
 <a name="l00342"></a>00342   <span class="keywordflow">if</span>(<a name="a240"></a><a class="code" href="a00147.html#ga8933ad15a2e2947dae4a5cff50e6007">uip_rexmit</a>() ||
 <a name="l00343"></a>00343      <a class="code" href="a00147.html#g26a14b8dae3f861830af9e7cf1e03725">uip_newdata</a>() ||
 <a name="l00344"></a>00344      <a class="code" href="a00147.html#gde6634974418e3240c212b9b16864368">uip_acked</a>() ||

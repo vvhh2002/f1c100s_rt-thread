@@ -40,7 +40,7 @@
 #define IP_PROTO_TCP    6
 
 /*-----------------------------------------------------------------------------------*/
-void uip_add32(u8_t *op32, u16_t op16)
+void uip_add32(uint8_t *op32, u16_t op16)
 {
 
   uip_acc32[3] = op32[3] + (op16 & 0xff);
@@ -83,8 +83,8 @@ u16_t uip_chksum(u16_t *sdata, u16_t len)
 
   /* add up any odd byte */
   if(len == 1) {
-    acc += htons(((u16_t)(*(u8_t *)sdata)) << 8);
-    if(acc < htons(((u16_t)(*(u8_t *)sdata)) << 8)) {
+    acc += htons(((u16_t)(*(uint8_t *)sdata)) << 8);
+    if(acc < htons(((u16_t)(*(uint8_t *)sdata)) << 8)) {
       ++acc;
     }
   }

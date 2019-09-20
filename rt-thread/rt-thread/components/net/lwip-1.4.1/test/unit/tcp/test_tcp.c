@@ -15,7 +15,7 @@
 #error "This tests needs TCP_SND_BUF to be > TCP_WND"
 #endif
 
-static u8_t test_tcp_timer;
+static uint8_t test_tcp_timer;
 
 /* our own version of tcp_tmr so we can reset fast/slow timer state */
 static void
@@ -207,7 +207,7 @@ START_TEST(test_tcp_fast_retx_recover)
   EXPECT_RET(pcb->dupacks == 3);
   memset(&txcounters, 0, sizeof(txcounters));
   /* TODO: check expected data?*/
-  
+
   /* send data5, not output yet */
   err = tcp_write(pcb, data5, sizeof(data5), TCP_WRITE_FLAG_COPY);
   EXPECT_RET(err == ERR_OK);
@@ -290,10 +290,10 @@ START_TEST(test_tcp_fast_retx_recover)
 }
 END_TEST
 
-static u8_t tx_data[TCP_WND*2];
+static uint8_t tx_data[TCP_WND*2];
 
 static void
-check_seqnos(struct tcp_seg *segs, int num_expected, u32_t *seqnos_expected)
+check_seqnos(struct tcp_seg *segs, int num_expected, uint32_t *seqnos_expected)
 {
   struct tcp_seg *s = segs;
   int i;
@@ -304,7 +304,7 @@ check_seqnos(struct tcp_seg *segs, int num_expected, u32_t *seqnos_expected)
   EXPECT(s == NULL);
 }
 
-/** Send data with sequence numbers that wrap around the u32_t range.
+/** Send data with sequence numbers that wrap around the uint32_t range.
  * Then, provoke fast retransmission by duplicate ACKs and check that all
  * segment lists are still properly sorted. */
 START_TEST(test_tcp_fast_rexmit_wraparound)
@@ -320,7 +320,7 @@ START_TEST(test_tcp_fast_rexmit_wraparound)
 #define SEQNO1 (0xFFFFFF00 - TCP_MSS)
 #define ISS    6510
   u16_t i, sent_total = 0;
-  u32_t seqnos[] = {
+  uint32_t seqnos[] = {
     SEQNO1,
     SEQNO1 + (1 * TCP_MSS),
     SEQNO1 + (2 * TCP_MSS),
@@ -330,7 +330,7 @@ START_TEST(test_tcp_fast_rexmit_wraparound)
   LWIP_UNUSED_ARG(_i);
 
   for (i = 0; i < sizeof(tx_data); i++) {
-    tx_data[i] = (u8_t)i;
+    tx_data[i] = (uint8_t)i;
   }
 
   /* initialize local vars */
@@ -402,7 +402,7 @@ START_TEST(test_tcp_fast_rexmit_wraparound)
 }
 END_TEST
 
-/** Send data with sequence numbers that wrap around the u32_t range.
+/** Send data with sequence numbers that wrap around the uint32_t range.
  * Then, provoke RTO retransmission and check that all
  * segment lists are still properly sorted. */
 START_TEST(test_tcp_rto_rexmit_wraparound)
@@ -417,7 +417,7 @@ START_TEST(test_tcp_rto_rexmit_wraparound)
 #define SEQNO1 (0xFFFFFF00 - TCP_MSS)
 #define ISS    6510
   u16_t i, sent_total = 0;
-  u32_t seqnos[] = {
+  uint32_t seqnos[] = {
     SEQNO1,
     SEQNO1 + (1 * TCP_MSS),
     SEQNO1 + (2 * TCP_MSS),
@@ -427,7 +427,7 @@ START_TEST(test_tcp_rto_rexmit_wraparound)
   LWIP_UNUSED_ARG(_i);
 
   for (i = 0; i < sizeof(tx_data); i++) {
-    tx_data[i] = (u8_t)i;
+    tx_data[i] = (uint8_t)i;
   }
 
   /* initialize local vars */
@@ -494,7 +494,7 @@ END_TEST
 
 /** Provoke fast retransmission by duplicate ACKs and then recover by ACKing all sent data.
  * At the end, send more data. */
-static void test_tcp_tx_full_window_lost(u8_t zero_window_probe_from_unsent)
+static void test_tcp_tx_full_window_lost(uint8_t zero_window_probe_from_unsent)
 {
   struct netif netif;
   struct test_tcp_txcounters txcounters;
@@ -505,10 +505,10 @@ static void test_tcp_tx_full_window_lost(u8_t zero_window_probe_from_unsent)
   u16_t remote_port = 0x100, local_port = 0x101;
   err_t err;
   u16_t sent_total, i;
-  u8_t expected = 0xFE;
+  uint8_t expected = 0xFE;
 
   for (i = 0; i < sizeof(tx_data); i++) {
-    u8_t d = (u8_t)i;
+    uint8_t d = (uint8_t)i;
     if (d == 0xFE) {
       d = 0xF0;
     }
@@ -618,7 +618,7 @@ static void test_tcp_tx_full_window_lost(u8_t zero_window_probe_from_unsent)
     EXPECT(txcounters.num_tx_bytes == 1 + 40U);
     EXPECT(txcounters.tx_packets != NULL);
     if (txcounters.tx_packets != NULL) {
-      u8_t sent;
+      uint8_t sent;
       u16_t ret;
       ret = pbuf_copy_partial(txcounters.tx_packets, &sent, 1, 40U);
       EXPECT(ret == 1);

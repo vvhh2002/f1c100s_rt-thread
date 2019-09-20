@@ -58,7 +58,7 @@
 /** This standard allocator function creates an altcp pcb for
  * TLS over TCP */
 struct altcp_pcb *
-altcp_tls_new(struct altcp_tls_config *config, u8_t ip_type)
+altcp_tls_new(struct altcp_tls_config *config, uint8_t ip_type)
 {
   struct altcp_pcb *inner_conn, *ret;
   LWIP_UNUSED_ARG(ip_type);
@@ -77,7 +77,7 @@ altcp_tls_new(struct altcp_tls_config *config, u8_t ip_type)
 /** This standard allocator function creates an altcp pcb for
  * TLS over TCP */
 struct altcp_pcb *
-altcp_tls_alloc(void *arg, u8_t ip_type)
+altcp_tls_alloc(void *arg, uint8_t ip_type)
 {
   return altcp_tls_new((struct altcp_tls_config *)arg, ip_type);
 }

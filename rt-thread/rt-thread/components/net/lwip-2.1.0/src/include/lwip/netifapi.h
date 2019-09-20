@@ -77,9 +77,9 @@ err_t netifapi_netif_common(struct netif *netif, netifapi_void_fn voidfunc,
                             netifapi_errt_fn errtfunc);
 
 /** @ingroup netifapi_netif */
-err_t netifapi_netif_name_to_index(const char *name, u8_t *index);
+err_t netifapi_netif_name_to_index(const char *name, uint8_t *index);
 /** @ingroup netifapi_netif */
-err_t netifapi_netif_index_to_name(u8_t index, char *name);
+err_t netifapi_netif_index_to_name(uint8_t index, char *name);
 
 /** @ingroup netifapi_netif
   * @see netif_remove()

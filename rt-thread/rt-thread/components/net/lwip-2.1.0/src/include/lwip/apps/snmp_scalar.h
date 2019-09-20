@@ -52,7 +52,7 @@ struct snmp_scalar_node
 {
   /** inherited "base class" members */
   struct snmp_leaf_node node;
-  u8_t asn1_type;
+  uint8_t asn1_type;
   snmp_access_t access;
   node_instance_get_value_method get_value;
   node_instance_set_test_method set_test;
@@ -60,8 +60,8 @@ struct snmp_scalar_node
 };
 
 
-snmp_err_t snmp_scalar_get_instance(const u32_t *root_oid, u8_t root_oid_len, struct snmp_node_instance* instance);
-snmp_err_t snmp_scalar_get_next_instance(const u32_t *root_oid, u8_t root_oid_len, struct snmp_node_instance* instance);
+snmp_err_t snmp_scalar_get_instance(const uint32_t *root_oid, uint8_t root_oid_len, struct snmp_node_instance* instance);
+snmp_err_t snmp_scalar_get_next_instance(const uint32_t *root_oid, uint8_t root_oid_len, struct snmp_node_instance* instance);
 
 #define SNMP_SCALAR_CREATE_NODE(oid, access, asn1_type, get_value_method, set_test_method, set_value_method) \
   {{{ SNMP_NODE_SCALAR, (oid) }, \
@@ -74,8 +74,8 @@ snmp_err_t snmp_scalar_get_next_instance(const u32_t *root_oid, u8_t root_oid_le
 /** scalar array node - a tree node which contains scalars only as children */
 struct snmp_scalar_array_node_def
 {
-  u32_t         oid;
-  u8_t          asn1_type;
+  uint32_t         oid;
+  uint8_t          asn1_type;
   snmp_access_t access;
 };
 
@@ -95,8 +95,8 @@ struct snmp_scalar_array_node
   snmp_scalar_array_set_value_method set_value;
 };
 
-snmp_err_t snmp_scalar_array_get_instance(const u32_t *root_oid, u8_t root_oid_len, struct snmp_node_instance* instance);
-snmp_err_t snmp_scalar_array_get_next_instance(const u32_t *root_oid, u8_t root_oid_len, struct snmp_node_instance* instance);
+snmp_err_t snmp_scalar_array_get_instance(const uint32_t *root_oid, uint8_t root_oid_len, struct snmp_node_instance* instance);
+snmp_err_t snmp_scalar_array_get_next_instance(const uint32_t *root_oid, uint8_t root_oid_len, struct snmp_node_instance* instance);
 
 #define SNMP_SCALAR_CREATE_ARRAY_NODE(oid, array_nodes, get_value_method, set_test_method, set_value_method) \
   {{{ SNMP_NODE_SCALAR_ARRAY, (oid) }, \

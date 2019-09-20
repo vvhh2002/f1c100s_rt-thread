@@ -54,12 +54,12 @@
 #define SNMP_V3_MD5_LEN        16
 #define SNMP_V3_SHA_LEN        20
 
-u32_t snmpv3_get_engine_boots_internal(void);
-u32_t snmpv3_get_engine_time_internal(void);
-err_t snmpv3_auth(struct snmp_pbuf_stream* stream, u16_t length, const u8_t* key, u8_t algo, u8_t* hmac_out);
-err_t snmpv3_crypt(struct snmp_pbuf_stream* stream, u16_t length, const u8_t* key,
-    const u8_t* priv_param, const u32_t engine_boots, const u32_t engine_time, u8_t algo, u8_t mode);
-err_t snmpv3_build_priv_param(u8_t* priv_param);
+uint32_t snmpv3_get_engine_boots_internal(void);
+uint32_t snmpv3_get_engine_time_internal(void);
+err_t snmpv3_auth(struct snmp_pbuf_stream* stream, u16_t length, const uint8_t* key, uint8_t algo, uint8_t* hmac_out);
+err_t snmpv3_crypt(struct snmp_pbuf_stream* stream, u16_t length, const uint8_t* key,
+    const uint8_t* priv_param, const uint32_t engine_boots, const uint32_t engine_time, uint8_t algo, uint8_t mode);
+err_t snmpv3_build_priv_param(uint8_t* priv_param);
 
 #endif
 

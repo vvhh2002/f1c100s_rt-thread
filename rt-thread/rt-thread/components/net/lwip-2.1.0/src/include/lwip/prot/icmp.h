@@ -60,15 +60,15 @@ extern "C" {
 #ifdef PACK_STRUCT_USE_INCLUDES
 #  include "arch/bpstruct.h"
 #endif
-/** This is the standard ICMP header only that the u32_t data
+/** This is the standard ICMP header only that the uint32_t data
  *  is split to two u16_t like ICMP echo needs it.
  *  This header is also used for other ICMP types that do not
  *  use the data part.
  */
 PACK_STRUCT_BEGIN
 struct icmp_echo_hdr {
-  PACK_STRUCT_FLD_8(u8_t type);
-  PACK_STRUCT_FLD_8(u8_t code);
+  PACK_STRUCT_FLD_8(uint8_t type);
+  PACK_STRUCT_FLD_8(uint8_t code);
   PACK_STRUCT_FIELD(u16_t chksum);
   PACK_STRUCT_FIELD(u16_t id);
   PACK_STRUCT_FIELD(u16_t seqno);

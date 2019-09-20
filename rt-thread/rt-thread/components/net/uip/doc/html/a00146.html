@@ -17,7 +17,7 @@
 <small>
 [<a class="el" href="a00150.html">The uIP TCP/IP stack</a>]</small>
 </h1><hr><a name="_details"></a><h2>Detailed Description</h2>
-These functions are used by a network device driver for interacting with uIP. 
+These functions are used by a network device driver for interacting with uIP.
 <p>
 
 <p>
@@ -46,7 +46,7 @@ These functions are used by a network device driver for interacting with uIP.
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Periodic processing for a UDP connection identified by a pointer to its structure.  <a href="#gf5c2ad5acf3cc23b8262e9ba6a15136b"></a><br></td></tr>
 <tr><td colspan="2"><br><h2>Variables</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00146.html#gb81e78f890dbbee50c533a9734b74fd9">uip_buf</a> [UIP_BUFSIZE+2]</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00146.html#gb81e78f890dbbee50c533a9734b74fd9">uip_buf</a> [UIP_BUFSIZE+2]</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">The uIP packet buffer.  <a href="#gb81e78f890dbbee50c533a9734b74fd9"></a><br></td></tr>
 </table>
@@ -76,7 +76,7 @@ These functions are used by a network device driver for interacting with uIP.
     <td>
 
 <p>
-Process an incoming packet. 
+Process an incoming packet.
 <p>
 This function should be called when the device driver has received a packet from the network. The packet from the device driver must be present in the uip_buf buffer, and the length of the packet should be placed in the uip_len variable.<p>
 When the function returns, there may be an outbound packet placed in the uip_buf packet buffer. If so, the uip_len variable is set to the length of the packet. If no packet is to be sent out, the uip_len variable is set to 0.<p>
@@ -136,7 +136,7 @@ Definition at line <a class="el" href="a00202.html#l00257">257</a> of file <a cl
     <td>
 
 <p>
-Periodic processing for a connection identified by its number. 
+Periodic processing for a connection identified by its number.
 <p>
 This function does the necessary periodic processing (timers, polling) for a uIP TCP conneciton, and should be called when the periodic uIP timer goes off. It should be called for every connection, regardless of whether they are open of closed.<p>
 When the function returns, it may have an outbound packet waiting for service in the uIP packet buffer, and if so the uip_len variable is set to a value larger than zero. The device driver should be called to send out the packet.<p>
@@ -191,7 +191,7 @@ Definition at line <a class="el" href="a00202.html#l00301">301</a> of file <a cl
     <td>
 
 <p>
-Perform periodic processing for a connection identified by a pointer to its structure. 
+Perform periodic processing for a connection identified by a pointer to its structure.
 <p>
 Same as <a class="el" href="a00146.html#g1024f8a5fa65e82bf848b2e6590d9628">uip_periodic()</a> but takes a pointer to the actual <a class="el" href="a00088.html">uip_conn</a> struct instead of an integer as its argument. This function can be used to force periodic processing of a specific connection.<p>
 <dl compact><dt><b>Parameters:</b></dt><dd>
@@ -229,7 +229,7 @@ Definition at line <a class="el" href="a00202.html#l00323">323</a> of file <a cl
     <td>
 
 <p>
-Reuqest that a particular connection should be polled. 
+Reuqest that a particular connection should be polled.
 <p>
 Similar to <a class="el" href="a00146.html#gbaf0bb2b6a4424b4eb69e45e457c2583">uip_periodic_conn()</a> but does not perform any timer processing. The application is polled for new data.<p>
 <dl compact><dt><b>Parameters:</b></dt><dd>
@@ -267,7 +267,7 @@ Definition at line <a class="el" href="a00202.html#l00337">337</a> of file <a cl
     <td>
 
 <p>
-Periodic processing for a UDP connection identified by its number. 
+Periodic processing for a UDP connection identified by its number.
 <p>
 This function is essentially the same as <a class="el" href="a00146.html#g1024f8a5fa65e82bf848b2e6590d9628">uip_periodic()</a>, but for UDP connections. It is called in a similar fashion as the <a class="el" href="a00146.html#g1024f8a5fa65e82bf848b2e6590d9628">uip_periodic()</a> function: <div class="fragment"><pre class="fragment">  <span class="keywordflow">for</span>(i = 0; i &lt; <a class="code" href="a00153.html#g196379ceb1219a99f4495e41ccc9bbfb">UIP_UDP_CONNS</a>; i++) {
     <a class="code" href="a00146.html#g2c64c8c36bc84f9336f6a2184ea51883">uip_udp_periodic</a>(i);
@@ -320,7 +320,7 @@ Definition at line <a class="el" href="a00202.html#l00373">373</a> of file <a cl
     <td>
 
 <p>
-Periodic processing for a UDP connection identified by a pointer to its structure. 
+Periodic processing for a UDP connection identified by a pointer to its structure.
 <p>
 Same as <a class="el" href="a00146.html#g2c64c8c36bc84f9336f6a2184ea51883">uip_udp_periodic()</a> but takes a pointer to the actual <a class="el" href="a00088.html">uip_conn</a> struct instead of an integer as its argument. This function can be used to force periodic processing of a specific connection.<p>
 <dl compact><dt><b>Parameters:</b></dt><dd>
@@ -340,7 +340,7 @@ Definition at line <a class="el" href="a00202.html#l00390">390</a> of file <a cl
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top"><a class="el" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a> <a class="el" href="a00150.html#gb81e78f890dbbee50c533a9734b74fd9">uip_buf</a>[UIP_BUFSIZE+2]          </td>
+          <td class="md" nowrap valign="top"><a class="el" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a> <a class="el" href="a00150.html#gb81e78f890dbbee50c533a9734b74fd9">uip_buf</a>[UIP_BUFSIZE+2]          </td>
         </tr>
       </table>
     </td>
@@ -354,7 +354,7 @@ Definition at line <a class="el" href="a00202.html#l00390">390</a> of file <a cl
     <td>
 
 <p>
-The uIP packet buffer. 
+The uIP packet buffer.
 <p>
 The uip_buf array is used to hold incoming and outgoing packets. The device driver should place incoming data into this buffer. When sending data, the device driver should read the link level headers and the TCP/IP headers from this buffer. The size of the link level headers is configured by the UIP_LLH_LEN define.<p>
 <dl compact><dt><b>Note:</b></dt><dd>The application data need not be placed in this buffer, so the device driver must read it from the place pointed to by the uip_appdata pointer as illustrated by the following example: <div class="fragment"><pre class="fragment"> <span class="keywordtype">void</span>

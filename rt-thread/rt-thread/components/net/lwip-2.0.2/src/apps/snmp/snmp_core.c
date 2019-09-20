@@ -48,7 +48,7 @@
  *
  * 0 Agent Capabilities
  * ====================
- * 
+ *
  * Features:
  * ---------
  * - SNMPv2c support.
@@ -66,7 +66,7 @@
  * - Simplified thread sync support for MIBs - useful when MIBs
  *   need to access variables shared with other threads where no locking is
  *   possible. Used in MIB2 to access lwIP stats from lwIP thread.
- * 
+ *
  * MIB compiler (code generator):
  * ------------------------------
  * - Provided in lwIP contrib repository.
@@ -78,92 +78,92 @@
  * - MIB parser, C file generation framework and LWIP code generation are cleanly
  *   separated, which means the code may be useful as a base for code generation
  *   of other SNMP agents.
- * 
+ *
  * Notes:
  * ------
  * - Stack and MIB compiler were used to implement a Profinet device.
  *   Compiled/implemented MIBs: LLDP-MIB, LLDP-EXT-DOT3-MIB, LLDP-EXT-PNO-MIB.
- * 
+ *
  * SNMPv1 per RFC1157 and SNMPv2c per RFC 3416
  * -------------------------------------------
  *   Note the S in SNMP stands for "Simple". Note that "Simple" is
  *   relative. SNMP is simple compared to the complex ISO network
  *   management protocols CMIP (Common Management Information Protocol)
  *   and CMOT (CMip Over Tcp).
- * 
+ *
  * MIB II
  * ------
  *   The standard lwIP stack management information base.
  *   This is a required MIB, so this is always enabled.
  *   The groups EGP, CMOT and transmission are disabled by default.
- * 
+ *
  *   Most mib-2 objects are not writable except:
  *   sysName, sysLocation, sysContact, snmpEnableAuthenTraps.
  *   Writing to or changing the ARP and IP address and route
  *   tables is not possible.
- * 
+ *
  *   Note lwIP has a very limited notion of IP routing. It currently
  *   doen't have a route table and doesn't have a notion of the U,G,H flags.
  *   Instead lwIP uses the interface list with only one default interface
  *   acting as a single gateway interface (G) for the default route.
- * 
+ *
  *   The agent returns a "virtual table" with the default route 0.0.0.0
  *   for the default interface and network routes (no H) for each
  *   network interface in the netif_list.
  *   All routes are considered to be up (U).
- * 
+ *
  * Loading additional MIBs
  * -----------------------
  *   MIBs can only be added in compile-time, not in run-time.
- *  
- * 
+ *
+ *
  * 1 Building the Agent
  * ====================
  * First of all you'll need to add the following define
  * to your local lwipopts.h:
  * \#define LWIP_SNMP               1
- * 
+ *
  * and add the source files your makefile.
- * 
+ *
  * Note you'll might need to adapt you network driver to update
  * the mib2 variables for your interface.
- * 
+ *
  * 2 Running the Agent
  * ===================
  * The following function calls must be made in your program to
  * actually get the SNMP agent running.
- * 
+ *
  * Before starting the agent you should supply pointers
  * for sysContact, sysLocation, and snmpEnableAuthenTraps.
  * You can do this by calling
- * 
+ *
  * - snmp_mib2_set_syscontact()
  * - snmp_mib2_set_syslocation()
  * - snmp_set_auth_traps_enabled()
- * 
- * You can register a callback which is called on successful write access: 
+ *
+ * You can register a callback which is called on successful write access:
  * snmp_set_write_callback().
- * 
+ *
  * Additionally you may want to set
- * 
+ *
  * - snmp_mib2_set_sysdescr()
  * - snmp_set_device_enterprise_oid()
  * - snmp_mib2_set_sysname()
- * 
+ *
  * Also before starting the agent you need to setup
  * one or more trap destinations using these calls:
- * 
+ *
  * - snmp_trap_dst_enable()
  * - snmp_trap_dst_ip_set()
- * 
+ *
  * If you need more than MIB2, set the MIBs you want to use
  * by snmp_set_mibs().
- * 
+ *
  * Finally, enable the agent by calling snmp_init()
  *
  * @defgroup snmp_core Core
  * @ingroup snmp
- * 
+ *
  * @defgroup snmp_traps Traps
  * @ingroup snmp
  */
@@ -190,17 +190,17 @@ struct snmp_statistics snmp_stats;
 static const struct snmp_obj_id  snmp_device_enterprise_oid_default = {SNMP_DEVICE_ENTERPRISE_OID_LEN, SNMP_DEVICE_ENTERPRISE_OID};
 static const struct snmp_obj_id* snmp_device_enterprise_oid         = &snmp_device_enterprise_oid_default;
 
-const u32_t snmp_zero_dot_zero_values[] = { 0, 0 };
+const uint32_t snmp_zero_dot_zero_values[] = { 0, 0 };
 const struct snmp_obj_id_const_ref snmp_zero_dot_zero = { LWIP_ARRAYSIZE(snmp_zero_dot_zero_values), snmp_zero_dot_zero_values };
 
 
 #if SNMP_LWIP_MIB2
 #include "lwip/apps/snmp_mib2.h"
 static const struct snmp_mib* const default_mibs[] = { &mib2 };
-static u8_t snmp_num_mibs                          = 1;
+static uint8_t snmp_num_mibs                          = 1;
 #else
 static const struct snmp_mib* const default_mibs[] = { NULL };
-static u8_t snmp_num_mibs                          = 0;
+static uint8_t snmp_num_mibs                          = 0;
 #endif
 
 /* List of known mibs */
@@ -217,7 +217,7 @@ static struct snmp_mib const * const *snmp_mibs = default_mibs;
  * snmp_set_mibs(my_snmp_mibs, LWIP_ARRAYSIZE(my_snmp_mibs));
  */
 void
-snmp_set_mibs(const struct snmp_mib **mibs, u8_t num_mibs)
+snmp_set_mibs(const struct snmp_mib **mibs, uint8_t num_mibs)
 {
   LWIP_ASSERT("mibs pointer must be != NULL", (mibs != NULL));
   LWIP_ASSERT("num_mibs pointer must be != 0", (num_mibs != 0));
@@ -232,7 +232,7 @@ snmp_set_mibs(const struct snmp_mib **mibs, u8_t num_mibs)
  * The 'device enterprise oid' shall point to an OID located under 'private-enterprises' branch (1.3.6.1.4.1.XXX). If a vendor
  * wants to provide a custom object there, he has to get its own enterprise oid from IANA (http://www.iana.org). It
  * is not allowed to use LWIP enterprise ID!
- * In order to identify a specific device it is recommended to create a dedicated OID for each device type under its own 
+ * In order to identify a specific device it is recommended to create a dedicated OID for each device type under its own
  * enterprise oid.
  * e.g.
  * device a > 1.3.6.1.4.1.XXX(ent-oid).1(devices).1(device a)
@@ -250,7 +250,7 @@ void snmp_set_device_enterprise_oid(const struct snmp_obj_id* device_enterprise_
 
 /**
  * @ingroup snmp_core
- * Get 'device enterprise oid' 
+ * Get 'device enterprise oid'
  */
 const struct snmp_obj_id* snmp_get_device_enterprise_oid(void)
 {
@@ -260,11 +260,11 @@ const struct snmp_obj_id* snmp_get_device_enterprise_oid(void)
 #if LWIP_IPV4
 /**
  * Conversion from InetAddressIPv4 oid to lwIP ip4_addr
- * @param oid points to u32_t ident[4] input
+ * @param oid points to uint32_t ident[4] input
  * @param ip points to output struct
  */
-u8_t
-snmp_oid_to_ip4(const u32_t *oid, ip4_addr_t *ip)
+uint8_t
+snmp_oid_to_ip4(const uint32_t *oid, ip4_addr_t *ip)
 {
   if ((oid[0] > 0xFF) ||
       (oid[1] > 0xFF) ||
@@ -281,10 +281,10 @@ snmp_oid_to_ip4(const u32_t *oid, ip4_addr_t *ip)
 /**
  * Convert ip4_addr to InetAddressIPv4 (no InetAddressType)
  * @param ip points to input struct
- * @param oid points to u32_t ident[4] output
+ * @param oid points to uint32_t ident[4] output
  */
 void
-snmp_ip4_to_oid(const ip4_addr_t *ip, u32_t *oid)
+snmp_ip4_to_oid(const ip4_addr_t *ip, uint32_t *oid)
 {
   oid[0] = ip4_addr1(ip);
   oid[1] = ip4_addr2(ip);
@@ -296,11 +296,11 @@ snmp_ip4_to_oid(const ip4_addr_t *ip, u32_t *oid)
 #if LWIP_IPV6
 /**
  * Conversion from InetAddressIPv6 oid to lwIP ip6_addr
- * @param oid points to u32_t oid[16] input
+ * @param oid points to uint32_t oid[16] input
  * @param ip points to output struct
  */
-u8_t
-snmp_oid_to_ip6(const u32_t *oid, ip6_addr_t *ip)
+uint8_t
+snmp_oid_to_ip6(const uint32_t *oid, ip6_addr_t *ip)
 {
   if ((oid[0]  > 0xFF) ||
       (oid[1]  > 0xFF) ||
@@ -332,10 +332,10 @@ snmp_oid_to_ip6(const u32_t *oid, ip6_addr_t *ip)
 /**
  * Convert ip6_addr to InetAddressIPv6 (no InetAddressType)
  * @param ip points to input struct
- * @param oid points to u32_t ident[16] output
+ * @param oid points to uint32_t ident[16] output
  */
 void
-snmp_ip6_to_oid(const ip6_addr_t *ip, u32_t *oid)
+snmp_ip6_to_oid(const ip6_addr_t *ip, uint32_t *oid)
 {
   oid[0]  = (ip->addr[0] & 0xFF000000) >> 24;
   oid[1]  = (ip->addr[0] & 0x00FF0000) >> 16;
@@ -364,10 +364,10 @@ snmp_ip6_to_oid(const ip6_addr_t *ip, u32_t *oid)
  * @param oid OID
  * @return OID length
  */
-u8_t
-snmp_ip_port_to_oid(const ip_addr_t *ip, u16_t port, u32_t *oid)
+uint8_t
+snmp_ip_port_to_oid(const ip_addr_t *ip, u16_t port, uint32_t *oid)
 {
-  u8_t idx;
+  uint8_t idx;
 
   idx = snmp_ip_to_oid(ip, oid);
   oid[idx] = port;
@@ -382,8 +382,8 @@ snmp_ip_port_to_oid(const ip_addr_t *ip, u16_t port, u32_t *oid)
  * @param oid OID
  * @return OID length
  */
-u8_t
-snmp_ip_to_oid(const ip_addr_t *ip, u32_t *oid)
+uint8_t
+snmp_ip_to_oid(const ip_addr_t *ip, uint32_t *oid)
 {
   if (IP_IS_ANY_TYPE_VAL(*ip)) {
     oid[0] = 0; /* any */
@@ -417,8 +417,8 @@ snmp_ip_to_oid(const ip_addr_t *ip, u32_t *oid)
  * @param ip IP address
  * @return Parsed OID length
  */
-u8_t
-snmp_oid_to_ip(const u32_t *oid, u8_t oid_len, ip_addr_t *ip)
+uint8_t
+snmp_oid_to_ip(const uint32_t *oid, uint8_t oid_len, ip_addr_t *ip)
 {
   /* InetAddressType */
   if (oid_len < 1) {
@@ -493,10 +493,10 @@ snmp_oid_to_ip(const u32_t *oid, u8_t oid_len, ip_addr_t *ip)
  * @param port Port
  * @return Parsed OID length
  */
-u8_t
-snmp_oid_to_ip_port(const u32_t *oid, u8_t oid_len, ip_addr_t *ip, u16_t *port)
+uint8_t
+snmp_oid_to_ip_port(const uint32_t *oid, uint8_t oid_len, ip_addr_t *ip, u16_t *port)
 {
-  u8_t idx = 0;
+  uint8_t idx = 0;
 
   /* InetAddressType + InetAddress */
   idx += snmp_oid_to_ip(&oid[idx], oid_len-idx, ip);
@@ -521,19 +521,19 @@ snmp_oid_to_ip_port(const u32_t *oid, u8_t oid_len, ip_addr_t *ip, u16_t *port)
 
 /**
  * Assign an OID to struct snmp_obj_id
- * @param target Assignment target 
+ * @param target Assignment target
  * @param oid OID
  * @param oid_len OID length
  */
 void
-snmp_oid_assign(struct snmp_obj_id* target, const u32_t *oid, u8_t oid_len)
+snmp_oid_assign(struct snmp_obj_id* target, const uint32_t *oid, uint8_t oid_len)
 {
   LWIP_ASSERT("oid_len <= LWIP_SNMP_OBJ_ID_LEN", oid_len <= SNMP_MAX_OBJ_ID_LEN);
 
   target->len = oid_len;
 
   if (oid_len > 0) {
-    MEMCPY(target->id, oid, oid_len * sizeof(u32_t));
+    MEMCPY(target->id, oid, oid_len * sizeof(uint32_t));
   }
 }
 
@@ -544,7 +544,7 @@ snmp_oid_assign(struct snmp_obj_id* target, const u32_t *oid, u8_t oid_len)
  * @param oid_len OID length
  */
 void
-snmp_oid_prefix(struct snmp_obj_id* target, const u32_t *oid, u8_t oid_len)
+snmp_oid_prefix(struct snmp_obj_id* target, const uint32_t *oid, uint8_t oid_len)
 {
   LWIP_ASSERT("target->len + oid_len <= LWIP_SNMP_OBJ_ID_LEN", (target->len + oid_len) <= SNMP_MAX_OBJ_ID_LEN);
 
@@ -556,7 +556,7 @@ snmp_oid_prefix(struct snmp_obj_id* target, const u32_t *oid, u8_t oid_len)
     }
 
     /* paste oid at the beginning */
-    MEMCPY(target->id, oid, oid_len * sizeof(u32_t));
+    MEMCPY(target->id, oid, oid_len * sizeof(uint32_t));
   }
 }
 
@@ -569,7 +569,7 @@ snmp_oid_prefix(struct snmp_obj_id* target, const u32_t *oid, u8_t oid_len)
  * @param oid2_len OID 2 length
  */
 void
-snmp_oid_combine(struct snmp_obj_id* target, const u32_t *oid1, u8_t oid1_len, const u32_t *oid2, u8_t oid2_len)
+snmp_oid_combine(struct snmp_obj_id* target, const uint32_t *oid1, uint8_t oid1_len, const uint32_t *oid2, uint8_t oid2_len)
 {
   snmp_oid_assign(target, oid1, oid1_len);
   snmp_oid_append(target, oid2, oid2_len);
@@ -582,12 +582,12 @@ snmp_oid_combine(struct snmp_obj_id* target, const u32_t *oid1, u8_t oid1_len, c
  * @param oid_len OID length
  */
 void
-snmp_oid_append(struct snmp_obj_id* target, const u32_t *oid, u8_t oid_len)
+snmp_oid_append(struct snmp_obj_id* target, const uint32_t *oid, uint8_t oid_len)
 {
   LWIP_ASSERT("offset + oid_len <= LWIP_SNMP_OBJ_ID_LEN", (target->len + oid_len) <= SNMP_MAX_OBJ_ID_LEN);
 
   if (oid_len > 0) {
-    MEMCPY(&target->id[target->len], oid, oid_len * sizeof(u32_t));
+    MEMCPY(&target->id[target->len], oid, oid_len * sizeof(uint32_t));
     target->len += oid_len;
   }
 }
@@ -601,9 +601,9 @@ snmp_oid_append(struct snmp_obj_id* target, const u32_t *oid, u8_t oid_len)
  * @return -1: OID1&lt;OID2  1: OID1 &gt;OID2 0: equal
  */
 s8_t
-snmp_oid_compare(const u32_t *oid1, u8_t oid1_len, const u32_t *oid2, u8_t oid2_len)
+snmp_oid_compare(const uint32_t *oid1, uint8_t oid1_len, const uint32_t *oid2, uint8_t oid2_len)
 {
-  u8_t level = 0;
+  uint8_t level = 0;
   LWIP_ASSERT("'oid1' param must not be NULL or 'oid1_len' param be 0!", (oid1 != NULL) || (oid1_len == 0));
   LWIP_ASSERT("'oid2' param must not be NULL or 'oid2_len' param be 0!", (oid2 != NULL) || (oid2_len == 0));
 
@@ -641,8 +641,8 @@ snmp_oid_compare(const u32_t *oid1, u8_t oid1_len, const u32_t *oid2, u8_t oid2_
  * @param oid2_len OID 2 length
  * @return 1: equal 0: non-equal
  */
-u8_t
-snmp_oid_equal(const u32_t *oid1, u8_t oid1_len, const u32_t *oid2, u8_t oid2_len)
+uint8_t
+snmp_oid_equal(const uint32_t *oid1, uint8_t oid1_len, const uint32_t *oid2, uint8_t oid2_len)
 {
   return (snmp_oid_compare(oid1, oid1_len, oid2, oid2_len) == 0)? 1 : 0;
 }
@@ -652,10 +652,10 @@ snmp_oid_equal(const u32_t *oid1, u8_t oid1_len, const u32_t *oid2, u8_t oid2_le
  * @param netif netif
  * @return index
  */
-u8_t
+uint8_t
 netif_to_num(const struct netif *netif)
 {
-  u8_t result = 0;
+  uint8_t result = 0;
   struct netif *netif_iterator = netif_list;
 
   while (netif_iterator != NULL) {
@@ -673,13 +673,13 @@ netif_to_num(const struct netif *netif)
 }
 
 static const struct snmp_mib*
-snmp_get_mib_from_oid(const u32_t *oid, u8_t oid_len)
+snmp_get_mib_from_oid(const uint32_t *oid, uint8_t oid_len)
 {
-  const u32_t* list_oid;
-  const u32_t* searched_oid;
-  u8_t i, l;
+  const uint32_t* list_oid;
+  const uint32_t* searched_oid;
+  uint8_t i, l;
 
-  u8_t max_match_len = 0;
+  uint8_t max_match_len = 0;
   const struct snmp_mib* matched_mib = NULL;
 
   LWIP_ASSERT("'oid' param must not be NULL!", (oid != NULL));
@@ -718,9 +718,9 @@ snmp_get_mib_from_oid(const u32_t *oid, u8_t oid_len)
 }
 
 static const struct snmp_mib*
-snmp_get_next_mib(const u32_t *oid, u8_t oid_len)
+snmp_get_next_mib(const uint32_t *oid, uint8_t oid_len)
 {
-  u8_t i;
+  uint8_t i;
   const struct snmp_mib* next_mib = NULL;
 
   LWIP_ASSERT("'oid' param must not be NULL!", (oid != NULL));
@@ -746,7 +746,7 @@ snmp_get_next_mib(const u32_t *oid, u8_t oid_len)
 }
 
 static const struct snmp_mib*
-snmp_get_mib_between(const u32_t *oid1, u8_t oid1_len, const u32_t *oid2, u8_t oid2_len)
+snmp_get_mib_between(const uint32_t *oid1, uint8_t oid1_len, const uint32_t *oid2, uint8_t oid2_len)
 {
   const struct snmp_mib* next_mib = snmp_get_next_mib(oid1, oid1_len);
 
@@ -762,16 +762,16 @@ snmp_get_mib_between(const u32_t *oid1, u8_t oid1_len, const u32_t *oid2, u8_t o
   return NULL;
 }
 
-u8_t
-snmp_get_node_instance_from_oid(const u32_t *oid, u8_t oid_len, struct snmp_node_instance* node_instance)
+uint8_t
+snmp_get_node_instance_from_oid(const uint32_t *oid, uint8_t oid_len, struct snmp_node_instance* node_instance)
 {
-  u8_t result = SNMP_ERR_NOSUCHOBJECT;
+  uint8_t result = SNMP_ERR_NOSUCHOBJECT;
   const struct snmp_mib *mib;
   const struct snmp_node *mn = NULL;
 
   mib = snmp_get_mib_from_oid(oid, oid_len);
   if (mib != NULL) {
-    u8_t oid_instance_len;
+    uint8_t oid_instance_len;
 
     mn = snmp_mib_tree_resolve_exact(mib, oid, oid_len, &oid_instance_len);
     if ((mn != NULL) && (mn->node_type != SNMP_NODE_TREE)) {
@@ -802,13 +802,13 @@ snmp_get_node_instance_from_oid(const u32_t *oid, u8_t oid_len, struct snmp_node
   return result;
 }
 
-u8_t
-snmp_get_next_node_instance_from_oid(const u32_t *oid, u8_t oid_len, snmp_validate_node_instance_method validate_node_instance_method, void* validate_node_instance_arg, struct snmp_obj_id* node_oid, struct snmp_node_instance* node_instance)
+uint8_t
+snmp_get_next_node_instance_from_oid(const uint32_t *oid, uint8_t oid_len, snmp_validate_node_instance_method validate_node_instance_method, void* validate_node_instance_arg, struct snmp_obj_id* node_oid, struct snmp_node_instance* node_instance)
 {
   const struct snmp_mib      *mib;
   const struct snmp_node *mn = NULL;
-  const u32_t* start_oid     = NULL;
-  u8_t         start_oid_len = 0;
+  const uint32_t* start_oid     = NULL;
+  uint8_t         start_oid_len = 0;
 
   /* resolve target MIB from passed OID */
   mib = snmp_get_mib_from_oid(oid, oid_len);
@@ -827,7 +827,7 @@ snmp_get_next_node_instance_from_oid(const u32_t *oid, u8_t oid_len, snmp_valida
 
   /* resolve target node from MIB, skip to next MIB if no suitable node is found in current MIB */
   while ((mib != NULL) && (mn == NULL)) {
-    u8_t oid_instance_len;
+    uint8_t oid_instance_len;
 
     /* check if OID directly references a node inside current MIB, in this case we have to ask this node for the next instance */
     mn = snmp_mib_tree_resolve_exact(mib, start_oid, start_oid_len, &oid_instance_len);
@@ -843,7 +843,7 @@ snmp_get_next_node_instance_from_oid(const u32_t *oid, u8_t oid_len, snmp_valida
     /* validate the node; if the node has no further instance or the returned instance is invalid, search for the next in MIB and validate again */
     node_instance->node = mn;
     while (mn != NULL) {
-       u8_t result;
+       uint8_t result;
 
       /* clear fields which may have values from previous loops */
       node_instance->asn1_type        = 0;
@@ -906,7 +906,7 @@ snmp_get_next_node_instance_from_oid(const u32_t *oid, u8_t oid_len, snmp_valida
       /*
       we found a suitable next node,
       now we have to check if a inner MIB is located between the searched OID and the resulting OID.
-      this is possible because MIB's may be located anywhere in the global tree, that means also in 
+      this is possible because MIB's may be located anywhere in the global tree, that means also in
       the subtree of another MIB (e.g. if searched OID is .2 and resulting OID is .4, then another
       MIB having .3 as root node may exist)
       */
@@ -975,16 +975,16 @@ snmp_get_next_node_instance_from_oid(const u32_t *oid, u8_t oid_len, snmp_valida
  *
  */
 const struct snmp_node *
-snmp_mib_tree_resolve_exact(const struct snmp_mib *mib, const u32_t *oid, u8_t oid_len, u8_t* oid_instance_len)
+snmp_mib_tree_resolve_exact(const struct snmp_mib *mib, const uint32_t *oid, uint8_t oid_len, uint8_t* oid_instance_len)
 {
   const struct snmp_node* const* node = &mib->root_node;
-  u8_t oid_offset = mib->base_oid_len;
+  uint8_t oid_offset = mib->base_oid_len;
 
   while ((oid_offset < oid_len) && ((*node)->node_type == SNMP_NODE_TREE)) {
     /* search for matching sub node */
-    u32_t subnode_oid = *(oid + oid_offset);
+    uint32_t subnode_oid = *(oid + oid_offset);
 
-    u32_t i = (*(const struct snmp_tree_node* const*)node)->subnode_count;
+    uint32_t i = (*(const struct snmp_tree_node* const*)node)->subnode_count;
     node    = (*(const struct snmp_tree_node* const*)node)->subnodes;
     while ((i > 0) && ((*node)->oid != subnode_oid)) {
       node++;
@@ -1009,13 +1009,13 @@ snmp_mib_tree_resolve_exact(const struct snmp_mib *mib, const u32_t *oid, u8_t o
 }
 
 const struct snmp_node*
-snmp_mib_tree_resolve_next(const struct snmp_mib *mib, const u32_t *oid, u8_t oid_len, struct snmp_obj_id* oidret)
+snmp_mib_tree_resolve_next(const struct snmp_mib *mib, const uint32_t *oid, uint8_t oid_len, struct snmp_obj_id* oidret)
 {
-  u8_t  oid_offset = mib->base_oid_len;
+  uint8_t  oid_offset = mib->base_oid_len;
   const struct snmp_node* const* node;
   const struct snmp_tree_node* node_stack[SNMP_MAX_OBJ_ID_LEN];
   s32_t nsi = 0; /* NodeStackIndex */
-  u32_t subnode_oid;
+  uint32_t subnode_oid;
 
   if (mib->root_node->node_type != SNMP_NODE_TREE) {
     /* a next operation on a mib with only a leaf node will always return NULL because there is no other node */
@@ -1026,7 +1026,7 @@ snmp_mib_tree_resolve_next(const struct snmp_mib *mib, const u32_t *oid, u8_t oi
   node_stack[nsi] = (const struct snmp_tree_node*)(const void*)mib->root_node;
   while (oid_offset < oid_len) {
     /* search for matching sub node */
-    u32_t i = node_stack[nsi]->subnode_count;
+    uint32_t i = node_stack[nsi]->subnode_count;
     node    = node_stack[nsi]->subnodes;
 
     subnode_oid = *(oid + oid_offset);
@@ -1106,8 +1106,8 @@ snmp_mib_tree_resolve_next(const struct snmp_mib *mib, const u32_t *oid, u8_t oi
 /** initialize struct next_oid_state using this function before passing it to next_oid_check */
 void
 snmp_next_oid_init(struct snmp_next_oid_state *state,
-  const u32_t *start_oid, u8_t start_oid_len,
-  u32_t *next_oid_buf, u8_t next_oid_max_len)
+  const uint32_t *start_oid, uint8_t start_oid_len,
+  uint32_t *next_oid_buf, uint8_t next_oid_max_len)
 {
   state->start_oid        = start_oid;
   state->start_oid_len    = start_oid_len;
@@ -1120,11 +1120,11 @@ snmp_next_oid_init(struct snmp_next_oid_state *state,
 /** checks if the passed incomplete OID may be a possible candidate for snmp_next_oid_check();
 this methid is intended if the complete OID is not yet known but it is very expensive to build it up,
 so it is possible to test the starting part before building up the complete oid and pass it to snmp_next_oid_check()*/
-u8_t
-snmp_next_oid_precheck(struct snmp_next_oid_state *state, const u32_t *oid, const u8_t oid_len)
+uint8_t
+snmp_next_oid_precheck(struct snmp_next_oid_state *state, const uint32_t *oid, const uint8_t oid_len)
 {
   if (state->status != SNMP_NEXT_OID_STATUS_BUF_TO_SMALL) {
-    u8_t start_oid_len = (oid_len < state->start_oid_len) ? oid_len : state->start_oid_len;
+    uint8_t start_oid_len = (oid_len < state->start_oid_len) ? oid_len : state->start_oid_len;
 
     /* check passed OID is located behind start offset */
     if (snmp_oid_compare(oid, oid_len, state->start_oid, start_oid_len) >= 0) {
@@ -1140,8 +1140,8 @@ snmp_next_oid_precheck(struct snmp_next_oid_state *state, const u32_t *oid, cons
 }
 
 /** checks the passed OID if it is a candidate to be the next one (get_next); returns !=0 if passed oid is currently closest, otherwise 0 */
-u8_t
-snmp_next_oid_check(struct snmp_next_oid_state *state, const u32_t *oid, const u8_t oid_len, void* reference)
+uint8_t
+snmp_next_oid_check(struct snmp_next_oid_state *state, const uint32_t *oid, const uint8_t oid_len, void* reference)
 {
   /* do not overwrite a fail result */
   if (state->status != SNMP_NEXT_OID_STATUS_BUF_TO_SMALL) {
@@ -1151,7 +1151,7 @@ snmp_next_oid_check(struct snmp_next_oid_state *state, const u32_t *oid, const u
       if ((state->status == SNMP_NEXT_OID_STATUS_NO_MATCH) ||
         (snmp_oid_compare(oid, oid_len, state->next_oid, state->next_oid_len) < 0)) {
         if (oid_len <= state->next_oid_max_len) {
-          MEMCPY(state->next_oid, oid, oid_len * sizeof(u32_t));
+          MEMCPY(state->next_oid, oid, oid_len * sizeof(uint32_t));
           state->next_oid_len = oid_len;
           state->status       = SNMP_NEXT_OID_STATUS_SUCCESS;
           state->reference    = reference;
@@ -1166,10 +1166,10 @@ snmp_next_oid_check(struct snmp_next_oid_state *state, const u32_t *oid, const u
   return 0;
 }
 
-u8_t
-snmp_oid_in_range(const u32_t *oid_in, u8_t oid_len, const struct snmp_oid_range *oid_ranges, u8_t oid_ranges_len)
+uint8_t
+snmp_oid_in_range(const uint32_t *oid_in, uint8_t oid_len, const struct snmp_oid_range *oid_ranges, uint8_t oid_ranges_len)
 {
-  u8_t i;
+  uint8_t i;
 
   if (oid_len != oid_ranges_len) {
     return 0;
@@ -1207,10 +1207,10 @@ snmp_set_test_ok(struct snmp_node_instance* instance, u16_t value_len, void* val
  * @return ERR_OK if successful, ERR_ARG if bit value contains more than 32 bit
  */
 err_t
-snmp_decode_bits(const u8_t *buf, u32_t buf_len, u32_t *bit_value)
+snmp_decode_bits(const uint8_t *buf, uint32_t buf_len, uint32_t *bit_value)
 {
-  u8_t b;
-  u8_t bits_processed = 0;
+  uint8_t b;
+  uint8_t bits_processed = 0;
   *bit_value = 0;
 
   while (buf_len > 0) {
@@ -1242,7 +1242,7 @@ snmp_decode_bits(const u8_t *buf, u32_t buf_len, u32_t *bit_value)
 }
 
 err_t
-snmp_decode_truthvalue(const s32_t *asn1_value, u8_t *bool_value)
+snmp_decode_truthvalue(const s32_t *asn1_value, uint8_t *bool_value)
 {
   /* defined by RFC1443:
    TruthValue ::= TEXTUAL-CONVENTION
@@ -1280,11 +1280,11 @@ snmp_decode_truthvalue(const s32_t *asn1_value, u8_t *bool_value)
  * @param bit_count Number of possible bits for the bit value (according to rfc we have to send all bits independant from their truth value)
  * @return number of bytes used from buffer to store the resulting OctetString
  */
-u8_t
-snmp_encode_bits(u8_t *buf, u32_t buf_len, u32_t bit_value, u8_t bit_count)
+uint8_t
+snmp_encode_bits(uint8_t *buf, uint32_t buf_len, uint32_t bit_value, uint8_t bit_count)
 {
-  u8_t len = 0;
-  u8_t min_bytes = (bit_count + 7) >> 3; /* >>3 -> / 8 */
+  uint8_t len = 0;
+  uint8_t min_bytes = (bit_count + 7) >> 3; /* >>3 -> / 8 */
 
   while ((buf_len > 0) && (bit_value != 0x00)) {
     s8_t i = 7;
@@ -1322,8 +1322,8 @@ snmp_encode_bits(u8_t *buf, u32_t buf_len, u32_t bit_value, u8_t bit_count)
   return len;
 }
 
-u8_t
-snmp_encode_truthvalue(s32_t *asn1_value, u32_t bool_value)
+uint8_t
+snmp_encode_truthvalue(s32_t *asn1_value, uint32_t bool_value)
 {
   /* defined by RFC1443:
    TruthValue ::= TEXTUAL-CONVENTION

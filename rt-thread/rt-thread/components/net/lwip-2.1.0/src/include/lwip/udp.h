@@ -86,7 +86,7 @@ struct udp_pcb {
 
   struct udp_pcb *next;
 
-  u8_t flags;
+  uint8_t flags;
   /** ports are in host byte order */
   u16_t local_port, remote_port;
 
@@ -96,9 +96,9 @@ struct udp_pcb {
   ip4_addr_t mcast_ip4;
 #endif /* LWIP_IPV4 */
   /** outgoing network interface for multicast packets, by interface index (if nonzero) */
-  u8_t mcast_ifindex;
+  uint8_t mcast_ifindex;
   /** TTL for outgoing multicast packets */
-  u8_t mcast_ttl;
+  uint8_t mcast_ttl;
 #endif /* LWIP_MULTICAST_TX_OPTIONS */
 
 #if LWIP_UDPLITE
@@ -117,7 +117,7 @@ extern struct udp_pcb *udp_pcbs;
 /* The following functions is the application layer interface to the
    UDP code. */
 struct udp_pcb * udp_new        (void);
-struct udp_pcb * udp_new_ip_type(u8_t type);
+struct udp_pcb * udp_new_ip_type(uint8_t type);
 void             udp_remove     (struct udp_pcb *pcb);
 err_t            udp_bind       (struct udp_pcb *pcb, const ip_addr_t *ipaddr,
                                  u16_t port);
@@ -140,23 +140,23 @@ err_t            udp_send       (struct udp_pcb *pcb, struct pbuf *p);
 #if LWIP_CHECKSUM_ON_COPY && CHECKSUM_GEN_UDP
 err_t            udp_sendto_if_chksum(struct udp_pcb *pcb, struct pbuf *p,
                                  const ip_addr_t *dst_ip, u16_t dst_port,
-                                 struct netif *netif, u8_t have_chksum,
+                                 struct netif *netif, uint8_t have_chksum,
                                  u16_t chksum);
 err_t            udp_sendto_chksum(struct udp_pcb *pcb, struct pbuf *p,
                                  const ip_addr_t *dst_ip, u16_t dst_port,
-                                 u8_t have_chksum, u16_t chksum);
+                                 uint8_t have_chksum, u16_t chksum);
 err_t            udp_send_chksum(struct udp_pcb *pcb, struct pbuf *p,
-                                 u8_t have_chksum, u16_t chksum);
+                                 uint8_t have_chksum, u16_t chksum);
 err_t            udp_sendto_if_src_chksum(struct udp_pcb *pcb, struct pbuf *p,
                                  const ip_addr_t *dst_ip, u16_t dst_port, struct netif *netif,
-                                 u8_t have_chksum, u16_t chksum, const ip_addr_t *src_ip);
+                                 uint8_t have_chksum, u16_t chksum, const ip_addr_t *src_ip);
 #endif /* LWIP_CHECKSUM_ON_COPY && CHECKSUM_GEN_UDP */
 
 #define          udp_flags(pcb) ((pcb)->flags)
 #define          udp_setflags(pcb, f)  ((pcb)->flags = (f))
 
-#define          udp_set_flags(pcb, set_flags)     do { (pcb)->flags = (u8_t)((pcb)->flags |  (set_flags)); } while(0)
-#define          udp_clear_flags(pcb, clr_flags)   do { (pcb)->flags = (u8_t)((pcb)->flags & (u8_t)(~(clr_flags) & 0xff)); } while(0)
+#define          udp_set_flags(pcb, set_flags)     do { (pcb)->flags = (uint8_t)((pcb)->flags |  (set_flags)); } while(0)
+#define          udp_clear_flags(pcb, clr_flags)   do { (pcb)->flags = (uint8_t)((pcb)->flags & (uint8_t)(~(clr_flags) & 0xff)); } while(0)
 #define          udp_is_flag_set(pcb, flag)        (((pcb)->flags & (flag)) != 0)
 
 /* The following functions are the lower layer interface to UDP. */

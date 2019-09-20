@@ -126,7 +126,7 @@ lwip_gethostbyname(const char *name)
   LWIP_DEBUGF(DNS_DEBUG, ("hostent.h_length         == %d\n", s_hostent.h_length));
   LWIP_DEBUGF(DNS_DEBUG, ("hostent.h_addr_list      == %p\n", (void *)s_hostent.h_addr_list));
   if (s_hostent.h_addr_list != NULL) {
-    u8_t idx;
+    uint8_t idx;
     for (idx = 0; s_hostent.h_addr_list[idx]; idx++) {
       LWIP_DEBUGF(DNS_DEBUG, ("hostent.h_addr_list[%i]   == %p\n", idx, s_hostent.h_addr_list[idx]));
       LWIP_DEBUGF(DNS_DEBUG, ("hostent.h_addr_list[%i]-> == %s\n", idx, ipaddr_ntoa((ip_addr_t *)s_hostent.h_addr_list[idx])));
@@ -327,7 +327,7 @@ lwip_getaddrinfo(const char *nodename, const char *servname,
     } else {
 #if LWIP_IPV4 && LWIP_IPV6
       /* AF_UNSPEC: prefer IPv4 */
-      u8_t type = NETCONN_DNS_IPV4_IPV6;
+      uint8_t type = NETCONN_DNS_IPV4_IPV6;
       if (ai_family == AF_INET) {
         type = NETCONN_DNS_IPV4;
       } else if (ai_family == AF_INET6) {
@@ -367,7 +367,7 @@ lwip_getaddrinfo(const char *nodename, const char *servname,
   }
   memset(ai, 0, total_size);
   /* cast through void* to get rid of alignment warnings */
-  sa = (struct sockaddr_storage *)(void *)((u8_t *)ai + sizeof(struct addrinfo));
+  sa = (struct sockaddr_storage *)(void *)((uint8_t *)ai + sizeof(struct addrinfo));
   if (IP_IS_V6_VAL(addr)) {
 #if LWIP_IPV6
     struct sockaddr_in6 *sa6 = (struct sockaddr_in6 *)sa;

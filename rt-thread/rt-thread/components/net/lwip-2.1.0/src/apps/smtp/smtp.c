@@ -1,18 +1,18 @@
 /**
  * @file
  * SMTP client module
- * 
+ *
  * Author: Simon Goldschmidt
  *
  * @defgroup smtp SMTP client
  * @ingroup apps
- * 
+ *
  * This is simple SMTP client for raw API.
  * It is a minimal implementation of SMTP as specified in RFC 5321.
  *
  * Example usage:
 @code{.c}
- void my_smtp_result_fn(void *arg, u8_t smtp_result, u16_t srv_err, err_t err)
+ void my_smtp_result_fn(void *arg, uint8_t smtp_result, u16_t srv_err, err_t err)
  {
    printf("mail (%p) sent with results: 0x%02x, 0x%04x, 0x%08x\n", arg,
           smtp_result, srv_err, err);
@@ -29,7 +29,7 @@
 
  * When using from any other thread than the tcpip_thread (for NO_SYS==0), use
  * smtp_send_mail_int()!
- * 
+ *
  * SMTP_BODYDH usage:
 @code{.c}
  int my_smtp_bodydh_fn(void *arg, struct smtp_bodydh *bdh)
@@ -42,11 +42,11 @@
     ++bdh->state;
     return BDH_WORKING;
  }
- 
- smtp_send_mail_bodycback("sender", "recipient", "subject", 
+
+ smtp_send_mail_bodycback("sender", "recipient", "subject",
                 my_smtp_bodydh_fn, my_smtp_result_fn, some_argument);
 @endcode
- * 
+ *
  * @todo:
  * - attachments (the main difficulty here is streaming base64-encoding to
  *   prevent having to allocate a buffer for the whole encoded file at once)
@@ -293,7 +293,7 @@ static char smtp_auth_plain[SMTP_MAX_USERNAME_LEN + SMTP_MAX_PASS_LEN + 3];
 static size_t smtp_auth_plain_len;
 
 #if SMTP_CHECK_DATA
-static err_t  smtp_verify(const char *data, size_t data_len, u8_t linebreaks_allowed);
+static err_t  smtp_verify(const char *data, size_t data_len, uint8_t linebreaks_allowed);
 #endif /* SMTP_CHECK_DATA */
 static err_t  smtp_tcp_recv(void *arg, struct altcp_pcb *pcb, struct pbuf *p, err_t err);
 static void   smtp_tcp_err(void *arg, err_t err);
@@ -317,7 +317,7 @@ static void   smtp_send_body_data_handler(struct smtp_session *s, struct altcp_p
 #ifdef LWIP_DEBUG
 /** Convert an smtp result to a string */
 const char*
-smtp_result_str(u8_t smtp_result)
+smtp_result_str(uint8_t smtp_result)
 {
   if (smtp_result >= LWIP_ARRAYSIZE(smtp_result_strs)) {
     return "UNKNOWN";
@@ -719,10 +719,10 @@ smtp_send_mail_int(void *arg)
  *  @todo: no line consisting of a single dot only)
  */
 static err_t
-smtp_verify(const char *data, size_t data_len, u8_t linebreaks_allowed)
+smtp_verify(const char *data, size_t data_len, uint8_t linebreaks_allowed)
 {
   size_t i;
-  u8_t last_was_cr = 0;
+  uint8_t last_was_cr = 0;
   for (i = 0; i < data_len; i++) {
     char current = data[i];
     if ((current & 0x80) != 0) {
@@ -755,7 +755,7 @@ smtp_verify(const char *data, size_t data_len, u8_t linebreaks_allowed)
 
 /** Frees the smtp_session and calls the callback function */
 static void
-smtp_free(struct smtp_session *s, u8_t result, u16_t srv_err, err_t err)
+smtp_free(struct smtp_session *s, uint8_t result, u16_t srv_err, err_t err)
 {
   smtp_result_fn fn = s->callback_fn;
   void *arg = s->callback_arg;
@@ -770,7 +770,7 @@ smtp_free(struct smtp_session *s, u8_t result, u16_t srv_err, err_t err)
 
 /** Try to close a pcb and free the arg if successful */
 static void
-smtp_close(struct smtp_session *s, struct altcp_pcb *pcb, u8_t result,
+smtp_close(struct smtp_session *s, struct altcp_pcb *pcb, uint8_t result,
            u16_t srv_err, err_t err)
 {
   if (pcb != NULL) {
@@ -866,7 +866,7 @@ smtp_dns_found(const char* hostname, const ip_addr_t *ipaddr, void *arg)
   struct smtp_session *s = (struct smtp_session*)arg;
   struct altcp_pcb *pcb;
   err_t err;
-  u8_t result;
+  uint8_t result;
 
   LWIP_UNUSED_ARG(hostname);
 
@@ -920,17 +920,17 @@ smtp_base64_encode(char* target, size_t target_len, const char* source, size_t s
   size_t longer = (source_len % 3) ? (3 - (source_len % 3)) : 0;
   size_t source_len_b64 = source_len + longer;
   size_t len = (((source_len_b64) * 4) / 3);
-  u8_t x = 5;
-  u8_t current = 0;
+  uint8_t x = 5;
+  uint8_t current = 0;
   LWIP_UNUSED_ARG(target_len);
 
   LWIP_ASSERT("target_len is too short", target_len >= len);
 
   for (i = 0; i < source_len_b64; i++) {
-    u8_t b = (i < source_len ? (u8_t)source[i] : 0);
+    uint8_t b = (i < source_len ? (uint8_t)source[i] : 0);
     for (j = 7; j >= 0; j--, x--) {
       if ((b & (1 << j)) != 0) {
-        current = (u8_t)(current | (1U << x));
+        current = (uint8_t)(current | (1U << x));
       }
       if (x == 0) {
         target[target_idx++] = base64_table[current];
@@ -987,7 +987,7 @@ smtp_is_response(struct smtp_session *s)
 static err_t
 smtp_is_response_finished(struct smtp_session *s)
 {
-  u8_t sp;
+  uint8_t sp;
   u16_t crlf;
   u16_t offset;
 

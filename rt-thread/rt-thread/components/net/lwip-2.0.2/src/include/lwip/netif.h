@@ -208,7 +208,7 @@ typedef err_t (*netif_mld_mac_filter_fn)(struct netif *netif,
 #endif /* LWIP_IPV6 && LWIP_IPV6_MLD */
 
 #if LWIP_DHCP || LWIP_AUTOIP || LWIP_IGMP || LWIP_IPV6_MLD || (LWIP_NUM_NETIF_CLIENT_DATA > 0)
-u8_t netif_alloc_client_data_id(void);
+uint8_t netif_alloc_client_data_id(void);
 /** @ingroup netif_cd
  * Set client data. Obtain ID from netif_alloc_client_data_id().
  */
@@ -237,7 +237,7 @@ struct netif {
   ip_addr_t ip6_addr[LWIP_IPV6_NUM_ADDRESSES];
   /** The state of each IPv6 address (Tentative, Preferred, etc).
    * @see ip6_addr.h */
-  u8_t ip6_addr_state[LWIP_IPV6_NUM_ADDRESSES];
+  uint8_t ip6_addr_state[LWIP_IPV6_NUM_ADDRESSES];
 #endif /* LWIP_IPV6 */
   /** This function is called by the network device driver
    *  to pass a packet up the TCP/IP stack. */
@@ -282,11 +282,11 @@ struct netif {
 #endif
 #if LWIP_IPV6_AUTOCONFIG
   /** is this netif enabled for IPv6 autoconfiguration */
-  u8_t ip6_autoconfig_enabled;
+  uint8_t ip6_autoconfig_enabled;
 #endif /* LWIP_IPV6_AUTOCONFIG */
 #if LWIP_IPV6_SEND_ROUTER_SOLICIT
   /** Number of Router Solicitation messages that remain to be sent. */
-  u8_t rs_count;
+  uint8_t rs_count;
 #endif /* LWIP_IPV6_SEND_ROUTER_SOLICIT */
 #if LWIP_NETIF_HOSTNAME
   /* the hostname for this netif, NULL is a valid value */
@@ -298,22 +298,22 @@ struct netif {
   /** maximum transfer unit (in bytes) */
   u16_t mtu;
   /** number of bytes used in hwaddr */
-  u8_t hwaddr_len;
+  uint8_t hwaddr_len;
   /** link level hardware address of this interface */
-  u8_t hwaddr[NETIF_MAX_HWADDR_LEN];
+  uint8_t hwaddr[NETIF_MAX_HWADDR_LEN];
   /** flags (@see @ref netif_flags) */
-  u8_t flags;
+  uint8_t flags;
   /** descriptive abbreviation */
   char name[2];
   /** number of this interface */
-  u8_t num;
+  uint8_t num;
 #if MIB2_STATS
   /** link type (from "snmp_ifType" enum from snmp_mib2.h) */
-  u8_t link_type;
+  uint8_t link_type;
   /** (estimate) link speed */
-  u32_t link_speed;
+  uint32_t link_speed;
   /** timestamp at last change made (up/down) */
-  u32_t ts;
+  uint32_t ts;
   /** counters */
   struct stats_mib2_netif_ctrs mib2_counters;
 #endif /* MIB2_STATS */
@@ -328,7 +328,7 @@ struct netif {
   netif_mld_mac_filter_fn mld_mac_filter;
 #endif /* LWIP_IPV6 && LWIP_IPV6_MLD */
 #if LWIP_NETIF_HWADDRHINT
-  u8_t *addr_hint;
+  uint8_t *addr_hint;
 #endif /* LWIP_NETIF_HWADDRHINT */
 #if ENABLE_LOOPBACK
   /* List of packets to be queued for ourselves. */
@@ -398,7 +398,7 @@ void netif_set_down(struct netif *netif);
 /** @ingroup netif
  * Ask if an interface is up
  */
-#define netif_is_up(netif) (((netif)->flags & NETIF_FLAG_UP) ? (u8_t)1 : (u8_t)0)
+#define netif_is_up(netif) (((netif)->flags & NETIF_FLAG_UP) ? (uint8_t)1 : (uint8_t)0)
 
 #if LWIP_NETIF_STATUS_CALLBACK
 void netif_set_status_callback(struct netif *netif, netif_status_callback_fn status_callback);
@@ -410,7 +410,7 @@ void netif_set_remove_callback(struct netif *netif, netif_status_callback_fn rem
 void netif_set_link_up(struct netif *netif);
 void netif_set_link_down(struct netif *netif);
 /** Ask if a link is up */
-#define netif_is_link_up(netif) (((netif)->flags & NETIF_FLAG_LINK_UP) ? (u8_t)1 : (u8_t)0)
+#define netif_is_link_up(netif) (((netif)->flags & NETIF_FLAG_LINK_UP) ? (uint8_t)1 : (uint8_t)0)
 
 #if LWIP_NETIF_LINK_CALLBACK
 void netif_set_link_callback(struct netif *netif, netif_status_callback_fn link_callback);
@@ -452,11 +452,11 @@ err_t netif_input(struct pbuf *p, struct netif *inp);
 /** @ingroup netif_ip6 */
 #define netif_ip6_addr(netif, i)  ((const ip6_addr_t*)ip_2_ip6(&((netif)->ip6_addr[i])))
 void netif_ip6_addr_set(struct netif *netif, s8_t addr_idx, const ip6_addr_t *addr6);
-void netif_ip6_addr_set_parts(struct netif *netif, s8_t addr_idx, u32_t i0, u32_t i1, u32_t i2, u32_t i3);
+void netif_ip6_addr_set_parts(struct netif *netif, s8_t addr_idx, uint32_t i0, uint32_t i1, uint32_t i2, uint32_t i3);
 #define netif_ip6_addr_state(netif, i)  ((netif)->ip6_addr_state[i])
-void netif_ip6_addr_set_state(struct netif* netif, s8_t addr_idx, u8_t state);
+void netif_ip6_addr_set_state(struct netif* netif, s8_t addr_idx, uint8_t state);
 s8_t netif_get_ip6_addr_match(struct netif *netif, const ip6_addr_t *ip6addr);
-void netif_create_ip6_linklocal_address(struct netif *netif, u8_t from_mac_48bit);
+void netif_create_ip6_linklocal_address(struct netif *netif, uint8_t from_mac_48bit);
 err_t netif_add_ip6_address(struct netif *netif, const ip6_addr_t *ip6addr, s8_t *chosen_idx);
 #define netif_set_ip6_autoconfig_enabled(netif, action) do { if(netif) { (netif)->ip6_autoconfig_enabled = (action); }}while(0)
 #endif /* LWIP_IPV6 */

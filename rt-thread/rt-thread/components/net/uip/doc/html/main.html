@@ -98,7 +98,7 @@ Two examples of usage are shown below. The first example shows how to open a con
    <span class="keywordflow">if</span>(<a class="code" href="a00147.html#g8096b0c4b543dc408f4dd031ddae7240">uip_connect</a>(<a class="code" href="a00088.html">uip_conn</a>-&gt;ripaddr, <a class="code" href="a00148.html#g69a7a4951ff21b302267532c21ee78fc">HTONS</a>(8080)) == <a class="code" href="a00160.html#g070d2ce7b6bb7e5c05602aa8c308d0c4">NULL</a>) {
       <a class="code" href="a00147.html#g88d2ccf7cd821f89d9a8df7e3948b56c">uip_abort</a>();
    }
-}   
+}
 </pre></div><p>
 The second example shows how to open a new connection to a specific IP address. No error checks are made in this example.<p>
 <div class="fragment"><pre class="fragment"><span class="keywordtype">void</span> connect_example2(<span class="keywordtype">void</span>) {
@@ -144,12 +144,12 @@ The implementation of this application is seen below. This configuration setting
    <span class="keyword">struct </span>example2_state *s;
 
    s = (<span class="keyword">struct </span>example2_state *)<a class="code" href="a00088.html">uip_conn</a>-&gt;appstate;
-   
+
    <span class="keywordflow">if</span>(<a class="code" href="a00147.html#gdb971fb1525d0c5002f52125b05f3218">uip_connected</a>()) {
       s-&gt;state = WELCOME_SENT;
       <a class="code" href="a00147.html#g04b053a623aac7cd4195157d470661b3">uip_send</a>(<span class="stringliteral">"Welcome!\n"</span>, 9);
       <span class="keywordflow">return</span>;
-   } 
+   }
 
    <span class="keywordflow">if</span>(<a class="code" href="a00147.html#gde6634974418e3240c212b9b16864368">uip_acked</a>() &amp;&amp; s-&gt;state == WELCOME_SENT) {
       s-&gt;state = WELCOME_ACKED;
@@ -179,7 +179,7 @@ Differentiating Between Applications</a></h3>
 If the system should run multiple applications, one technique to differentiate between them is to use the TCP port number of either the remote end or the local end of the connection. The example below shows how the two examples above can be combined into one application.<p>
 <div class="fragment"><pre class="fragment"><span class="keywordtype">void</span> example3_init(<span class="keywordtype">void</span>) {
    example1_init();
-   example2_init();   
+   example2_init();
 }
 
 <span class="keywordtype">void</span> example3_app(<span class="keywordtype">void</span>) {
@@ -240,7 +240,7 @@ This example shows a very simple file server application that listens to two por
 <span class="keywordtype">void</span> example5_app(<span class="keywordtype">void</span>) {
    <span class="keyword">struct </span>example5_state *s;
    s = (<span class="keyword">struct </span>example5_state)<a class="code" href="a00150.html#g788ffac72342f6172343d7f8099cbe1a">uip_conn</a>-&gt;appstate;
-   
+
    <span class="keywordflow">if</span>(<a class="code" href="a00147.html#gdb971fb1525d0c5002f52125b05f3218">uip_connected</a>()) {
       <span class="keywordflow">switch</span>(<a class="code" href="a00150.html#g788ffac72342f6172343d7f8099cbe1a">uip_conn</a>-&gt;<a class="code" href="a00088.html#0cd09beee671e7e9efb0b4aced10249e">lport</a>) {
       <span class="keywordflow">case</span> <a class="code" href="a00148.html#g69a7a4951ff21b302267532c21ee78fc">HTONS</a>(80):
@@ -253,7 +253,7 @@ This example shows a very simple file server application that listens to two por
          <span class="keywordflow">break</span>;
       }
       <a class="code" href="a00147.html#g04b053a623aac7cd4195157d470661b3">uip_send</a>(s-&gt;dataptr, s-&gt;dataleft);
-      <span class="keywordflow">return</span>;      
+      <span class="keywordflow">return</span>;
    }
 
    <span class="keywordflow">if</span>(<a class="code" href="a00147.html#gde6634974418e3240c212b9b16864368">uip_acked</a>()) {
@@ -263,7 +263,7 @@ This example shows a very simple file server application that listens to two por
       }
       s-&gt;dataptr += <a class="code" href="a00150.html#g788ffac72342f6172343d7f8099cbe1a">uip_conn</a>-&gt;<a class="code" href="a00088.html#0ef3ae2764714bf90620075c374c262e">len</a>;
       s-&gt;dataleft -= <a class="code" href="a00150.html#g788ffac72342f6172343d7f8099cbe1a">uip_conn</a>-&gt;<a class="code" href="a00088.html#0ef3ae2764714bf90620075c374c262e">len</a>;
-      <a class="code" href="a00147.html#g04b053a623aac7cd4195157d470661b3">uip_send</a>(s-&gt;dataptr, s-&gt;dataleft);      
+      <a class="code" href="a00147.html#g04b053a623aac7cd4195157d470661b3">uip_send</a>(s-&gt;dataptr, s-&gt;dataleft);
    }
 }
 </pre></div><p>
@@ -308,7 +308,7 @@ The following very simple application serves as an example of how the applicatio
 <span class="preprocessor"></span><span class="preprocessor">#define STATE_WORLD   2</span>
 <span class="preprocessor"></span>
 <span class="keyword">struct </span>example6_state {
-  <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a> state;
+  <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a> state;
   <span class="keywordtype">char</span> *textptr;
   <span class="keywordtype">int</span>  textlen;
 };
@@ -336,7 +336,7 @@ The following very simple application serves as an example of how the applicatio
 
 <span class="keyword">static</span> <span class="keywordtype">void</span> acked(<span class="keywordtype">void</span>) {
   <span class="keyword">struct </span>example6_state *s = (<span class="keyword">struct </span>example6_state *)<a class="code" href="a00150.html#g788ffac72342f6172343d7f8099cbe1a">uip_conn</a>-&gt;<a class="code" href="a00088.html#97f9e1fda815bfb8b1f4577c355ade20">appstate</a>;
-  
+
   s-&gt;textlen -= <a class="code" href="a00150.html#g788ffac72342f6172343d7f8099cbe1a">uip_conn</a>-&gt;<a class="code" href="a00088.html#0ef3ae2764714bf90620075c374c262e">len</a>;
   s-&gt;textptr += <a class="code" href="a00150.html#g788ffac72342f6172343d7f8099cbe1a">uip_conn</a>-&gt;<a class="code" href="a00088.html#0ef3ae2764714bf90620075c374c262e">len</a>;
   <span class="keywordflow">if</span>(s-&gt;textlen == 0) {

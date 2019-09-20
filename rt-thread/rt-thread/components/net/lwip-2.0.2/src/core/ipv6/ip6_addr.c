@@ -51,7 +51,7 @@
 const ip_addr_t ip6_addr_any = IPADDR6_INIT(0ul, 0ul, 0ul, 0ul);
 
 #ifndef isprint
-#define in_range(c, lo, up)  ((u8_t)c >= lo && (u8_t)c <= up)
+#define in_range(c, lo, up)  ((uint8_t)c >= lo && (uint8_t)c <= up)
 #define isprint(c)           in_range(c, 0x20, 0x7f)
 #define isdigit(c)           in_range(c, '0', '9')
 #define isxdigit(c)          (isdigit(c) || in_range(c, 'a', 'f') || in_range(c, 'A', 'F'))
@@ -72,7 +72,7 @@ const ip_addr_t ip6_addr_any = IPADDR6_INIT(0ul, 0ul, 0ul, 0ul);
 int
 ip6addr_aton(const char *cp, ip6_addr_t *addr)
 {
-  u32_t addr_index, zero_blocks, current_block_index, current_block_value;
+  uint32_t addr_index, zero_blocks, current_block_index, current_block_value;
   const char *s;
 
   /* Count the number of colons, to count the number of blocks in a "::" sequence
@@ -132,8 +132,8 @@ ip6addr_aton(const char *cp, ip6_addr_t *addr)
     } else if (isxdigit(*s)) {
       /* add current digit */
       current_block_value = (current_block_value << 4) +
-          (isdigit(*s) ? (u32_t)(*s - '0') :
-          (u32_t)(10 + (islower(*s) ? *s - 'a' : *s - 'A')));
+          (isdigit(*s) ? (uint32_t)(*s - '0') :
+          (uint32_t)(10 + (islower(*s) ? *s - 'a' : *s - 'A')));
     } else {
       /* unexpected digit, space? CRLF? */
       break;
@@ -190,9 +190,9 @@ ip6addr_ntoa(const ip6_addr_t *addr)
 char *
 ip6addr_ntoa_r(const ip6_addr_t *addr, char *buf, int buflen)
 {
-  u32_t current_block_index, current_block_value, next_block_value;
+  uint32_t current_block_index, current_block_value, next_block_value;
   s32_t i;
-  u8_t zero_flag, empty_block_flag;
+  uint8_t zero_flag, empty_block_flag;
 
   i = 0;
   empty_block_flag = 0; /* used to indicate a zero chain for "::' */

@@ -56,8 +56,8 @@ PACK_STRUCT_BEGIN
 struct tcp_hdr {
   PACK_STRUCT_FIELD(u16_t src);
   PACK_STRUCT_FIELD(u16_t dest);
-  PACK_STRUCT_FIELD(u32_t seqno);
-  PACK_STRUCT_FIELD(u32_t ackno);
+  PACK_STRUCT_FIELD(uint32_t seqno);
+  PACK_STRUCT_FIELD(uint32_t ackno);
   PACK_STRUCT_FIELD(u16_t _hdrlen_rsvd_flags);
   PACK_STRUCT_FIELD(u16_t wnd);
   PACK_STRUCT_FIELD(u16_t chksum);

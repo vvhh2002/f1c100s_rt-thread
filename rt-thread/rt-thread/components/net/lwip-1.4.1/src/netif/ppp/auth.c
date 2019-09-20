@@ -7,13 +7,13 @@
 * The authors hereby grant permission to use, copy, modify, distribute,
 * and license this software and its documentation for any purpose, provided
 * that existing copyright notices are retained in all copies and that this
-* notice and the following disclaimer are included verbatim in any 
+* notice and the following disclaimer are included verbatim in any
 * distributions. No written agreement, license, or royalty fee is required
 * for any of the authorized uses.
 *
 * THIS SOFTWARE IS PROVIDED BY THE CONTRIBUTORS *AS IS* AND ANY EXPRESS OR
 * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
-* OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
+* OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
 * IN NO EVENT SHALL THE CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
 * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
 * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
@@ -209,8 +209,8 @@ static void plogout (void);
 static int  null_login (int);
 static int  get_pap_passwd (int, char *, char *);
 static int  have_pap_secret (void);
-static int  have_chap_secret (char *, char *, u32_t);
-static int  ip_addr_check (u32_t, struct wordlist *);
+static int  have_chap_secret (char *, char *, uint32_t);
+static int  ip_addr_check (uint32_t, struct wordlist *);
 
 #if 0 /* PAP_SUPPORT || CHAP_SUPPORT */
 static int  scan_authfile (FILE *, char *, char *, char *,
@@ -479,7 +479,7 @@ link_established(int unit)
   if (go->neg_chap) {
     ChapAuthPeer(unit, ppp_settings.our_name, go->chap_mdtype);
     auth |= CHAP_PEER;
-  } 
+  }
 #endif /* CHAP_SUPPORT */
 #if PAP_SUPPORT && CHAP_SUPPORT
   else
@@ -610,7 +610,7 @@ auth_peer_success(int unit, u16_t protocol, char *name, int namelen)
   }
   BCOPY(name, peer_authname, namelen);
   peer_authname[namelen] = 0;
-  
+
   /*
    * If there is no more authentication still to be done,
    * proceed to the network (or callback) phase.
@@ -749,7 +749,7 @@ check_idle(void *arg)
 {
   struct ppp_idle idle;
   u_short itime;
-  
+
   LWIP_UNUSED_ARG(arg);
   if (!get_idle_time(0, &idle)) {
     return;
@@ -786,7 +786,7 @@ auth_check_options(void)
   lcp_options *wo = &lcp_wantoptions[0];
   int can_auth;
   ipcp_options *ipwo = &ipcp_wantoptions[0];
-  u32_t remote;
+  uint32_t remote;
 
   /* Default our_name to hostname, and user to our_name */
   if (ppp_settings.our_name[0] == 0 || ppp_settings.usehostname) {
@@ -802,7 +802,7 @@ auth_check_options(void)
     wo->neg_chap = 1;
     wo->neg_upap = 1;
   }
-  
+
   /*
    * Check whether we have appropriate secrets to use
    * to authenticate the peer.
@@ -830,11 +830,11 @@ auth_reset(int unit)
   lcp_options *go = &lcp_gotoptions[unit];
   lcp_options *ao = &lcp_allowoptions[0];
   ipcp_options *ipwo = &ipcp_wantoptions[0];
-  u32_t remote;
+  uint32_t remote;
 
   AUTHDEBUG(LOG_INFO, ("auth_reset: %d\n", unit));
   ao->neg_upap = !ppp_settings.refuse_pap && (ppp_settings.passwd[0] != 0 || get_pap_passwd(unit, NULL, NULL));
-  ao->neg_chap = !ppp_settings.refuse_chap && ppp_settings.passwd[0] != 0 /*have_chap_secret(ppp_settings.user, ppp_settings.remote_name, (u32_t)0)*/;
+  ao->neg_chap = !ppp_settings.refuse_chap && ppp_settings.passwd[0] != 0 /*have_chap_secret(ppp_settings.user, ppp_settings.remote_name, (uint32_t)0)*/;
 
   if (go->neg_upap && !have_pap_secret()) {
     go->neg_upap = 0;
@@ -876,7 +876,7 @@ check_passwd( int unit, char *auser, int userlen, char *apasswd, int passwdlen, 
   char passwd[256], user[256];
   char secret[MAXWORDLEN];
   static u_short attempts = 0;
-  
+
   /*
    * Make copies of apasswd and auser, then null-terminate them.
    */
@@ -888,7 +888,7 @@ check_passwd( int unit, char *auser, int userlen, char *apasswd, int passwdlen, 
 
   /* XXX Validate user name and password. */
   ret = UPAP_AUTHACK;     /* XXX Assume all entries OK. */
-      
+
   if (ret == UPAP_AUTHNAK) {
     if (*msg == (char *) 0) {
       *msg = "Login incorrect";
@@ -963,7 +963,7 @@ plogin(char *user, char *passwd, char **msg, int *msglen)
   LWIP_UNUSED_ARG(msglen);
 
 
- /* The new lines are here align the file when 
+ /* The new lines are here align the file when
   * compared against the pppd 2.3.11 code */
 
 
@@ -1054,7 +1054,7 @@ have_pap_secret(void)
  * know the identity yet.
  */
 static int
-have_chap_secret(char *client, char *server, u32_t remote)
+have_chap_secret(char *client, char *server, uint32_t remote)
 {
   LWIP_UNUSED_ARG(client);
   LWIP_UNUSED_ARG(server);
@@ -1101,7 +1101,7 @@ get_secret(int unit, char *client, char *server, char *secret, int *secret_len, 
   int ret = 0, len;
   struct wordlist *addrs;
   char secbuf[MAXWORDLEN];
-  
+
   addrs = NULL;
   secbuf[0] = 0;
 
@@ -1150,17 +1150,17 @@ set_allowed_addrs(int unit, struct wordlist *addrs)
   if (addrs != NULL && addrs->next == NULL) {
     char *p = addrs->word;
     struct ipcp_options *wo = &ipcp_wantoptions[unit];
-    u32_t a;
+    uint32_t a;
     struct hostent *hp;
-    
+
     if (wo->hisaddr == 0 && *p != '!' && *p != '-' && strchr(p, '/') == NULL) {
       hp = gethostbyname(p);
       if (hp != NULL && hp->h_addrtype == AF_INET) {
-        a = *(u32_t *)hp->h_addr;
+        a = *(uint32_t *)hp->h_addr;
       } else {
         a = inet_addr(p);
       }
-      if (a != (u32_t) -1) {
+      if (a != (uint32_t) -1) {
         wo->hisaddr = a;
       }
     }
@@ -1174,13 +1174,13 @@ set_allowed_addrs(int unit, struct wordlist *addrs)
  * a given IP address.  Returns 1 if authorized, 0 otherwise.
  */
 int
-auth_ip_addr(int unit, u32_t addr)
+auth_ip_addr(int unit, uint32_t addr)
 {
   return ip_addr_check(addr, addresses[unit]);
 }
 
 static int /* @todo: integrate this funtion into auth_ip_addr()*/
-ip_addr_check(u32_t addr, struct wordlist *addrs)
+ip_addr_check(uint32_t addr, struct wordlist *addrs)
 {
   /* don't allow loopback or multicast address */
   if (bad_ip_adrs(addr)) {
@@ -1201,7 +1201,7 @@ ip_addr_check(u32_t addr, struct wordlist *addrs)
  * addr is in network byte order.
  */
 int
-bad_ip_adrs(u32_t addr)
+bad_ip_adrs(uint32_t addr)
 {
   addr = ntohl(addr);
   return (addr >> IN_CLASSA_NSHIFT) == IN_LOOPBACKNET

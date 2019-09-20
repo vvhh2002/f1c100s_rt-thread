@@ -136,7 +136,7 @@ typedef err_t (*tcp_connected_fn)(void *arg, struct tcp_pcb *tpcb, err_t err);
 #define SND_WND_SCALE(pcb, wnd) (((wnd) << (pcb)->snd_scale))
 #define TCPWND16(x)             ((u16_t)LWIP_MIN((x), 0xFFFF))
 #define TCP_WND_MAX(pcb)        ((tcpwnd_size_t)(((pcb)->flags & TF_WND_SCALE) ? TCP_WND : TCPWND16(TCP_WND)))
-typedef u32_t tcpwnd_size_t;
+typedef uint32_t tcpwnd_size_t;
 #else
 #define RCV_WND_SCALE(pcb, wnd) (wnd)
 #define SND_WND_SCALE(pcb, wnd) (wnd)
@@ -148,7 +148,7 @@ typedef u16_t tcpwnd_size_t;
 #if LWIP_WND_SCALE || TCP_LISTEN_BACKLOG || LWIP_TCP_TIMESTAMPS
 typedef u16_t tcpflags_t;
 #else
-typedef u8_t tcpflags_t;
+typedef uint8_t tcpflags_t;
 #endif
 
 enum tcp_state {
@@ -172,7 +172,7 @@ enum tcp_state {
   type *next; /* for the linked list */ \
   void *callback_arg; \
   enum tcp_state state; /* TCP state */ \
-  u8_t prio; \
+  uint8_t prio; \
   /* ports are in host byte order */ \
   u16_t local_port
 
@@ -190,8 +190,8 @@ struct tcp_pcb_listen {
 #endif /* LWIP_CALLBACK_API */
 
 #if TCP_LISTEN_BACKLOG
-  u8_t backlog;
-  u8_t accepts_pending;
+  uint8_t backlog;
+  uint8_t accepts_pending;
 #endif /* TCP_LISTEN_BACKLOG */
 };
 
@@ -229,15 +229,15 @@ struct tcp_pcb {
      as we have to do some math with them */
 
   /* Timers */
-  u8_t polltmr, pollinterval;
-  u8_t last_timer;
-  u32_t tmr;
+  uint8_t polltmr, pollinterval;
+  uint8_t last_timer;
+  uint32_t tmr;
 
   /* receiver variables */
-  u32_t rcv_nxt;   /* next seqno expected */
+  uint32_t rcv_nxt;   /* next seqno expected */
   tcpwnd_size_t rcv_wnd;   /* receiver window available */
   tcpwnd_size_t rcv_ann_wnd; /* receiver window to announce */
-  u32_t rcv_ann_right_edge; /* announced right edge of window */
+  uint32_t rcv_ann_right_edge; /* announced right edge of window */
 
   /* Retransmission timer. */
   s16_t rtime;
@@ -245,26 +245,26 @@ struct tcp_pcb {
   u16_t mss;   /* maximum segment size */
 
   /* RTT (round trip time) estimation variables */
-  u32_t rttest; /* RTT estimate in 500ms ticks */
-  u32_t rtseq;  /* sequence number being timed */
+  uint32_t rttest; /* RTT estimate in 500ms ticks */
+  uint32_t rtseq;  /* sequence number being timed */
   s16_t sa, sv; /* @todo document this */
 
   s16_t rto;    /* retransmission time-out */
-  u8_t nrtx;    /* number of retransmissions */
+  uint8_t nrtx;    /* number of retransmissions */
 
   /* fast retransmit/recovery */
-  u8_t dupacks;
-  u32_t lastack; /* Highest acknowledged seqno. */
+  uint8_t dupacks;
+  uint32_t lastack; /* Highest acknowledged seqno. */
 
   /* congestion avoidance/control variables */
   tcpwnd_size_t cwnd;
   tcpwnd_size_t ssthresh;
 
   /* sender variables */
-  u32_t snd_nxt;   /* next new seqno to be sent */
-  u32_t snd_wl1, snd_wl2; /* Sequence and acknowledgement numbers of last
+  uint32_t snd_nxt;   /* next new seqno to be sent */
+  uint32_t snd_wl1, snd_wl2; /* Sequence and acknowledgement numbers of last
                              window update. */
-  u32_t snd_lbb;       /* Sequence number of next byte to be buffered. */
+  uint32_t snd_lbb;       /* Sequence number of next byte to be buffered. */
   tcpwnd_size_t snd_wnd;   /* sender window */
   tcpwnd_size_t snd_wnd_max; /* the maximum sender window announced by the remote host */
 
@@ -304,28 +304,28 @@ struct tcp_pcb {
 #endif /* LWIP_CALLBACK_API */
 
 #if LWIP_TCP_TIMESTAMPS
-  u32_t ts_lastacksent;
-  u32_t ts_recent;
+  uint32_t ts_lastacksent;
+  uint32_t ts_recent;
 #endif /* LWIP_TCP_TIMESTAMPS */
 
   /* idle time before KEEPALIVE is sent */
-  u32_t keep_idle;
+  uint32_t keep_idle;
 #if LWIP_TCP_KEEPALIVE
-  u32_t keep_intvl;
-  u32_t keep_cnt;
+  uint32_t keep_intvl;
+  uint32_t keep_cnt;
 #endif /* LWIP_TCP_KEEPALIVE */
 
   /* Persist timer counter */
-  u8_t persist_cnt;
+  uint8_t persist_cnt;
   /* Persist timer back-off */
-  u8_t persist_backoff;
+  uint8_t persist_backoff;
 
   /* KEEPALIVE counter */
-  u8_t keep_cnt_sent;
+  uint8_t keep_cnt_sent;
 
 #if LWIP_WND_SCALE
-  u8_t snd_scale;
-  u8_t rcv_scale;
+  uint8_t snd_scale;
+  uint8_t rcv_scale;
 #endif
 };
 
@@ -350,7 +350,7 @@ err_t lwip_tcp_event(void *arg, struct tcp_pcb *pcb,
 
 /* Application program's interface: */
 struct tcp_pcb * tcp_new     (void);
-struct tcp_pcb * tcp_new_ip_type (u8_t type);
+struct tcp_pcb * tcp_new_ip_type (uint8_t type);
 
 void             tcp_arg     (struct tcp_pcb *pcb, void *arg);
 #if LWIP_CALLBACK_API
@@ -359,7 +359,7 @@ void             tcp_sent    (struct tcp_pcb *pcb, tcp_sent_fn sent);
 void             tcp_err     (struct tcp_pcb *pcb, tcp_err_fn err);
 void             tcp_accept  (struct tcp_pcb *pcb, tcp_accept_fn accept);
 #endif /* LWIP_CALLBACK_API */
-void             tcp_poll    (struct tcp_pcb *pcb, tcp_poll_fn poll, u8_t interval);
+void             tcp_poll    (struct tcp_pcb *pcb, tcp_poll_fn poll, uint8_t interval);
 
 #if LWIP_TCP_TIMESTAMPS
 #define          tcp_mss(pcb)             (((pcb)->flags & TF_TIMESTAMP) ? ((pcb)->mss - 12)  : (pcb)->mss)
@@ -394,8 +394,8 @@ err_t            tcp_bind    (struct tcp_pcb *pcb, const ip_addr_t *ipaddr,
 err_t            tcp_connect (struct tcp_pcb *pcb, const ip_addr_t *ipaddr,
                               u16_t port, tcp_connected_fn connected);
 
-struct tcp_pcb * tcp_listen_with_backlog_and_err(struct tcp_pcb *pcb, u8_t backlog, err_t *err);
-struct tcp_pcb * tcp_listen_with_backlog(struct tcp_pcb *pcb, u8_t backlog);
+struct tcp_pcb * tcp_listen_with_backlog_and_err(struct tcp_pcb *pcb, uint8_t backlog, err_t *err);
+struct tcp_pcb * tcp_listen_with_backlog(struct tcp_pcb *pcb, uint8_t backlog);
 /** @ingroup tcp_raw */
 #define          tcp_listen(pcb) tcp_listen_with_backlog(pcb, TCP_DEFAULT_LISTEN_BACKLOG)
 
@@ -408,9 +408,9 @@ err_t            tcp_shutdown(struct tcp_pcb *pcb, int shut_rx, int shut_tx);
 #define TCP_WRITE_FLAG_MORE 0x02
 
 err_t            tcp_write   (struct tcp_pcb *pcb, const void *dataptr, u16_t len,
-                              u8_t apiflags);
+                              uint8_t apiflags);
 
-void             tcp_setprio (struct tcp_pcb *pcb, u8_t prio);
+void             tcp_setprio (struct tcp_pcb *pcb, uint8_t prio);
 
 #define TCP_PRIO_MIN    1
 #define TCP_PRIO_NORMAL 64

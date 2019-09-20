@@ -283,7 +283,7 @@ ethernet_output(struct netif * netif, struct pbuf * p,
     if (pbuf_add_header(p, SIZEOF_ETH_HDR + SIZEOF_VLAN_HDR) != 0) {
       goto pbuf_header_failed;
     }
-    vlanhdr = (struct eth_vlan_hdr *)(((u8_t *)p->payload) + SIZEOF_ETH_HDR);
+    vlanhdr = (struct eth_vlan_hdr *)(((uint8_t *)p->payload) + SIZEOF_ETH_HDR);
     vlanhdr->tpid     = eth_type_be;
     vlanhdr->prio_vid = lwip_htons((u16_t)vlan_prio_vid);
 

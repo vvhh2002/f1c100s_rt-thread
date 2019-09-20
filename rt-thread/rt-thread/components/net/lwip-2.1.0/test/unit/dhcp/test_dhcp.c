@@ -8,11 +8,11 @@
 
 struct netif net_test;
 
-static const u8_t broadcast[6] = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF };
+static const uint8_t broadcast[6] = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF };
 
-static const u8_t magic_cookie[] = { 0x63, 0x82, 0x53, 0x63 };
+static const uint8_t magic_cookie[] = { 0x63, 0x82, 0x53, 0x63 };
 
-static u8_t dhcp_offer[] = {
+static uint8_t dhcp_offer[] = {
     0x00, 0x23, 0xc1, 0xde, 0xd0, 0x0d, /* To unit */
     0x00, 0x0F, 0xEE, 0x30, 0xAB, 0x22, /* From Remote host */
     0x08, 0x00, /* Protocol: IP */
@@ -56,7 +56,7 @@ static u8_t dhcp_offer[] = {
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, /* Padding */
 };
 
-static u8_t dhcp_ack[] = {
+static uint8_t dhcp_ack[] = {
     0x00, 0x23, 0xc1, 0xde, 0xd0, 0x0d, /* To unit */
     0x00, 0x0f, 0xEE, 0x30, 0xAB, 0x22, /* From remote host */
     0x08, 0x00, /* Proto IP */
@@ -100,7 +100,7 @@ static u8_t dhcp_ack[] = {
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, /* Padding */
 };
 
-static const u8_t arpreply[] = {
+static const uint8_t arpreply[] = {
     0x00, 0x23, 0xC1, 0xDE, 0xD0, 0x0D, /* dst mac */
     0x00, 0x32, 0x44, 0x20, 0x01, 0x02, /* src mac */
     0x08, 0x06, /* proto arp */
@@ -140,7 +140,7 @@ static void tick_lwip(void)
   }
 }
 
-static void send_pkt(struct netif *netif, const u8_t *data, size_t len)
+static void send_pkt(struct netif *netif, const uint8_t *data, size_t len)
 {
   struct pbuf *p, *q;
   LWIP_ASSERT("pkt too big", len <= 0xFFFF);
@@ -148,7 +148,7 @@ static void send_pkt(struct netif *netif, const u8_t *data, size_t len)
 
   if (debug) {
     /* Dump data */
-    u32_t i;
+    uint32_t i;
     printf("RX data (len %d)", p->tot_len);
     for (i = 0; i < len; i++) {
       printf(" %02X", data[i]);
@@ -197,9 +197,9 @@ static void dhcp_teardown(void)
   lwip_check_ensure_no_alloc(SKIP_POOL(MEMP_SYS_TIMEOUT));
 }
 
-static void check_pkt(struct pbuf *p, u32_t pos, const u8_t *mem, u32_t len)
+static void check_pkt(struct pbuf *p, uint32_t pos, const uint8_t *mem, uint32_t len)
 {
-  u8_t *data;
+  uint8_t *data;
 
   fail_if((pos + len) > p->tot_len);
   while (pos > p->len && p->next) {
@@ -209,15 +209,15 @@ static void check_pkt(struct pbuf *p, u32_t pos, const u8_t *mem, u32_t len)
   fail_if(p == NULL);
   fail_unless(pos + len <= p->len); /* All data we seek within same pbuf */
 
-  data = (u8_t*)p->payload;
+  data = (uint8_t*)p->payload;
   fail_if(memcmp(&data[pos], mem, len), "data at pos %d, len %d in packet %d did not match", pos, len, txpacket);
 }
 
-static void check_pkt_fuzzy(struct pbuf *p, u32_t startpos, const u8_t *mem, u32_t len)
+static void check_pkt_fuzzy(struct pbuf *p, uint32_t startpos, const uint8_t *mem, uint32_t len)
 {
   int found;
-  u32_t i;
-  u8_t *data;
+  uint32_t i;
+  uint8_t *data;
 
   fail_if((startpos + len) > p->tot_len);
   while (startpos > p->len && p->next) {
@@ -228,7 +228,7 @@ static void check_pkt_fuzzy(struct pbuf *p, u32_t startpos, const u8_t *mem, u32
   fail_unless(startpos + len <= p->len); /* All data we seek within same pbuf */
 
   found = 0;
-  data = (u8_t*)p->payload;
+  data = (uint8_t*)p->payload;
   for (i = startpos; i <= (p->len - len); i++) {
     if (memcmp(&data[i], mem, len) == 0) {
       found = 1;
@@ -250,7 +250,7 @@ static err_t lwip_tx_func(struct netif *netif, struct pbuf *p)
     do {
       int i;
       for (i = 0; i < pp->len; i++) {
-        printf(" %02X", ((u8_t *) pp->payload)[i]);
+        printf(" %02X", ((uint8_t *) pp->payload)[i]);
       }
       if (pp->next) {
         pp = pp->next;
@@ -265,9 +265,9 @@ static err_t lwip_tx_func(struct netif *netif, struct pbuf *p)
     case 1:
     case 2:
       {
-        const u8_t ipproto[] = { 0x08, 0x00 };
-        const u8_t bootp_start[] = { 0x01, 0x01, 0x06, 0x00}; /* bootp request, eth, hwaddr len 6, 0 hops */
-        const u8_t ipaddrs[] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+        const uint8_t ipproto[] = { 0x08, 0x00 };
+        const uint8_t bootp_start[] = { 0x01, 0x01, 0x06, 0x00}; /* bootp request, eth, hwaddr len 6, 0 hops */
+        const uint8_t ipaddrs[] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
 
         check_pkt(p, 0, broadcast, 6); /* eth level dest: broadcast */
         check_pkt(p, 6, netif->hwaddr, 6); /* eth level src: unit mac */
@@ -284,11 +284,11 @@ static err_t lwip_tx_func(struct netif *netif, struct pbuf *p)
 
         /* Check dchp message type, can be at different positions */
         if (txpacket == 1) {
-          u8_t dhcp_discover_opt[] = { 0x35, 0x01, 0x01 };
+          uint8_t dhcp_discover_opt[] = { 0x35, 0x01, 0x01 };
           check_pkt_fuzzy(p, 282, dhcp_discover_opt, sizeof(dhcp_discover_opt));
         } else if (txpacket == 2) {
-          u8_t dhcp_request_opt[] = { 0x35, 0x01, 0x03 };
-          u8_t requested_ipaddr[] = { 0x32, 0x04, 0xc3, 0xaa, 0xbd, 0xc8 }; /* Ask for offered IP */
+          uint8_t dhcp_request_opt[] = { 0x35, 0x01, 0x03 };
+          uint8_t requested_ipaddr[] = { 0x32, 0x04, 0xc3, 0xaa, 0xbd, 0xc8 }; /* Ask for offered IP */
 
           check_pkt_fuzzy(p, 282, dhcp_request_opt, sizeof(dhcp_request_opt));
           check_pkt_fuzzy(p, 282, requested_ipaddr, sizeof(requested_ipaddr));
@@ -299,7 +299,7 @@ static err_t lwip_tx_func(struct netif *netif, struct pbuf *p)
     case 4:
     case 5:
       {
-        const u8_t arpproto[] = { 0x08, 0x06 };
+        const uint8_t arpproto[] = { 0x08, 0x06 };
 
         check_pkt(p, 0, broadcast, 6); /* eth level dest: broadcast */
         check_pkt(p, 6, netif->hwaddr, 6); /* eth level src: unit mac */
@@ -315,11 +315,11 @@ static err_t lwip_tx_func(struct netif *netif, struct pbuf *p)
 
   case TEST_LWIP_DHCP_NAK:
     {
-      const u8_t ipproto[] = { 0x08, 0x00 };
-      const u8_t bootp_start[] = { 0x01, 0x01, 0x06, 0x00}; /* bootp request, eth, hwaddr len 6, 0 hops */
-      const u8_t ipaddrs[] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
-      const u8_t dhcp_nak_opt[] = { 0x35, 0x01, 0x04 };
-      const u8_t requested_ipaddr[] = { 0x32, 0x04, 0xc3, 0xaa, 0xbd, 0xc8 }; /* offered IP */
+      const uint8_t ipproto[] = { 0x08, 0x00 };
+      const uint8_t bootp_start[] = { 0x01, 0x01, 0x06, 0x00}; /* bootp request, eth, hwaddr len 6, 0 hops */
+      const uint8_t ipaddrs[] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+      const uint8_t dhcp_nak_opt[] = { 0x35, 0x01, 0x04 };
+      const uint8_t requested_ipaddr[] = { 0x32, 0x04, 0xc3, 0xaa, 0xbd, 0xc8 }; /* offered IP */
 
       fail_unless(txpacket == 4);
       check_pkt(p, 0, broadcast, 6); /* eth level dest: broadcast */
@@ -346,9 +346,9 @@ static err_t lwip_tx_func(struct netif *netif, struct pbuf *p)
     case 1:
     case 2:
       {
-        const u8_t ipproto[] = { 0x08, 0x00 };
-        const u8_t bootp_start[] = { 0x01, 0x01, 0x06, 0x00}; /* bootp request, eth, hwaddr len 6, 0 hops */
-        const u8_t ipaddrs[] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+        const uint8_t ipproto[] = { 0x08, 0x00 };
+        const uint8_t bootp_start[] = { 0x01, 0x01, 0x06, 0x00}; /* bootp request, eth, hwaddr len 6, 0 hops */
+        const uint8_t ipaddrs[] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
 
         check_pkt(p, 0, broadcast, 6); /* eth level dest: broadcast */
         check_pkt(p, 6, netif->hwaddr, 6); /* eth level src: unit mac */
@@ -365,11 +365,11 @@ static err_t lwip_tx_func(struct netif *netif, struct pbuf *p)
 
         /* Check dchp message type, can be at different positions */
         if (txpacket == 1) {
-          u8_t dhcp_discover_opt[] = { 0x35, 0x01, 0x01 };
+          uint8_t dhcp_discover_opt[] = { 0x35, 0x01, 0x01 };
           check_pkt_fuzzy(p, 282, dhcp_discover_opt, sizeof(dhcp_discover_opt));
         } else if (txpacket == 2) {
-          u8_t dhcp_request_opt[] = { 0x35, 0x01, 0x03 };
-          u8_t requested_ipaddr[] = { 0x32, 0x04, 0x4f, 0x8a, 0x33, 0x05 }; /* Ask for offered IP */
+          uint8_t dhcp_request_opt[] = { 0x35, 0x01, 0x03 };
+          uint8_t requested_ipaddr[] = { 0x32, 0x04, 0x4f, 0x8a, 0x33, 0x05 }; /* Ask for offered IP */
 
           check_pkt_fuzzy(p, 282, dhcp_request_opt, sizeof(dhcp_request_opt));
           check_pkt_fuzzy(p, 282, requested_ipaddr, sizeof(requested_ipaddr));
@@ -381,7 +381,7 @@ static err_t lwip_tx_func(struct netif *netif, struct pbuf *p)
     case 5:
     case 6:
       {
-        const u8_t arpproto[] = { 0x08, 0x06 };
+        const uint8_t arpproto[] = { 0x08, 0x06 };
 
         check_pkt(p, 0, broadcast, 6); /* eth level dest: broadcast */
         check_pkt(p, 6, netif->hwaddr, 6); /* eth level src: unit mac */
@@ -391,11 +391,11 @@ static err_t lwip_tx_func(struct netif *netif, struct pbuf *p)
       }
     case 7:
       {
-        const u8_t fake_arp[6] = { 0x12, 0x34, 0x56, 0x78, 0x9a, 0xab };
-        const u8_t ipproto[] = { 0x08, 0x00 };
-        const u8_t bootp_start[] = { 0x01, 0x01, 0x06, 0x00}; /* bootp request, eth, hwaddr len 6, 0 hops */
-        const u8_t ipaddrs[] = { 0x00, 0x4f, 0x8a, 0x33, 0x05, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
-        const u8_t dhcp_request_opt[] = { 0x35, 0x01, 0x03 };
+        const uint8_t fake_arp[6] = { 0x12, 0x34, 0x56, 0x78, 0x9a, 0xab };
+        const uint8_t ipproto[] = { 0x08, 0x00 };
+        const uint8_t bootp_start[] = { 0x01, 0x01, 0x06, 0x00}; /* bootp request, eth, hwaddr len 6, 0 hops */
+        const uint8_t ipaddrs[] = { 0x00, 0x4f, 0x8a, 0x33, 0x05, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+        const uint8_t dhcp_request_opt[] = { 0x35, 0x01, 0x03 };
 
         check_pkt(p, 0, fake_arp, 6); /* eth level dest: broadcast */
         check_pkt(p, 6, netif->hwaddr, 6); /* eth level src: unit mac */
@@ -437,7 +437,7 @@ START_TEST(test_dhcp)
   ip4_addr_t netmask;
   ip4_addr_t gw;
   int i;
-  u32_t xid;
+  uint32_t xid;
   LWIP_UNUSED_ARG(_i);
 
   tcase = TEST_LWIP_DHCP;
@@ -510,7 +510,7 @@ START_TEST(test_dhcp_nak)
   ip4_addr_t addr;
   ip4_addr_t netmask;
   ip4_addr_t gw;
-  u32_t xid;
+  uint32_t xid;
   LWIP_UNUSED_ARG(_i);
 
   tcase = TEST_LWIP_DHCP;
@@ -574,7 +574,7 @@ END_TEST
  */
 START_TEST(test_dhcp_relayed)
 {
-  u8_t relay_offer[] = {
+  uint8_t relay_offer[] = {
   0x00, 0x23, 0xc1, 0xde, 0xd0, 0x0d,
   0x00, 0x22, 0x93, 0x5a, 0xf7, 0x60,
   0x08, 0x00, 0x45, 0x00,
@@ -619,7 +619,7 @@ START_TEST(test_dhcp_relayed)
   0x04, 0x0a, 0xb5, 0x04, 0x01, 0xff
   };
 
-  u8_t relay_ack1[] = {
+  uint8_t relay_ack1[] = {
   0x00, 0x23, 0xc1, 0xde, 0xd0, 0x0d, 0x00, 0x22,
   0x93, 0x5a, 0xf7, 0x60, 0x08, 0x00, 0x45, 0x00,
   0x01, 0x38, 0xfd, 0x55, 0x00, 0x00, 0x40, 0x11,
@@ -663,7 +663,7 @@ START_TEST(test_dhcp_relayed)
   0x04, 0x0a, 0xb5, 0x04, 0x01, 0xff
   };
 
-  u8_t relay_ack2[] = {
+  uint8_t relay_ack2[] = {
   0x00, 0x23, 0xc1, 0xde, 0xd0, 0x0d,
   0x00, 0x22, 0x93, 0x5a, 0xf7, 0x60,
   0x08, 0x00, 0x45, 0x00,
@@ -707,7 +707,7 @@ START_TEST(test_dhcp_relayed)
   0x00, 0x00, 0x54, 0x60, 0x35, 0x01, 0x05, 0x36,
   0x04, 0x0a, 0xb5, 0x04, 0x01, 0xff };
 
-  const u8_t arp_resp[] = {
+  const uint8_t arp_resp[] = {
   0x00, 0x23, 0xc1, 0xde, 0xd0, 0x0d, /* DEST */
   0x00, 0x22, 0x93, 0x5a, 0xf7, 0x60, /* SRC */
   0x08, 0x06, /* Type: ARP */
@@ -732,7 +732,7 @@ START_TEST(test_dhcp_relayed)
   ip4_addr_t netmask;
   ip4_addr_t gw;
   int i;
-  u32_t xid;
+  uint32_t xid;
   LWIP_UNUSED_ARG(_i);
 
   tcase = TEST_LWIP_DHCP_RELAY;
@@ -822,7 +822,7 @@ START_TEST(test_dhcp_nak_no_endmarker)
   ip4_addr_t netmask;
   ip4_addr_t gw;
 
-  u8_t dhcp_nack_no_endmarker[] = {
+  uint8_t dhcp_nack_no_endmarker[] = {
     0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x54, 0x75,
     0xd0, 0x26, 0xd0, 0x0d, 0x08, 0x00, 0x45, 0x00,
     0x01, 0x15, 0x38, 0x86, 0x00, 0x00, 0xff, 0x11,
@@ -874,9 +874,9 @@ START_TEST(test_dhcp_nak_no_endmarker)
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
   };
-  u32_t xid;
+  uint32_t xid;
   struct dhcp* dhcp;
-  u8_t tries;
+  uint8_t tries;
   u16_t request_timeout;
   LWIP_UNUSED_ARG(_i);
 
@@ -934,7 +934,7 @@ END_TEST
 
 START_TEST(test_dhcp_invalid_overload)
 {
-  u8_t dhcp_offer_invalid_overload[] = {
+  uint8_t dhcp_offer_invalid_overload[] = {
       0x00, 0x23, 0xc1, 0xde, 0xd0, 0x0d, /* To unit */
       0x00, 0x0F, 0xEE, 0x30, 0xAB, 0x22, /* From Remote host */
       0x08, 0x00, /* Protocol: IP */
@@ -984,7 +984,7 @@ START_TEST(test_dhcp_invalid_overload)
   ip4_addr_t addr;
   ip4_addr_t netmask;
   ip4_addr_t gw;
-  u32_t xid;
+  uint32_t xid;
   LWIP_UNUSED_ARG(_i);
 
   tcase = TEST_LWIP_DHCP_INVALID_OVERLOAD;

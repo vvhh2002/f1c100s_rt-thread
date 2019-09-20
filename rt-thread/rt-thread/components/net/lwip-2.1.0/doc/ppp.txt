@@ -195,7 +195,7 @@ static void status_cb(ppp_pcb *pcb, int err_code, void *ctx) {
  *
  * Return value: len if write succeed
  */
-static u32_t output_cb(ppp_pcb *pcb, u8_t *data, u32_t len, void *ctx) {
+static uint32_t output_cb(ppp_pcb *pcb, uint8_t *data, uint32_t len, void *ctx) {
   return uart_write(UART, data, len);
 }
 
@@ -257,7 +257,7 @@ ppp = pppoe_create(&ppp_netif,
  */
 ppp = pppol2tp_create(&ppp_netif,
        struct netif *netif, ip_addr_t *ipaddr, u16_t port,
-       u8_t *secret, u8_t secret_len,
+       uint8_t *secret, uint8_t secret_len,
        ppp_link_status_cb_fn link_status_cb, void *ctx_cb);
 
 
@@ -355,7 +355,7 @@ ppp_listen(ppp);
  * (nocarrier=0), meaning a clean shutdown of PPP protocols.
  * You can call this function at anytime.
  */
-u8_t nocarrier = 0;
+uint8_t nocarrier = 0;
 ppp_close(ppp, nocarrier);
 /*
  * Then you must wait your status_cb() to be called, it may takes from a few
@@ -440,7 +440,7 @@ on the current phase of the PPP session. Here is a callback example which
 tries to mimic what we usually see on xDSL modems while they are negotiating
 the link, which should be self-explanatory:
 
-static void ppp_notify_phase_cb(ppp_pcb *pcb, u8_t phase, void *ctx) {
+static void ppp_notify_phase_cb(ppp_pcb *pcb, uint8_t phase, void *ctx) {
   switch (phase) {
 
   /* Session is down (either permanently or briefly) */

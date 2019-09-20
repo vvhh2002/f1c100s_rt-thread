@@ -75,7 +75,7 @@
 #if LWIP_TCP
 #if LWIP_TCPIP_CORE_LOCKING
 #define WRITE_DELAYED         , 1
-#define WRITE_DELAYED_PARAM   , u8_t delayed
+#define WRITE_DELAYED_PARAM   , uint8_t delayed
 #else /* LWIP_TCPIP_CORE_LOCKING */
 #define WRITE_DELAYED
 #define WRITE_DELAYED_PARAM
@@ -93,7 +93,7 @@ static void netconn_drain(struct netconn *conn);
 #endif /* LWIP_TCPIP_CORE_LOCKING */
 
 #if LWIP_NETCONN_FULLDUPLEX
-const u8_t netconn_deleted = 0;
+const uint8_t netconn_deleted = 0;
 
 int
 lwip_netconn_is_deallocated_msg(void *msg)
@@ -106,9 +106,9 @@ lwip_netconn_is_deallocated_msg(void *msg)
 #endif /* LWIP_NETCONN_FULLDUPLEX */
 
 #if LWIP_TCP
-const u8_t netconn_aborted = 0;
-const u8_t netconn_reset = 0;
-const u8_t netconn_closed = 0;
+const uint8_t netconn_aborted = 0;
+const uint8_t netconn_reset = 0;
+const uint8_t netconn_closed = 0;
 
 /** Translate an error to a unique void* passed via an mbox */
 static void *
@@ -155,7 +155,7 @@ lwip_netconn_is_err_msg(void *msg, err_t *err)
  *
  * @see raw.h (struct raw_pcb.recv) for parameters and return value
  */
-static u8_t
+static uint8_t
 recv_raw(void *arg, struct raw_pcb *pcb, struct pbuf *p,
          const ip_addr_t *addr)
 {
@@ -706,7 +706,7 @@ netconn_alloc(enum netconn_type t, netconn_callback callback)
 {
   struct netconn *conn;
   int size;
-  u8_t init_flags = 0;
+  uint8_t init_flags = 0;
 
   conn = (struct netconn *)memp_malloc(MEMP_NETCONN);
   if (conn == NULL) {
@@ -920,11 +920,11 @@ static err_t
 lwip_netconn_do_close_internal(struct netconn *conn  WRITE_DELAYED_PARAM)
 {
   err_t err;
-  u8_t shut, shut_rx, shut_tx, shut_close;
-  u8_t close_finished = 0;
+  uint8_t shut, shut_rx, shut_tx, shut_close;
+  uint8_t close_finished = 0;
   struct tcp_pcb *tpcb;
 #if LWIP_SO_LINGER
-  u8_t linger_wait_required = 0;
+  uint8_t linger_wait_required = 0;
 #endif /* LWIP_SO_LINGER */
 
   LWIP_ASSERT("invalid conn", (conn != NULL));
@@ -1379,7 +1379,7 @@ lwip_netconn_do_connect(void *m)
           err = tcp_connect(msg->conn->pcb.tcp, API_EXPR_REF(msg->msg.bc.ipaddr),
                             msg->msg.bc.port, lwip_netconn_do_connected);
           if (err == ERR_OK) {
-            u8_t non_blocking = netconn_is_nonblocking(msg->conn);
+            uint8_t non_blocking = netconn_is_nonblocking(msg->conn);
             msg->conn->state = NETCONN_CONNECT;
             SET_NONBLOCKING_CONNECT(msg->conn, non_blocking);
             if (non_blocking) {
@@ -1459,7 +1459,7 @@ lwip_netconn_do_listen(void *m)
           /* connection is not closed, cannot listen */
           err = ERR_VAL;
         } else {
-          u8_t backlog;
+          uint8_t backlog;
 #if TCP_LISTEN_BACKLOG
           backlog = msg->msg.lb.backlog;
 #else  /* TCP_LISTEN_BACKLOG */
@@ -1642,11 +1642,11 @@ lwip_netconn_do_writemore(struct netconn *conn  WRITE_DELAYED_PARAM)
   err_t err;
   const void *dataptr;
   u16_t len, available;
-  u8_t write_finished = 0;
+  uint8_t write_finished = 0;
   size_t diff;
-  u8_t dontblock;
-  u8_t apiflags;
-  u8_t write_more;
+  uint8_t dontblock;
+  uint8_t apiflags;
+  uint8_t write_more;
 
   LWIP_ASSERT("conn != NULL", conn != NULL);
   LWIP_ASSERT("conn->state == NETCONN_WRITE", (conn->state == NETCONN_WRITE));
@@ -1674,7 +1674,7 @@ lwip_netconn_do_writemore(struct netconn *conn  WRITE_DELAYED_PARAM)
 #endif /* LWIP_SO_SNDTIMEO */
   {
     do {
-      dataptr = (const u8_t *)conn->current_msg->msg.w.vector->ptr + conn->current_msg->msg.w.vector_off;
+      dataptr = (const uint8_t *)conn->current_msg->msg.w.vector->ptr + conn->current_msg->msg.w.vector_off;
       diff = conn->current_msg->msg.w.vector->len - conn->current_msg->msg.w.vector_off;
       if (diff > 0xffffUL) { /* max_u16_t */
         len = 0xffff;
@@ -2143,7 +2143,7 @@ void
 lwip_netconn_do_gethostbyname(void *arg)
 {
   struct dns_api_msg *msg = (struct dns_api_msg *)arg;
-  u8_t addrtype =
+  uint8_t addrtype =
 #if LWIP_IPV4 && LWIP_IPV6
     msg->dns_addrtype;
 #else

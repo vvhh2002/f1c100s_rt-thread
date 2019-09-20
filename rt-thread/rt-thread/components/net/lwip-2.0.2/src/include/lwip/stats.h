@@ -53,7 +53,7 @@ extern "C" {
 #endif
 
 #if LWIP_STATS_LARGE
-#define STAT_COUNTER     u32_t
+#define STAT_COUNTER     uint32_t
 #define STAT_COUNTER_F   U32_F
 #else
 #define STAT_COUNTER     u16_t
@@ -123,60 +123,60 @@ struct stats_sys {
 /** SNMP MIB2 stats */
 struct stats_mib2 {
   /* IP */
-  u32_t ipinhdrerrors;
-  u32_t ipinaddrerrors;
-  u32_t ipinunknownprotos;
-  u32_t ipindiscards;
-  u32_t ipindelivers;
-  u32_t ipoutrequests;
-  u32_t ipoutdiscards;
-  u32_t ipoutnoroutes;
-  u32_t ipreasmoks;
-  u32_t ipreasmfails;
-  u32_t ipfragoks;
-  u32_t ipfragfails;
-  u32_t ipfragcreates;
-  u32_t ipreasmreqds;
-  u32_t ipforwdatagrams;
-  u32_t ipinreceives;
+  uint32_t ipinhdrerrors;
+  uint32_t ipinaddrerrors;
+  uint32_t ipinunknownprotos;
+  uint32_t ipindiscards;
+  uint32_t ipindelivers;
+  uint32_t ipoutrequests;
+  uint32_t ipoutdiscards;
+  uint32_t ipoutnoroutes;
+  uint32_t ipreasmoks;
+  uint32_t ipreasmfails;
+  uint32_t ipfragoks;
+  uint32_t ipfragfails;
+  uint32_t ipfragcreates;
+  uint32_t ipreasmreqds;
+  uint32_t ipforwdatagrams;
+  uint32_t ipinreceives;
 
   /* TCP */
-  u32_t tcpactiveopens;
-  u32_t tcppassiveopens;
-  u32_t tcpattemptfails;
-  u32_t tcpestabresets;
-  u32_t tcpoutsegs;
-  u32_t tcpretranssegs;
-  u32_t tcpinsegs;
-  u32_t tcpinerrs;
-  u32_t tcpoutrsts;
+  uint32_t tcpactiveopens;
+  uint32_t tcppassiveopens;
+  uint32_t tcpattemptfails;
+  uint32_t tcpestabresets;
+  uint32_t tcpoutsegs;
+  uint32_t tcpretranssegs;
+  uint32_t tcpinsegs;
+  uint32_t tcpinerrs;
+  uint32_t tcpoutrsts;
 
   /* UDP */
-  u32_t udpindatagrams;
-  u32_t udpnoports;
-  u32_t udpinerrors;
-  u32_t udpoutdatagrams;
+  uint32_t udpindatagrams;
+  uint32_t udpnoports;
+  uint32_t udpinerrors;
+  uint32_t udpoutdatagrams;
 
   /* ICMP */
-  u32_t icmpinmsgs;
-  u32_t icmpinerrors;
-  u32_t icmpindestunreachs;
-  u32_t icmpintimeexcds;
-  u32_t icmpinparmprobs;
-  u32_t icmpinsrcquenchs;
-  u32_t icmpinredirects;
-  u32_t icmpinechos;
-  u32_t icmpinechoreps;
-  u32_t icmpintimestamps;
-  u32_t icmpintimestampreps;
-  u32_t icmpinaddrmasks;
-  u32_t icmpinaddrmaskreps;
-  u32_t icmpoutmsgs;
-  u32_t icmpouterrors;
-  u32_t icmpoutdestunreachs;
-  u32_t icmpouttimeexcds;
-  u32_t icmpoutechos; /* can be incremented by user application ('ping') */
-  u32_t icmpoutechoreps;
+  uint32_t icmpinmsgs;
+  uint32_t icmpinerrors;
+  uint32_t icmpindestunreachs;
+  uint32_t icmpintimeexcds;
+  uint32_t icmpinparmprobs;
+  uint32_t icmpinsrcquenchs;
+  uint32_t icmpinredirects;
+  uint32_t icmpinechos;
+  uint32_t icmpinechoreps;
+  uint32_t icmpintimestamps;
+  uint32_t icmpintimestampreps;
+  uint32_t icmpinaddrmasks;
+  uint32_t icmpinaddrmaskreps;
+  uint32_t icmpoutmsgs;
+  uint32_t icmpouterrors;
+  uint32_t icmpoutdestunreachs;
+  uint32_t icmpouttimeexcds;
+  uint32_t icmpoutechos; /* can be incremented by user application ('ping') */
+  uint32_t icmpoutechoreps;
 };
 
 /**
@@ -185,47 +185,47 @@ struct stats_mib2 {
  */
 struct stats_mib2_netif_ctrs {
   /** The total number of octets received on the interface, including framing characters */
-  u32_t ifinoctets;
+  uint32_t ifinoctets;
   /** The number of packets, delivered by this sub-layer to a higher (sub-)layer, which were
    * not addressed to a multicast or broadcast address at this sub-layer */
-  u32_t ifinucastpkts;
+  uint32_t ifinucastpkts;
   /** The number of packets, delivered by this sub-layer to a higher (sub-)layer, which were
    * addressed to a multicast or broadcast address at this sub-layer */
-  u32_t ifinnucastpkts;
+  uint32_t ifinnucastpkts;
   /** The number of inbound packets which were chosen to be discarded even though no errors had
    * been detected to prevent their being deliverable to a higher-layer protocol. One possible
    * reason for discarding such a packet could be to free up buffer space */
-  u32_t ifindiscards;
+  uint32_t ifindiscards;
   /** For packet-oriented interfaces, the number of inbound packets that contained errors
    * preventing them from being deliverable to a higher-layer protocol.  For character-
    * oriented or fixed-length interfaces, the number of inbound transmission units that
    * contained errors preventing them from being deliverable to a higher-layer protocol. */
-  u32_t ifinerrors;
+  uint32_t ifinerrors;
   /** For packet-oriented interfaces, the number of packets received via the interface which
    * were discarded because of an unknown or unsupported protocol.  For character-oriented
    * or fixed-length interfaces that support protocol multiplexing the number of transmission
    * units received via the interface which were discarded because of an unknown or unsupported
    * protocol. For any interface that does not support protocol multiplexing, this counter will
    * always be 0 */
-  u32_t ifinunknownprotos;
+  uint32_t ifinunknownprotos;
   /** The total number of octets transmitted out of the interface, including framing characters. */
-  u32_t ifoutoctets;
+  uint32_t ifoutoctets;
   /** The total number of packets that higher-level protocols requested be transmitted, and
    * which were not addressed to a multicast or broadcast address at this sub-layer, including
    * those that were discarded or not sent. */
-  u32_t ifoutucastpkts;
+  uint32_t ifoutucastpkts;
   /** The total number of packets that higher-level protocols requested be transmitted, and which
    * were addressed to a multicast or broadcast address at this sub-layer, including
    * those that were discarded or not sent. */
-  u32_t ifoutnucastpkts;
+  uint32_t ifoutnucastpkts;
   /** The number of outbound packets which were chosen to be discarded even though no errors had
    * been detected to prevent their being transmitted.  One possible reason for discarding
    * such a packet could be to free up buffer space. */
-  u32_t ifoutdiscards;
+  uint32_t ifoutdiscards;
   /** For packet-oriented interfaces, the number of outbound packets that could not be transmitted
    * because of errors. For character-oriented or fixed-length interfaces, the number of outbound
    * transmission units that could not be transmitted because of errors. */
-  u32_t ifouterrors;
+  uint32_t ifouterrors;
 };
 
 /** lwIP stats container */

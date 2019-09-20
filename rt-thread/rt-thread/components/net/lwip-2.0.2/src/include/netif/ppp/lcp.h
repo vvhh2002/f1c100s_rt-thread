@@ -142,13 +142,13 @@ typedef struct lcp_options {
     u16_t mrru;			/* Value of MRRU, and multilink enable */
 #endif /* MULTILINK */
 #if CHAP_SUPPORT
-    u8_t chap_mdtype;		/* which MD types (hashing algorithm) */
+    uint8_t chap_mdtype;		/* which MD types (hashing algorithm) */
 #endif /* CHAP_SUPPORT */
-    u32_t asyncmap;		/* Value of async map */
-    u32_t magicnumber;
-    u8_t  numloops;		/* Number of loops during magic number neg. */
+    uint32_t asyncmap;		/* Value of async map */
+    uint32_t magicnumber;
+    uint8_t  numloops;		/* Number of loops during magic number neg. */
 #if LQR_SUPPORT
-    u32_t lqr_period;	/* Reporting period for LQR 1/100ths second */
+    uint32_t lqr_period;	/* Reporting period for LQR 1/100ths second */
 #endif /* LQR_SUPPORT */
     struct epdisc endpoint;	/* endpoint discriminator */
 } lcp_options;

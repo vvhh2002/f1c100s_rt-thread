@@ -7,13 +7,13 @@
 * The authors hereby grant permission to use, copy, modify, distribute,
 * and license this software and its documentation for any purpose, provided
 * that existing copyright notices are retained in all copies and that this
-* notice and the following disclaimer are included verbatim in any 
+* notice and the following disclaimer are included verbatim in any
 * distributions. No written agreement, license, or royalty fee is required
 * for any of the authorized uses.
 *
 * THIS SOFTWARE IS PROVIDED BY THE CONTRIBUTORS *AS IS* AND ANY EXPRESS OR
 * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
-* OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
+* OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
 * IN NO EVENT SHALL THE CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
 * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
 * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
@@ -330,16 +330,16 @@ void pppLinkTerminated(int pd);
 void pppLinkDown(int pd);
 
 /* Configure i/f transmit parameters */
-void ppp_send_config (int, u16_t, u32_t, int, int);
+void ppp_send_config (int, u16_t, uint32_t, int, int);
 /* Set extended transmit ACCM */
 void ppp_set_xaccm (int, ext_accm *);
 /* Configure i/f receive parameters */
-void ppp_recv_config (int, int, u32_t, int, int);
+void ppp_recv_config (int, int, uint32_t, int, int);
 /* Find out how long link has been idle */
 int  get_idle_time (int, struct ppp_idle *);
 
 /* Configure VJ TCP header compression */
-int  sifvjcomp (int, int, u8_t, u8_t);
+int  sifvjcomp (int, int, uint8_t, uint8_t);
 /* Configure i/f down (for IP) */
 int  sifup (int);
 /* Set mode for handling packets for proto */
@@ -347,16 +347,16 @@ int  sifnpmode (int u, int proto, enum NPmode mode);
 /* Configure i/f down (for IP) */
 int  sifdown (int);
 /* Configure IP addresses for i/f */
-int  sifaddr (int, u32_t, u32_t, u32_t, u32_t, u32_t);
+int  sifaddr (int, uint32_t, uint32_t, uint32_t, uint32_t, uint32_t);
 /* Reset i/f IP addresses */
-int  cifaddr (int, u32_t, u32_t);
+int  cifaddr (int, uint32_t, uint32_t);
 /* Create default route through i/f */
-int  sifdefaultroute (int, u32_t, u32_t);
+int  sifdefaultroute (int, uint32_t, uint32_t);
 /* Delete default route through i/f */
-int  cifdefaultroute (int, u32_t, u32_t);
+int  cifdefaultroute (int, uint32_t, uint32_t);
 
 /* Get appropriate netmask for address */
-u32_t GetMask (u32_t); 
+uint32_t GetMask (uint32_t);
 
 #endif /* PPP_SUPPORT */
 

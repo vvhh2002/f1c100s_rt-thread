@@ -17,7 +17,7 @@
 <small>
 [<a class="el" href="a00150.html">The uIP TCP/IP stack</a>]</small>
 </h1><hr><a name="_details"></a><h2>Detailed Description</h2>
-These functions can be used for converting between different data formats used by uIP. 
+These functions can be used for converting between different data formats used by uIP.
 <p>
 
 <p>
@@ -91,7 +91,7 @@ These functions can be used for converting between different data formats used b
     <td>
 
 <p>
-Convert 16-bit quantity from host byte order to network byte order. 
+Convert 16-bit quantity from host byte order to network byte order.
 <p>
 This macro is primarily used for converting constants from host byte order to network byte order. For converting variables to network byte order, use the <a class="el" href="a00148.html#ga22b04cac8cf283ca12f028578bebc06">htons()</a> function instead. <dl compact><dt><b>Examples: </b></dt><dd>
 <a class="el" href="a00048.html#a6">dhcpc.c</a>, <a class="el" href="a00036.html#a103">hello-world.c</a>, <a class="el" href="a00046.html#a139">resolv.c</a>, <a class="el" href="a00038.html#a191">smtp.c</a>, and <a class="el" href="a00044.html#a219">telnetd.c</a>.</dl>
@@ -150,9 +150,9 @@ Referenced by <a class="el" href="a00170.html#l00041">hello_world_init()</a>, <a
     <td>
 
 <p>
-Construct an IPv6 address from eight 16-bit words. 
+Construct an IPv6 address from eight 16-bit words.
 <p>
-This function constructs an IPv6 address. 
+This function constructs an IPv6 address.
 <p>
 Definition at line <a class="el" href="a00202.html#l00852">852</a> of file <a class="el" href="a00202.html">uip.h</a>.    </td>
   </tr>
@@ -194,12 +194,12 @@ Definition at line <a class="el" href="a00202.html#l00852">852</a> of file <a cl
     <td>
 
 <p>
-Construct an IP address from four bytes. 
+Construct an IP address from four bytes.
 <p>
 This function constructs an IP address of the type that uIP handles internally from four bytes. The function is handy for specifying IP addresses to use with e.g. the <a class="el" href="a00147.html#g8096b0c4b543dc408f4dd031ddae7240">uip_connect()</a> function.<p>
 Example: <div class="fragment"><pre class="fragment"> <a class="code" href="a00150.html#g1ef35301f43a5bbb9f89f07b5a36b9a0">uip_ipaddr_t</a> ipaddr;
  <span class="keyword">struct </span><a class="code" href="a00088.html">uip_conn</a> *c;
- 
+
  <a class="code" href="a00148.html#g87f0b54ade0d159fba495089128a4932">uip_ipaddr</a>(&amp;ipaddr, 192,168,1,2);
  c = <a class="code" href="a00147.html#g8096b0c4b543dc408f4dd031ddae7240">uip_connect</a>(&amp;ipaddr, <a class="code" href="a00148.html#g69a7a4951ff21b302267532c21ee78fc">HTONS</a>(80));
 </pre></div><p>
@@ -243,11 +243,11 @@ Definition at line <a class="el" href="a00202.html#l00840">840</a> of file <a cl
     <td>
 
 <p>
-Pick the first octet of an IP address. 
+Pick the first octet of an IP address.
 <p>
 Picks out the first octet of an IP address.<p>
 Example: <div class="fragment"><pre class="fragment"> <a class="code" href="a00150.html#g1ef35301f43a5bbb9f89f07b5a36b9a0">uip_ipaddr_t</a> ipaddr;
- <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a> octet;
+ <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a> octet;
 
  <a class="code" href="a00148.html#g87f0b54ade0d159fba495089128a4932">uip_ipaddr</a>(&amp;ipaddr, 1,2,3,4);
  octet = <a class="code" href="a00148.html#g22fa0681cd463191d7a01fe85d86996f">uip_ipaddr1</a>(&amp;ipaddr);
@@ -283,11 +283,11 @@ Definition at line <a class="el" href="a00202.html#l00995">995</a> of file <a cl
     <td>
 
 <p>
-Pick the second octet of an IP address. 
+Pick the second octet of an IP address.
 <p>
 Picks out the second octet of an IP address.<p>
 Example: <div class="fragment"><pre class="fragment"> <a class="code" href="a00150.html#g1ef35301f43a5bbb9f89f07b5a36b9a0">uip_ipaddr_t</a> ipaddr;
- <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a> octet;
+ <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a> octet;
 
  <a class="code" href="a00148.html#g87f0b54ade0d159fba495089128a4932">uip_ipaddr</a>(&amp;ipaddr, 1,2,3,4);
  octet = <a class="code" href="a00148.html#gffcd2fbe181e2aaefbf970551c302af5">uip_ipaddr2</a>(&amp;ipaddr);
@@ -323,11 +323,11 @@ Definition at line <a class="el" href="a00202.html#l01015">1015</a> of file <a c
     <td>
 
 <p>
-Pick the third octet of an IP address. 
+Pick the third octet of an IP address.
 <p>
 Picks out the third octet of an IP address.<p>
 Example: <div class="fragment"><pre class="fragment"> <a class="code" href="a00150.html#g1ef35301f43a5bbb9f89f07b5a36b9a0">uip_ipaddr_t</a> ipaddr;
- <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a> octet;
+ <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a> octet;
 
  <a class="code" href="a00148.html#g87f0b54ade0d159fba495089128a4932">uip_ipaddr</a>(&amp;ipaddr, 1,2,3,4);
  octet = <a class="code" href="a00148.html#ge23534479ead15af8ff08ace26a47fb5">uip_ipaddr3</a>(&amp;ipaddr);
@@ -363,11 +363,11 @@ Definition at line <a class="el" href="a00202.html#l01035">1035</a> of file <a c
     <td>
 
 <p>
-Pick the fourth octet of an IP address. 
+Pick the fourth octet of an IP address.
 <p>
 Picks out the fourth octet of an IP address.<p>
 Example: <div class="fragment"><pre class="fragment"> <a class="code" href="a00150.html#g1ef35301f43a5bbb9f89f07b5a36b9a0">uip_ipaddr_t</a> ipaddr;
- <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a> octet;
+ <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a> octet;
 
  <a class="code" href="a00148.html#g87f0b54ade0d159fba495089128a4932">uip_ipaddr</a>(&amp;ipaddr, 1,2,3,4);
  octet = <a class="code" href="a00148.html#g165b603ec150e26efec7be199c9c2901">uip_ipaddr4</a>(&amp;ipaddr);
@@ -406,7 +406,7 @@ Definition at line <a class="el" href="a00202.html#l01055">1055</a> of file <a c
     <td>
 
 <p>
-Compare two IP addresses. 
+Compare two IP addresses.
 <p>
 Compares two IP addresses.<p>
 Example: <div class="fragment"><pre class="fragment"> <a class="code" href="a00150.html#g1ef35301f43a5bbb9f89f07b5a36b9a0">uip_ipaddr_t</a> ipaddr1, ipaddr2;
@@ -457,7 +457,7 @@ Referenced by <a class="el" href="a00204.html#l00278">uip_arp_arpin()</a>, <a cl
     <td>
 
 <p>
-Copy an IP address to another IP address. 
+Copy an IP address to another IP address.
 <p>
 Copies an IP address from one place to another.<p>
 Example: <div class="fragment"><pre class="fragment"> <a class="code" href="a00150.html#g1ef35301f43a5bbb9f89f07b5a36b9a0">uip_ipaddr_t</a> ipaddr1, ipaddr2;
@@ -510,7 +510,7 @@ Referenced by <a class="el" href="a00174.html#l00216">smtp_configure()</a>, <a c
     <td>
 
 <p>
-Mask out the network part of an IP address. 
+Mask out the network part of an IP address.
 <p>
 Masks out the network part of an IP address, given the address and the netmask.<p>
 Example: <div class="fragment"><pre class="fragment"> <a class="code" href="a00150.html#g1ef35301f43a5bbb9f89f07b5a36b9a0">uip_ipaddr_t</a> ipaddr1, ipaddr2, netmask;
@@ -563,7 +563,7 @@ Definition at line <a class="el" href="a00202.html#l00972">972</a> of file <a cl
     <td>
 
 <p>
-Compare two IP addresses with netmasks. 
+Compare two IP addresses with netmasks.
 <p>
 Compares two IP addresses with netmasks. The masks are used to mask out the bits that are to be compared.<p>
 Example: <div class="fragment"><pre class="fragment"> <a class="code" href="a00150.html#g1ef35301f43a5bbb9f89f07b5a36b9a0">uip_ipaddr_t</a> ipaddr1, ipaddr2, mask;
@@ -615,7 +615,7 @@ Referenced by <a class="el" href="a00204.html#l00354">uip_arp_out()</a>.    </td
     <td>
 
 <p>
-Convert 16-bit quantity from host byte order to network byte order. 
+Convert 16-bit quantity from host byte order to network byte order.
 <p>
 This function is primarily used for converting variables from host byte order to network byte order. For converting constants to network byte order, use the <a class="el" href="a00148.html#g69a7a4951ff21b302267532c21ee78fc">HTONS()</a> macro instead. <dl compact><dt><b>Examples: </b></dt><dd>
 <a class="el" href="a00042.html#a70">example-mainloop-with-arp.c</a>, <a class="el" href="a00046.html#a137">resolv.c</a>, and <a class="el" href="a00040.html#a274">webclient.c</a>.</dl>

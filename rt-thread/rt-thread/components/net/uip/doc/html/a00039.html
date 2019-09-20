@@ -18,14 +18,14 @@
 <a name="l00003"></a>00003 <span class="comment"> * \addtogroup smtp</span>
 <a name="l00004"></a>00004 <span class="comment"> * @{</span>
 <a name="l00005"></a>00005 <span class="comment"> */</span>
-<a name="l00006"></a>00006 
+<a name="l00006"></a>00006
 <a name="l00007"></a>00007 <span class="comment"></span>
 <a name="l00008"></a>00008 <span class="comment">/**</span>
 <a name="l00009"></a>00009 <span class="comment"> * \file</span>
 <a name="l00010"></a>00010 <span class="comment"> * SMTP header file</span>
 <a name="l00011"></a>00011 <span class="comment"> * \author Adam Dunkels &lt;adam@dunkels.com&gt;</span>
 <a name="l00012"></a>00012 <span class="comment"> */</span>
-<a name="l00013"></a>00013 
+<a name="l00013"></a>00013
 <a name="l00014"></a>00014 <span class="comment">/*</span>
 <a name="l00015"></a>00015 <span class="comment"> * Copyright (c) 2002, Adam Dunkels.</span>
 <a name="l00016"></a>00016 <span class="comment"> * All rights reserved.</span>
@@ -80,9 +80,9 @@
 <a name="l00065"></a>00065 <span class="comment"> * SMTP_ERR_OK.</span>
 <a name="l00066"></a>00066 <span class="comment"> */</span>
 <a name="l00067"></a>00067 <span class="keywordtype">void</span> <a name="a195"></a><a class="code" href="a00161.html#gb1fc692a2700b7a51517724364683f67">smtp_done</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> error);
-<a name="l00068"></a>00068 
+<a name="l00068"></a>00068
 <a name="l00069"></a>00069 <span class="keywordtype">void</span> <a name="a196"></a><a class="code" href="a00161.html#g64807ba7c221ddf735572d05021539f2">smtp_init</a>(<span class="keywordtype">void</span>);
-<a name="l00070"></a>00070 
+<a name="l00070"></a>00070
 <a name="l00071"></a>00071 <span class="comment">/* Functions. */</span>
 <a name="l00072"></a>00072 <span class="keywordtype">void</span> smtp_configure(<span class="keywordtype">char</span> *localhostname, <a name="a197"></a><a class="code" href="a00153.html#g77570ac4fcab86864fa1916e55676da2">u16_t</a> *smtpserver);
 <a name="l00073"></a>00073 <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> smtp_send(<span class="keywordtype">char</span> *to, <span class="keywordtype">char</span> *from,
@@ -92,27 +92,27 @@
 <a name="l00077"></a>00077 <span class="preprocessor">        smtp_send(to, cc, from, subject, msg, strlen(msg))</span>
 <a name="l00078"></a>00078 <span class="preprocessor"></span>
 <a name="l00079"></a>00079 <span class="keywordtype">void</span> <a name="a198"></a><a class="code" href="a00161.html#gbc331f73107958428bf1c392ba19b6f4">smtp_appcall</a>(<span class="keywordtype">void</span>);
-<a name="l00080"></a>00080 
+<a name="l00080"></a>00080
 <a name="l00081"></a>00081 <span class="keyword">struct </span><a name="_a199"></a><a class="code" href="a00085.html">smtp_state</a> {
-<a name="l00082"></a>00082   <a name="a200"></a><a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a> <a name="a201"></a><a class="code" href="a00085.html#0bb4f34164e7207c2db26b77f23ccfff">state</a>;
+<a name="l00082"></a>00082   <a name="a200"></a><a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a> <a name="a201"></a><a class="code" href="a00085.html#0bb4f34164e7207c2db26b77f23ccfff">state</a>;
 <a name="l00083"></a>00083   <span class="keywordtype">char</span> *to;
 <a name="l00084"></a>00084   <span class="keywordtype">char</span> *from;
 <a name="l00085"></a>00085   <span class="keywordtype">char</span> *subject;
 <a name="l00086"></a>00086   <span class="keywordtype">char</span> *msg;
 <a name="l00087"></a>00087   <a class="code" href="a00153.html#g77570ac4fcab86864fa1916e55676da2">u16_t</a> msglen;
-<a name="l00088"></a>00088   
+<a name="l00088"></a>00088
 <a name="l00089"></a>00089   <a class="code" href="a00153.html#g77570ac4fcab86864fa1916e55676da2">u16_t</a> <a name="a202"></a><a class="code" href="a00085.html#68204df6bde3e3c27271ebde10579a57">sentlen</a>, <a name="a203"></a><a class="code" href="a00085.html#0560495c60c68d62617ff1f3d0c424a4">textlen</a>;
 <a name="l00090"></a>00090   <a class="code" href="a00153.html#g77570ac4fcab86864fa1916e55676da2">u16_t</a> <a name="a204"></a><a class="code" href="a00085.html#5ed2615cec9e633d90ac5968771976eb">sendptr</a>;
-<a name="l00091"></a>00091 
+<a name="l00091"></a>00091
 <a name="l00092"></a>00092 };
-<a name="l00093"></a>00093 
-<a name="l00094"></a>00094 
+<a name="l00093"></a>00093
+<a name="l00094"></a>00094
 <a name="l00095"></a>00095 <span class="preprocessor">#ifndef UIP_APPCALL</span>
 <a name="l00096"></a>00096 <span class="preprocessor"></span><span class="preprocessor">#define UIP_APPCALL     smtp_appcall</span>
 <a name="l00097"></a>00097 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
 <a name="l00098"></a>00098 <span class="preprocessor"></span><span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="a00085.html">smtp_state</a> <a name="a205"></a><a class="code" href="a00153.html#g69646a81a922033c5281445a71f8ffed">uip_tcp_appstate_t</a>;
-<a name="l00099"></a>00099 
-<a name="l00100"></a>00100 
+<a name="l00099"></a>00099
+<a name="l00100"></a>00100
 <a name="l00101"></a>00101 <span class="preprocessor">#endif </span><span class="comment">/* __SMTP_H__ */</span>
 <a name="l00102"></a>00102 <span class="comment"></span>
 <a name="l00103"></a>00103 <span class="comment">/** @} */</span>

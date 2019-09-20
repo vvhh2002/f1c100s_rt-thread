@@ -80,22 +80,22 @@ interfaces_get_value(struct snmp_node_instance* instance, void* value)
 
 /* list of allowed value ranges for incoming OID */
 static const struct snmp_oid_range interfaces_Table_oid_ranges[] = {
-  { 1, 0xff } /* netif->num is u8_t */
+  { 1, 0xff } /* netif->num is uint8_t */
 };
 
-static const u8_t iftable_ifOutQLen         = 0;
+static const uint8_t iftable_ifOutQLen         = 0;
 
-static const u8_t iftable_ifOperStatus_up   = 1;
-static const u8_t iftable_ifOperStatus_down = 2;
+static const uint8_t iftable_ifOperStatus_up   = 1;
+static const uint8_t iftable_ifOperStatus_down = 2;
 
-static const u8_t iftable_ifAdminStatus_up             = 1;
-static const u8_t iftable_ifAdminStatus_lowerLayerDown = 7;
-static const u8_t iftable_ifAdminStatus_down           = 2;
+static const uint8_t iftable_ifAdminStatus_up             = 1;
+static const uint8_t iftable_ifAdminStatus_lowerLayerDown = 7;
+static const uint8_t iftable_ifAdminStatus_down           = 2;
 
 static snmp_err_t
-interfaces_Table_get_cell_instance(const u32_t* column, const u32_t* row_oid, u8_t row_oid_len, struct snmp_node_instance* cell_instance)
+interfaces_Table_get_cell_instance(const uint32_t* column, const uint32_t* row_oid, uint8_t row_oid_len, struct snmp_node_instance* cell_instance)
 {
-  u32_t ifIndex;
+  uint32_t ifIndex;
   struct netif *netif;
 
   LWIP_UNUSED_ARG(column);
@@ -124,11 +124,11 @@ interfaces_Table_get_cell_instance(const u32_t* column, const u32_t* row_oid, u8
 }
 
 static snmp_err_t
-interfaces_Table_get_next_cell_instance(const u32_t* column, struct snmp_obj_id* row_oid, struct snmp_node_instance* cell_instance)
+interfaces_Table_get_next_cell_instance(const uint32_t* column, struct snmp_obj_id* row_oid, struct snmp_node_instance* cell_instance)
 {
   struct netif *netif;
   struct snmp_next_oid_state state;
-  u32_t result_temp[LWIP_ARRAYSIZE(interfaces_Table_oid_ranges)];
+  uint32_t result_temp[LWIP_ARRAYSIZE(interfaces_Table_oid_ranges)];
 
   LWIP_UNUSED_ARG(column);
 
@@ -138,7 +138,7 @@ interfaces_Table_get_next_cell_instance(const u32_t* column, struct snmp_obj_id*
   /* iterate over all possible OIDs to find the next one */
   netif = netif_list;
   while (netif != NULL) {
-    u32_t test_oid[LWIP_ARRAYSIZE(interfaces_Table_oid_ranges)];
+    uint32_t test_oid[LWIP_ARRAYSIZE(interfaces_Table_oid_ranges)];
     test_oid[0] = netif_to_num(netif);
 
     /* check generated OID: is it a candidate for the next one? */
@@ -163,7 +163,7 @@ static s16_t
 interfaces_Table_get_value(struct snmp_node_instance* instance, void* value)
 {
   struct netif *netif = (struct netif*)instance->reference.ptr;
-  u32_t* value_u32 = (u32_t*)value;
+  uint32_t* value_u32 = (uint32_t*)value;
   s32_t* value_s32 = (s32_t*)value;
   u16_t value_len;
 
@@ -267,7 +267,7 @@ interfaces_Table_get_value(struct snmp_node_instance* instance, void* value)
     break;
   /** @note returning zeroDotZero (0.0) no media specific MIB support */
   case 22: /* ifSpecific */
-    value_len = snmp_zero_dot_zero.len * sizeof(u32_t);
+    value_len = snmp_zero_dot_zero.len * sizeof(uint32_t);
     MEMCPY(value, snmp_zero_dot_zero.id, value_len);
     break;
   default:

@@ -127,7 +127,7 @@ memp_sanity(const struct memp_desc *desc)
 static void
 memp_overflow_check_element(struct memp *p, const struct memp_desc *desc)
 {
-  mem_overflow_check_raw((u8_t *)p + MEMP_SIZE, desc->size, "pool ", desc->desc);
+  mem_overflow_check_raw((uint8_t *)p + MEMP_SIZE, desc->size, "pool ", desc->desc);
 }
 
 /**
@@ -136,7 +136,7 @@ memp_overflow_check_element(struct memp *p, const struct memp_desc *desc)
 static void
 memp_overflow_init_element(struct memp *p, const struct memp_desc *desc)
 {
-  mem_overflow_init_raw((u8_t *)p + MEMP_SIZE, desc->size);
+  mem_overflow_init_raw((uint8_t *)p + MEMP_SIZE, desc->size);
 }
 
 #if MEMP_OVERFLOW_CHECK >= 2
@@ -157,7 +157,7 @@ memp_overflow_check_all(void)
     p = (struct memp *)LWIP_MEM_ALIGN(memp_pools[i]->base);
     for (j = 0; j < memp_pools[i]->num; ++j) {
       memp_overflow_check_element(p, memp_pools[i]);
-      p = LWIP_ALIGNMENT_CAST(struct memp *, ((u8_t *)p + MEMP_SIZE + memp_pools[i]->size + MEM_SANITY_REGION_AFTER_ALIGNED));
+      p = LWIP_ALIGNMENT_CAST(struct memp *, ((uint8_t *)p + MEMP_SIZE + memp_pools[i]->size + MEM_SANITY_REGION_AFTER_ALIGNED));
     }
   }
   SYS_ARCH_UNPROTECT(old_level);
@@ -198,7 +198,7 @@ memp_init_pool(const struct memp_desc *desc)
     memp_overflow_init_element(memp, desc);
 #endif /* MEMP_OVERFLOW_CHECK */
     /* cast through void* to get rid of alignment warnings */
-    memp = (struct memp *)(void *)((u8_t *)memp + MEMP_SIZE + desc->size
+    memp = (struct memp *)(void *)((uint8_t *)memp + MEMP_SIZE + desc->size
 #if MEMP_OVERFLOW_CHECK
                                    + MEM_SANITY_REGION_AFTER_ALIGNED
 #endif
@@ -286,8 +286,8 @@ do_memp_malloc_pool_fn(const struct memp_desc *desc, const char *file, const int
     }
 #endif
     SYS_ARCH_UNPROTECT(old_level);
-    /* cast through u8_t* to get rid of alignment warnings */
-    return ((u8_t *)memp + MEMP_SIZE);
+    /* cast through uint8_t* to get rid of alignment warnings */
+    return ((uint8_t *)memp + MEMP_SIZE);
   } else {
 #if MEMP_STATS
     desc->stats->err++;
@@ -365,7 +365,7 @@ do_memp_free_pool(const struct memp_desc *desc, void *mem)
               ((mem_ptr_t)mem % MEM_ALIGNMENT) == 0);
 
   /* cast through void* to get rid of alignment warnings */
-  memp = (struct memp *)(void *)((u8_t *)mem - MEMP_SIZE);
+  memp = (struct memp *)(void *)((uint8_t *)mem - MEMP_SIZE);
 
   SYS_ARCH_PROTECT(old_level);
 

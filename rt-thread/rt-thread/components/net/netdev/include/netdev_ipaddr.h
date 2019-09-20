@@ -59,9 +59,9 @@ enum netdev_ip_addr_type {
 };
 
 #if NETDEV_IPV4
-/** IPv4 only: set the IP address given as an u32_t */
+/** IPv4 only: set the IP address given as an uint32_t */
 #define ip4_addr_set_u32(dest_ipaddr, src_u32) ((dest_ipaddr)->addr = (src_u32))
-/** IPv4 only: get the IP address as an u32_t */
+/** IPv4 only: get the IP address as an uint32_t */
 #define ip4_addr_get_u32(src_ipaddr) ((src_ipaddr)->addr)
 
 #define IP4ADDR_STRLEN_MAX  16
@@ -307,7 +307,7 @@ const char *netdev_inet_ntop(int af, const void *src, char *dst, int32_t size);
 int netdev_inet_pton(int af, const char *src, void *dst);
 
 #define inet_ntop(af, src, dst, size)       netdev_inet_ntop(af, src, dst, size)
-#define inet_pton(af, src, dst)             netdev_inet_pton(af, src, dst) 
+#define inet_pton(af, src, dst)             netdev_inet_pton(af, src, dst)
 
 #ifdef __cplusplus
 }

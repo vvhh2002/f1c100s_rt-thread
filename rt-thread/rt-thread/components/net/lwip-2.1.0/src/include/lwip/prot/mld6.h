@@ -51,8 +51,8 @@ extern "C" {
 #endif
 PACK_STRUCT_BEGIN
 struct mld_header {
-  PACK_STRUCT_FLD_8(u8_t type);
-  PACK_STRUCT_FLD_8(u8_t code);
+  PACK_STRUCT_FLD_8(uint8_t type);
+  PACK_STRUCT_FLD_8(uint8_t code);
   PACK_STRUCT_FIELD(u16_t chksum);
   PACK_STRUCT_FIELD(u16_t max_resp_delay);
   PACK_STRUCT_FIELD(u16_t reserved);

@@ -6,13 +6,13 @@
 * The authors hereby grant permission to use, copy, modify, distribute,
 * and license this software and its documentation for any purpose, provided
 * that existing copyright notices are retained in all copies and that this
-* notice and the following disclaimer are included verbatim in any 
+* notice and the following disclaimer are included verbatim in any
 * distributions. No written agreement, license, or royalty fee is required
 * for any of the authorized uses.
 *
 * THIS SOFTWARE IS PROVIDED BY THE CONTRIBUTORS *AS IS* AND ANY EXPRESS OR
 * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
-* OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
+* OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
 * IN NO EVENT SHALL THE CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
 * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
 * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
@@ -85,8 +85,8 @@ extern "C" {
 #endif
 PACK_STRUCT_BEGIN
 struct pppoehdr {
-  PACK_STRUCT_FLD_8(u8_t vertype);
-  PACK_STRUCT_FLD_8(u8_t code);
+  PACK_STRUCT_FLD_8(uint8_t vertype);
+  PACK_STRUCT_FLD_8(uint8_t code);
   PACK_STRUCT_FIELD(u16_t session);
   PACK_STRUCT_FIELD(u16_t plen);
 } PACK_STRUCT_STRUCT;
@@ -147,20 +147,20 @@ struct pppoe_softc {
 
   struct eth_addr sc_dest;     /* hardware address of concentrator */
   u16_t sc_session;            /* PPPoE session id */
-  u8_t sc_state;               /* discovery phase or session connected */
+  uint8_t sc_state;               /* discovery phase or session connected */
 
 #ifdef PPPOE_TODO
-  u8_t *sc_service_name;       /* if != NULL: requested name of service */
-  u8_t *sc_concentrator_name;  /* if != NULL: requested concentrator id */
+  uint8_t *sc_service_name;       /* if != NULL: requested name of service */
+  uint8_t *sc_concentrator_name;  /* if != NULL: requested concentrator id */
 #endif /* PPPOE_TODO */
-  u8_t sc_ac_cookie[PPPOE_MAX_AC_COOKIE_LEN]; /* content of AC cookie we must echo back */
-  u8_t sc_ac_cookie_len;       /* length of cookie data */
+  uint8_t sc_ac_cookie[PPPOE_MAX_AC_COOKIE_LEN]; /* content of AC cookie we must echo back */
+  uint8_t sc_ac_cookie_len;       /* length of cookie data */
 #ifdef PPPOE_SERVER
-  u8_t *sc_hunique;            /* content of host unique we must echo back */
-  u8_t sc_hunique_len;         /* length of host unique */
+  uint8_t *sc_hunique;            /* content of host unique we must echo back */
+  uint8_t sc_hunique_len;         /* length of host unique */
 #endif
-  u8_t sc_padi_retried;        /* number of PADI retries already done */
-  u8_t sc_padr_retried;        /* number of PADR retries already done */
+  uint8_t sc_padi_retried;        /* number of PADI retries already done */
+  uint8_t sc_padr_retried;        /* number of PADR retries already done */
 };
 
 

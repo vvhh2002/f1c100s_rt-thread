@@ -14,9 +14,9 @@
     <li><a href="examples.html"><span>Examples</span></a></li>
   </ul></div>
 <h1>The uIP TCP/IP stack</h1><hr><a name="_details"></a><h2>Detailed Description</h2>
-uIP is an implementation of the TCP/IP protocol stack intended for small 8-bit and 16-bit microcontrollers. 
+uIP is an implementation of the TCP/IP protocol stack intended for small 8-bit and 16-bit microcontrollers.
 <p>
-uIP provides the necessary protocols for Internet communication, with a very small code footprint and RAM requirements - the uIP code size is on the order of a few kilobytes and RAM usage is on the order of a few hundred bytes. 
+uIP provides the necessary protocols for Internet communication, with a very small code footprint and RAM requirements - the uIP code size is on the order of a few kilobytes and RAM usage is on the order of a few hundred bytes.
 <p>
 <table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
@@ -292,8 +292,8 @@ typedef <a class="el" href="a00153.html#g77570ac4fcab86864fa1916e55676da2">u16_t
 typedef <a class="el" href="a00150.html#g20ceef9d0868d391c2f33041b02cb1f1">uip_ip4addr_t</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00150.html#g1ef35301f43a5bbb9f89f07b5a36b9a0">uip_ipaddr_t</a></td></tr>
 
 <tr><td colspan="2"><br><h2>Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="g266263ac78a1361a2b1d15741d3b0675"></a><!-- doxytag: member="uip::uip_process" ref="g266263ac78a1361a2b1d15741d3b0675" args="(u8_t flag)" -->
-void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00150.html#g266263ac78a1361a2b1d15741d3b0675">uip_process</a> (<a class="el" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a> flag)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="g266263ac78a1361a2b1d15741d3b0675"></a><!-- doxytag: member="uip::uip_process" ref="g266263ac78a1361a2b1d15741d3b0675" args="(uint8_t flag)" -->
+void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00150.html#g266263ac78a1361a2b1d15741d3b0675">uip_process</a> (<a class="el" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a> flag)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="a00153.html#g77570ac4fcab86864fa1916e55676da2">u16_t</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00150.html#gb6683dd83fe1c8de9a24086d4b69e907">uip_chksum</a> (<a class="el" href="a00153.html#g77570ac4fcab86864fa1916e55676da2">u16_t</a> *buf, <a class="el" href="a00153.html#g77570ac4fcab86864fa1916e55676da2">u16_t</a> len)</td></tr>
 
@@ -310,7 +310,7 @@ void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="a001
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00150.html#g22f140b02c354dfebcc7ad481c3bcd68">uip_setipid</a> (<a class="el" href="a00153.html#g77570ac4fcab86864fa1916e55676da2">u16_t</a> id)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">uIP initialization function.  <a href="#g22f140b02c354dfebcc7ad481c3bcd68"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00150.html#g6832e4d2d046536b6472f7ac92340f68">uip_add32</a> (<a class="el" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a> *op32, <a class="el" href="a00153.html#g77570ac4fcab86864fa1916e55676da2">u16_t</a> op16)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00150.html#g6832e4d2d046536b6472f7ac92340f68">uip_add32</a> (<a class="el" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a> *op32, <a class="el" href="a00153.html#g77570ac4fcab86864fa1916e55676da2">u16_t</a> op16)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Carry out a 32-bit addition.  <a href="#g6832e4d2d046536b6472f7ac92340f68"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00150.html#gc48ed5f0d27721ef62a3ed02a5ad8d2e">uip_init</a> (void)</td></tr>
@@ -355,7 +355,7 @@ void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="a001
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">The uIP TCP/IP statistics.  <a href="#g9ee50a40597e67fce96541ab56c3b712"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="gb4ef6b00924990e7a293f66715b6d1d1"></a><!-- doxytag: member="uip::uip_flags" ref="gb4ef6b00924990e7a293f66715b6d1d1" args="" -->
-<a class="el" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00150.html#gb4ef6b00924990e7a293f66715b6d1d1">uip_flags</a></td></tr>
+<a class="el" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00150.html#gb4ef6b00924990e7a293f66715b6d1d1">uip_flags</a></td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="g7d3673f52f5846b6961d23b150decd54"></a><!-- doxytag: member="uip::uip_hostaddr" ref="g7d3673f52f5846b6961d23b150decd54" args="" -->
 <a class="el" href="a00150.html#g1ef35301f43a5bbb9f89f07b5a36b9a0">uip_ipaddr_t</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00150.html#g7d3673f52f5846b6961d23b150decd54">uip_hostaddr</a></td></tr>
@@ -378,7 +378,7 @@ void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="a001
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="g499bb98a0b4ae9a98553ede81317606d"></a><!-- doxytag: member="uip::uip_ethaddr" ref="g499bb98a0b4ae9a98553ede81317606d" args="" -->
 <a class="el" href="a00089.html">uip_eth_addr</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00150.html#g499bb98a0b4ae9a98553ede81317606d">uip_ethaddr</a> = {{0,0,0,0,0,0}}</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00150.html#gb81e78f890dbbee50c533a9734b74fd9">uip_buf</a> [UIP_BUFSIZE+2]</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00150.html#gb81e78f890dbbee50c533a9734b74fd9">uip_buf</a> [UIP_BUFSIZE+2]</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">The uIP packet buffer.  <a href="#gb81e78f890dbbee50c533a9734b74fd9"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00150.html#g561b8eda32e059d4e7397f776268cc63">uip_appdata</a></td></tr>
@@ -394,7 +394,7 @@ void *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="a0
 <a class="el" href="a00153.html#g77570ac4fcab86864fa1916e55676da2">u16_t</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00150.html#g5b5615dc240daed20949c0fded2b4679">uip_slen</a></td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="gb4ef6b00924990e7a293f66715b6d1d1"></a><!-- doxytag: member="uip::uip_flags" ref="gb4ef6b00924990e7a293f66715b6d1d1" args="" -->
-<a class="el" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00150.html#gb4ef6b00924990e7a293f66715b6d1d1">uip_flags</a></td></tr>
+<a class="el" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00150.html#gb4ef6b00924990e7a293f66715b6d1d1">uip_flags</a></td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="a00088.html">uip_conn</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00150.html#g788ffac72342f6172343d7f8099cbe1a">uip_conn</a></td></tr>
 
@@ -413,7 +413,7 @@ void *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="a0
 <a class="el" href="a00095.html">uip_udp_conn</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00150.html#geb533744817cf6695d75293369c2248b">uip_udp_conns</a> [UIP_UDP_CONNS]</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="g2a0cf5d86c58fab216414ce59bf1fea1"></a><!-- doxytag: member="uip::uip_acc32" ref="g2a0cf5d86c58fab216414ce59bf1fea1" args="[4]" -->
-<a class="el" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00150.html#g2a0cf5d86c58fab216414ce59bf1fea1">uip_acc32</a> [4]</td></tr>
+<a class="el" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00150.html#g2a0cf5d86c58fab216414ce59bf1fea1">uip_acc32</a> [4]</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">4-byte array used for the 32-bit sequence number calculations. <br></td></tr>
 </table>
@@ -438,11 +438,11 @@ void *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="a0
     <td>
 
 <p>
-The buffer size available for user data in the <a class="el" href="a00150.html#gb81e78f890dbbee50c533a9734b74fd9">uip_buf</a> buffer. 
+The buffer size available for user data in the <a class="el" href="a00150.html#gb81e78f890dbbee50c533a9734b74fd9">uip_buf</a> buffer.
 <p>
 This macro holds the available size for user data in the <a class="el" href="a00150.html#gb81e78f890dbbee50c533a9734b74fd9">uip_buf</a> buffer. The macro is intended to be used for checking bounds of available user data.<p>
 Example: <div class="fragment"><pre class="fragment"> snprintf(<a class="code" href="a00150.html#g561b8eda32e059d4e7397f776268cc63">uip_appdata</a>, <a class="code" href="a00150.html#ge0825474feee11b4e038bfe71757875f">UIP_APPDATA_SIZE</a>, <span class="stringliteral">"%u\n"</span>, i);
-</pre></div> 
+</pre></div>
 <p>
 Definition at line <a class="el" href="a00202.html#l01506">1506</a> of file <a class="el" href="a00202.html">uip.h</a>.    </td>
   </tr>
@@ -473,9 +473,9 @@ Definition at line <a class="el" href="a00202.html#l01506">1506</a> of file <a c
     <td>
 
 <p>
-Convert 16-bit quantity from host byte order to network byte order. 
+Convert 16-bit quantity from host byte order to network byte order.
 <p>
-This function is primarily used for converting variables from host byte order to network byte order. For converting constants to network byte order, use the <a class="el" href="a00148.html#g69a7a4951ff21b302267532c21ee78fc">HTONS()</a> macro instead. 
+This function is primarily used for converting variables from host byte order to network byte order. For converting constants to network byte order, use the <a class="el" href="a00148.html#g69a7a4951ff21b302267532c21ee78fc">HTONS()</a> macro instead.
 <p>
 Definition at line <a class="el" href="a00201.html#l01882">1882</a> of file <a class="el" href="a00201.html">uip.c</a>.
 <p>
@@ -484,7 +484,7 @@ References <a class="el" href="a00202.html#l01070">HTONS</a>.
 Referenced by <a class="el" href="a00201.html#l00311">uip_chksum()</a>, <a class="el" href="a00201.html#l00407">uip_connect()</a>, <a class="el" href="a00201.html#l00318">uip_ipchksum()</a>, <a class="el" href="a00201.html#l00473">uip_udp_new()</a>, and <a class="el" href="a00180.html#l00140">webclient_get()</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="g6832e4d2d046536b6472f7ac92340f68"></a><!-- doxytag: member="uip.c::uip_add32" ref="g6832e4d2d046536b6472f7ac92340f68" args="(u8_t *op32, u16_t op16)" --><p>
+<a class="anchor" name="g6832e4d2d046536b6472f7ac92340f68"></a><!-- doxytag: member="uip.c::uip_add32" ref="g6832e4d2d046536b6472f7ac92340f68" args="(uint8_t *op32, u16_t op16)" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -492,7 +492,7 @@ Referenced by <a class="el" href="a00201.html#l00311">uip_chksum()</a>, <a class
         <tr>
           <td class="md" nowrap valign="top">void uip_add32           </td>
           <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top"><a class="el" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a> *&nbsp;</td>
+          <td class="md" nowrap valign="top"><a class="el" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a> *&nbsp;</td>
           <td class="mdname" nowrap> <em>op32</em>, </td>
         </tr>
         <tr>
@@ -518,7 +518,7 @@ Referenced by <a class="el" href="a00201.html#l00311">uip_chksum()</a>, <a class
     <td>
 
 <p>
-Carry out a 32-bit addition. 
+Carry out a 32-bit addition.
 <p>
 Because not all architectures for which uIP is intended has native 32-bit arithmetic, uIP uses an external C function for doing the required 32-bit additions in the TCP protocol processing. This function should add the two arguments and place the result in the global variable uip_acc32.<p>
 <dl compact><dt><b>Note:</b></dt><dd>The 32-bit integer pointed to by the op32 parameter and the result in the uip_acc32 variable are in network byte order (big endian).</dd></dl>
@@ -569,7 +569,7 @@ Referenced by <a class="el" href="a00199.html#l00049">uip_split_output()</a>.   
     <td>
 
 <p>
-Calculate the Internet checksum over a buffer. 
+Calculate the Internet checksum over a buffer.
 <p>
 The Internet checksum is the one's complement of the one's complement sum of all 16-bit words in the buffer.<p>
 See RFC1071.<p>
@@ -621,7 +621,7 @@ References <a class="el" href="a00201.html#l01882">htons()</a>.    </td>
     <td>
 
 <p>
-Connect to a remote host using TCP. 
+Connect to a remote host using TCP.
 <p>
 This function is used to start a new connection to the specified port on the specied host. It allocates a new connection identifier, sets the connection to the SYN_SENT state and sets the retransmission timer to 0. This will cause a TCP SYN segment to be sent out the next time this connection is periodically processed, which usually is done within 0.5 seconds after the call to <a class="el" href="a00147.html#g8096b0c4b543dc408f4dd031ddae7240">uip_connect()</a>.<p>
 <dl compact><dt><b>Note:</b></dt><dd>This function is avaliable only if support for active open has been configured by defining UIP_ACTIVE_OPEN to 1 in <a class="el" href="a00140.html">uipopt.h</a>.<p>
@@ -672,9 +672,9 @@ Referenced by <a class="el" href="a00174.html#l00233">smtp_send()</a>, and <a cl
     <td>
 
 <p>
-uIP initialization function. 
+uIP initialization function.
 <p>
-This function should be called at boot up to initilize the uIP TCP/IP stack. 
+This function should be called at boot up to initilize the uIP TCP/IP stack.
 <p>
 Definition at line <a class="el" href="a00201.html#l00379">379</a> of file <a class="el" href="a00201.html">uip.c</a>.
 <p>
@@ -706,7 +706,7 @@ References <a class="el" href="a00206.html#l00259">UIP_LISTENPORTS</a>.    </td>
     <td>
 
 <p>
-Calculate the IP header checksum of the packet header in uip_buf. 
+Calculate the IP header checksum of the packet header in uip_buf.
 <p>
 The IP header checksum is the Internet checksum of the 20 bytes of the IP header.<p>
 <dl compact><dt><b>Returns:</b></dt><dd>The IP header checksum of the IP header in the uip_buf buffer. </dd></dl>
@@ -744,7 +744,7 @@ Referenced by <a class="el" href="a00201.html#l00682">uip_process()</a>, and <a 
     <td>
 
 <p>
-Start listening to the specified port. 
+Start listening to the specified port.
 <p>
 <dl compact><dt><b>Note:</b></dt><dd>Since this function expects the port number in network byte order, a conversion using <a class="el" href="a00148.html#g69a7a4951ff21b302267532c21ee78fc">HTONS()</a> or <a class="el" href="a00148.html#ga22b04cac8cf283ca12f028578bebc06">htons()</a> is necessary.</dd></dl>
 <div class="fragment"><pre class="fragment"> <a class="code" href="a00147.html#gdd1ab3704ecd4900eec61a6897d32dc8">uip_listen</a>(<a class="code" href="a00148.html#g69a7a4951ff21b302267532c21ee78fc">HTONS</a>(80));
@@ -797,7 +797,7 @@ Referenced by <a class="el" href="a00170.html#l00041">hello_world_init()</a>, an
     <td>
 
 <p>
-Send data on the current connection. 
+Send data on the current connection.
 <p>
 This function is used to send out a single segment of TCP data. Only applications that have been invoked by uIP for event processing can send data.<p>
 The amount of data that actually is sent out after a call to this funcion is determined by the maximum amount of data TCP allows. uIP will automatically crop the data so that only the appropriate amount of data is sent. The function <a class="el" href="a00147.html#gb5fecbc62edd128012cea0f47b57ab9f">uip_mss()</a> can be used to query uIP for the amount of data that actually will be sent.<p>
@@ -840,9 +840,9 @@ References <a class="el" href="a00201.html#l00145">uip_sappdata</a>, and <a clas
     <td>
 
 <p>
-uIP initialization function. 
+uIP initialization function.
 <p>
-This function may be used at boot time to set the initial ip_id. 
+This function may be used at boot time to set the initial ip_id.
 <p>
 Definition at line <a class="el" href="a00201.html#l00181">181</a> of file <a class="el" href="a00201.html">uip.c</a>.    </td>
   </tr>
@@ -872,7 +872,7 @@ Definition at line <a class="el" href="a00201.html#l00181">181</a> of file <a cl
     <td>
 
 <p>
-Calculate the TCP checksum of the packet in uip_buf and uip_appdata. 
+Calculate the TCP checksum of the packet in uip_buf and uip_appdata.
 <p>
 The TCP checksum is the Internet checksum of data contents of the TCP segment, and a pseudo-header as defined in RFC793.<p>
 <dl compact><dt><b>Returns:</b></dt><dd>The TCP checksum of the TCP segment in uip_buf and pointed to by uip_appdata. </dd></dl>
@@ -919,12 +919,12 @@ Referenced by <a class="el" href="a00199.html#l00049">uip_split_output()</a>.   
     <td>
 
 <p>
-Set up a new UDP connection. 
+Set up a new UDP connection.
 <p>
 This function sets up a new UDP connection. The function will automatically allocate an unused local port for the new connection. However, another port can be chosen by using the <a class="el" href="a00147.html#ga20812098a4663c8a9fc4ce8e95391b6">uip_udp_bind()</a> call, after the <a class="el" href="a00147.html#g79c4110211247df3fb30b8cf1c4c02af">uip_udp_new()</a> function has been called.<p>
 Example: <div class="fragment"><pre class="fragment"> <a class="code" href="a00150.html#g1ef35301f43a5bbb9f89f07b5a36b9a0">uip_ipaddr_t</a> addr;
  <span class="keyword">struct </span><a class="code" href="a00095.html">uip_udp_conn</a> *c;
- 
+
  <a class="code" href="a00148.html#g87f0b54ade0d159fba495089128a4932">uip_ipaddr</a>(&amp;addr, 192,168,2,1);
  c = <a class="code" href="a00147.html#g79c4110211247df3fb30b8cf1c4c02af">uip_udp_new</a>(&amp;addr, <a class="code" href="a00148.html#g69a7a4951ff21b302267532c21ee78fc">HTONS</a>(12345));
  <span class="keywordflow">if</span>(c != <a class="code" href="a00160.html#g070d2ce7b6bb7e5c05602aa8c308d0c4">NULL</a>) {
@@ -971,7 +971,7 @@ Referenced by <a class="el" href="a00172.html#l00438">resolv_conf()</a>.    </td
     <td>
 
 <p>
-Calculate the UDP checksum of the packet in uip_buf and uip_appdata. 
+Calculate the UDP checksum of the packet in uip_buf and uip_appdata.
 <p>
 The UDP checksum is the Internet checksum of data contents of the UDP segment, and a pseudo-header as defined in RFC768.<p>
 <dl compact><dt><b>Returns:</b></dt><dd>The UDP checksum of the UDP segment in uip_buf and pointed to by uip_appdata. </dd></dl>
@@ -1005,7 +1005,7 @@ Referenced by <a class="el" href="a00201.html#l00682">uip_process()</a>.    </td
     <td>
 
 <p>
-Stop listening to the specified port. 
+Stop listening to the specified port.
 <p>
 <dl compact><dt><b>Note:</b></dt><dd>Since this function expects the port number in network byte order, a conversion using <a class="el" href="a00148.html#g69a7a4951ff21b302267532c21ee78fc">HTONS()</a> or <a class="el" href="a00148.html#ga22b04cac8cf283ca12f028578bebc06">htons()</a> is necessary.</dd></dl>
 <div class="fragment"><pre class="fragment"> <a class="code" href="a00147.html#gaa585784b0914cac1d37f07f85457008">uip_unlisten</a>(<a class="code" href="a00148.html#g69a7a4951ff21b302267532c21ee78fc">HTONS</a>(80));
@@ -1043,9 +1043,9 @@ References <a class="el" href="a00206.html#l00259">UIP_LISTENPORTS</a>.    </td>
     <td>
 
 <p>
-Pointer to the application data in the packet buffer. 
+Pointer to the application data in the packet buffer.
 <p>
-This pointer points to the application data when the application is called. If the application wishes to send data, the application may use this space to write the data into before calling <a class="el" href="a00147.html#g04b053a623aac7cd4195157d470661b3">uip_send()</a>. 
+This pointer points to the application data when the application is called. If the application wishes to send data, the application may use this space to write the data into before calling <a class="el" href="a00147.html#g04b053a623aac7cd4195157d470661b3">uip_send()</a>.
 <p>
 Definition at line <a class="el" href="a00201.html#l00143">143</a> of file <a class="el" href="a00201.html">uip.c</a>.
 <p>
@@ -1072,7 +1072,7 @@ Referenced by <a class="el" href="a00201.html#l00682">uip_process()</a>, and <a 
     <td>
 
 <p>
-Pointer to the application data in the packet buffer. 
+Pointer to the application data in the packet buffer.
 <p>
 This pointer points to the application data when the application is called. If the application wishes to send data, the application may use this space to write the data into before calling <a class="el" href="a00147.html#g04b053a623aac7cd4195157d470661b3">uip_send()</a>. <dl compact><dt><b>Examples: </b></dt><dd>
 <a class="el" href="a00048.html#a9">dhcpc.c</a>, <a class="el" href="a00046.html#a136">resolv.c</a>, <a class="el" href="a00044.html#a224">telnetd.c</a>, and <a class="el" href="a00040.html#a275">webclient.c</a>.</dl>
@@ -1088,7 +1088,7 @@ Referenced by <a class="el" href="a00201.html#l00682">uip_process()</a>, and <a 
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top"><a class="el" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a> <a class="el" href="a00150.html#gb81e78f890dbbee50c533a9734b74fd9">uip_buf</a>[UIP_BUFSIZE+2]          </td>
+          <td class="md" nowrap valign="top"><a class="el" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a> <a class="el" href="a00150.html#gb81e78f890dbbee50c533a9734b74fd9">uip_buf</a>[UIP_BUFSIZE+2]          </td>
         </tr>
       </table>
     </td>
@@ -1102,7 +1102,7 @@ Referenced by <a class="el" href="a00201.html#l00682">uip_process()</a>, and <a 
     <td>
 
 <p>
-The uIP packet buffer. 
+The uIP packet buffer.
 <p>
 The uip_buf array is used to hold incoming and outgoing packets. The device driver should place incoming data into this buffer. When sending data, the device driver should read the link level headers and the TCP/IP headers from this buffer. The size of the link level headers is configured by the UIP_LLH_LEN define.<p>
 <dl compact><dt><b>Note:</b></dt><dd>The application data need not be placed in this buffer, so the device driver must read it from the place pointed to by the uip_appdata pointer as illustrated by the following example: <div class="fragment"><pre class="fragment"> <span class="keywordtype">void</span>
@@ -1144,9 +1144,9 @@ Referenced by <a class="el" href="a00201.html#l00682">uip_process()</a>.    </td
     <td>
 
 <p>
-Pointer to the current TCP connection. 
+Pointer to the current TCP connection.
 <p>
-The <a class="el" href="a00088.html">uip_conn</a> pointer can be used to access the current TCP connection. 
+The <a class="el" href="a00088.html">uip_conn</a> pointer can be used to access the current TCP connection.
 <p>
 Definition at line <a class="el" href="a00201.html#l00163">163</a> of file <a class="el" href="a00201.html">uip.c</a>.
 <p>
@@ -1173,7 +1173,7 @@ Referenced by <a class="el" href="a00201.html#l00407">uip_connect()</a>.    </td
     <td>
 
 <p>
-Pointer to the current TCP connection. 
+Pointer to the current TCP connection.
 <p>
 The <a class="el" href="a00088.html">uip_conn</a> pointer can be used to access the current TCP connection. <dl compact><dt><b>Examples: </b></dt><dd>
 <a class="el" href="a00036.html#a105">hello-world.c</a>, <a class="el" href="a00038.html#a189">smtp.c</a>, and <a class="el" href="a00040.html#a269">webclient.c</a>.</dl>
@@ -1203,11 +1203,11 @@ Referenced by <a class="el" href="a00201.html#l00407">uip_connect()</a>.    </td
     <td>
 
 <p>
-The length of the packet in the uip_buf buffer. 
+The length of the packet in the uip_buf buffer.
 <p>
 The global variable uip_len holds the length of the packet in the uip_buf buffer.<p>
 When the network device driver calls the uIP input function, uip_len should be set to the length of the packet in the uip_buf buffer.<p>
-When sending packets, the device driver should use the contents of the uip_len variable to determine the length of the outgoing packet. 
+When sending packets, the device driver should use the contents of the uip_len variable to determine the length of the outgoing packet.
 <p>
 Definition at line <a class="el" href="a00201.html#l00155">155</a> of file <a class="el" href="a00201.html">uip.c</a>.
 <p>
@@ -1234,9 +1234,9 @@ Referenced by <a class="el" href="a00204.html#l00278">uip_arp_arpin()</a>, <a cl
     <td>
 
 <p>
-The uIP TCP/IP statistics. 
+The uIP TCP/IP statistics.
 <p>
-This is the variable in which the uIP TCP/IP statistics are gathered. 
+This is the variable in which the uIP TCP/IP statistics are gathered.
 <p>
 Referenced by <a class="el" href="a00201.html#l00682">uip_process()</a>.    </td>
   </tr>

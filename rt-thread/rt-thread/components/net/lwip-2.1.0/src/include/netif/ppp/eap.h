@@ -125,7 +125,7 @@ struct eap_auth {
 	u_char ea_requests;	/* Number of Requests sent/received */
 	u_char ea_responses;	/* Number of Responses */
 	u_char ea_type;		/* One of EAPT_* */
-	u32_t ea_keyflags;	/* SRP shared key usage flags */
+	uint32_t ea_keyflags;	/* SRP shared key usage flags */
 };
 
 #ifndef EAP_MAX_CHALLENGE_LENGTH
@@ -139,7 +139,7 @@ typedef struct eap_state {
 	int es_savedtime;		/* Saved timeout */
 	int es_rechallenge;		/* EAP rechallenge interval */
 	int es_lwrechallenge;		/* SRP lightweight rechallenge inter */
-	u8_t es_usepseudo;		/* Use SRP Pseudonym if offered one */
+	uint8_t es_usepseudo;		/* Use SRP Pseudonym if offered one */
 	int es_usedpseudo;		/* Set if we already sent PN */
 	int es_challen;			/* Length of challenge string */
 	u_char es_challenge[EAP_MAX_CHALLENGE_LENGTH];

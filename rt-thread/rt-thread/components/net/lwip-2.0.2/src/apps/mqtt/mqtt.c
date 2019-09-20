@@ -142,11 +142,11 @@ static const char * const mqtt_message_type_str[15] =
 /**
  * Message type value to string
  * @param msg_type see enum mqtt_message_type
- * 
+ *
  * @return Control message type text string
  */
 static const char *
-mqtt_msg_type_to_str(u8_t msg_type)
+mqtt_msg_type_to_str(uint8_t msg_type)
 {
   if (msg_type >= LWIP_ARRAYSIZE(mqtt_message_type_str)) {
     msg_type = 0;
@@ -205,7 +205,7 @@ static void
 mqtt_output_send(struct mqtt_ringbuf_t *rb, struct tcp_pcb *tpcb)
 {
   err_t err;
-  u8_t wrap = 0;
+  uint8_t wrap = 0;
   u16_t ringbuf_lin_len = mqtt_ringbuf_linear_read_length(rb);
   u16_t send_len = tcp_sndbuf(tpcb);
   LWIP_ASSERT("mqtt_output_send: tpcb != NULL", tpcb != NULL);
@@ -257,7 +257,7 @@ static struct mqtt_request_t *
 mqtt_create_request(struct mqtt_request_t *r_objs, u16_t pkt_id, mqtt_request_cb_t cb, void *arg)
 {
   struct mqtt_request_t *r = NULL;
-  u8_t n;
+  uint8_t n;
   LWIP_ASSERT("mqtt_create_request: r_objs != NULL", r_objs != NULL);
   for (n = 0; n < MQTT_REQ_MAX_IN_FLIGHT; n++) {
     /* Item point to itself if not in use */
@@ -358,13 +358,13 @@ mqtt_take_request(struct mqtt_request_t **tail, u16_t pkt_id)
  * @param t Time since last call in seconds
  */
 static void
-mqtt_request_time_elapsed(struct mqtt_request_t **tail, u8_t t)
+mqtt_request_time_elapsed(struct mqtt_request_t **tail, uint8_t t)
 {
   struct mqtt_request_t *r = *tail;
   LWIP_ASSERT("mqtt_request_time_elapsed: tail != NULL", tail != NULL);
   while (t > 0 && r != NULL) {
     if (t >= r->timeout_diff) {
-      t -= (u8_t)r->timeout_diff;
+      t -= (uint8_t)r->timeout_diff;
       /* Unchain */
       *tail = r->next;
       /* Notify upper layer about timeout */
@@ -403,7 +403,7 @@ mqtt_clear_requests(struct mqtt_request_t **tail)
 static void
 mqtt_init_requests(struct mqtt_request_t *r_objs)
 {
-  u8_t n;
+  uint8_t n;
   LWIP_ASSERT("mqtt_init_requests: r_objs != NULL", r_objs != NULL);
   for (n = 0; n < MQTT_REQ_MAX_IN_FLIGHT; n++) {
     /* Item pointing to itself indicates unused */
@@ -416,7 +416,7 @@ mqtt_init_requests(struct mqtt_request_t *r_objs)
 
 
 static void
-mqtt_output_append_u8(struct mqtt_ringbuf_t *rb, u8_t value)
+mqtt_output_append_u8(struct mqtt_ringbuf_t *rb, uint8_t value)
 {
   mqtt_ringbuf_put(rb, value);
 }
@@ -433,7 +433,7 @@ mqtt_output_append_buf(struct mqtt_ringbuf_t *rb, const void *data, u16_t length
 {
   u16_t n;
   for (n = 0; n < length; n++) {
-    mqtt_ringbuf_put(rb, ((const u8_t *)data)[n]);
+    mqtt_ringbuf_put(rb, ((const uint8_t *)data)[n]);
   }
 }
 
@@ -459,8 +459,8 @@ mqtt_output_append_string(struct mqtt_ringbuf_t *rb, const char *str, u16_t leng
  */
 
 static void
-mqtt_output_append_fixed_header(struct mqtt_ringbuf_t *rb, u8_t msg_type, u8_t dup,
-                 u8_t qos, u8_t retain, u16_t r_length)
+mqtt_output_append_fixed_header(struct mqtt_ringbuf_t *rb, uint8_t msg_type, uint8_t dup,
+                 uint8_t qos, uint8_t retain, u16_t r_length)
 {
   /* Start with control byte */
   mqtt_output_append_u8(rb, (((msg_type & 0x0f) << 4) | ((dup & 1) << 3) | ((qos & 3) << 1) | (retain & 1)));
@@ -478,7 +478,7 @@ mqtt_output_append_fixed_header(struct mqtt_ringbuf_t *rb, u8_t msg_type, u8_t d
  * @param r_length Remaining length after fixed header
  * @return 1 if message will fit, 0 if not enough buffer space
  */
-static u8_t
+static uint8_t
 mqtt_output_check_space(struct mqtt_ringbuf_t *rb, u16_t r_length)
 {
   /* Start with length of type byte + remaining length */
@@ -543,7 +543,7 @@ mqtt_close(mqtt_client_t *client, mqtt_connection_status_t reason)
 static void
 mqtt_cyclic_timer(void *arg)
 {
-  u8_t restart_timer = 1;
+  uint8_t restart_timer = 1;
   mqtt_client_t *client = (mqtt_client_t *)arg;
   LWIP_ASSERT("mqtt_cyclic_timer: client != NULL", client != NULL);
 
@@ -600,7 +600,7 @@ mqtt_cyclic_timer(void *arg)
  * @return ERR_OK if successful, ERR_MEM if out of memory
  */
 static err_t
-pub_ack_rec_rel_response(mqtt_client_t *client, u8_t msg, u16_t pkt_id, u8_t qos)
+pub_ack_rec_rel_response(mqtt_client_t *client, uint8_t msg, u16_t pkt_id, uint8_t qos)
 {
   err_t err = ERR_OK;
   if (mqtt_output_check_space(&client->output, 2)) {
@@ -621,7 +621,7 @@ pub_ack_rec_rel_response(mqtt_client_t *client, u8_t msg, u16_t pkt_id, u8_t qos
  * @param result Result code from server
  */
 static void
-mqtt_incomming_suback(struct mqtt_request_t *r, u8_t result)
+mqtt_incomming_suback(struct mqtt_request_t *r, uint8_t result)
 {
   if (r->cb != NULL) {
     r->cb(r->arg, result < 3 ? ERR_OK : ERR_ABRT);
@@ -637,14 +637,14 @@ mqtt_incomming_suback(struct mqtt_request_t *r, u8_t result)
  * @param remaining_length Remaining length of complete message
  */
 static mqtt_connection_status_t
-  mqtt_message_received(mqtt_client_t *client, u8_t fixed_hdr_idx, u16_t length, u32_t remaining_length)
+  mqtt_message_received(mqtt_client_t *client, uint8_t fixed_hdr_idx, u16_t length, uint32_t remaining_length)
 {
   mqtt_connection_status_t res = MQTT_CONNECT_ACCEPTED;
 
-  u8_t *var_hdr_payload = client->rx_buffer + fixed_hdr_idx;
+  uint8_t *var_hdr_payload = client->rx_buffer + fixed_hdr_idx;
 
   /* Control packet type */
-  u8_t pkt_type = MQTT_CTL_PACKET_TYPE(client->rx_buffer[0]);
+  uint8_t pkt_type = MQTT_CTL_PACKET_TYPE(client->rx_buffer[0]);
   u16_t pkt_id = 0;
 
   if (pkt_type == MQTT_MSG_TYPE_CONNACK) {
@@ -670,13 +670,13 @@ static mqtt_connection_status_t
   } else if (pkt_type == MQTT_MSG_TYPE_PUBLISH) {
     u16_t payload_offset = 0;
     u16_t payload_length = length;
-    u8_t qos = MQTT_CTL_PACKET_QOS(client->rx_buffer[0]);
+    uint8_t qos = MQTT_CTL_PACKET_QOS(client->rx_buffer[0]);
 
     if (client->msg_idx <= MQTT_VAR_HEADER_BUFFER_LEN) {
       /* Should have topic and pkt id*/
       uint8_t *topic;
       uint16_t after_topic;
-      u8_t bkp;
+      uint8_t bkp;
       u16_t topic_len = var_hdr_payload[0];
       topic_len = (topic_len << 8) + (u16_t)(var_hdr_payload[1]);
 
@@ -716,7 +716,7 @@ static mqtt_connection_status_t
       /* Reply if QoS > 0 */
       if (remaining_length == 0 && qos > 0) {
         /* Send PUBACK for QoS 1 or PUBREC for QoS 2 */
-        u8_t resp_msg = (qos == 1) ? MQTT_MSG_TYPE_PUBACK : MQTT_MSG_TYPE_PUBREC;
+        uint8_t resp_msg = (qos == 1) ? MQTT_MSG_TYPE_PUBACK : MQTT_MSG_TYPE_PUBREC;
         LWIP_DEBUGF(MQTT_DEBUG_TRACE,("mqtt_incomming_publish: Sending publish response: %s with pkt_id: %d\n",
                                       mqtt_msg_type_to_str(resp_msg), client->inpub_pkt_id));
         pub_ack_rec_rel_response(client, resp_msg, client->inpub_pkt_id, 0);
@@ -778,9 +778,9 @@ static mqtt_connection_status_t
 mqtt_parse_incoming(mqtt_client_t *client, struct pbuf *p)
 {
   u16_t in_offset = 0;
-  u32_t msg_rem_len = 0;
-  u8_t fixed_hdr_idx = 0;
-  u8_t b = 0;
+  uint32_t msg_rem_len = 0;
+  uint8_t fixed_hdr_idx = 0;
+  uint8_t b = 0;
 
   while (p->tot_len > in_offset) {
     if ((fixed_hdr_idx < 2) || ((b & 0x80) != 0)) {
@@ -794,7 +794,7 @@ mqtt_parse_incoming(mqtt_client_t *client, struct pbuf *p)
       fixed_hdr_idx++;
 
       if (fixed_hdr_idx >= 2) {
-        msg_rem_len |= (u32_t)(b & 0x7f) << ((fixed_hdr_idx - 2) * 7);
+        msg_rem_len |= (uint32_t)(b & 0x7f) << ((fixed_hdr_idx - 2) * 7);
         if ((b & 0x80) == 0) {
           LWIP_DEBUGF(MQTT_DEBUG_TRACE,("mqtt_parse_incoming: Remaining length after fixed header: %d\n", msg_rem_len));
           if (msg_rem_len == 0) {
@@ -1021,7 +1021,7 @@ mqtt_tcp_connect_cb(void *arg, struct tcp_pcb *tpcb, err_t err)
  *         ERR_MEM if short on memory
  */
 err_t
-mqtt_publish(mqtt_client_t *client, const char *topic, const void *payload, u16_t payload_length, u8_t qos, u8_t retain,
+mqtt_publish(mqtt_client_t *client, const char *topic, const void *payload, u16_t payload_length, uint8_t qos, uint8_t retain,
              mqtt_request_cb_t cb, void *arg)
 {
   struct mqtt_request_t *r;
@@ -1096,7 +1096,7 @@ mqtt_publish(mqtt_client_t *client, const char *topic, const void *payload, u16_
  * @return ERR_OK if successful, @see err_t enum for other results
  */
 err_t
-mqtt_sub_unsub(mqtt_client_t *client, const char *topic, u8_t qos, mqtt_request_cb_t cb, void *arg, u8_t sub)
+mqtt_sub_unsub(mqtt_client_t *client, const char *topic, uint8_t qos, mqtt_request_cb_t cb, void *arg, uint8_t sub)
 {
   size_t topic_strlen;
   size_t total_len;
@@ -1205,7 +1205,7 @@ mqtt_client_connect(mqtt_client_t *client, const ip_addr_t *ip_addr, u16_t port,
   u16_t client_id_length;
   /* Length is the sum of 2+"MQTT", protocol level, flags and keep alive */
   u16_t remaining_length = 2 + 4 + 1 + 1 + 2;
-  u8_t flags = 0, will_topic_len = 0, will_msg_len = 0;
+  uint8_t flags = 0, will_topic_len = 0, will_msg_len = 0;
 
   LWIP_ASSERT("mqtt_client_connect: client != NULL", client != NULL);
   LWIP_ASSERT("mqtt_client_connect: ip_addr != NULL", ip_addr != NULL);
@@ -1234,10 +1234,10 @@ mqtt_client_connect(mqtt_client_t *client, const ip_addr_t *ip_addr, u16_t port,
     len = strlen(client_info->will_topic);
     LWIP_ERROR("mqtt_client_connect: client_info->will_topic length overflow", len <= 0xFF, return ERR_VAL);
     LWIP_ERROR("mqtt_client_connect: client_info->will_topic length must be > 0", len > 0, return ERR_VAL);
-    will_topic_len = (u8_t)len;
+    will_topic_len = (uint8_t)len;
     len = strlen(client_info->will_msg);
     LWIP_ERROR("mqtt_client_connect: client_info->will_msg length overflow", len <= 0xFF, return ERR_VAL);
-    will_msg_len = (u8_t)len;
+    will_msg_len = (uint8_t)len;
     len = remaining_length + 2 + will_topic_len + 2 + will_msg_len;
     LWIP_ERROR("mqtt_client_connect: remaining_length overflow", len <= 0xFFFF, return ERR_VAL);
     remaining_length = (u16_t)len;
@@ -1331,7 +1331,7 @@ mqtt_disconnect(mqtt_client_t *client)
  * @param client MQTT client
  * @return 1 if connected to server, 0 otherwise
  */
-u8_t
+uint8_t
 mqtt_client_is_connected(mqtt_client_t *client)
 {
   LWIP_ASSERT("mqtt_client_is_connected: client != NULL", client);

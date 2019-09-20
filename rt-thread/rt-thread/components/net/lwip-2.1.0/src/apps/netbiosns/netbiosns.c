@@ -117,11 +117,11 @@ PACK_STRUCT_END
 #endif
 PACK_STRUCT_BEGIN
 struct netbios_name_hdr {
-  PACK_STRUCT_FLD_8(u8_t  nametype);
-  PACK_STRUCT_FLD_8(u8_t  encname[(NETBIOS_NAME_LEN * 2) + 1]);
+  PACK_STRUCT_FLD_8(uint8_t  nametype);
+  PACK_STRUCT_FLD_8(uint8_t  encname[(NETBIOS_NAME_LEN * 2) + 1]);
   PACK_STRUCT_FIELD(u16_t type);
   PACK_STRUCT_FIELD(u16_t cls);
-  PACK_STRUCT_FIELD(u32_t ttl);
+  PACK_STRUCT_FIELD(uint32_t ttl);
   PACK_STRUCT_FIELD(u16_t datalen);
   PACK_STRUCT_FIELD(u16_t flags);
   PACK_STRUCT_FLD_S(ip4_addr_p_t addr);
@@ -153,26 +153,26 @@ PACK_STRUCT_BEGIN
 struct netbios_answer {
   struct netbios_hdr      answer_hdr;
   /** the length of the next string */
-  PACK_STRUCT_FIELD(u8_t  name_size);
+  PACK_STRUCT_FIELD(uint8_t  name_size);
   /** WARNING!!! this item may be of a different length (we use this struct for transmission) */
-  PACK_STRUCT_FLD_8(u8_t  query_name[(NETBIOS_NAME_LEN * 2) + 1]);
+  PACK_STRUCT_FLD_8(uint8_t  query_name[(NETBIOS_NAME_LEN * 2) + 1]);
   PACK_STRUCT_FIELD(u16_t packet_type);
   PACK_STRUCT_FIELD(u16_t cls);
-  PACK_STRUCT_FIELD(u32_t ttl);
+  PACK_STRUCT_FIELD(uint32_t ttl);
   PACK_STRUCT_FIELD(u16_t data_length);
 #define OFFSETOF_STRUCT_NETBIOS_ANSWER_NUMBER_OF_NAMES 56
   /** number of names */
-  PACK_STRUCT_FLD_8(u8_t  number_of_names);
+  PACK_STRUCT_FLD_8(uint8_t  number_of_names);
   /** node name */
-  PACK_STRUCT_FLD_8(u8_t  answer_name[NETBIOS_NAME_LEN]);
+  PACK_STRUCT_FLD_8(uint8_t  answer_name[NETBIOS_NAME_LEN]);
   /** node flags */
   PACK_STRUCT_FIELD(u16_t answer_name_flags);
   /** Unit ID */
-  PACK_STRUCT_FLD_8(u8_t  unit_id[6]);
+  PACK_STRUCT_FLD_8(uint8_t  unit_id[6]);
   /** Jumpers */
-  PACK_STRUCT_FLD_8(u8_t  jumpers);
+  PACK_STRUCT_FLD_8(uint8_t  jumpers);
   /** Test result */
-  PACK_STRUCT_FLD_8(u8_t  test_result);
+  PACK_STRUCT_FLD_8(uint8_t  test_result);
   /** Version number */
   PACK_STRUCT_FIELD(u16_t version_number);
   /** Period of statistics */
@@ -186,9 +186,9 @@ struct netbios_answer {
   /** Statistics */
   PACK_STRUCT_FIELD(u16_t number_of_send_aborts);
   /** Statistics */
-  PACK_STRUCT_FIELD(u32_t number_of_good_sends);
+  PACK_STRUCT_FIELD(uint32_t number_of_good_sends);
   /** Statistics */
-  PACK_STRUCT_FIELD(u32_t number_of_good_receives);
+  PACK_STRUCT_FIELD(uint32_t number_of_good_receives);
   /** Statistics */
   PACK_STRUCT_FIELD(u16_t number_of_retransmits);
   /** Statistics */

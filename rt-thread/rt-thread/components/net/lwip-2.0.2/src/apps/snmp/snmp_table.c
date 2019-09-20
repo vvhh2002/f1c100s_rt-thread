@@ -43,7 +43,7 @@
 #include "lwip/apps/snmp_table.h"
 #include <string.h>
 
-snmp_err_t snmp_table_get_instance(const u32_t *root_oid, u8_t root_oid_len, struct snmp_node_instance* instance)
+snmp_err_t snmp_table_get_instance(const uint32_t *root_oid, uint8_t root_oid_len, struct snmp_node_instance* instance)
 {
   snmp_err_t ret = SNMP_ERR_NOSUCHINSTANCE;
   const struct snmp_table_node* table_node = (const struct snmp_table_node*)(const void*)instance->node;
@@ -61,7 +61,7 @@ snmp_err_t snmp_table_get_instance(const u32_t *root_oid, u8_t root_oid_len, str
       if (col_def->index == instance->instance_oid.id[1]) {
         break;
       }
-      
+
       col_def++;
       i--;
     }
@@ -85,12 +85,12 @@ snmp_err_t snmp_table_get_instance(const u32_t *root_oid, u8_t root_oid_len, str
   return ret;
 }
 
-snmp_err_t snmp_table_get_next_instance(const u32_t *root_oid, u8_t root_oid_len, struct snmp_node_instance* instance)
+snmp_err_t snmp_table_get_next_instance(const uint32_t *root_oid, uint8_t root_oid_len, struct snmp_node_instance* instance)
 {
   const struct snmp_table_node* table_node = (const struct snmp_table_node*)(const void*)instance->node;
   const struct snmp_table_col_def* col_def;
   struct snmp_obj_id row_oid;
-  u32_t column = 0;
+  uint32_t column = 0;
   snmp_err_t result;
 
   LWIP_UNUSED_ARG(root_oid);
@@ -161,7 +161,7 @@ snmp_err_t snmp_table_get_next_instance(const u32_t *root_oid, u8_t root_oid_len
 }
 
 
-snmp_err_t snmp_table_simple_get_instance(const u32_t *root_oid, u8_t root_oid_len, struct snmp_node_instance* instance)
+snmp_err_t snmp_table_simple_get_instance(const uint32_t *root_oid, uint8_t root_oid_len, struct snmp_node_instance* instance)
 {
   snmp_err_t ret = SNMP_ERR_NOSUCHINSTANCE;
   const struct snmp_table_simple_node* table_node = (const struct snmp_table_simple_node*)(const void*)instance->node;
@@ -182,7 +182,7 @@ snmp_err_t snmp_table_simple_get_instance(const u32_t *root_oid, u8_t root_oid_l
     if (ret == SNMP_ERR_NOERROR) {
       /* search column */
       const struct snmp_table_simple_col_def* col_def = table_node->columns;
-      u32_t i = table_node->column_count;
+      uint32_t i = table_node->column_count;
       while (i > 0) {
         if (col_def->index == instance->instance_oid.id[1]) {
           break;
@@ -212,24 +212,24 @@ snmp_err_t snmp_table_simple_get_instance(const u32_t *root_oid, u8_t root_oid_l
           default:
             LWIP_DEBUGF(SNMP_DEBUG, ("snmp_table_simple_get_instance(): unknown column data_type: %d\n", col_def->data_type));
             return SNMP_ERR_GENERROR;
-        }        
+        }
 
         ret = SNMP_ERR_NOERROR;
       } else {
         ret = SNMP_ERR_NOSUCHINSTANCE;
       }
-    } 
+    }
   }
 
   return ret;
 }
 
-snmp_err_t snmp_table_simple_get_next_instance(const u32_t *root_oid, u8_t root_oid_len, struct snmp_node_instance* instance)
+snmp_err_t snmp_table_simple_get_next_instance(const uint32_t *root_oid, uint8_t root_oid_len, struct snmp_node_instance* instance)
 {
   const struct snmp_table_simple_node* table_node = (const struct snmp_table_simple_node*)(const void*)instance->node;
   const struct snmp_table_simple_col_def* col_def;
   struct snmp_obj_id row_oid;
-  u32_t column = 0;
+  uint32_t column = 0;
   snmp_err_t result;
 
   LWIP_UNUSED_ARG(root_oid);
@@ -250,7 +250,7 @@ snmp_err_t snmp_table_simple_get_next_instance(const u32_t *root_oid, u8_t root_
 
   /* resolve column and value */
   do {
-    u32_t i;
+    uint32_t i;
     const struct snmp_table_simple_col_def* next_col_def = NULL;
     col_def = table_node->columns;
 
@@ -328,7 +328,7 @@ snmp_table_extract_value_from_s32ref(struct snmp_node_instance* instance, void* 
 s16_t
 snmp_table_extract_value_from_u32ref(struct snmp_node_instance* instance, void* value)
 {
-  u32_t *dst = (u32_t*)value;
+  uint32_t *dst = (uint32_t*)value;
   *dst = instance->reference.u32;
   return sizeof(*dst);
 }

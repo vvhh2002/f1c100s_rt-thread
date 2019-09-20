@@ -26,7 +26,7 @@
  * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
  * IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY
  * OF SUCH DAMAGE.
- * 
+ *
  * Change Logs:
  * Date           Author       Notes
  * 2014-04-01     Ren.Haibo    the first version
@@ -107,9 +107,9 @@
 struct dhcp_client_node
 {
     struct dhcp_client_node *next;
-    u8_t chaddr[DHCP_MAX_HLEN];
+    uint8_t chaddr[DHCP_MAX_HLEN];
     ip4_addr_t ipaddr;
-    u32_t lease_end;
+    uint32_t lease_end;
 };
 
 /**
@@ -126,7 +126,7 @@ struct dhcp_server
     ip4_addr_t current;
 };
 
-static u8_t *dhcp_server_option_find(u8_t *buf, u16_t len, u8_t option);
+static uint8_t *dhcp_server_option_find(uint8_t *buf, u16_t len, uint8_t option);
 
 /**
 * The dhcp server struct list.
@@ -142,7 +142,7 @@ static struct dhcp_server *lw_dhcp_server;
 * @return dhcp client node
 */
 static struct dhcp_client_node *
-dhcp_client_find_by_mac(struct dhcp_server *dhcpserver, const u8_t *chaddr, u8_t hlen)
+dhcp_client_find_by_mac(struct dhcp_server *dhcpserver, const uint8_t *chaddr, uint8_t hlen)
 {
     struct dhcp_client_node *node;
 
@@ -191,10 +191,10 @@ dhcp_client_find_by_ip(struct dhcp_server *dhcpserver, const ip4_addr_t *ip)
 */
 static struct dhcp_client_node *
 dhcp_client_find(struct dhcp_server *dhcpserver, struct dhcp_msg *msg,
-                 u8_t *opt_buf, u16_t len)
+                 uint8_t *opt_buf, u16_t len)
 {
-    u8_t *opt;
-    //u32_t ipaddr;
+    uint8_t *opt;
+    //uint32_t ipaddr;
     struct dhcp_client_node *node;
 
     node = dhcp_client_find_by_mac(dhcpserver, msg->chaddr, msg->hlen);
@@ -226,10 +226,10 @@ dhcp_client_find(struct dhcp_server *dhcpserver, struct dhcp_msg *msg,
 */
 static struct dhcp_client_node *
 dhcp_client_alloc(struct dhcp_server *dhcpserver, struct dhcp_msg *msg,
-                  u8_t *opt_buf, u16_t len)
+                  uint8_t *opt_buf, u16_t len)
 {
-    u8_t *opt;
-    u32_t ipaddr;
+    uint8_t *opt;
+    uint32_t ipaddr;
     struct dhcp_client_node *node;
 
     node = dhcp_client_find_by_mac(dhcpserver, msg->chaddr, msg->hlen);
@@ -282,10 +282,10 @@ dhcp_alloc_again:
 * @param option Which option to find
 * @return dhcp option buffer
 */
-static u8_t *
-dhcp_server_option_find(u8_t *buf, u16_t len, u8_t option)
+static uint8_t *
+dhcp_server_option_find(uint8_t *buf, u16_t len, uint8_t option)
 {
-    u8_t *end = buf + len;
+    uint8_t *end = buf + len;
     while ((buf < end) && (*buf != DHCP_OPTION_END))
     {
         if (*buf == option)
@@ -306,13 +306,13 @@ dhcp_server_recv(void *arg, struct udp_pcb *pcb, struct pbuf *p, const ip_addr_t
     struct dhcp_server *dhcp_server = (struct dhcp_server *)arg;
     struct dhcp_msg *msg;
     struct pbuf *q;
-    u8_t *opt_buf;
-    u8_t *opt;
+    uint8_t *opt_buf;
+    uint8_t *opt;
     struct dhcp_client_node *node;
-    u8_t msg_type;
+    uint8_t msg_type;
     u16_t length;
     ip_addr_t addr = *recv_addr;
-    u32_t tmp;
+    uint32_t tmp;
 
     LWIP_DEBUGF(DHCP_DEBUG | LWIP_DBG_TRACE, ("[%s:%d] %c%c recv %d\n", __FUNCTION__, __LINE__, dhcp_server->netif->name[0], dhcp_server->netif->name[1], p->tot_len));
     /* prevent warnings about unused arguments */
@@ -362,7 +362,7 @@ dhcp_server_recv(void *arg, struct udp_pcb *pcb, struct pbuf *p, const ip_addr_t
         goto free_pbuf_and_return;
     }
 
-    opt_buf = (u8_t *)msg + DHCP_OPTIONS_OFS;
+    opt_buf = (uint8_t *)msg + DHCP_OPTIONS_OFS;
     length = q->tot_len - DHCP_OPTIONS_OFS;
     opt = dhcp_server_option_find(opt_buf, length, DHCP_OPTION_MESSAGE_TYPE);
     if (opt)
@@ -386,7 +386,7 @@ dhcp_server_recv(void *arg, struct udp_pcb *pcb, struct pbuf *p, const ip_addr_t
             msg->cookie = PP_HTONL(DHCP_MAGIC_COOKIE);
             SMEMCPY(&msg->yiaddr, &node->ipaddr, 4);
 
-            opt_buf = (u8_t *)msg + DHCP_OPTIONS_OFS;
+            opt_buf = (uint8_t *)msg + DHCP_OPTIONS_OFS;
             /* add msg type */
             *opt_buf++ = DHCP_OPTION_MESSAGE_TYPE;
             *opt_buf++ = 1;
@@ -433,7 +433,7 @@ dhcp_server_recv(void *arg, struct udp_pcb *pcb, struct pbuf *p, const ip_addr_t
             /* add option end */
             *opt_buf++ = DHCP_OPTION_END;
 
-            length = (u32_t)opt_buf - (u32_t)msg;
+            length = (uint32_t)opt_buf - (uint32_t)msg;
             if (length < q->tot_len)
             {
                 pbuf_realloc(q, length);
@@ -462,7 +462,7 @@ dhcp_server_recv(void *arg, struct udp_pcb *pcb, struct pbuf *p, const ip_addr_t
                         msg->file[0] = '\0';
                         msg->cookie = PP_HTONL(DHCP_MAGIC_COOKIE);
                         SMEMCPY(&msg->yiaddr, &node->ipaddr, 4);
-                        opt_buf = (u8_t *)msg + DHCP_OPTIONS_OFS;
+                        opt_buf = (uint8_t *)msg + DHCP_OPTIONS_OFS;
 
                         /* add msg type */
                         *opt_buf++ = DHCP_OPTION_MESSAGE_TYPE;
@@ -510,7 +510,7 @@ dhcp_server_recv(void *arg, struct udp_pcb *pcb, struct pbuf *p, const ip_addr_t
                         /* add option end */
                         *opt_buf++ = DHCP_OPTION_END;
 
-                        length = (u32_t)opt_buf - (u32_t)msg;
+                        length = (uint32_t)opt_buf - (uint32_t)msg;
                         if (length < q->tot_len)
                         {
                             pbuf_realloc(q, length);
@@ -531,7 +531,7 @@ dhcp_server_recv(void *arg, struct udp_pcb *pcb, struct pbuf *p, const ip_addr_t
                         msg->file[0] = '\0';
                         msg->cookie = PP_HTONL(DHCP_MAGIC_COOKIE);
                         memset(&msg->yiaddr, 0, 4);
-                        opt_buf = (u8_t *)msg + DHCP_OPTIONS_OFS;
+                        opt_buf = (uint8_t *)msg + DHCP_OPTIONS_OFS;
 
                         /* add msg type */
                         *opt_buf++ = DHCP_OPTION_MESSAGE_TYPE;
@@ -546,7 +546,7 @@ dhcp_server_recv(void *arg, struct udp_pcb *pcb, struct pbuf *p, const ip_addr_t
 
                         /* add option end */
                         *opt_buf++ = DHCP_OPTION_END;
-                        length = (u32_t)opt_buf - (u32_t)msg;
+                        length = (uint32_t)opt_buf - (uint32_t)msg;
                         if (length < q->tot_len)
                         {
                             pbuf_realloc(q, length);

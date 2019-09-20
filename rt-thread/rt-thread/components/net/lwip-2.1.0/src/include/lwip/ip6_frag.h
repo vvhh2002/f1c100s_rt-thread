@@ -96,18 +96,18 @@ struct ip6_reassdata {
   ip6_addr_p_t dest; /* copy of the destination address in the IP header */
   /* This buffer (for the part of the original header that we overwrite) will
    * be slightly oversized, but we cannot compute the exact size from here. */
-  u8_t orig_hdr[sizeof(struct ip6_frag_hdr) + sizeof(void*)];
+  uint8_t orig_hdr[sizeof(struct ip6_frag_hdr) + sizeof(void*)];
 #else /* IPV6_FRAG_COPYHEADER */
   /* In this case we still need the buffer, for sending ICMPv6 replies. */
-  u8_t orig_hdr[sizeof(struct ip6_frag_hdr)];
+  uint8_t orig_hdr[sizeof(struct ip6_frag_hdr)];
 #endif /* IPV6_FRAG_COPYHEADER */
-  u32_t identification;
+  uint32_t identification;
   u16_t datagram_len;
-  u8_t nexth;
-  u8_t timer;
+  uint8_t nexth;
+  uint8_t timer;
 #if LWIP_IPV6_SCOPES
-  u8_t src_zone; /* zone of original packet's source address */
-  u8_t dest_zone; /* zone of original packet's destination address */
+  uint8_t src_zone; /* zone of original packet's source address */
+  uint8_t dest_zone; /* zone of original packet's destination address */
 #endif /* LWIP_IPV6_SCOPES */
 };
 

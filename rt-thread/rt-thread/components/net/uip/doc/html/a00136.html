@@ -19,10 +19,10 @@
     <li><a href="globals.html"><span>Globals</span></a></li>
   </ul></div>
 <h1>uip/uip.h File Reference</h1><hr><a name="_details"></a><h2>Detailed Description</h2>
-Header file for the uIP TCP/IP stack. 
+Header file for the uIP TCP/IP stack.
 <p>
 <dl compact><dt><b>Author:</b></dt><dd>Adam Dunkels &lt;<a href="mailto:adam@dunkels.com">adam@dunkels.com</a>&gt;</dd></dl>
-The uIP TCP/IP stack header file contains definitions for a number of C macros that are used by uIP programs as well as internal uIP structures, TCP/IP header structures and function declarations. 
+The uIP TCP/IP stack header file contains definitions for a number of C macros that are used by uIP programs as well as internal uIP structures, TCP/IP header structures and function declarations.
 <p>
 Definition in file <a class="el" href="a00202.html">uip.h</a>.
 <p>
@@ -335,8 +335,8 @@ typedef <a class="el" href="a00150.html#g20ceef9d0868d391c2f33041b02cb1f1">uip_i
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="a00153.html#g77570ac4fcab86864fa1916e55676da2">u16_t</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00148.html#ga22b04cac8cf283ca12f028578bebc06">htons</a> (<a class="el" href="a00153.html#g77570ac4fcab86864fa1916e55676da2">u16_t</a> val)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Convert 16-bit quantity from host byte order to network byte order.  <a href="a00148.html#ga22b04cac8cf283ca12f028578bebc06"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="g266263ac78a1361a2b1d15741d3b0675"></a><!-- doxytag: member="uip.h::uip_process" ref="g266263ac78a1361a2b1d15741d3b0675" args="(u8_t flag)" -->
-void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00150.html#g266263ac78a1361a2b1d15741d3b0675">uip_process</a> (<a class="el" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a> flag)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="g266263ac78a1361a2b1d15741d3b0675"></a><!-- doxytag: member="uip.h::uip_process" ref="g266263ac78a1361a2b1d15741d3b0675" args="(uint8_t flag)" -->
+void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00150.html#g266263ac78a1361a2b1d15741d3b0675">uip_process</a> (<a class="el" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a> flag)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="a00153.html#g77570ac4fcab86864fa1916e55676da2">u16_t</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00150.html#gb6683dd83fe1c8de9a24086d4b69e907">uip_chksum</a> (<a class="el" href="a00153.html#g77570ac4fcab86864fa1916e55676da2">u16_t</a> *buf, <a class="el" href="a00153.html#g77570ac4fcab86864fa1916e55676da2">u16_t</a> len)</td></tr>
 
@@ -351,7 +351,7 @@ void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="a001
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Calculate the UDP checksum of the packet in uip_buf and uip_appdata.  <a href="a00150.html#g7023a34ba9e9d03b5fbedbcb32924453"></a><br></td></tr>
 <tr><td colspan="2"><br><h2>Variables</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00146.html#gb81e78f890dbbee50c533a9734b74fd9">uip_buf</a> [UIP_BUFSIZE+2]</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00146.html#gb81e78f890dbbee50c533a9734b74fd9">uip_buf</a> [UIP_BUFSIZE+2]</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">The uIP packet buffer.  <a href="a00146.html#gb81e78f890dbbee50c533a9734b74fd9"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00150.html#g561b8eda32e059d4e7397f776268cc63">uip_appdata</a></td></tr>
@@ -367,7 +367,7 @@ void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="a001
 <a class="el" href="a00088.html">uip_conn</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00150.html#gf703683056d2bfa5c81fa157dcb20fe2">uip_conns</a> [UIP_CONNS]</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="g2a0cf5d86c58fab216414ce59bf1fea1"></a><!-- doxytag: member="uip.h::uip_acc32" ref="g2a0cf5d86c58fab216414ce59bf1fea1" args="[4]" -->
-<a class="el" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00151.html#g2a0cf5d86c58fab216414ce59bf1fea1">uip_acc32</a> [4]</td></tr>
+<a class="el" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00151.html#g2a0cf5d86c58fab216414ce59bf1fea1">uip_acc32</a> [4]</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">4-byte array used for the 32-bit sequence number calculations. <br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="g210f227119fc972e6222c9cb452e15a9"></a><!-- doxytag: member="uip.h::uip_udp_conn" ref="g210f227119fc972e6222c9cb452e15a9" args="" -->
@@ -381,7 +381,7 @@ void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="a001
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">The uIP TCP/IP statistics.  <a href="a00150.html#g9ee50a40597e67fce96541ab56c3b712"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="gb4ef6b00924990e7a293f66715b6d1d1"></a><!-- doxytag: member="uip.h::uip_flags" ref="gb4ef6b00924990e7a293f66715b6d1d1" args="" -->
-<a class="el" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00150.html#gb4ef6b00924990e7a293f66715b6d1d1">uip_flags</a></td></tr>
+<a class="el" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00150.html#gb4ef6b00924990e7a293f66715b6d1d1">uip_flags</a></td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="g7d3673f52f5846b6961d23b150decd54"></a><!-- doxytag: member="uip.h::uip_hostaddr" ref="g7d3673f52f5846b6961d23b150decd54" args="" -->
 <a class="el" href="a00150.html#g1ef35301f43a5bbb9f89f07b5a36b9a0">uip_ipaddr_t</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00150.html#g7d3673f52f5846b6961d23b150decd54">uip_hostaddr</a></td></tr>

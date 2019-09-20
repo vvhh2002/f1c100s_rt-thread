@@ -1,8 +1,8 @@
 /*
  * Copyright (c) 2001-2004 Swedish Institute of Computer Science.
- * All rights reserved. 
- * 
- * Redistribution and use in source and binary forms, with or without modification, 
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification,
  * are permitted provided that the following conditions are met:
  *
  * 1. Redistributions of source code must retain the above copyright notice,
@@ -11,21 +11,21 @@
  *    this list of conditions and the following disclaimer in the documentation
  *    and/or other materials provided with the distribution.
  * 3. The name of the author may not be used to endorse or promote products
- *    derived from this software without specific prior written permission. 
+ *    derived from this software without specific prior written permission.
  *
- * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR IMPLIED 
- * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
- * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT 
- * SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, 
- * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT 
- * OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING 
- * IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+ * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT
+ * SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT
+ * OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
+ * IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY
  * OF SUCH DAMAGE.
  *
  * This file is part of the lwIP TCP/IP stack.
- * 
+ *
  * Author: Adam Dunkels <adam@sics.se>
  *
  */
@@ -51,14 +51,14 @@ extern "C" {
  * the same byte order as in the corresponding pcb.
  */
 
-/* Flags for netconn_write (u8_t) */
+/* Flags for netconn_write (uint8_t) */
 #define NETCONN_NOFLAG    0x00
 #define NETCONN_NOCOPY    0x00 /* Only for source code compatibility */
 #define NETCONN_COPY      0x01
 #define NETCONN_MORE      0x02
 #define NETCONN_DONTBLOCK 0x04
 
-/* Flags for struct netconn.flags (u8_t) */
+/* Flags for struct netconn.flags (uint8_t) */
 /** TCP: when data passed to netconn_write doesn't fit into the send buffer,
     this temporarily stores whether to wake up the original application task
     if data couldn't be sent in the first try. */
@@ -179,7 +179,7 @@ struct netconn {
   s16_t recv_avail;
 #endif /* LWIP_SO_RCVBUF */
   /** flags holding more netconn-internal state, see NETCONN_FLAG_* defines */
-  u8_t flags;
+  uint8_t flags;
 #if LWIP_TCP
   /** TCP: when data passed to netconn_write doesn't fit into the send buffer,
       this temporarily stores how much is already sent. */
@@ -212,35 +212,35 @@ struct netconn {
 #define netconn_new(t)                  netconn_new_with_proto_and_callback(t, 0, NULL)
 #define netconn_new_with_callback(t, c) netconn_new_with_proto_and_callback(t, 0, c)
 struct
-netconn *netconn_new_with_proto_and_callback(enum netconn_type t, u8_t proto,
+netconn *netconn_new_with_proto_and_callback(enum netconn_type t, uint8_t proto,
                                              netconn_callback callback);
 err_t   netconn_delete(struct netconn *conn);
 /** Get the type of a netconn (as enum netconn_type). */
 #define netconn_type(conn) (conn->type)
 
 err_t   netconn_getaddr(struct netconn *conn, ip_addr_t *addr,
-                        u16_t *port, u8_t local);
+                        u16_t *port, uint8_t local);
 #define netconn_peer(c,i,p) netconn_getaddr(c,i,p,0)
 #define netconn_addr(c,i,p) netconn_getaddr(c,i,p,1)
 
 err_t   netconn_bind(struct netconn *conn, ip_addr_t *addr, u16_t port);
 err_t   netconn_connect(struct netconn *conn, ip_addr_t *addr, u16_t port);
 err_t   netconn_disconnect (struct netconn *conn);
-err_t   netconn_listen_with_backlog(struct netconn *conn, u8_t backlog);
+err_t   netconn_listen_with_backlog(struct netconn *conn, uint8_t backlog);
 #define netconn_listen(conn) netconn_listen_with_backlog(conn, TCP_DEFAULT_LISTEN_BACKLOG)
 err_t   netconn_accept(struct netconn *conn, struct netconn **new_conn);
 err_t   netconn_recv(struct netconn *conn, struct netbuf **new_buf);
 err_t   netconn_recv_tcp_pbuf(struct netconn *conn, struct pbuf **new_buf);
-void    netconn_recved(struct netconn *conn, u32_t length);
+void    netconn_recved(struct netconn *conn, uint32_t length);
 err_t   netconn_sendto(struct netconn *conn, struct netbuf *buf,
                        ip_addr_t *addr, u16_t port);
 err_t   netconn_send(struct netconn *conn, struct netbuf *buf);
 err_t   netconn_write_partly(struct netconn *conn, const void *dataptr, size_t size,
-                             u8_t apiflags, size_t *bytes_written);
+                             uint8_t apiflags, size_t *bytes_written);
 #define netconn_write(conn, dataptr, size, apiflags) \
           netconn_write_partly(conn, dataptr, size, apiflags, NULL)
 err_t   netconn_close(struct netconn *conn);
-err_t   netconn_shutdown(struct netconn *conn, u8_t shut_rx, u8_t shut_tx);
+err_t   netconn_shutdown(struct netconn *conn, uint8_t shut_rx, uint8_t shut_tx);
 
 #if LWIP_IGMP
 err_t   netconn_join_leave_group(struct netconn *conn, ip_addr_t *multiaddr,

@@ -52,9 +52,9 @@ struct nse
   /** right child identifier */
   s32_t r_id;
   /** right child next level */
-  u8_t r_nl;
+  uint8_t r_nl;
 };
-static u8_t node_stack_cnt;
+static uint8_t node_stack_cnt;
 static struct nse node_stack[NODE_STACK_SIZE];
 
 /**
@@ -449,9 +449,9 @@ snmp_mib_node_delete(struct mib_list_rootnode *rn, struct mib_list_node *n)
  * @return pointer to the requested parent (!) node if success, NULL otherwise
  */
 struct mib_node *
-snmp_search_tree(struct mib_node *node, u8_t ident_len, s32_t *ident, struct snmp_name_ptr *np)
+snmp_search_tree(struct mib_node *node, uint8_t ident_len, s32_t *ident, struct snmp_name_ptr *np)
 {
-  u8_t node_type, ext_level;
+  uint8_t node_type, ext_level;
 
   ext_level = 0;
   LWIP_DEBUGF(SNMP_MIB_DEBUG,("node==%p *ident==%"S32_F"\n",(void*)node,*ident));
@@ -636,11 +636,11 @@ snmp_search_tree(struct mib_node *node, u8_t ident_len, s32_t *ident, struct snm
 /**
  * Test table for presence of at least one table entry.
  */
-static u8_t
+static uint8_t
 empty_table(struct mib_node *node)
 {
-  u8_t node_type;
-  u8_t empty = 0;
+  uint8_t node_type;
+  uint8_t empty = 0;
 
   if (node != NULL)
   {
@@ -680,9 +680,9 @@ empty_table(struct mib_node *node)
  * Tree expansion.
  */
 struct mib_node *
-snmp_expand_tree(struct mib_node *node, u8_t ident_len, s32_t *ident, struct snmp_obj_id *oidret)
+snmp_expand_tree(struct mib_node *node, uint8_t ident_len, s32_t *ident, struct snmp_obj_id *oidret)
 {
-  u8_t node_type, ext_level, climb_tree;
+  uint8_t node_type, ext_level, climb_tree;
 
   ext_level = 0;
   /* reset node stack */
@@ -737,13 +737,13 @@ snmp_expand_tree(struct mib_node *node, u8_t ident_len, s32_t *ident, struct snm
           }
           else
           {
-            u8_t j;
+            uint8_t j;
             struct nse cur_node;
 
             LWIP_DEBUGF(SNMP_MIB_DEBUG,("non-leaf node\n"));
             /* non-leaf, store right child ptr and id */
             LWIP_ASSERT("i < 0xff", i < 0xff);
-            j = (u8_t)i + 1;
+            j = (uint8_t)i + 1;
             while ((j < an->maxlength) && (empty_table(an->nptr[j])))
             {
               j++;
@@ -781,7 +781,7 @@ snmp_expand_tree(struct mib_node *node, u8_t ident_len, s32_t *ident, struct snm
       }
       else
       {
-        u8_t j;
+        uint8_t j;
         /* ident_len == 0, complete with leftmost '.thing' */
         j = 0;
         while ((j < an->maxlength) && empty_table(an->nptr[j]))
@@ -980,13 +980,13 @@ snmp_expand_tree(struct mib_node *node, u8_t ident_len, s32_t *ident, struct snm
           }
           else
           {
-            u8_t j;
+            uint8_t j;
             struct nse cur_node;
 
             LWIP_DEBUGF(SNMP_MIB_DEBUG,("non-leaf node\n"));
             /* non-leaf, store right child ptr and id */
             LWIP_ASSERT("i < 0xff", i < 0xff);
-            j = (u8_t)i + 1;
+            j = (uint8_t)i + 1;
             if (j < len)
             {
               /* right node is the current external node */
@@ -1110,8 +1110,8 @@ snmp_expand_tree(struct mib_node *node, u8_t ident_len, s32_t *ident, struct snm
  * @param ident points to the array of sub identifiers
  * @return 1 if it matches, 0 otherwise
  */
-u8_t
-snmp_iso_prefix_tst(u8_t ident_len, s32_t *ident)
+uint8_t
+snmp_iso_prefix_tst(uint8_t ident_len, s32_t *ident)
 {
   if ((ident_len > 3) &&
       (ident[0] == 1) && (ident[1] == 3) &&
@@ -1136,12 +1136,12 @@ snmp_iso_prefix_tst(u8_t ident_len, s32_t *ident)
  *
  * @note ident_len 0 is allowed, expanding to the first known object id!!
  */
-u8_t
-snmp_iso_prefix_expand(u8_t ident_len, s32_t *ident, struct snmp_obj_id *oidret)
+uint8_t
+snmp_iso_prefix_expand(uint8_t ident_len, s32_t *ident, struct snmp_obj_id *oidret)
 {
   const s32_t *prefix_ptr;
   s32_t *ret_ptr;
-  u8_t i;
+  uint8_t i;
 
   i = 0;
   prefix_ptr = &prefix[0];

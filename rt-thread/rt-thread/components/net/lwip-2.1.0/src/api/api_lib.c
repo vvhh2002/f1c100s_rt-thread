@@ -103,7 +103,7 @@
 #define NETCONN_MBOX_WAITING_DEC(conn)
 #endif /* LWIP_NETCONN_FULLDUPLEX */
 
-static err_t netconn_close_shutdown(struct netconn *conn, u8_t how);
+static err_t netconn_close_shutdown(struct netconn *conn, uint8_t how);
 
 /**
  * Call the lower part of a netconn_* function
@@ -146,7 +146,7 @@ netconn_apimsg(tcpip_callback_fn fn, struct api_msg *apimsg)
  *         NULL on memory error
  */
 struct netconn *
-netconn_new_with_proto_and_callback(enum netconn_type t, u8_t proto, netconn_callback callback)
+netconn_new_with_proto_and_callback(enum netconn_type t, uint8_t proto, netconn_callback callback)
 {
   struct netconn *conn;
   API_MSG_VAR_DECLARE(msg);
@@ -266,7 +266,7 @@ netconn_delete(struct netconn *conn)
  *         ERR_OK if the information was retrieved
  */
 err_t
-netconn_getaddr(struct netconn *conn, ip_addr_t *addr, u16_t *port, u8_t local)
+netconn_getaddr(struct netconn *conn, ip_addr_t *addr, u16_t *port, uint8_t local)
 {
   API_MSG_VAR_DECLARE(msg);
   err_t err;
@@ -348,7 +348,7 @@ netconn_bind(struct netconn *conn, const ip_addr_t *addr, u16_t port)
  * @return ERR_OK if bound, any other err_t on failure
  */
 err_t
-netconn_bind_if(struct netconn *conn, u8_t if_idx)
+netconn_bind_if(struct netconn *conn, uint8_t if_idx)
 {
   API_MSG_VAR_DECLARE(msg);
   err_t err;
@@ -431,7 +431,7 @@ netconn_disconnect(struct netconn *conn)
  *         don't return any error (yet?))
  */
 err_t
-netconn_listen_with_backlog(struct netconn *conn, u8_t backlog)
+netconn_listen_with_backlog(struct netconn *conn, uint8_t backlog)
 {
 #if LWIP_TCP
   API_MSG_VAR_DECLARE(msg);
@@ -576,7 +576,7 @@ netconn_accept(struct netconn *conn, struct netconn **new_conn)
  *         ERR_TIMEOUT if the netconn has a receive timeout and no data was received
  */
 static err_t
-netconn_recv_data(struct netconn *conn, void **new_buf, u8_t apiflags)
+netconn_recv_data(struct netconn *conn, void **new_buf, uint8_t apiflags)
 {
   void *buf = NULL;
   u16_t len;
@@ -700,7 +700,7 @@ netconn_tcp_recvd(struct netconn *conn, size_t len)
 }
 
 static err_t
-netconn_recv_data_tcp(struct netconn *conn, struct pbuf **new_buf, u8_t apiflags)
+netconn_recv_data_tcp(struct netconn *conn, struct pbuf **new_buf, uint8_t apiflags)
 {
   err_t err;
   struct pbuf *buf;
@@ -800,7 +800,7 @@ netconn_recv_tcp_pbuf(struct netconn *conn, struct pbuf **new_buf)
  *         ERR_ARG if conn is not a TCP netconn
  */
 err_t
-netconn_recv_tcp_pbuf_flags(struct netconn *conn, struct pbuf **new_buf, u8_t apiflags)
+netconn_recv_tcp_pbuf_flags(struct netconn *conn, struct pbuf **new_buf, uint8_t apiflags)
 {
   LWIP_ERROR("netconn_recv_tcp_pbuf: invalid conn", (conn != NULL) &&
              NETCONNTYPE_GROUP(netconn_type(conn)) == NETCONN_TCP, return ERR_ARG;);
@@ -839,7 +839,7 @@ netconn_recv_udp_raw_netbuf(struct netconn *conn, struct netbuf **new_buf)
  *         ERR_ARG if conn is not a UDP/RAW netconn
  */
 err_t
-netconn_recv_udp_raw_netbuf_flags(struct netconn *conn, struct netbuf **new_buf, u8_t apiflags)
+netconn_recv_udp_raw_netbuf_flags(struct netconn *conn, struct netbuf **new_buf, uint8_t apiflags)
 {
   LWIP_ERROR("netconn_recv_udp_raw_netbuf: invalid conn", (conn != NULL) &&
              NETCONNTYPE_GROUP(netconn_type(conn)) != NETCONN_TCP, return ERR_ARG;);
@@ -972,7 +972,7 @@ netconn_send(struct netconn *conn, struct netbuf *buf)
  */
 err_t
 netconn_write_partly(struct netconn *conn, const void *dataptr, size_t size,
-                     u8_t apiflags, size_t *bytes_written)
+                     uint8_t apiflags, size_t *bytes_written)
 {
   struct netvector vector;
   vector.ptr = dataptr;
@@ -995,11 +995,11 @@ netconn_write_partly(struct netconn *conn, const void *dataptr, size_t size,
  */
 err_t
 netconn_write_vectors_partly(struct netconn *conn, struct netvector *vectors, u16_t vectorcnt,
-                             u8_t apiflags, size_t *bytes_written)
+                             uint8_t apiflags, size_t *bytes_written)
 {
   API_MSG_VAR_DECLARE(msg);
   err_t err;
-  u8_t dontblock;
+  uint8_t dontblock;
   size_t size;
   int i;
 
@@ -1086,7 +1086,7 @@ netconn_write_vectors_partly(struct netconn *conn, struct netvector *vectors, u1
  * @return ERR_OK if the netconn was closed, any other err_t on error
  */
 static err_t
-netconn_close_shutdown(struct netconn *conn, u8_t how)
+netconn_close_shutdown(struct netconn *conn, uint8_t how)
 {
   API_MSG_VAR_DECLARE(msg);
   err_t err;
@@ -1160,9 +1160,9 @@ netconn_err(struct netconn *conn)
  * @return ERR_OK if the netconn was closed, any other err_t on error
  */
 err_t
-netconn_shutdown(struct netconn *conn, u8_t shut_rx, u8_t shut_tx)
+netconn_shutdown(struct netconn *conn, uint8_t shut_rx, uint8_t shut_tx)
 {
-  return netconn_close_shutdown(conn, (u8_t)((shut_rx ? NETCONN_SHUT_RD : 0) | (shut_tx ? NETCONN_SHUT_WR : 0)));
+  return netconn_close_shutdown(conn, (uint8_t)((shut_rx ? NETCONN_SHUT_RD : 0) | (shut_tx ? NETCONN_SHUT_WR : 0)));
 }
 
 #if LWIP_IGMP || (LWIP_IPV6 && LWIP_IPV6_MLD)
@@ -1222,7 +1222,7 @@ netconn_join_leave_group(struct netconn *conn,
 err_t
 netconn_join_leave_group_netif(struct netconn *conn,
                                const ip_addr_t *multiaddr,
-                               u8_t if_idx,
+                               uint8_t if_idx,
                                enum netconn_igmp join_or_leave)
 {
   API_MSG_VAR_DECLARE(msg);
@@ -1268,7 +1268,7 @@ netconn_join_leave_group_netif(struct netconn *conn,
  */
 #if LWIP_IPV4 && LWIP_IPV6
 err_t
-netconn_gethostbyname_addrtype(const char *name, ip_addr_t *addr, u8_t dns_addrtype)
+netconn_gethostbyname_addrtype(const char *name, ip_addr_t *addr, uint8_t dns_addrtype)
 #else
 err_t
 netconn_gethostbyname(const char *name, ip_addr_t *addr)

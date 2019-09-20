@@ -60,7 +60,7 @@
 #define LWIPERF_TCP_MAX_IDLE_SEC    10U
 #endif
 #if LWIPERF_TCP_MAX_IDLE_SEC > 255
-#error LWIPERF_TCP_MAX_IDLE_SEC must fit into an u8_t
+#error LWIPERF_TCP_MAX_IDLE_SEC must fit into an uint8_t
 #endif
 
 /* File internal memory allocation (struct lwiperf_*): this defaults to
@@ -79,12 +79,12 @@
 typedef struct _lwiperf_settings {
 #define LWIPERF_FLAGS_ANSWER_TEST 0x80000000
 #define LWIPERF_FLAGS_ANSWER_NOW  0x00000001
-  u32_t flags;
-  u32_t num_threads; /* unused for now */
-  u32_t remote_port;
-  u32_t buffer_len; /* unused for now */
-  u32_t win_band; /* TCP window / UDP rate: unused for now */
-  u32_t amount; /* pos. value: bytes?; neg. values: time (unit is 10ms: 1/100 second) */
+  uint32_t flags;
+  uint32_t num_threads; /* unused for now */
+  uint32_t remote_port;
+  uint32_t buffer_len; /* unused for now */
+  uint32_t win_band; /* TCP window / UDP rate: unused for now */
+  uint32_t amount; /* pos. value: bytes?; neg. values: time (unit is 10ms: 1/100 second) */
 } lwiperf_settings_t;
 
 /** Basic connection handle */
@@ -92,9 +92,9 @@ struct _lwiperf_state_base;
 typedef struct _lwiperf_state_base lwiperf_state_base_t;
 struct _lwiperf_state_base {
   /* 1=tcp, 0=udp */
-  u8_t tcp;
+  uint8_t tcp;
   /* 1=server, 0=client */
-  u8_t server;
+  uint8_t server;
   lwiperf_state_base_t* next;
   lwiperf_state_base_t* related_server_state;
 };
@@ -104,20 +104,20 @@ typedef struct _lwiperf_state_tcp {
   lwiperf_state_base_t base;
   struct tcp_pcb* server_pcb;
   struct tcp_pcb* conn_pcb;
-  u32_t time_started;
+  uint32_t time_started;
   lwiperf_report_fn report_fn;
   void* report_arg;
-  u8_t poll_count;
-  u8_t next_num;
-  u32_t bytes_transferred;
+  uint8_t poll_count;
+  uint8_t next_num;
+  uint32_t bytes_transferred;
   lwiperf_settings_t settings;
-  u8_t have_settings_buf;
+  uint8_t have_settings_buf;
 } lwiperf_state_tcp_t;
 
 /** List of active iperf sessions */
 static lwiperf_state_base_t* lwiperf_all_connections;
 /** A const buffer to send from: we want to measure sending, not copying! */
-static const u8_t lwiperf_txbuf_const[1600] = {
+static const uint8_t lwiperf_txbuf_const[1600] = {
   '0','1','2','3','4','5','6','7','8','9','0','1','2','3','4','5','6','7','8','9','0','1','2','3','4','5','6','7','8','9','0','1','2','3','4','5','6','7','8','9',
   '0','1','2','3','4','5','6','7','8','9','0','1','2','3','4','5','6','7','8','9','0','1','2','3','4','5','6','7','8','9','0','1','2','3','4','5','6','7','8','9',
   '0','1','2','3','4','5','6','7','8','9','0','1','2','3','4','5','6','7','8','9','0','1','2','3','4','5','6','7','8','9','0','1','2','3','4','5','6','7','8','9',
@@ -201,7 +201,7 @@ static void
 lwip_tcp_conn_report(lwiperf_state_tcp_t* conn, enum lwiperf_report_type report_type)
 {
   if ((conn != NULL) && (conn->report_fn != NULL)) {
-    u32_t now, duration_ms, bandwidth_kbitpsec;
+    uint32_t now, duration_ms, bandwidth_kbitpsec;
     now = sys_now();
     duration_ms = now - conn->time_started;
     if (duration_ms == 0) {
@@ -252,7 +252,7 @@ lwiperf_tcp_client_send_more(lwiperf_state_tcp_t* conn)
   u16_t txlen;
   u16_t txlen_max;
   void* txptr;
-  u8_t apiflags;
+  uint8_t apiflags;
 
   LWIP_ASSERT("conn invalid", (conn != NULL) && conn->base.tcp && (conn->base.server == 0));
 
@@ -260,10 +260,10 @@ lwiperf_tcp_client_send_more(lwiperf_state_tcp_t* conn)
     send_more = 0;
     if (conn->settings.amount & PP_HTONL(0x80000000)) {
       /* this session is time-limited */
-      u32_t now = sys_now();
-      u32_t diff_ms = now - conn->time_started;
-      u32_t time = (u32_t)-(s32_t)lwip_htonl(conn->settings.amount);
-      u32_t time_ms = time * 10;
+      uint32_t now = sys_now();
+      uint32_t diff_ms = now - conn->time_started;
+      uint32_t time = (uint32_t)-(s32_t)lwip_htonl(conn->settings.amount);
+      uint32_t time_ms = time * 10;
       if (diff_ms >= time_ms) {
         /* time specified by the client is over -> close the connection */
         lwiperf_tcp_close(conn, LWIPERF_TCP_DONE_CLIENT);
@@ -271,7 +271,7 @@ lwiperf_tcp_client_send_more(lwiperf_state_tcp_t* conn)
       }
     } else {
       /* this session is byte-limited */
-      u32_t amount_bytes = lwip_htonl(conn->settings.amount);
+      uint32_t amount_bytes = lwip_htonl(conn->settings.amount);
       /* @todo: this can send up to 1*MSS more than requested... */
       if (amount_bytes >= conn->bytes_transferred) {
         /* all requested bytes transferred -> close the connection */
@@ -282,12 +282,12 @@ lwiperf_tcp_client_send_more(lwiperf_state_tcp_t* conn)
 
     if (conn->bytes_transferred < 24) {
       /* transmit the settings a first time */
-      txptr = &((u8_t*)&conn->settings)[conn->bytes_transferred];
+      txptr = &((uint8_t*)&conn->settings)[conn->bytes_transferred];
       txlen_max = (u16_t)(24 - conn->bytes_transferred);
       apiflags = TCP_WRITE_FLAG_COPY;
     } else if (conn->bytes_transferred < 48) {
       /* transmit the settings a second time */
-      txptr = &((u8_t*)&conn->settings)[conn->bytes_transferred - 24];
+      txptr = &((uint8_t*)&conn->settings)[conn->bytes_transferred - 24];
       txlen_max = (u16_t)(48 - conn->bytes_transferred);
       apiflags = TCP_WRITE_FLAG_COPY | TCP_WRITE_FLAG_MORE;
       send_more = 1;
@@ -405,9 +405,9 @@ lwiperf_tx_start(lwiperf_state_tcp_t* conn)
 static err_t
 lwiperf_tcp_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p, err_t err)
 {
-  u8_t tmp;
+  uint8_t tmp;
   u16_t tot_len;
-  u32_t packet_idx;
+  uint32_t packet_idx;
   struct pbuf* q;
   lwiperf_state_tcp_t* conn = (lwiperf_state_tcp_t*)arg;
 
@@ -478,11 +478,11 @@ lwiperf_tcp_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p, err_t err)
   packet_idx = 0;
   for (q = p; q != NULL; q = q->next) {
 #if LWIPERF_CHECK_RX_DATA
-    const u8_t* payload = (const u8_t*)q->payload;
+    const uint8_t* payload = (const uint8_t*)q->payload;
     u16_t i;
     for (i = 0; i < q->len; i++) {
-      u8_t val = payload[i];
-      u8_t num = val - '0';
+      uint8_t val = payload[i];
+      uint8_t num = val - '0';
       if (num == conn->next_num) {
         conn->next_num++;
         if (conn->next_num == 10) {
@@ -566,7 +566,7 @@ lwiperf_tcp_accept(void *arg, struct tcp_pcb *newpcb, err_t err)
   return ERR_OK;
 }
 
-/** 
+/**
  * @ingroup iperf
  * Start a TCP iperf server on the default TCP port (5001) and listen for
  * incoming connections from iperf clients.

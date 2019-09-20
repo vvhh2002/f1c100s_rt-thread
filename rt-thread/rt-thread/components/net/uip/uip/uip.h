@@ -95,7 +95,7 @@ typedef uip_ip4addr_t uip_ipaddr_t;
 
  uip_ipaddr(&addr, 192,168,1,2);
  uip_sethostaddr(&addr);
- 
+
  \endcode
  * \param addr A pointer to an IP address of type uip_ipaddr_t;
  *
@@ -419,7 +419,7 @@ void uip_setipid(u16_t id);
  }
  \endcode
  */
-extern u8_t uip_buf[UIP_BUFSIZE+2];
+extern uint8_t uip_buf[UIP_BUFSIZE+2];
 
 /** @} */
 
@@ -749,7 +749,7 @@ void uip_send(const void *data, int len);
  \code
  uip_ipaddr_t addr;
  struct uip_udp_conn *c;
- 
+
  uip_ipaddr(&addr, 192,168,2,1);
  c = uip_udp_new(&addr, HTONS(12345));
  if(c != NULL) {
@@ -810,7 +810,7 @@ struct uip_udp_conn *uip_udp_new(uip_ipaddr_t *ripaddr, u16_t rport);
  * These functions can be used for converting between different data
  * formats used by uIP.
  */
- 
+
 /**
  * Construct an IP address from four bytes.
  *
@@ -822,7 +822,7 @@ struct uip_udp_conn *uip_udp_new(uip_ipaddr_t *ripaddr, u16_t rport);
  \code
  uip_ipaddr_t ipaddr;
  struct uip_conn *c;
- 
+
  uip_ipaddr(&ipaddr, 192,168,1,2);
  c = uip_connect(&ipaddr, HTONS(80));
  \endcode
@@ -982,7 +982,7 @@ struct uip_udp_conn *uip_udp_new(uip_ipaddr_t *ripaddr, u16_t rport);
  * Example:
  \code
  uip_ipaddr_t ipaddr;
- u8_t octet;
+ uint8_t octet;
 
  uip_ipaddr(&ipaddr, 1,2,3,4);
  octet = uip_ipaddr1(&ipaddr);
@@ -1002,7 +1002,7 @@ struct uip_udp_conn *uip_udp_new(uip_ipaddr_t *ripaddr, u16_t rport);
  * Example:
  \code
  uip_ipaddr_t ipaddr;
- u8_t octet;
+ uint8_t octet;
 
  uip_ipaddr(&ipaddr, 1,2,3,4);
  octet = uip_ipaddr2(&ipaddr);
@@ -1022,7 +1022,7 @@ struct uip_udp_conn *uip_udp_new(uip_ipaddr_t *ripaddr, u16_t rport);
  * Example:
  \code
  uip_ipaddr_t ipaddr;
- u8_t octet;
+ uint8_t octet;
 
  uip_ipaddr(&ipaddr, 1,2,3,4);
  octet = uip_ipaddr3(&ipaddr);
@@ -1042,7 +1042,7 @@ struct uip_udp_conn *uip_udp_new(uip_ipaddr_t *ripaddr, u16_t rport);
  * Example:
  \code
  uip_ipaddr_t ipaddr;
- u8_t octet;
+ uint8_t octet;
 
  uip_ipaddr(&ipaddr, 1,2,3,4);
  octet = uip_ipaddr4(&ipaddr);
@@ -1097,10 +1097,10 @@ u16_t uip_htons(u16_t val);
  * called. If the application wishes to send data, the application may
  * use this space to write the data into before calling uip_send().
  */
-extern volatile u8_t *uip_appdata;
+extern volatile uint8_t *uip_appdata;
 
 #if UIP_URGDATA > 0
-/* u8_t *uip_urgdata:
+/* uint8_t *uip_urgdata:
  *
  * This pointer points to any urgent data that has been received. Only
  * present if compiled with support for urgent data (UIP_URGDATA).
@@ -1153,28 +1153,28 @@ extern u16_t uip_urglen, uip_surglen;
  */
 struct uip_conn {
   uip_ipaddr_t ripaddr;   /**< The IP address of the remote host. */
-  
+
   u16_t lport;        /**< The local TCP port, in network byte order. */
   u16_t rport;        /**< The local remote TCP port, in network byte
 			 order. */
-  
-  u8_t rcv_nxt[4];    /**< The sequence number that we expect to
+
+  uint8_t rcv_nxt[4];    /**< The sequence number that we expect to
 			 receive next. */
-  u8_t snd_nxt[4];    /**< The sequence number that was last sent by
+  uint8_t snd_nxt[4];    /**< The sequence number that was last sent by
                          us. */
   u16_t len;          /**< Length of the data that was previously sent. */
   u16_t mss;          /**< Current maximum segment size for the
 			 connection. */
   u16_t initialmss;   /**< Initial maximum segment size for the
 			 connection. */
-  u8_t sa;            /**< Retransmission time-out calculation state
+  uint8_t sa;            /**< Retransmission time-out calculation state
 			 variable. */
-  u8_t sv;            /**< Retransmission time-out calculation state
+  uint8_t sv;            /**< Retransmission time-out calculation state
 			 variable. */
-  u8_t rto;           /**< Retransmission time-out. */
-  u8_t tcpstateflags; /**< TCP state and flags. */
-  u8_t timer;         /**< The retransmission timer. */
-  u8_t nrtx;          /**< The number of retransmissions for the last
+  uint8_t rto;           /**< Retransmission time-out. */
+  uint8_t tcpstateflags; /**< TCP state and flags. */
+  uint8_t timer;         /**< The retransmission timer. */
+  uint8_t nrtx;          /**< The number of retransmissions for the last
 			 segment sent. */
 
   /** The application state. */
@@ -1199,7 +1199,7 @@ extern struct uip_conn uip_conns[UIP_CONNS];
 /**
  * 4-byte array used for the 32-bit sequence number calculations.
  */
-extern u8_t uip_acc32[4];
+extern uint8_t uip_acc32[4];
 
 /** @} */
 
@@ -1212,7 +1212,7 @@ struct uip_udp_conn {
   uip_ipaddr_t ripaddr;   /**< The IP address of the remote peer. */
   u16_t lport;        /**< The local port number in network byte order. */
   u16_t rport;        /**< The remote port number in network byte order. */
-  u8_t  ttl;          /**< Default time-to-live. */
+  uint8_t  ttl;          /**< Default time-to-live. */
 
   /** The application state. */
   uip_udp_appstate_t appstate;
@@ -1297,13 +1297,13 @@ extern struct uip_stats uip_stat;
  * used directly by an application or by a device driver.
  */
 /*---------------------------------------------------------------------------*/
-/* u8_t uip_flags:
+/* uint8_t uip_flags:
  *
  * When the application is called, uip_flags will contain the flags
  * that are defined in this file. Please read below for more
  * infomation.
  */
-extern u8_t uip_flags;
+extern uint8_t uip_flags;
 
 /* The following flags may be set in the global variable uip_flags
    before calling the application callback. The UIP_ACKDATA,
@@ -1345,7 +1345,7 @@ extern u8_t uip_flags;
  *
  * The actual uIP function which does all the work.
  */
-void uip_process(u8_t flag);
+void uip_process(uint8_t flag);
 
 /* The following flags are passed as an argument to the uip_process()
    function. They are used to distinguish between the two cases where
@@ -1353,7 +1353,7 @@ void uip_process(u8_t flag);
    incoming data that should be processed, or because the periodic
    timer has fired. These values are never used directly, but only in
    the macrose defined in this file. */
- 
+
 #define UIP_DATA          1     /* Tells uIP that there is incoming
 				   data in the uip_buf buffer. The
 				   length of the data is stored in the
@@ -1380,22 +1380,22 @@ void uip_process(u8_t flag);
 #define UIP_TIME_WAIT   7
 #define UIP_LAST_ACK    8
 #define UIP_TS_MASK     15
-  
+
 #define UIP_STOPPED      16
 
 /* The TCP and IP headers. */
 struct uip_tcpip_hdr {
 #if UIP_CONF_IPV6
   /* IPv6 header. */
-  u8_t vtc,
+  uint8_t vtc,
     tcflow;
   u16_t flow;
-  u8_t len[2];
-  u8_t proto, ttl;
+  uint8_t len[2];
+  uint8_t proto, ttl;
   uip_ip6addr_t srcipaddr, destipaddr;
 #else /* UIP_CONF_IPV6 */
   /* IPv4 header. */
-  u8_t vhl,
+  uint8_t vhl,
     tos,
     len[2],
     ipid[2],
@@ -1406,33 +1406,33 @@ struct uip_tcpip_hdr {
   u16_t srcipaddr[2],
     destipaddr[2];
 #endif /* UIP_CONF_IPV6 */
-  
+
   /* TCP header. */
   u16_t srcport,
     destport;
-  u8_t seqno[4],
+  uint8_t seqno[4],
     ackno[4],
     tcpoffset,
     flags,
     wnd[2];
   u16_t tcpchksum;
-  u8_t urgp[2];
-  u8_t optdata[4];
+  uint8_t urgp[2];
+  uint8_t optdata[4];
 };
 
 /* The ICMP and IP headers. */
 struct uip_icmpip_hdr {
 #if UIP_CONF_IPV6
   /* IPv6 header. */
-  u8_t vtc,
+  uint8_t vtc,
     tcf;
   u16_t flow;
-  u8_t len[2];
-  u8_t proto, ttl;
+  uint8_t len[2];
+  uint8_t proto, ttl;
   uip_ip6addr_t srcipaddr, destipaddr;
 #else /* UIP_CONF_IPV6 */
   /* IPv4 header. */
-  u8_t vhl,
+  uint8_t vhl,
     tos,
     len[2],
     ipid[2],
@@ -1443,16 +1443,16 @@ struct uip_icmpip_hdr {
   u16_t srcipaddr[2],
     destipaddr[2];
 #endif /* UIP_CONF_IPV6 */
-  
+
   /* ICMP (echo) header. */
-  u8_t type, icode;
+  uint8_t type, icode;
   u16_t icmpchksum;
 #if !UIP_CONF_IPV6
   u16_t id, seqno;
 #else /* !UIP_CONF_IPV6 */
-  u8_t flags, reserved1, reserved2, reserved3;
-  u8_t icmp6data[16];
-  u8_t options[1];
+  uint8_t flags, reserved1, reserved2, reserved3;
+  uint8_t icmp6data[16];
+  uint8_t options[1];
 #endif /* !UIP_CONF_IPV6 */
 };
 
@@ -1461,15 +1461,15 @@ struct uip_icmpip_hdr {
 struct uip_udpip_hdr {
 #if UIP_CONF_IPV6
   /* IPv6 header. */
-  u8_t vtc,
+  uint8_t vtc,
     tcf;
   u16_t flow;
-  u8_t len[2];
-  u8_t proto, ttl;
+  uint8_t len[2];
+  uint8_t proto, ttl;
   uip_ip6addr_t srcipaddr, destipaddr;
 #else /* UIP_CONF_IPV6 */
   /* IP header. */
-  u8_t vhl,
+  uint8_t vhl,
     tos,
     len[2],
     ipid[2],
@@ -1480,7 +1480,7 @@ struct uip_udpip_hdr {
   u16_t srcipaddr[2],
     destipaddr[2];
 #endif /* UIP_CONF_IPV6 */
-  
+
   /* UDP header. */
   u16_t srcport,
     destport;
@@ -1541,7 +1541,7 @@ extern uip_ipaddr_t uip_hostaddr, uip_netmask, uip_draddr;
  * Representation of a 48-bit Ethernet address.
  */
 struct uip_eth_addr {
-  u8_t addr[6];
+  uint8_t addr[6];
 };
 
 /**

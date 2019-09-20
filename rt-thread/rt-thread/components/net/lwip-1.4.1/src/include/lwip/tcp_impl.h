@@ -1,8 +1,8 @@
 /*
  * Copyright (c) 2001-2004 Swedish Institute of Computer Science.
- * All rights reserved. 
- * 
- * Redistribution and use in source and binary forms, with or without modification, 
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification,
  * are permitted provided that the following conditions are met:
  *
  * 1. Redistributions of source code must retain the above copyright notice,
@@ -11,21 +11,21 @@
  *    this list of conditions and the following disclaimer in the documentation
  *    and/or other materials provided with the distribution.
  * 3. The name of the author may not be used to endorse or promote products
- *    derived from this software without specific prior written permission. 
+ *    derived from this software without specific prior written permission.
  *
- * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR IMPLIED 
- * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
- * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT 
- * SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, 
- * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT 
- * OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING 
- * IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+ * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT
+ * SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT
+ * OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
+ * IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY
  * OF SUCH DAMAGE.
  *
  * This file is part of the lwIP TCP/IP stack.
- * 
+ *
  * Author: Adam Dunkels <adam@sics.se>
  *
  */
@@ -63,13 +63,13 @@ void             tcp_fasttmr (void);
 /* Only used by IP to pass a TCP segment to TCP: */
 void             tcp_input   (struct pbuf *p, struct netif *inp);
 /* Used within the TCP code only: */
-struct tcp_pcb * tcp_alloc   (u8_t prio);
+struct tcp_pcb * tcp_alloc   (uint8_t prio);
 void             tcp_abandon (struct tcp_pcb *pcb, int reset);
 err_t            tcp_send_empty_ack(struct tcp_pcb *pcb);
 void             tcp_rexmit  (struct tcp_pcb *pcb);
 void             tcp_rexmit_rto  (struct tcp_pcb *pcb);
 void             tcp_rexmit_fast (struct tcp_pcb *pcb);
-u32_t            tcp_update_rcv_ann_wnd(struct tcp_pcb *pcb);
+uint32_t            tcp_update_rcv_ann_wnd(struct tcp_pcb *pcb);
 err_t            tcp_process_refused_data(struct tcp_pcb *pcb);
 
 /**
@@ -90,10 +90,10 @@ err_t            tcp_process_refused_data(struct tcp_pcb *pcb);
 #define tcp_output_nagle(tpcb) (tcp_do_output_nagle(tpcb) ? tcp_output(tpcb) : ERR_OK)
 
 
-#define TCP_SEQ_LT(a,b)     ((s32_t)((u32_t)(a) - (u32_t)(b)) < 0)
-#define TCP_SEQ_LEQ(a,b)    ((s32_t)((u32_t)(a) - (u32_t)(b)) <= 0)
-#define TCP_SEQ_GT(a,b)     ((s32_t)((u32_t)(a) - (u32_t)(b)) > 0)
-#define TCP_SEQ_GEQ(a,b)    ((s32_t)((u32_t)(a) - (u32_t)(b)) >= 0)
+#define TCP_SEQ_LT(a,b)     ((s32_t)((uint32_t)(a) - (uint32_t)(b)) < 0)
+#define TCP_SEQ_LEQ(a,b)    ((s32_t)((uint32_t)(a) - (uint32_t)(b)) <= 0)
+#define TCP_SEQ_GT(a,b)     ((s32_t)((uint32_t)(a) - (uint32_t)(b)) > 0)
+#define TCP_SEQ_GEQ(a,b)    ((s32_t)((uint32_t)(a) - (uint32_t)(b)) >= 0)
 /* is b<=a<=c? */
 #if 0 /* see bug #10548 */
 #define TCP_SEQ_BETWEEN(a,b,c) ((c)-(b) >= (a)-(b))
@@ -159,8 +159,8 @@ PACK_STRUCT_BEGIN
 struct tcp_hdr {
   PACK_STRUCT_FIELD(u16_t src);
   PACK_STRUCT_FIELD(u16_t dest);
-  PACK_STRUCT_FIELD(u32_t seqno);
-  PACK_STRUCT_FIELD(u32_t ackno);
+  PACK_STRUCT_FIELD(uint32_t seqno);
+  PACK_STRUCT_FIELD(uint32_t ackno);
   PACK_STRUCT_FIELD(u16_t _hdrlen_rsvd_flags);
   PACK_STRUCT_FIELD(u16_t wnd);
   PACK_STRUCT_FIELD(u16_t chksum);
@@ -185,9 +185,9 @@ PACK_STRUCT_END
 
 /** Flags used on input processing, not on pcb->flags
 */
-#define TF_RESET     (u8_t)0x08U   /* Connection was reset. */
-#define TF_CLOSED    (u8_t)0x10U   /* Connection was sucessfully closed. */
-#define TF_GOT_FIN   (u8_t)0x20U   /* Connection was closed by the remote end. */
+#define TF_RESET     (uint8_t)0x08U   /* Connection was reset. */
+#define TF_CLOSED    (uint8_t)0x10U   /* Connection was sucessfully closed. */
+#define TF_GOT_FIN   (uint8_t)0x20U   /* Connection was closed by the remote end. */
 
 
 #if LWIP_EVENT_API
@@ -282,15 +282,15 @@ struct tcp_seg {
   u16_t oversize_left;     /* Extra bytes available at the end of the last
                               pbuf in unsent (used for asserting vs.
                               tcp_pcb.unsent_oversized only) */
-#endif /* TCP_OVERSIZE_DBGCHECK */ 
+#endif /* TCP_OVERSIZE_DBGCHECK */
 #if TCP_CHECKSUM_ON_COPY
   u16_t chksum;
-  u8_t  chksum_swapped;
+  uint8_t  chksum_swapped;
 #endif /* TCP_CHECKSUM_ON_COPY */
-  u8_t  flags;
-#define TF_SEG_OPTS_MSS         (u8_t)0x01U /* Include MSS option. */
-#define TF_SEG_OPTS_TS          (u8_t)0x02U /* Include timestamp option. */
-#define TF_SEG_DATA_CHECKSUMMED (u8_t)0x04U /* ALL data (not the header) is
+  uint8_t  flags;
+#define TF_SEG_OPTS_MSS         (uint8_t)0x01U /* Include MSS option. */
+#define TF_SEG_OPTS_TS          (uint8_t)0x02U /* Include timestamp option. */
+#define TF_SEG_DATA_CHECKSUMMED (uint8_t)0x04U /* ALL data (not the header) is
                                                checksummed into 'chksum' */
   struct tcp_hdr *tcphdr;  /* the TCP header */
 };
@@ -299,17 +299,17 @@ struct tcp_seg {
   (flags & TF_SEG_OPTS_MSS ? 4  : 0) +          \
   (flags & TF_SEG_OPTS_TS  ? 12 : 0)
 
-/** This returns a TCP header option for MSS in an u32_t */
+/** This returns a TCP header option for MSS in an uint32_t */
 #define TCP_BUILD_MSS_OPTION(mss) htonl(0x02040000 | ((mss) & 0xFFFF))
 
 /* Global variables: */
 extern struct tcp_pcb *tcp_input_pcb;
-extern u32_t tcp_ticks;
-extern u8_t tcp_active_pcbs_changed;
+extern uint32_t tcp_ticks;
+extern uint8_t tcp_active_pcbs_changed;
 
 /* The TCP PCB lists. */
 union tcp_listen_pcbs_t { /* List of all TCP PCBs in LISTEN state. */
-  struct tcp_pcb_listen *listen_pcbs; 
+  struct tcp_pcb_listen *listen_pcbs;
   struct tcp_pcb *pcbs;
 };
 extern struct tcp_pcb *tcp_bound_pcbs;
@@ -321,7 +321,7 @@ extern struct tcp_pcb *tcp_tw_pcbs;      /* List of all TCP PCBs in TIME-WAIT. *
 
 extern struct tcp_pcb *tcp_tmp_pcb;      /* Only used for temporary storage. */
 
-/* Axioms about the above lists:   
+/* Axioms about the above lists:
    1) Every TCP PCB that is not CLOSED is in one of the lists.
    2) A PCB is only in one of the lists.
    3) All PCBs in the tcp_listen_pcbs list is in LISTEN state.
@@ -437,15 +437,15 @@ struct tcp_seg *tcp_seg_copy(struct tcp_seg *seg);
   } while (0)
 
 err_t tcp_send_fin(struct tcp_pcb *pcb);
-err_t tcp_enqueue_flags(struct tcp_pcb *pcb, u8_t flags);
+err_t tcp_enqueue_flags(struct tcp_pcb *pcb, uint8_t flags);
 
 void tcp_rexmit_seg(struct tcp_pcb *pcb, struct tcp_seg *seg);
 
-void tcp_rst(u32_t seqno, u32_t ackno,
+void tcp_rst(uint32_t seqno, uint32_t ackno,
        ip_addr_t *local_ip, ip_addr_t *remote_ip,
        u16_t local_port, u16_t remote_port);
 
-u32_t tcp_next_iss(void);
+uint32_t tcp_next_iss(void);
 
 void tcp_keepalive(struct tcp_pcb *pcb);
 void tcp_zero_window_probe(struct tcp_pcb *pcb);
@@ -460,7 +460,7 @@ err_t tcp_recv_null(void *arg, struct tcp_pcb *pcb, struct pbuf *p, err_t err);
 
 #if TCP_DEBUG || TCP_INPUT_DEBUG || TCP_OUTPUT_DEBUG
 void tcp_debug_print(struct tcp_hdr *tcphdr);
-void tcp_debug_print_flags(u8_t flags);
+void tcp_debug_print_flags(uint8_t flags);
 void tcp_debug_print_state(enum tcp_state s);
 void tcp_debug_print_pcbs(void);
 s16_t tcp_pcbs_sane(void);

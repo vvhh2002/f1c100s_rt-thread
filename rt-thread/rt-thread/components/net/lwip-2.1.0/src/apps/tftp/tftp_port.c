@@ -29,7 +29,7 @@
 
 static struct tftp_context ctx;
 
-static void* tftp_open(const char* fname, const char* mode, u8_t write)
+static void* tftp_open(const char* fname, const char* mode, uint8_t write)
 {
     int fd = -1;
 

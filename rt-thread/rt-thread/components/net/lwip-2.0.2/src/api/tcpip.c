@@ -231,7 +231,7 @@ tcpip_input(struct pbuf *p, struct netif *inp)
  * @return ERR_OK if the function was called, another err_t if not
  */
 err_t
-tcpip_callback_with_block(tcpip_callback_fn function, void *ctx, u8_t block)
+tcpip_callback_with_block(tcpip_callback_fn function, void *ctx, uint8_t block)
 {
   struct tcpip_msg *msg;
 
@@ -266,7 +266,7 @@ tcpip_callback_with_block(tcpip_callback_fn function, void *ctx, u8_t block)
  * @return ERR_MEM on memory error, ERR_OK otherwise
  */
 err_t
-tcpip_timeout(u32_t msecs, sys_timeout_handler h, void *arg)
+tcpip_timeout(uint32_t msecs, sys_timeout_handler h, void *arg)
 {
   struct tcpip_msg *msg;
 
@@ -354,7 +354,7 @@ tcpip_send_msg_wait_sem(tcpip_callback_fn fn, void *apimsg, sys_sem_t* sem)
 /**
  * Synchronously calls function in TCPIP thread and waits for its completion.
  * It is recommended to use LWIP_TCPIP_CORE_LOCKING (preferred) or
- * LWIP_NETCONN_SEM_PER_THREAD. 
+ * LWIP_NETCONN_SEM_PER_THREAD.
  * If not, a semaphore is created and destroyed on every call which is usually
  * an expensive/slow operation.
  * @param fn Function to call

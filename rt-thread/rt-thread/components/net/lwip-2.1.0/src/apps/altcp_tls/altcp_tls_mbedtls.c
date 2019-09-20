@@ -746,9 +746,9 @@ altcp_tls_create_config(int is_server, int have_cert, int have_pkey, int have_ca
  * as well as the server certificate.
  */
 struct altcp_tls_config *
-altcp_tls_create_config_server_privkey_cert(const u8_t *privkey, size_t privkey_len,
-    const u8_t *privkey_pass, size_t privkey_pass_len,
-    const u8_t *cert, size_t cert_len)
+altcp_tls_create_config_server_privkey_cert(const uint8_t *privkey, size_t privkey_len,
+    const uint8_t *privkey_pass, size_t privkey_pass_len,
+    const uint8_t *cert, size_t cert_len)
 {
   int ret;
   mbedtls_x509_crt *srvcert;
@@ -793,7 +793,7 @@ altcp_tls_create_config_server_privkey_cert(const u8_t *privkey, size_t privkey_
 }
 
 static struct altcp_tls_config *
-altcp_tls_create_config_client_common(const u8_t *ca, size_t ca_len, int is_2wayauth)
+altcp_tls_create_config_client_common(const uint8_t *ca, size_t ca_len, int is_2wayauth)
 {
   int ret;
   struct altcp_tls_config *conf = altcp_tls_create_config(0, is_2wayauth, is_2wayauth, ca != NULL);
@@ -819,15 +819,15 @@ altcp_tls_create_config_client_common(const u8_t *ca, size_t ca_len, int is_2way
 }
 
 struct altcp_tls_config *
-altcp_tls_create_config_client(const u8_t *ca, size_t ca_len)
+altcp_tls_create_config_client(const uint8_t *ca, size_t ca_len)
 {
   return altcp_tls_create_config_client_common(ca, ca_len, 0);
 }
 
 struct altcp_tls_config *
-altcp_tls_create_config_client_2wayauth(const u8_t *ca, size_t ca_len, const u8_t *privkey, size_t privkey_len,
-                                        const u8_t *privkey_pass, size_t privkey_pass_len,
-                                        const u8_t *cert, size_t cert_len)
+altcp_tls_create_config_client_2wayauth(const uint8_t *ca, size_t ca_len, const uint8_t *privkey, size_t privkey_len,
+                                        const uint8_t *privkey_pass, size_t privkey_pass_len,
+                                        const uint8_t *cert, size_t cert_len)
 {
   int ret;
   struct altcp_tls_config *conf;
@@ -880,13 +880,13 @@ altcp_tls_free_config(struct altcp_tls_config *conf)
   }
   if (conf->ca) {
     mbedtls_x509_crt_free(conf->ca);
-  }  
+  }
   altcp_mbedtls_free_config(conf);
 }
 
 /* "virtual" functions */
 static void
-altcp_mbedtls_set_poll(struct altcp_pcb *conn, u8_t interval)
+altcp_mbedtls_set_poll(struct altcp_pcb *conn, uint8_t interval)
 {
   if (conn != NULL) {
     altcp_poll(conn->inner_conn, altcp_mbedtls_lower_poll, interval);
@@ -930,7 +930,7 @@ altcp_mbedtls_connect(struct altcp_pcb *conn, const ip_addr_t *ipaddr, u16_t por
 }
 
 static struct altcp_pcb *
-altcp_mbedtls_listen(struct altcp_pcb *conn, u8_t backlog, err_t *err)
+altcp_mbedtls_listen(struct altcp_pcb *conn, uint8_t backlog, err_t *err)
 {
   struct altcp_pcb *lpcb;
   if (conn == NULL) {
@@ -1022,7 +1022,7 @@ altcp_mbedtls_sndbuf(struct altcp_pcb *conn)
  * @ref altcp_mbedtls_bio_send() to send the encrypted data
  */
 static err_t
-altcp_mbedtls_write(struct altcp_pcb *conn, const void *dataptr, u16_t len, u8_t apiflags)
+altcp_mbedtls_write(struct altcp_pcb *conn, const void *dataptr, u16_t len, uint8_t apiflags)
 {
   int ret;
   altcp_mbedtls_state_t *state;
@@ -1084,7 +1084,7 @@ altcp_mbedtls_bio_send(void *ctx, const unsigned char *dataptr, size_t size)
   struct altcp_pcb *conn = (struct altcp_pcb *) ctx;
   int written = 0;
   size_t size_left = size;
-  u8_t apiflags = TCP_WRITE_FLAG_COPY;
+  uint8_t apiflags = TCP_WRITE_FLAG_COPY;
 
   LWIP_ASSERT("conn != NULL", conn != NULL);
   if ((conn == NULL) || (conn->inner_conn == NULL)) {

@@ -110,7 +110,7 @@
 /** According to the RFC, this shall be a random delay
  * between 1 and 5 minutes (in milliseconds) to prevent load peaks.
  * This can be defined to a random generation function,
- * which must return the delay in milliseconds as u32_t.
+ * which must return the delay in milliseconds as uint32_t.
  * Turned off by default.
  */
 #if !defined SNTP_STARTUP_DELAY || defined __DOXYGEN__

@@ -113,13 +113,13 @@ END_TEST
 
 START_TEST(test_mem_invalid_free)
 {
-  u8_t *ptr, *ptr_low, *ptr_high;
+  uint8_t *ptr, *ptr_low, *ptr_high;
   LWIP_UNUSED_ARG(_i);
 
   fail_unless(lwip_stats.mem.used == 0);
   fail_unless(lwip_stats.mem.illegal == 0);
 
-  ptr = (u8_t *)mem_malloc(1);
+  ptr = (uint8_t *)mem_malloc(1);
   fail_unless(ptr != NULL);
   fail_unless(lwip_stats.mem.used != 0);
 
@@ -141,21 +141,21 @@ END_TEST
 
 START_TEST(test_mem_double_free)
 {
-  u8_t *ptr1b, *ptr1, *ptr2, *ptr3;
+  uint8_t *ptr1b, *ptr1, *ptr2, *ptr3;
   LWIP_UNUSED_ARG(_i);
 
   fail_unless(lwip_stats.mem.used == 0);
   fail_unless(lwip_stats.mem.illegal == 0);
 
-  ptr1 = (u8_t *)mem_malloc(1);
+  ptr1 = (uint8_t *)mem_malloc(1);
   fail_unless(ptr1 != NULL);
   fail_unless(lwip_stats.mem.used != 0);
 
-  ptr2 = (u8_t *)mem_malloc(1);
+  ptr2 = (uint8_t *)mem_malloc(1);
   fail_unless(ptr2 != NULL);
   fail_unless(lwip_stats.mem.used != 0);
 
-  ptr3 = (u8_t *)mem_malloc(1);
+  ptr3 = (uint8_t *)mem_malloc(1);
   fail_unless(ptr3 != NULL);
   fail_unless(lwip_stats.mem.used != 0);
 
@@ -190,7 +190,7 @@ START_TEST(test_mem_double_free)
 #ifndef MIN_SIZE
 #define MIN_SIZE 12
 #endif
-  ptr1b = (u8_t *)mem_malloc(MIN_SIZE * 2);
+  ptr1b = (uint8_t *)mem_malloc(MIN_SIZE * 2);
   fail_unless(ptr1b != NULL);
   fail_unless(lwip_stats.mem.used != 0);
 

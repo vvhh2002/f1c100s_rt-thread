@@ -1114,7 +1114,7 @@ static int ccp_reqci(fsm *f, u_char *p, int *lenp, int dont_nak) {
     u_char *p0, *retp;
     int len, clen, type;
 #if MPPE_SUPPORT
-    u8_t rej_for_ci_mppe = 1;	/* Are we rejecting based on a bad/missing */
+    uint8_t rej_for_ci_mppe = 1;	/* Are we rejecting based on a bad/missing */
 				/* CI_MPPE, or due to other options?       */
 #endif /* MPPE_SUPPORT */
 

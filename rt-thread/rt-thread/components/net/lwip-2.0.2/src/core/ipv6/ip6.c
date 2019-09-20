@@ -207,7 +207,7 @@ const ip_addr_t *
 ip6_select_source_address(struct netif *netif, const ip6_addr_t *dest)
 {
   const ip_addr_t *src = NULL;
-  u8_t i;
+  uint8_t i;
 
   /* If dest is link-local, choose a link-local source. */
   if (ip6_addr_islinklocal(dest) || ip6_addr_ismulticast_linklocal(dest) || ip6_addr_ismulticast_iflocal(dest)) {
@@ -392,9 +392,9 @@ ip6_input(struct pbuf *p, struct netif *inp)
 {
   struct ip6_hdr *ip6hdr;
   struct netif *netif;
-  u8_t nexth;
+  uint8_t nexth;
   u16_t hlen; /* the current header length */
-  u8_t i;
+  uint8_t i;
 #if 0 /*IP_ACCEPT_LINK_LAYER_ADDRESSING*/
   @todo
   int check_ip_src=1;
@@ -586,10 +586,10 @@ netif_found:
     case IP6_NEXTH_HOPBYHOP:
       LWIP_DEBUGF(IP6_DEBUG, ("ip6_input: packet with Hop-by-Hop options header\n"));
       /* Get next header type. */
-      nexth = *((u8_t *)p->payload);
+      nexth = *((uint8_t *)p->payload);
 
       /* Get the header length. */
-      hlen = 8 * (1 + *((u8_t *)p->payload + 1));
+      hlen = 8 * (1 + *((uint8_t *)p->payload + 1));
       ip_data.current_ip_header_tot_len += hlen;
 
       /* Skip over this header. */
@@ -609,10 +609,10 @@ netif_found:
     case IP6_NEXTH_DESTOPTS:
       LWIP_DEBUGF(IP6_DEBUG, ("ip6_input: packet with Destination options header\n"));
       /* Get next header type. */
-      nexth = *((u8_t *)p->payload);
+      nexth = *((uint8_t *)p->payload);
 
       /* Get the header length. */
-      hlen = 8 * (1 + *((u8_t *)p->payload + 1));
+      hlen = 8 * (1 + *((uint8_t *)p->payload + 1));
       ip_data.current_ip_header_tot_len += hlen;
 
       /* Skip over this header. */
@@ -632,10 +632,10 @@ netif_found:
     case IP6_NEXTH_ROUTING:
       LWIP_DEBUGF(IP6_DEBUG, ("ip6_input: packet with Routing header\n"));
       /* Get next header type. */
-      nexth = *((u8_t *)p->payload);
+      nexth = *((uint8_t *)p->payload);
 
       /* Get the header length. */
-      hlen = 8 * (1 + *((u8_t *)p->payload + 1));
+      hlen = 8 * (1 + *((uint8_t *)p->payload + 1));
       ip_data.current_ip_header_tot_len += hlen;
 
       /* Skip over this header. */
@@ -815,8 +815,8 @@ ip6_input_cleanup:
  */
 err_t
 ip6_output_if(struct pbuf *p, const ip6_addr_t *src, const ip6_addr_t *dest,
-             u8_t hl, u8_t tc,
-             u8_t nexth, struct netif *netif)
+             uint8_t hl, uint8_t tc,
+             uint8_t nexth, struct netif *netif)
 {
   const ip6_addr_t *src_used = src;
   if (dest != LWIP_IP_HDRINCL) {
@@ -839,8 +839,8 @@ ip6_output_if(struct pbuf *p, const ip6_addr_t *src, const ip6_addr_t *dest,
  */
 err_t
 ip6_output_if_src(struct pbuf *p, const ip6_addr_t *src, const ip6_addr_t *dest,
-             u8_t hl, u8_t tc,
-             u8_t nexth, struct netif *netif)
+             uint8_t hl, uint8_t tc,
+             uint8_t nexth, struct netif *netif)
 {
   struct ip6_hdr *ip6hdr;
   ip6_addr_t dest_addr;
@@ -936,7 +936,7 @@ ip6_output_if_src(struct pbuf *p, const ip6_addr_t *src, const ip6_addr_t *dest,
  */
 err_t
 ip6_output(struct pbuf *p, const ip6_addr_t *src, const ip6_addr_t *dest,
-          u8_t hl, u8_t tc, u8_t nexth)
+          uint8_t hl, uint8_t tc, uint8_t nexth)
 {
   struct netif *netif;
   struct ip6_hdr *ip6hdr;
@@ -994,7 +994,7 @@ ip6_output(struct pbuf *p, const ip6_addr_t *src, const ip6_addr_t *dest,
  */
 err_t
 ip6_output_hinted(struct pbuf *p, const ip6_addr_t *src, const ip6_addr_t *dest,
-          u8_t hl, u8_t tc, u8_t nexth, u8_t *addr_hint)
+          uint8_t hl, uint8_t tc, uint8_t nexth, uint8_t *addr_hint)
 {
   struct netif *netif;
   struct ip6_hdr *ip6hdr;
@@ -1047,7 +1047,7 @@ ip6_output_hinted(struct pbuf *p, const ip6_addr_t *src, const ip6_addr_t *dest,
  * @return ERR_OK if hop-by-hop header was added, ERR_* otherwise
  */
 err_t
-ip6_options_add_hbh_ra(struct pbuf *p, u8_t nexth, u8_t value)
+ip6_options_add_hbh_ra(struct pbuf *p, uint8_t nexth, uint8_t value)
 {
   struct ip6_hbh_hdr *hbh_hdr;
 

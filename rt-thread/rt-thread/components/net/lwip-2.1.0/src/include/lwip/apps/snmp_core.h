@@ -66,9 +66,9 @@ extern "C" {
 
 /* application specific (SNMP) tags (from SNMPv2-SMI) */
 #define SNMP_ASN1_APPLICATION_IPADDR    0  /* [APPLICATION 0] IMPLICIT OCTET STRING (SIZE (4)) */
-#define SNMP_ASN1_APPLICATION_COUNTER   1  /* [APPLICATION 1] IMPLICIT INTEGER (0..4294967295) => u32_t */
-#define SNMP_ASN1_APPLICATION_GAUGE     2  /* [APPLICATION 2] IMPLICIT INTEGER (0..4294967295) => u32_t */
-#define SNMP_ASN1_APPLICATION_TIMETICKS 3  /* [APPLICATION 3] IMPLICIT INTEGER (0..4294967295) => u32_t */
+#define SNMP_ASN1_APPLICATION_COUNTER   1  /* [APPLICATION 1] IMPLICIT INTEGER (0..4294967295) => uint32_t */
+#define SNMP_ASN1_APPLICATION_GAUGE     2  /* [APPLICATION 2] IMPLICIT INTEGER (0..4294967295) => uint32_t */
+#define SNMP_ASN1_APPLICATION_TIMETICKS 3  /* [APPLICATION 3] IMPLICIT INTEGER (0..4294967295) => uint32_t */
 #define SNMP_ASN1_APPLICATION_OPAQUE    4  /* [APPLICATION 4] IMPLICIT OCTET STRING */
 #define SNMP_ASN1_APPLICATION_COUNTER64 6  /* [APPLICATION 6] IMPLICIT INTEGER (0..18446744073709551615) */
 
@@ -101,7 +101,7 @@ extern "C" {
 /** error codes predefined by SNMP prot. */
 typedef enum {
   SNMP_ERR_NOERROR             = 0,
-/* 
+/*
 outdated v1 error codes. do not use anmore!
 #define SNMP_ERR_NOSUCHNAME 2  use SNMP_ERR_NOSUCHINSTANCE instead
 #define SNMP_ERR_BADVALUE   3  use SNMP_ERR_WRONGTYPE,SNMP_ERR_WRONGLENGTH,SNMP_ERR_WRONGENCODING or SNMP_ERR_WRONGVALUE instead
@@ -127,14 +127,14 @@ outdated v1 error codes. do not use anmore!
 /** internal object identifier representation */
 struct snmp_obj_id
 {
-  u8_t len;
-  u32_t id[SNMP_MAX_OBJ_ID_LEN];
+  uint8_t len;
+  uint32_t id[SNMP_MAX_OBJ_ID_LEN];
 };
 
 struct snmp_obj_id_const_ref
 {
-  u8_t len;
-  const u32_t* id;
+  uint8_t len;
+  const uint32_t* id;
 };
 
 extern const struct snmp_obj_id_const_ref snmp_zero_dot_zero; /* administrative identifier from SNMPv2-SMI */
@@ -144,7 +144,7 @@ union snmp_variant_value
 {
   void* ptr;
   const void* const_ptr;
-  u32_t u32;
+  uint32_t u32;
   s32_t s32;
 #if LWIP_HAVE_INT64
   u64_t u64;
@@ -169,9 +169,9 @@ SNMP MIB node types
 struct snmp_node
 {
   /** one out of SNMP_NODE_TREE or any leaf node type (like SNMP_NODE_SCALAR) */
-  u8_t node_type;
+  uint8_t node_type;
   /** the number assigned to this node which used as part of the full OID */
-  u32_t oid;
+  uint32_t oid;
 };
 
 /** SNMP node instance access types */
@@ -202,7 +202,7 @@ struct snmp_node_instance
   struct snmp_obj_id instance_oid;
 
   /** ASN type for this object (see snmp_asn1.h for definitions) */
-  u8_t asn1_type;
+  uint8_t asn1_type;
   /** one out of instance access types defined above (SNMP_NODE_INSTANCE_READ_ONLY,...) */
   snmp_access_t access;
 
@@ -218,7 +218,7 @@ struct snmp_node_instance
   /** reference to pass arbitrary value between calls to get_instance() and get_value/test_value/set_value */
   union snmp_variant_value reference;
   /** see reference (if reference is a pointer, the length of underlying data may be stored here or anything else) */
-  u32_t reference_len;
+  uint32_t reference_len;
 };
 
 
@@ -244,29 +244,29 @@ struct snmp_leaf_node
 {
   /** inherited "base class" members */
   struct snmp_node node;
-  snmp_err_t (*get_instance)(const u32_t *root_oid, u8_t root_oid_len, struct snmp_node_instance* instance);
-  snmp_err_t (*get_next_instance)(const u32_t *root_oid, u8_t root_oid_len, struct snmp_node_instance* instance);
+  snmp_err_t (*get_instance)(const uint32_t *root_oid, uint8_t root_oid_len, struct snmp_node_instance* instance);
+  snmp_err_t (*get_next_instance)(const uint32_t *root_oid, uint8_t root_oid_len, struct snmp_node_instance* instance);
 };
 
 /** represents a single mib with its base oid and root node */
 struct snmp_mib
 {
-  const u32_t *base_oid;
-  u8_t base_oid_len;
+  const uint32_t *base_oid;
+  uint8_t base_oid_len;
   const struct snmp_node *root_node;
 };
 
-#define SNMP_MIB_CREATE(oid_list, root_node) { (oid_list), (u8_t)LWIP_ARRAYSIZE(oid_list), root_node }
+#define SNMP_MIB_CREATE(oid_list, root_node) { (oid_list), (uint8_t)LWIP_ARRAYSIZE(oid_list), root_node }
 
 /** OID range structure */
 struct snmp_oid_range
 {
-  u32_t min;
-  u32_t max;
+  uint32_t min;
+  uint32_t max;
 };
 
 /** checks if incoming OID length and values are in allowed ranges */
-u8_t snmp_oid_in_range(const u32_t *oid_in, u8_t oid_len, const struct snmp_oid_range *oid_ranges, u8_t oid_ranges_len);
+uint8_t snmp_oid_in_range(const uint32_t *oid_in, uint8_t oid_len, const struct snmp_oid_range *oid_ranges, uint8_t oid_ranges_len);
 
 typedef enum {
   SNMP_NEXT_OID_STATUS_SUCCESS,
@@ -277,92 +277,92 @@ typedef enum {
 /** state for next_oid_init / next_oid_check functions */
 struct snmp_next_oid_state
 {
-  const u32_t* start_oid;
-  u8_t start_oid_len;
+  const uint32_t* start_oid;
+  uint8_t start_oid_len;
 
-  u32_t* next_oid;
-  u8_t next_oid_len;
-  u8_t next_oid_max_len;
+  uint32_t* next_oid;
+  uint8_t next_oid_len;
+  uint8_t next_oid_max_len;
 
   snmp_next_oid_status_t status;
   void* reference;
 };
 
 void snmp_next_oid_init(struct snmp_next_oid_state *state,
-  const u32_t *start_oid, u8_t start_oid_len,
-  u32_t *next_oid_buf, u8_t next_oid_max_len);
-u8_t snmp_next_oid_precheck(struct snmp_next_oid_state *state, const u32_t *oid, u8_t oid_len);
-u8_t snmp_next_oid_check(struct snmp_next_oid_state *state, const u32_t *oid, u8_t oid_len, void* reference);
+  const uint32_t *start_oid, uint8_t start_oid_len,
+  uint32_t *next_oid_buf, uint8_t next_oid_max_len);
+uint8_t snmp_next_oid_precheck(struct snmp_next_oid_state *state, const uint32_t *oid, uint8_t oid_len);
+uint8_t snmp_next_oid_check(struct snmp_next_oid_state *state, const uint32_t *oid, uint8_t oid_len, void* reference);
 
-void snmp_oid_assign(struct snmp_obj_id* target, const u32_t *oid, u8_t oid_len);
-void snmp_oid_combine(struct snmp_obj_id* target, const u32_t *oid1, u8_t oid1_len, const u32_t *oid2, u8_t oid2_len);
-void snmp_oid_prefix(struct snmp_obj_id* target, const u32_t *oid, u8_t oid_len);
-void snmp_oid_append(struct snmp_obj_id* target, const u32_t *oid, u8_t oid_len);
-u8_t snmp_oid_equal(const u32_t *oid1, u8_t oid1_len, const u32_t *oid2, u8_t oid2_len);
-s8_t snmp_oid_compare(const u32_t *oid1, u8_t oid1_len, const u32_t *oid2, u8_t oid2_len);
+void snmp_oid_assign(struct snmp_obj_id* target, const uint32_t *oid, uint8_t oid_len);
+void snmp_oid_combine(struct snmp_obj_id* target, const uint32_t *oid1, uint8_t oid1_len, const uint32_t *oid2, uint8_t oid2_len);
+void snmp_oid_prefix(struct snmp_obj_id* target, const uint32_t *oid, uint8_t oid_len);
+void snmp_oid_append(struct snmp_obj_id* target, const uint32_t *oid, uint8_t oid_len);
+uint8_t snmp_oid_equal(const uint32_t *oid1, uint8_t oid1_len, const uint32_t *oid2, uint8_t oid2_len);
+s8_t snmp_oid_compare(const uint32_t *oid1, uint8_t oid1_len, const uint32_t *oid2, uint8_t oid2_len);
 
 #if LWIP_IPV4
-u8_t snmp_oid_to_ip4(const u32_t *oid, ip4_addr_t *ip);
-void snmp_ip4_to_oid(const ip4_addr_t *ip, u32_t *oid);
+uint8_t snmp_oid_to_ip4(const uint32_t *oid, ip4_addr_t *ip);
+void snmp_ip4_to_oid(const ip4_addr_t *ip, uint32_t *oid);
 #endif /* LWIP_IPV4 */
 #if LWIP_IPV6
-u8_t snmp_oid_to_ip6(const u32_t *oid, ip6_addr_t *ip);
-void snmp_ip6_to_oid(const ip6_addr_t *ip, u32_t *oid);
+uint8_t snmp_oid_to_ip6(const uint32_t *oid, ip6_addr_t *ip);
+void snmp_ip6_to_oid(const ip6_addr_t *ip, uint32_t *oid);
 #endif /* LWIP_IPV6 */
 #if LWIP_IPV4 || LWIP_IPV6
-u8_t snmp_ip_to_oid(const ip_addr_t *ip, u32_t *oid);
-u8_t snmp_ip_port_to_oid(const ip_addr_t *ip, u16_t port, u32_t *oid);
+uint8_t snmp_ip_to_oid(const ip_addr_t *ip, uint32_t *oid);
+uint8_t snmp_ip_port_to_oid(const ip_addr_t *ip, u16_t port, uint32_t *oid);
 
-u8_t snmp_oid_to_ip(const u32_t *oid, u8_t oid_len, ip_addr_t *ip);
-u8_t snmp_oid_to_ip_port(const u32_t *oid, u8_t oid_len, ip_addr_t *ip, u16_t *port);
+uint8_t snmp_oid_to_ip(const uint32_t *oid, uint8_t oid_len, ip_addr_t *ip);
+uint8_t snmp_oid_to_ip_port(const uint32_t *oid, uint8_t oid_len, ip_addr_t *ip, u16_t *port);
 #endif /* LWIP_IPV4 || LWIP_IPV6 */
 
 struct netif;
-u8_t netif_to_num(const struct netif *netif);
+uint8_t netif_to_num(const struct netif *netif);
 
 snmp_err_t snmp_set_test_ok(struct snmp_node_instance* instance, u16_t value_len, void* value); /* generic function which can be used if test is always successful */
 
-err_t snmp_decode_bits(const u8_t *buf, u32_t buf_len, u32_t *bit_value);
-err_t snmp_decode_truthvalue(const s32_t *asn1_value, u8_t *bool_value);
-u8_t  snmp_encode_bits(u8_t *buf, u32_t buf_len, u32_t bit_value, u8_t bit_count);
-u8_t  snmp_encode_truthvalue(s32_t *asn1_value, u32_t bool_value);
+err_t snmp_decode_bits(const uint8_t *buf, uint32_t buf_len, uint32_t *bit_value);
+err_t snmp_decode_truthvalue(const s32_t *asn1_value, uint8_t *bool_value);
+uint8_t  snmp_encode_bits(uint8_t *buf, uint32_t buf_len, uint32_t bit_value, uint8_t bit_count);
+uint8_t  snmp_encode_truthvalue(s32_t *asn1_value, uint32_t bool_value);
 
 struct snmp_statistics
 {
-  u32_t inpkts;
-  u32_t outpkts;
-  u32_t inbadversions;
-  u32_t inbadcommunitynames;
-  u32_t inbadcommunityuses;
-  u32_t inasnparseerrs;
-  u32_t intoobigs;
-  u32_t innosuchnames;
-  u32_t inbadvalues;
-  u32_t inreadonlys;
-  u32_t ingenerrs;
-  u32_t intotalreqvars;
-  u32_t intotalsetvars;
-  u32_t ingetrequests;
-  u32_t ingetnexts;
-  u32_t insetrequests;
-  u32_t ingetresponses;
-  u32_t intraps;
-  u32_t outtoobigs;
-  u32_t outnosuchnames;
-  u32_t outbadvalues;
-  u32_t outgenerrs;
-  u32_t outgetrequests;
-  u32_t outgetnexts;
-  u32_t outsetrequests;
-  u32_t outgetresponses;
-  u32_t outtraps;
+  uint32_t inpkts;
+  uint32_t outpkts;
+  uint32_t inbadversions;
+  uint32_t inbadcommunitynames;
+  uint32_t inbadcommunityuses;
+  uint32_t inasnparseerrs;
+  uint32_t intoobigs;
+  uint32_t innosuchnames;
+  uint32_t inbadvalues;
+  uint32_t inreadonlys;
+  uint32_t ingenerrs;
+  uint32_t intotalreqvars;
+  uint32_t intotalsetvars;
+  uint32_t ingetrequests;
+  uint32_t ingetnexts;
+  uint32_t insetrequests;
+  uint32_t ingetresponses;
+  uint32_t intraps;
+  uint32_t outtoobigs;
+  uint32_t outnosuchnames;
+  uint32_t outbadvalues;
+  uint32_t outgenerrs;
+  uint32_t outgetrequests;
+  uint32_t outgetnexts;
+  uint32_t outsetrequests;
+  uint32_t outgetresponses;
+  uint32_t outtraps;
 #if LWIP_SNMP_V3
-  u32_t unsupportedseclevels;
-  u32_t notintimewindows;
-  u32_t unknownusernames;
-  u32_t unknownengineids;
-  u32_t wrongdigests;
-  u32_t decryptionerrors;
+  uint32_t unsupportedseclevels;
+  uint32_t notintimewindows;
+  uint32_t unknownusernames;
+  uint32_t unknownengineids;
+  uint32_t wrongdigests;
+  uint32_t decryptionerrors;
 #endif
 };
 

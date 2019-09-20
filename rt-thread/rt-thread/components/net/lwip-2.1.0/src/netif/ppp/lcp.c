@@ -529,7 +529,7 @@ static int lcp_extcode(fsm *f, int code, int id, u_char *inp, int len) {
     case PROTREJ:
 	lcp_rprotrej(f, inp, len);
 	break;
-    
+
     case ECHOREQ:
 	if (f->state != PPP_FSM_OPENED)
 	    break;
@@ -537,7 +537,7 @@ static int lcp_extcode(fsm *f, int code, int id, u_char *inp, int len) {
 	PUTLONG(go->magicnumber, magp);
 	fsm_sdata(f, ECHOREP, id, inp, len);
 	break;
-    
+
     case ECHOREP:
 	lcp_received_echo_reply(f, id, inp, len);
 	break;
@@ -553,7 +553,7 @@ static int lcp_extcode(fsm *f, int code, int id, u_char *inp, int len) {
     return 1;
 }
 
-    
+
 /*
  * lcp_rprotrej - Receive an Protocol-Reject.
  *
@@ -949,7 +949,7 @@ static int lcp_ackci(fsm *f, u_char *p, int len) {
     lcp_options *go = &pcb->lcp_gotoptions;
     u_char cilen, citype, cichar;
     u_short cishort;
-    u32_t cilong;
+    uint32_t cilong;
 
     /*
      * CIs must be in exactly the same order that we sent.
@@ -1130,7 +1130,7 @@ static int lcp_nakci(fsm *f, u_char *p, int len, int treat_as_reject) {
     lcp_options *wo = &pcb->lcp_wantoptions;
     u_char citype, cichar, *next;
     u_short cishort;
-    u32_t cilong;
+    uint32_t cilong;
     lcp_options no;		/* options we've seen Naks for */
     lcp_options try_;		/* options to request next time */
     int looped_back = 0;
@@ -1591,7 +1591,7 @@ static int lcp_rejci(fsm *f, u_char *p, int len) {
     lcp_options *go = &pcb->lcp_gotoptions;
     u_char cichar;
     u_short cishort;
-    u32_t cilong;
+    uint32_t cilong;
     lcp_options try_;		/* options to request next time */
 
     try_ = *go;
@@ -1825,7 +1825,7 @@ static int lcp_reqci(fsm *f, u_char *inp, int *lenp, int reject_if_disagree) {
     u_char *cip, *next;		/* Pointer to current and next CIs */
     int cilen, citype, cichar;	/* Parsed len, type, char value */
     u_short cishort;		/* Parsed short value */
-    u32_t cilong;		/* Parse long value */
+    uint32_t cilong;		/* Parse long value */
     int rc = CONFACK;		/* Final packet return code */
     int orc;			/* Individual option return code */
     u_char *p;			/* Pointer to next char to parse */
@@ -2386,7 +2386,7 @@ static int lcp_printpkt(const u_char *p, int plen,
     int code, id, len, olen, i;
     const u_char *pstart, *optend;
     u_short cishort;
-    u32_t cilong;
+    uint32_t cilong;
 
     if (plen < HEADERLEN)
 	return 0;
@@ -2686,7 +2686,7 @@ static void LcpEchoTimeout(void *arg) {
 static void lcp_received_echo_reply(fsm *f, int id, u_char *inp, int len) {
     ppp_pcb *pcb = f->pcb;
     lcp_options *go = &pcb->lcp_gotoptions;
-    u32_t magic_val;
+    uint32_t magic_val;
     LWIP_UNUSED_ARG(id);
 
     /* Check the magic number - don't count replies from ourselves. */
@@ -2712,7 +2712,7 @@ static void lcp_received_echo_reply(fsm *f, int id, u_char *inp, int len) {
 static void LcpSendEchoRequest(fsm *f) {
     ppp_pcb *pcb = f->pcb;
     lcp_options *go = &pcb->lcp_gotoptions;
-    u32_t lcp_magic;
+    uint32_t lcp_magic;
     u_char pkt[4], *pktp;
 
     /*
@@ -2768,7 +2768,7 @@ static void lcp_echo_lowerup(ppp_pcb *pcb) {
     pcb->lcp_echos_pending      = 0;
     pcb->lcp_echo_number        = 0;
     pcb->lcp_echo_timer_running = 0;
-  
+
     /* If a timeout interval is specified then start the timer */
     if (pcb->settings.lcp_echo_interval != 0)
         LcpEchoCheck (f);

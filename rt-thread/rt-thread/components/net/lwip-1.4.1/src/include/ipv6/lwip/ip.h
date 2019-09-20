@@ -1,8 +1,8 @@
 /*
  * Copyright (c) 2001-2004 Swedish Institute of Computer Science.
- * All rights reserved. 
- * 
- * Redistribution and use in source and binary forms, with or without modification, 
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification,
  * are permitted provided that the following conditions are met:
  *
  * 1. Redistributions of source code must retain the above copyright notice,
@@ -11,21 +11,21 @@
  *    this list of conditions and the following disclaimer in the documentation
  *    and/or other materials provided with the distribution.
  * 3. The name of the author may not be used to endorse or promote products
- *    derived from this software without specific prior written permission. 
+ *    derived from this software without specific prior written permission.
  *
- * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR IMPLIED 
- * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
- * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT 
- * SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, 
- * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT 
- * OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING 
- * IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+ * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT
+ * SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT
+ * OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
+ * IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY
  * OF SUCH DAMAGE.
  *
  * This file is part of the lwIP TCP/IP stack.
- * 
+ *
  * Author: Adam Dunkels <adam@sics.se>
  *
  */
@@ -59,7 +59,7 @@ extern "C" {
 #define IP_HDRINCL  NULL
 
 #if LWIP_NETIF_HWADDRHINT
-#define IP_PCB_ADDRHINT ;u8_t addr_hint
+#define IP_PCB_ADDRHINT ;uint8_t addr_hint
 #else
 #define IP_PCB_ADDRHINT
 #endif /* LWIP_NETIF_HWADDRHINT */
@@ -73,9 +73,9 @@ extern "C" {
    /* Socket options */  \
   u16_t so_options;      \
    /* Type Of Service */ \
-  u8_t tos;              \
+  uint8_t tos;              \
   /* Time To Live */     \
-  u8_t ttl;              \
+  uint8_t ttl;              \
   /* link layer address resolution hint */ \
   IP_PCB_ADDRHINT
 
@@ -83,16 +83,16 @@ extern "C" {
 /* The IPv6 header. */
 struct ip_hdr {
 #if BYTE_ORDER == LITTLE_ENDIAN
-  u8_t tclass1:4, v:4;
-  u8_t flow1:4, tclass2:4;  
+  uint8_t tclass1:4, v:4;
+  uint8_t flow1:4, tclass2:4;
 #else
-  u8_t v:4, tclass1:4;
-  u8_t tclass2:8, flow1:4;
+  uint8_t v:4, tclass1:4;
+  uint8_t tclass2:8, flow1:4;
 #endif
   u16_t flow2;
   u16_t len;                /* payload length */
-  u8_t nexthdr;             /* next header */
-  u8_t hoplim;              /* hop limit (TTL) */
+  uint8_t nexthdr;             /* next header */
+  uint8_t hoplim;              /* hop limit (TTL) */
   struct ip_addr src, dest;          /* source and destination IP addresses */
 };
 
@@ -108,10 +108,10 @@ void ip_input(struct pbuf *p, struct netif *inp);
 
 /* source and destination addresses in network byte order, please */
 err_t ip_output(struct pbuf *p, struct ip_addr *src, struct ip_addr *dest,
-         u8_t ttl, u8_t proto);
+         uint8_t ttl, uint8_t proto);
 
 err_t ip_output_if(struct pbuf *p, struct ip_addr *src, struct ip_addr *dest,
-      u8_t ttl, u8_t proto,
+      uint8_t ttl, uint8_t proto,
       struct netif *netif);
 
 #define ip_current_netif() NULL

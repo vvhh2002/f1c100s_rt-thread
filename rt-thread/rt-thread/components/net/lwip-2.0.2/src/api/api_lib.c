@@ -1,21 +1,21 @@
 /**
  * @file
  * Sequential API External module
- * 
+ *
  * @defgroup netconn Netconn API
  * @ingroup sequential_api
  * Thread-safe, to be called from non-TCPIP threads only.
  * TX/RX handling based on @ref netbuf (containing @ref pbuf)
  * to avoid copying data around.
- * 
+ *
  * @defgroup netconn_common Common functions
  * @ingroup netconn
  * For use with TCP and UDP
- * 
+ *
  * @defgroup netconn_tcp TCP only
  * @ingroup netconn
  * TCP only functions
- * 
+ *
  * @defgroup netconn_udp UDP only
  * @ingroup netconn
  * UDP only functions
@@ -77,7 +77,7 @@
 #define API_MSG_VAR_ALLOC_RETURN_NULL(name) API_VAR_ALLOC(struct api_msg, MEMP_API_MSG, name, NULL)
 #define API_MSG_VAR_FREE(name)              API_VAR_FREE(MEMP_API_MSG, name)
 
-static err_t netconn_close_shutdown(struct netconn *conn, u8_t how);
+static err_t netconn_close_shutdown(struct netconn *conn, uint8_t how);
 
 /**
  * Call the lower part of a netconn_* function
@@ -120,7 +120,7 @@ netconn_apimsg(tcpip_callback_fn fn, struct api_msg *apimsg)
  *         NULL on memory error
  */
 struct netconn*
-netconn_new_with_proto_and_callback(enum netconn_type t, u8_t proto, netconn_callback callback)
+netconn_new_with_proto_and_callback(enum netconn_type t, uint8_t proto, netconn_callback callback)
 {
   struct netconn *conn;
   API_MSG_VAR_DECLARE(msg);
@@ -209,7 +209,7 @@ netconn_delete(struct netconn *conn)
  *         ERR_OK if the information was retrieved
  */
 err_t
-netconn_getaddr(struct netconn *conn, ip_addr_t *addr, u16_t *port, u8_t local)
+netconn_getaddr(struct netconn *conn, ip_addr_t *addr, u16_t *port, uint8_t local)
 {
   API_MSG_VAR_DECLARE(msg);
   err_t err;
@@ -241,7 +241,7 @@ netconn_getaddr(struct netconn *conn, ip_addr_t *addr, u16_t *port, u8_t local)
  * Binding one netconn twice might not always be checked correctly!
  *
  * @param conn the netconn to bind
- * @param addr the local IP address to bind the netconn to 
+ * @param addr the local IP address to bind the netconn to
  *             (use IP4_ADDR_ANY/IP6_ADDR_ANY to bind to all addresses)
  * @param port the local port to bind the netconn to (not used for RAW)
  * @return ERR_OK if bound, any other err_t on failure
@@ -251,7 +251,7 @@ netconn_bind(struct netconn *conn, const ip_addr_t *addr, u16_t port)
 {
   API_MSG_VAR_DECLARE(msg);
   err_t err;
-  
+
   LWIP_ERROR("netconn_bind: invalid conn", (conn != NULL), return ERR_ARG;);
 
 #if LWIP_IPV4
@@ -260,7 +260,7 @@ netconn_bind(struct netconn *conn, const ip_addr_t *addr, u16_t port)
     addr = IP4_ADDR_ANY;
   }
 #endif /* LWIP_IPV4 */
-  
+
 #if LWIP_IPV4 && LWIP_IPV6
   /* "Socket API like" dual-stack support: If IP to bind to is IP6_ADDR_ANY,
    * and NETCONN_FLAG_IPV6_V6ONLY is 0, use IP_ANY_TYPE to bind
@@ -348,7 +348,7 @@ netconn_disconnect(struct netconn *conn)
  *         don't return any error (yet?))
  */
 err_t
-netconn_listen_with_backlog(struct netconn *conn, u8_t backlog)
+netconn_listen_with_backlog(struct netconn *conn, uint8_t backlog)
 {
 #if LWIP_TCP
   API_MSG_VAR_DECLARE(msg);
@@ -733,11 +733,11 @@ netconn_send(struct netconn *conn, struct netbuf *buf)
  */
 err_t
 netconn_write_partly(struct netconn *conn, const void *dataptr, size_t size,
-                     u8_t apiflags, size_t *bytes_written)
+                     uint8_t apiflags, size_t *bytes_written)
 {
   API_MSG_VAR_DECLARE(msg);
   err_t err;
-  u8_t dontblock;
+  uint8_t dontblock;
 
   LWIP_ERROR("netconn_write: invalid conn",  (conn != NULL), return ERR_ARG;);
   LWIP_ERROR("netconn_write: invalid conn->type",  (NETCONNTYPE_GROUP(conn->type)== NETCONN_TCP), return ERR_VAL;);
@@ -799,7 +799,7 @@ netconn_write_partly(struct netconn *conn, const void *dataptr, size_t size,
  * @return ERR_OK if the netconn was closed, any other err_t on error
  */
 static err_t
-netconn_close_shutdown(struct netconn *conn, u8_t how)
+netconn_close_shutdown(struct netconn *conn, uint8_t how)
 {
   API_MSG_VAR_DECLARE(msg);
   err_t err;
@@ -851,7 +851,7 @@ netconn_close(struct netconn *conn)
  * @return ERR_OK if the netconn was closed, any other err_t on error
  */
 err_t
-netconn_shutdown(struct netconn *conn, u8_t shut_rx, u8_t shut_tx)
+netconn_shutdown(struct netconn *conn, uint8_t shut_rx, uint8_t shut_tx)
 {
   return netconn_close_shutdown(conn, (shut_rx ? NETCONN_SHUT_RD : 0) | (shut_tx ? NETCONN_SHUT_WR : 0));
 }
@@ -917,7 +917,7 @@ netconn_join_leave_group(struct netconn *conn,
  */
 #if LWIP_IPV4 && LWIP_IPV6
 err_t
-netconn_gethostbyname_addrtype(const char *name, ip_addr_t *addr, u8_t dns_addrtype)
+netconn_gethostbyname_addrtype(const char *name, ip_addr_t *addr, uint8_t dns_addrtype)
 #else
 err_t
 netconn_gethostbyname(const char *name, ip_addr_t *addr)

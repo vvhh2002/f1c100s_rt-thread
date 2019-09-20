@@ -27,7 +27,7 @@
  * Change Logs:
  * Date           Author       Notes
  * 2012-12-8      Bernard      add file header
- *                             export bsd socket symbol for RT-Thread Application Module 
+ *                             export bsd socket symbol for RT-Thread Application Module
  * 2017-11-15     Bernard      add lock for init_done callback.
  * 2018-11-02     MurphyZhao   port to lwip2.1.0
  */
@@ -78,7 +78,7 @@ static err_t netif_device_init(struct netif *netif)
         /* copy device flags to netif flags */
         netif->flags = ethif->flags;
         netif->mtu = ETHERNET_MTU;
-        
+
         /* set output */
         netif->output = etharp_output;
 
@@ -234,7 +234,7 @@ void lwip_sys_init(void)
  *
  * @return the operation status, ERR_OK on OK; others on error
  */
-err_t sys_sem_new(sys_sem_t *sem, u8_t count)
+err_t sys_sem_new(sys_sem_t *sem, uint8_t count)
 {
     static unsigned short counter = 0;
     char tname[RT_NAME_MAX];
@@ -278,14 +278,14 @@ void sys_sem_signal(sys_sem_t *sem)
  *
  * @return If the timeout argument is non-zero, it will return the number of milliseconds
  *         spent waiting for the semaphore to be signaled; If the semaphore isn't signaled
- *         within the specified time, it will return SYS_ARCH_TIMEOUT; If the thread doesn't 
+ *         within the specified time, it will return SYS_ARCH_TIMEOUT; If the thread doesn't
  *         wait for the semaphore, it will return zero
  */
-u32_t sys_arch_sem_wait(sys_sem_t *sem, u32_t timeout)
+uint32_t sys_arch_sem_wait(sys_sem_t *sem, uint32_t timeout)
 {
     rt_err_t ret;
     s32_t t;
-    u32_t tick;
+    uint32_t tick;
 
     RT_DEBUG_NOT_IN_INTERRUPT;
 
@@ -500,11 +500,11 @@ sys_mbox_trypost_fromisr(sys_mbox_t *q, void *msg)
            or SYS_ARCH_TIMEOUT on timeout
  *         The returned time has to be accurate to prevent timer jitter!
  */
-u32_t sys_arch_mbox_fetch(sys_mbox_t *mbox, void **msg, u32_t timeout)
+uint32_t sys_arch_mbox_fetch(sys_mbox_t *mbox, void **msg, uint32_t timeout)
 {
     rt_err_t ret;
     s32_t t;
-    u32_t tick;
+    uint32_t tick;
 
     RT_DEBUG_NOT_IN_INTERRUPT;
 
@@ -549,7 +549,7 @@ u32_t sys_arch_mbox_fetch(sys_mbox_t *mbox, void **msg, u32_t timeout)
  * @return 0 (milliseconds) if a message has been received
  *         or SYS_MBOX_EMPTY if the mailbox is empty
  */
-u32_t sys_arch_mbox_tryfetch(sys_mbox_t *mbox, void **msg)
+uint32_t sys_arch_mbox_tryfetch(sys_mbox_t *mbox, void **msg)
 {
     int ret;
 
@@ -559,7 +559,7 @@ u32_t sys_arch_mbox_tryfetch(sys_mbox_t *mbox, void **msg)
         return SYS_ARCH_TIMEOUT;
     else
     {
-        if (ret == RT_EOK) 
+        if (ret == RT_EOK)
             ret = 1;
     }
 
@@ -637,12 +637,12 @@ void sys_arch_assert(const char *file, int line)
     RT_ASSERT(0);
 }
 
-u32_t sys_jiffies(void)
+uint32_t sys_jiffies(void)
 {
     return rt_tick_get();
 }
 
-u32_t sys_now(void)
+uint32_t sys_now(void)
 {
     return rt_tick_get() * (1000 / RT_TICK_PER_SECOND);
 }
@@ -662,10 +662,10 @@ mem_overflow_check_raw(void *p, size_t size, const char *descr1, const char *des
 {
 #if MEM_SANITY_REGION_AFTER_ALIGNED || MEM_SANITY_REGION_BEFORE_ALIGNED
   u16_t k;
-  u8_t *m;
+  uint8_t *m;
 
 #if MEM_SANITY_REGION_AFTER_ALIGNED > 0
-  m = (u8_t *)p + size;
+  m = (uint8_t *)p + size;
   for (k = 0; k < MEM_SANITY_REGION_AFTER_ALIGNED; k++) {
     if (m[k] != 0xcd) {
       char errstr[128];
@@ -676,7 +676,7 @@ mem_overflow_check_raw(void *p, size_t size, const char *descr1, const char *des
 #endif /* MEM_SANITY_REGION_AFTER_ALIGNED > 0 */
 
 #if MEM_SANITY_REGION_BEFORE_ALIGNED > 0
-  m = (u8_t *)p - MEM_SANITY_REGION_BEFORE_ALIGNED;
+  m = (uint8_t *)p - MEM_SANITY_REGION_BEFORE_ALIGNED;
   for (k = 0; k < MEM_SANITY_REGION_BEFORE_ALIGNED; k++) {
     if (m[k] != 0xcd) {
       char errstr[128];
@@ -699,13 +699,13 @@ void
 mem_overflow_init_raw(void *p, size_t size)
 {
 #if MEM_SANITY_REGION_BEFORE_ALIGNED > 0 || MEM_SANITY_REGION_AFTER_ALIGNED > 0
-  u8_t *m;
+  uint8_t *m;
 #if MEM_SANITY_REGION_BEFORE_ALIGNED > 0
-  m = (u8_t *)p - MEM_SANITY_REGION_BEFORE_ALIGNED;
+  m = (uint8_t *)p - MEM_SANITY_REGION_BEFORE_ALIGNED;
   memset(m, 0xcd, MEM_SANITY_REGION_BEFORE_ALIGNED);
 #endif
 #if MEM_SANITY_REGION_AFTER_ALIGNED > 0
-  m = (u8_t *)p + size;
+  m = (uint8_t *)p + size;
   memset(m, 0xcd, MEM_SANITY_REGION_AFTER_ALIGNED);
 #endif
 #else /* MEM_SANITY_REGION_BEFORE_ALIGNED > 0 || MEM_SANITY_REGION_AFTER_ALIGNED > 0 */
@@ -743,9 +743,9 @@ void  mem_free(void *mem)
 }
 
 #ifdef RT_LWIP_PPP
-u32_t sio_read(sio_fd_t fd, u8_t *buf, u32_t size)
+uint32_t sio_read(sio_fd_t fd, uint8_t *buf, uint32_t size)
 {
-    u32_t len;
+    uint32_t len;
 
     RT_ASSERT(fd != RT_NULL);
 
@@ -756,7 +756,7 @@ u32_t sio_read(sio_fd_t fd, u8_t *buf, u32_t size)
     return len;
 }
 
-u32_t sio_write(sio_fd_t fd, u8_t *buf, u32_t size)
+uint32_t sio_write(sio_fd_t fd, uint8_t *buf, uint32_t size)
 {
     RT_ASSERT(fd != RT_NULL);
 

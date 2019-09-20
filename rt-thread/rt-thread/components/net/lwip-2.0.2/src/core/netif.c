@@ -1,16 +1,16 @@
 /**
  * @file
  * lwIP network interface abstraction
- * 
+ *
  * @defgroup netif Network interface (NETIF)
  * @ingroup callbackstyle_api
- * 
+ *
  * @defgroup netif_ip4 IPv4 address handling
  * @ingroup netif
- * 
+ *
  * @defgroup netif_ip6 IPv6 address handling
  * @ingroup netif
- * 
+ *
  * @defgroup netif_cd Client data handling
  * Store data (void*) on a netif for application usage.
  * @see @ref LWIP_NUM_NETIF_CLIENT_DATA
@@ -111,15 +111,15 @@
 struct netif *netif_list;
 struct netif *netif_default;
 
-static u8_t netif_num;
+static uint8_t netif_num;
 
 #if LWIP_NUM_NETIF_CLIENT_DATA > 0
-static u8_t netif_client_id;
+static uint8_t netif_client_id;
 #endif
 
 #define NETIF_REPORT_TYPE_IPV4  0x01
 #define NETIF_REPORT_TYPE_IPV6  0x02
-static void netif_issue_reports(struct netif* netif, u8_t report_type);
+static void netif_issue_reports(struct netif* netif, uint8_t report_type);
 
 #if LWIP_IPV6
 static err_t netif_null_output_ip6(struct netif *netif, struct pbuf *p, const ip6_addr_t *ipaddr);
@@ -203,7 +203,7 @@ netif_init(void)
  * ethernet_input() or ip_input() depending on netif flags.
  * Don't call directly, pass to netif_add() and call
  * netif->input().
- * Only works if the netif driver correctly sets 
+ * Only works if the netif driver correctly sets
  * NETIF_FLAG_ETHARP and/or NETIF_FLAG_ETHERNET flag!
  */
 err_t
@@ -236,12 +236,12 @@ netif_input(struct pbuf *p, struct netif *inp)
  * to decide whether to forward to ethernet_input() or ip_input().
  * In other words, the functions only work when the netif
  * driver is implemented correctly!\n
- * Most members of struct netif should be be initialized by the 
+ * Most members of struct netif should be be initialized by the
  * netif init function = netif driver (init parameter of this function).\n
  * IPv6: Don't forget to call netif_create_ip6_linklocal_address() after
  * setting the MAC address in struct netif.hwaddr
  * (IPv6 requires a link-local address).
- * 
+ *
  * @return netif, or NULL if failed.
  */
 struct netif *
@@ -479,13 +479,13 @@ struct netif *
 netif_find(const char *name)
 {
   struct netif *netif;
-  u8_t num;
+  uint8_t num;
 
   if (name == NULL) {
     return NULL;
   }
 
-  num = (u8_t)(name[2] - '0');
+  num = (uint8_t)(name[2] - '0');
 
   for (netif = netif_list; netif != NULL; netif = netif->next) {
     if (num == netif->num &&
@@ -666,7 +666,7 @@ netif_set_up(struct netif *netif)
 /** Send ARP/IGMP/MLD/RS events, e.g. on link-up/netif-up or addr-change
  */
 static void
-netif_issue_reports(struct netif* netif, u8_t report_type)
+netif_issue_reports(struct netif* netif, uint8_t report_type)
 {
 #if LWIP_IPV4
   if ((report_type & NETIF_REPORT_TYPE_IPV4) &&
@@ -962,7 +962,7 @@ netif_poll(struct netif *netif)
   while (netif->loop_first != NULL) {
     struct pbuf *in, *in_end;
 #if LWIP_LOOPBACK_MAX_PBUFS
-    u8_t clen = 1;
+    uint8_t clen = 1;
 #endif /* LWIP_LOOPBACK_MAX_PBUFS */
 
     in = in_end = netif->loop_first;
@@ -1030,10 +1030,10 @@ netif_poll_all(void)
  * Returned value is an index in mentioned array.
  * @see LWIP_NUM_NETIF_CLIENT_DATA
  */
-u8_t
+uint8_t
 netif_alloc_client_data_id(void)
 {
-  u8_t result = netif_client_id;
+  uint8_t result = netif_client_id;
   netif_client_id++;
 
   LWIP_ASSERT("Increase LWIP_NUM_NETIF_CLIENT_DATA in lwipopts.h", result < LWIP_NUM_NETIF_CLIENT_DATA);
@@ -1061,7 +1061,7 @@ netif_ip6_addr_set(struct netif *netif, s8_t addr_idx, const ip6_addr_t *addr6)
 }
 
 /*
- * Change an IPv6 address of a network interface (internal version taking 4 * u32_t)
+ * Change an IPv6 address of a network interface (internal version taking 4 * uint32_t)
  *
  * @param netif the network interface to change
  * @param addr_idx index of the IPv6 address
@@ -1071,7 +1071,7 @@ netif_ip6_addr_set(struct netif *netif, s8_t addr_idx, const ip6_addr_t *addr6)
  * @param i3 word3 of the new IPv6 address
  */
 void
-netif_ip6_addr_set_parts(struct netif *netif, s8_t addr_idx, u32_t i0, u32_t i1, u32_t i2, u32_t i3)
+netif_ip6_addr_set_parts(struct netif *netif, s8_t addr_idx, uint32_t i0, uint32_t i1, uint32_t i2, uint32_t i3)
 {
   const ip6_addr_t *old_addr;
   LWIP_ASSERT("netif != NULL", netif != NULL);
@@ -1125,17 +1125,17 @@ netif_ip6_addr_set_parts(struct netif *netif, s8_t addr_idx, u32_t i0, u32_t i1,
  * @param state the new IPv6 address state
  */
 void
-netif_ip6_addr_set_state(struct netif* netif, s8_t addr_idx, u8_t state)
+netif_ip6_addr_set_state(struct netif* netif, s8_t addr_idx, uint8_t state)
 {
-  u8_t old_state;
+  uint8_t old_state;
   LWIP_ASSERT("netif != NULL", netif != NULL);
   LWIP_ASSERT("invalid index", addr_idx < LWIP_IPV6_NUM_ADDRESSES);
 
   old_state = netif_ip6_addr_state(netif, addr_idx);
   /* state is actually being changed? */
   if (old_state != state) {
-    u8_t old_valid = old_state & IP6_ADDR_VALID;
-    u8_t new_valid = state & IP6_ADDR_VALID;
+    uint8_t old_valid = old_state & IP6_ADDR_VALID;
+    uint8_t new_valid = state & IP6_ADDR_VALID;
     LWIP_DEBUGF(NETIF_DEBUG | LWIP_DBG_STATE, ("netif_ip6_addr_set_state: netif address state being changed\n"));
 
 #if LWIP_IPV6_MLD
@@ -1208,9 +1208,9 @@ netif_get_ip6_addr_match(struct netif *netif, const ip6_addr_t *ip6addr)
  *                       if == 0, use hwaddr directly as interface ID
  */
 void
-netif_create_ip6_linklocal_address(struct netif *netif, u8_t from_mac_48bit)
+netif_create_ip6_linklocal_address(struct netif *netif, uint8_t from_mac_48bit)
 {
-  u8_t i, addr_index;
+  uint8_t i, addr_index;
 
   /* Link-local prefix. */
   ip_2_ip6(&netif->ip6_addr[0])->addr[0] = PP_HTONL(0xfe800000ul);
@@ -1219,13 +1219,13 @@ netif_create_ip6_linklocal_address(struct netif *netif, u8_t from_mac_48bit)
   /* Generate interface ID. */
   if (from_mac_48bit) {
     /* Assume hwaddr is a 48-bit IEEE 802 MAC. Convert to EUI-64 address. Complement Group bit. */
-    ip_2_ip6(&netif->ip6_addr[0])->addr[2] = lwip_htonl((((u32_t)(netif->hwaddr[0] ^ 0x02)) << 24) |
-        ((u32_t)(netif->hwaddr[1]) << 16) |
-        ((u32_t)(netif->hwaddr[2]) << 8) |
+    ip_2_ip6(&netif->ip6_addr[0])->addr[2] = lwip_htonl((((uint32_t)(netif->hwaddr[0] ^ 0x02)) << 24) |
+        ((uint32_t)(netif->hwaddr[1]) << 16) |
+        ((uint32_t)(netif->hwaddr[2]) << 8) |
         (0xff));
     ip_2_ip6(&netif->ip6_addr[0])->addr[3] = lwip_htonl((0xfeul << 24) |
-        ((u32_t)(netif->hwaddr[3]) << 16) |
-        ((u32_t)(netif->hwaddr[4]) << 8) |
+        ((uint32_t)(netif->hwaddr[3]) << 16) |
+        ((uint32_t)(netif->hwaddr[4]) << 8) |
         (netif->hwaddr[5]));
   } else {
     /* Use hwaddr directly as interface ID. */
@@ -1237,7 +1237,7 @@ netif_create_ip6_linklocal_address(struct netif *netif, u8_t from_mac_48bit)
       if (i == 4) {
         addr_index--;
       }
-      ip_2_ip6(&netif->ip6_addr[0])->addr[addr_index] |= ((u32_t)(netif->hwaddr[netif->hwaddr_len - i - 1])) << (8 * (i & 0x03));
+      ip_2_ip6(&netif->ip6_addr[0])->addr[addr_index] |= ((uint32_t)(netif->hwaddr[netif->hwaddr_len - i - 1])) << (8 * (i & 0x03));
     }
   }
 

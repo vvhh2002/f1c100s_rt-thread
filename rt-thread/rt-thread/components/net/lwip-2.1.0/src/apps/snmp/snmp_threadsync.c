@@ -158,7 +158,7 @@ get_next_instance_synced(void *ctx)
 }
 
 static snmp_err_t
-do_sync(const u32_t *root_oid, u8_t root_oid_len, struct snmp_node_instance *instance, snmp_threadsync_called_fn fn)
+do_sync(const uint32_t *root_oid, uint8_t root_oid_len, struct snmp_node_instance *instance, snmp_threadsync_called_fn fn)
 {
   const struct snmp_threadsync_node *threadsync_node = (const struct snmp_threadsync_node *)(const void *)instance->node;
   struct threadsync_data *call_data = &threadsync_node->instance->data;
@@ -194,13 +194,13 @@ do_sync(const u32_t *root_oid, u8_t root_oid_len, struct snmp_node_instance *ins
 }
 
 snmp_err_t
-snmp_threadsync_get_instance(const u32_t *root_oid, u8_t root_oid_len, struct snmp_node_instance *instance)
+snmp_threadsync_get_instance(const uint32_t *root_oid, uint8_t root_oid_len, struct snmp_node_instance *instance)
 {
   return do_sync(root_oid, root_oid_len, instance, get_instance_synced);
 }
 
 snmp_err_t
-snmp_threadsync_get_next_instance(const u32_t *root_oid, u8_t root_oid_len, struct snmp_node_instance *instance)
+snmp_threadsync_get_next_instance(const uint32_t *root_oid, uint8_t root_oid_len, struct snmp_node_instance *instance)
 {
   return do_sync(root_oid, root_oid_len, instance, get_next_instance_synced);
 }

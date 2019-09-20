@@ -6,9 +6,9 @@
 
 /*
  * Copyright (c) 2001-2004 Swedish Institute of Computer Science.
- * All rights reserved. 
- * 
- * Redistribution and use in source and binary forms, with or without modification, 
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification,
  * are permitted provided that the following conditions are met:
  *
  * 1. Redistributions of source code must retain the above copyright notice,
@@ -17,21 +17,21 @@
  *    this list of conditions and the following disclaimer in the documentation
  *    and/or other materials provided with the distribution.
  * 3. The name of the author may not be used to endorse or promote products
- *    derived from this software without specific prior written permission. 
+ *    derived from this software without specific prior written permission.
  *
- * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR IMPLIED 
- * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
- * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT 
- * SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, 
- * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT 
- * OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING 
- * IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+ * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT
+ * SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT
+ * OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
+ * IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY
  * OF SUCH DAMAGE.
  *
  * This file is part of the lwIP TCP/IP stack.
- * 
+ *
  * Author: Adam Dunkels <adam@sics.se>
  *
  */
@@ -74,7 +74,7 @@ static void do_close_internal(struct netconn *conn);
  *
  * @see raw.h (struct raw_pcb.recv) for parameters and return value
  */
-static u8_t
+static uint8_t
 recv_raw(void *arg, struct raw_pcb *pcb, struct pbuf *p,
     ip_addr_t *addr)
 {
@@ -332,7 +332,7 @@ sent_tcp(void *arg, struct tcp_pcb *pcb, u16_t len)
       API_EVENT(conn, NETCONN_EVT_SENDPLUS, len);
     }
   }
-  
+
   return ERR_OK;
 }
 
@@ -747,7 +747,7 @@ static void
 do_close_internal(struct netconn *conn)
 {
   err_t err;
-  u8_t shut, shut_rx, shut_tx, close;
+  uint8_t shut, shut_rx, shut_tx, close;
 
   LWIP_ASSERT("invalid conn", (conn != NULL));
   LWIP_ASSERT("this is for tcp netconns only", (conn->type == NETCONN_TCP));
@@ -1008,7 +1008,7 @@ do_connect(struct api_msg_msg *msg)
       msg->err = tcp_connect(msg->conn->pcb.tcp, msg->msg.bc.ipaddr,
         msg->msg.bc.port, do_connected);
       if (msg->err == ERR_OK) {
-        u8_t non_blocking = netconn_is_nonblocking(msg->conn);
+        uint8_t non_blocking = netconn_is_nonblocking(msg->conn);
         msg->conn->state = NETCONN_CONNECT;
         SET_NONBLOCKING_CONNECT(msg->conn, non_blocking);
         if (non_blocking) {
@@ -1181,7 +1181,7 @@ do_recv(struct api_msg_msg *msg)
       } else
 #endif /* TCP_LISTEN_BACKLOG */
       {
-        u32_t remaining = msg->msg.r.len;
+        uint32_t remaining = msg->msg.r.len;
         do {
           u16_t recved = (remaining > 0xffff) ? 0xffff : (u16_t)remaining;
           tcp_recved(msg->conn->pcb.tcp, recved);
@@ -1210,11 +1210,11 @@ do_writemore(struct netconn *conn)
   err_t err;
   void *dataptr;
   u16_t len, available;
-  u8_t write_finished = 0;
+  uint8_t write_finished = 0;
   size_t diff;
-  u8_t dontblock = netconn_is_nonblocking(conn) ||
+  uint8_t dontblock = netconn_is_nonblocking(conn) ||
        (conn->current_msg->msg.w.apiflags & NETCONN_DONTBLOCK);
-  u8_t apiflags = conn->current_msg->msg.w.apiflags;
+  uint8_t apiflags = conn->current_msg->msg.w.apiflags;
 
   LWIP_ASSERT("conn != NULL", conn != NULL);
   LWIP_ASSERT("conn->state == NETCONN_WRITE", (conn->state == NETCONN_WRITE));
@@ -1240,7 +1240,7 @@ do_writemore(struct netconn *conn)
   } else
 #endif /* LWIP_SO_SNDTIMEO */
   {
-    dataptr = (u8_t*)conn->current_msg->msg.w.dataptr + conn->write_offset;
+    dataptr = (uint8_t*)conn->current_msg->msg.w.dataptr + conn->write_offset;
     diff = conn->current_msg->msg.w.len - conn->write_offset;
     if (diff > 0xffffUL) { /* max_u16_t */
       len = 0xffff;
@@ -1255,7 +1255,7 @@ do_writemore(struct netconn *conn)
     if (available < len) {
       /* don't try to write more than sendbuf */
       len = available;
-      if (dontblock){ 
+      if (dontblock){
         if (!len) {
           err = ERR_WOULDBLOCK;
           goto err_mem;
@@ -1491,7 +1491,7 @@ do_close(struct api_msg_msg *msg)
  */
 void
 do_join_leave_group(struct api_msg_msg *msg)
-{ 
+{
   if (ERR_IS_FATAL(msg->conn->last_err)) {
     msg->err = msg->conn->last_err;
   } else {

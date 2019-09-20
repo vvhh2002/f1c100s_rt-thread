@@ -17,9 +17,9 @@
 <small>
 [<a class="el" href="a00150.html">The uIP TCP/IP stack</a>]</small>
 </h1><hr><a name="_details"></a><h2>Detailed Description</h2>
-The functions in the architecture specific module implement the IP check sum and 32-bit additions. 
+The functions in the architecture specific module implement the IP check sum and 32-bit additions.
 <p>
-The IP checksum calculation is the most computationally expensive operation in the TCP/IP stack and it therefore pays off to implement this in efficient assembler. The purpose of the uip-arch module is to let the checksum functions to be implemented in architecture specific assembler. 
+The IP checksum calculation is the most computationally expensive operation in the TCP/IP stack and it therefore pays off to implement this in efficient assembler. The purpose of the uip-arch module is to let the checksum functions to be implemented in architecture specific assembler.
 <p>
 <table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
@@ -30,7 +30,7 @@ The IP checksum calculation is the most computationally expensive operation in t
 
 <p>
 <tr><td colspan="2"><br><h2>Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00151.html#g6832e4d2d046536b6472f7ac92340f68">uip_add32</a> (<a class="el" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a> *op32, <a class="el" href="a00153.html#g77570ac4fcab86864fa1916e55676da2">u16_t</a> op16)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00151.html#g6832e4d2d046536b6472f7ac92340f68">uip_add32</a> (<a class="el" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a> *op32, <a class="el" href="a00153.html#g77570ac4fcab86864fa1916e55676da2">u16_t</a> op16)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Carry out a 32-bit addition.  <a href="#g6832e4d2d046536b6472f7ac92340f68"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="a00153.html#g77570ac4fcab86864fa1916e55676da2">u16_t</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00151.html#gb6683dd83fe1c8de9a24086d4b69e907">uip_chksum</a> (<a class="el" href="a00153.html#g77570ac4fcab86864fa1916e55676da2">u16_t</a> *buf, <a class="el" href="a00153.html#g77570ac4fcab86864fa1916e55676da2">u16_t</a> len)</td></tr>
@@ -44,12 +44,12 @@ The IP checksum calculation is the most computationally expensive operation in t
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Calculate the TCP checksum of the packet in uip_buf and uip_appdata.  <a href="#g85b65e38aa74eba18979156f97a94a87"></a><br></td></tr>
 <tr><td colspan="2"><br><h2>Variables</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="g2a0cf5d86c58fab216414ce59bf1fea1"></a><!-- doxytag: member="uiparch::uip_acc32" ref="g2a0cf5d86c58fab216414ce59bf1fea1" args="[4]" -->
-<a class="el" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00151.html#g2a0cf5d86c58fab216414ce59bf1fea1">uip_acc32</a> [4]</td></tr>
+<a class="el" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00151.html#g2a0cf5d86c58fab216414ce59bf1fea1">uip_acc32</a> [4]</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">4-byte array used for the 32-bit sequence number calculations. <br></td></tr>
 </table>
 <hr><h2>Function Documentation</h2>
-<a class="anchor" name="g6832e4d2d046536b6472f7ac92340f68"></a><!-- doxytag: member="uip_arch.h::uip_add32" ref="g6832e4d2d046536b6472f7ac92340f68" args="(u8_t *op32, u16_t op16)" --><p>
+<a class="anchor" name="g6832e4d2d046536b6472f7ac92340f68"></a><!-- doxytag: member="uip_arch.h::uip_add32" ref="g6832e4d2d046536b6472f7ac92340f68" args="(uint8_t *op32, u16_t op16)" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -57,7 +57,7 @@ The IP checksum calculation is the most computationally expensive operation in t
         <tr>
           <td class="md" nowrap valign="top">void uip_add32           </td>
           <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top"><a class="el" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a> *&nbsp;</td>
+          <td class="md" nowrap valign="top"><a class="el" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a> *&nbsp;</td>
           <td class="mdname" nowrap> <em>op32</em>, </td>
         </tr>
         <tr>
@@ -83,7 +83,7 @@ The IP checksum calculation is the most computationally expensive operation in t
     <td>
 
 <p>
-Carry out a 32-bit addition. 
+Carry out a 32-bit addition.
 <p>
 Because not all architectures for which uIP is intended has native 32-bit arithmetic, uIP uses an external C function for doing the required 32-bit additions in the TCP protocol processing. This function should add the two arguments and place the result in the global variable uip_acc32.<p>
 <dl compact><dt><b>Note:</b></dt><dd>The 32-bit integer pointed to by the op32 parameter and the result in the uip_acc32 variable are in network byte order (big endian).</dd></dl>
@@ -134,7 +134,7 @@ Referenced by <a class="el" href="a00199.html#l00049">uip_split_output()</a>.   
     <td>
 
 <p>
-Calculate the Internet checksum over a buffer. 
+Calculate the Internet checksum over a buffer.
 <p>
 The Internet checksum is the one's complement of the one's complement sum of all 16-bit words in the buffer.<p>
 See RFC1071.<p>
@@ -174,7 +174,7 @@ See RFC1071.<p>
     <td>
 
 <p>
-Calculate the IP header checksum of the packet header in uip_buf. 
+Calculate the IP header checksum of the packet header in uip_buf.
 <p>
 The IP header checksum is the Internet checksum of the 20 bytes of the IP header.<p>
 <dl compact><dt><b>Returns:</b></dt><dd>The IP header checksum of the IP header in the uip_buf buffer. </dd></dl>
@@ -206,7 +206,7 @@ The IP header checksum is the Internet checksum of the 20 bytes of the IP header
     <td>
 
 <p>
-Calculate the TCP checksum of the packet in uip_buf and uip_appdata. 
+Calculate the TCP checksum of the packet in uip_buf and uip_appdata.
 <p>
 The TCP checksum is the Internet checksum of data contents of the TCP segment, and a pseudo-header as defined in RFC793.<p>
 <dl compact><dt><b>Note:</b></dt><dd>The uip_appdata pointer that points to the packet data may point anywhere in memory, so it is not possible to simply calculate the Internet checksum of the contents of the uip_buf buffer.</dd></dl>

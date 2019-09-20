@@ -57,15 +57,15 @@ extern "C" {
 struct dhcp6
 {
   /** transaction identifier of last sent request */
-  u32_t xid;
+  uint32_t xid;
   /** track PCB allocation state */
-  u8_t pcb_allocated;
+  uint8_t pcb_allocated;
   /** current DHCPv6 state machine state */
-  u8_t state;
+  uint8_t state;
   /** retries of current request */
-  u8_t tries;
+  uint8_t tries;
   /** if request config is triggered while another action is active, this keeps track of it */
-  u8_t request_config_pending;
+  uint8_t request_config_pending;
   /** #ticks with period DHCP6_TIMER_MSECS for request timeout */
   u16_t request_timeout;
 #if LWIP_IPV6_DHCP6_STATEFUL
@@ -84,13 +84,13 @@ void dhcp6_disable(struct netif *netif);
 
 void dhcp6_tmr(void);
 
-void dhcp6_nd6_ra_trigger(struct netif *netif, u8_t managed_addr_config, u8_t other_config);
+void dhcp6_nd6_ra_trigger(struct netif *netif, uint8_t managed_addr_config, uint8_t other_config);
 
 #if LWIP_DHCP6_GET_NTP_SRV
 /** This function must exist, in other to add offered NTP servers to
  * the NTP (or SNTP) engine.
  * See LWIP_DHCP6_MAX_NTP_SERVERS */
-extern void dhcp6_set_ntp_servers(u8_t num_ntp_servers, const ip_addr_t* ntp_server_addrs);
+extern void dhcp6_set_ntp_servers(uint8_t num_ntp_servers, const ip_addr_t* ntp_server_addrs);
 #endif /* LWIP_DHCP6_GET_NTP_SRV */
 
 #define netif_dhcp6_data(netif) ((struct dhcp6*)netif_get_client_data(netif, LWIP_NETIF_CLIENT_DATA_INDEX_DHCP6))

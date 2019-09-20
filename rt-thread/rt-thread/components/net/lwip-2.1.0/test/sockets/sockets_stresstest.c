@@ -16,12 +16,12 @@
  * - full duplex
  * - add asserts about internal socket/netconn/pcb state?
  */
- 
+
  /*
  * Copyright (c) 2017 Simon Goldschmidt
  * All rights reserved.
- * 
- * Redistribution and use in source and binary forms, with or without modification, 
+ *
+ * Redistribution and use in source and binary forms, with or without modification,
  * are permitted provided that the following conditions are met:
  *
  * 1. Redistributions of source code must retain the above copyright notice,
@@ -30,21 +30,21 @@
  *    this list of conditions and the following disclaimer in the documentation
  *    and/or other materials provided with the distribution.
  * 3. The name of the author may not be used to endorse or promote products
- *    derived from this software without specific prior written permission. 
+ *    derived from this software without specific prior written permission.
  *
- * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR IMPLIED 
- * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
- * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT 
- * SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, 
- * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT 
- * OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING 
- * IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+ * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT
+ * SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT
+ * OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
+ * IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY
  * OF SUCH DAMAGE.
  *
  * This file is part of the lwIP TCP/IP stack.
- * 
+ *
  * Author: Simon Goldschmidt <goldsimon@gmx.de>
  *
  */
@@ -98,31 +98,31 @@ struct sockets_stresstest_fullduplex {
 static void
 fill_test_data(void *buf, size_t buf_len_bytes)
 {
-  u8_t *p = (u8_t*)buf;
+  uint8_t *p = (uint8_t*)buf;
   u16_t i, chk;
 
   LWIP_ASSERT("buffer too short", buf_len_bytes >= 4);
   LWIP_ASSERT("buffer too big", buf_len_bytes <= 0xFFFF);
   /* store the total number of bytes */
-  p[0] = (u8_t)(buf_len_bytes >> 8);
-  p[1] = (u8_t)buf_len_bytes;
+  p[0] = (uint8_t)(buf_len_bytes >> 8);
+  p[1] = (uint8_t)buf_len_bytes;
 
   /* fill buffer with random */
   chk = 0;
   for (i = 4; i < buf_len_bytes; i++) {
-    u8_t rnd = (u8_t)LWIP_RAND();
+    uint8_t rnd = (uint8_t)LWIP_RAND();
     p[i] = rnd;
     chk += rnd;
   }
   /* store checksum */
-  p[2] = (u8_t)(chk >> 8);
-  p[3] = (u8_t)chk;
+  p[2] = (uint8_t)(chk >> 8);
+  p[3] = (uint8_t)chk;
 }
 
 static size_t
 check_test_data(const void *buf, size_t buf_len_bytes)
 {
-  u8_t *p = (u8_t*)buf;
+  uint8_t *p = (uint8_t*)buf;
   u16_t i, chk, chk_rx, len_rx;
 
   LWIP_ASSERT("buffer too short", buf_len_bytes >= 4);
@@ -315,7 +315,7 @@ sockets_stresstest_wait_readable_nonblock(int s, int timeout_ms)
 {
   int ret;
   char buf;
-  u32_t wait_until = sys_now() + timeout_ms;
+  uint32_t wait_until = sys_now() + timeout_ms;
 
   while(sys_now() < wait_until) {
     /* peek for one byte */
@@ -338,7 +338,7 @@ sockets_stresstest_wait_readable_nonblock(int s, int timeout_ms)
 
 static int sockets_stresstest_rand_mode(int allow_wait, int allow_rx)
 {
-  u32_t random_value = LWIP_RAND();
+  uint32_t random_value = LWIP_RAND();
 #if LWIP_SOCKET_SELECT
   if (random_value & TEST_MODE_SELECT) {
     return TEST_MODE_SELECT;
@@ -436,7 +436,7 @@ sockets_stresstest_conn_client(void *arg)
   char txbuf[TEST_TXRX_BUFSIZE];
   char rxbuf[TEST_TXRX_BUFSIZE];
   size_t rxoff = 0;
-  u32_t max_time = sys_now() + (TEST_TIME_SECONDS * 1000);
+  uint32_t max_time = sys_now() + (TEST_TIME_SECONDS * 1000);
   int do_rx = 1;
   struct sockets_stresstest_fullduplex *data = NULL;
 

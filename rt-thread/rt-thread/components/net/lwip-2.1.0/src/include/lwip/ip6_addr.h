@@ -57,9 +57,9 @@ extern "C" {
 /** This is the aligned version of ip6_addr_t,
     used as local variable, on the stack, etc. */
 struct ip6_addr {
-  u32_t addr[4];
+  uint32_t addr[4];
 #if LWIP_IPV6_SCOPES
-  u8_t zone;
+  uint8_t zone;
 #endif /* LWIP_IPV6_SCOPES */
 };
 
@@ -70,7 +70,7 @@ typedef struct ip6_addr ip6_addr_t;
 #define IP6_ADDR_PART(ip6addr, index, a,b,c,d) \
   (ip6addr)->addr[index] = PP_HTONL(LWIP_MAKEU32(a,b,c,d))
 
-/** Set a full IPv6 address by passing the 4 u32_t indices in network byte order
+/** Set a full IPv6 address by passing the 4 uint32_t indices in network byte order
     (use PP_HTONL() for constants) */
 #define IP6_ADDR(ip6addr, idx0, idx1, idx2, idx3) do { \
   (ip6addr)->addr[0] = idx0; \

@@ -99,10 +99,10 @@ Steve Reynolds
 static struct igmp_group *igmp_lookup_group(struct netif *ifp, const ip4_addr_t *addr);
 static err_t  igmp_remove_group(struct netif* netif, struct igmp_group *group);
 static void   igmp_timeout(struct netif *netif, struct igmp_group *group);
-static void   igmp_start_timer(struct igmp_group *group, u8_t max_time);
-static void   igmp_delaying_member(struct igmp_group *group, u8_t maxresp);
+static void   igmp_start_timer(struct igmp_group *group, uint8_t max_time);
+static void   igmp_delaying_member(struct igmp_group *group, uint8_t maxresp);
 static err_t  igmp_ip_output_if(struct pbuf *p, const ip4_addr_t *src, const ip4_addr_t *dest, struct netif *netif);
-static void   igmp_send(struct netif *netif, struct igmp_group *group, u8_t type);
+static void   igmp_send(struct netif *netif, struct igmp_group *group, uint8_t type);
 
 static ip4_addr_t     allsystems;
 static ip4_addr_t     allrouters;
@@ -199,7 +199,7 @@ igmp_report_groups(struct netif *netif)
   if(group != NULL) {
     group = group->next;
   }
-  
+
   while (group != NULL) {
     igmp_delaying_member(group, IGMP_JOIN_DELAYING_MEMBER_TMR);
     group = group->next;
@@ -252,7 +252,7 @@ igmp_lookup_group(struct netif *ifp, const ip4_addr_t *addr)
     /* Group already exists. */
     return group;
   }
-  
+
   /* Group doesn't exist yet, create a new one */
   group = (struct igmp_group *)memp_malloc(MEMP_IGMP_GROUP);
   if (group != NULL) {
@@ -262,7 +262,7 @@ igmp_lookup_group(struct netif *ifp, const ip4_addr_t *addr)
     group->last_reporter_flag = 0;
     group->use                = 0;
 
-    /* Ensure allsystems group is always first in list */    
+    /* Ensure allsystems group is always first in list */
     if (list_head == NULL) {
       /* this is the first entry in linked list */
       LWIP_ASSERT("igmp_lookup_group: first group must be allsystems",
@@ -379,7 +379,7 @@ igmp_input(struct pbuf *p, struct netif *inp, const ip4_addr_t *dest)
       }
 
       groupref = netif_igmp_data(inp);
-      
+
       /* Do not send messages on the all systems group address! */
       /* Skip the first group in the list, it is always the allsystems group added in igmp_start() */
       if(groupref != NULL) {
@@ -674,7 +674,7 @@ igmp_timeout(struct netif *netif, struct igmp_group *group)
     LWIP_DEBUGF(IGMP_DEBUG, (" on if %p\n", (void*)netif));
 
     group->group_state = IGMP_GROUP_IDLE_MEMBER;
-    
+
     IGMP_STATS_INC(igmp.tx_report);
     igmp_send(netif, group, IGMP_V2_MEMB_REPORT);
   }
@@ -688,7 +688,7 @@ igmp_timeout(struct netif *netif, struct igmp_group *group)
  *        every call to igmp_tmr())
  */
 static void
-igmp_start_timer(struct igmp_group *group, u8_t max_time)
+igmp_start_timer(struct igmp_group *group, uint8_t max_time)
 {
 #ifdef LWIP_RAND
   group->timer = max_time > 2 ? (LWIP_RAND() % max_time) : 1;
@@ -709,7 +709,7 @@ igmp_start_timer(struct igmp_group *group, u8_t max_time)
  * @param maxresp query delay
  */
 static void
-igmp_delaying_member(struct igmp_group *group, u8_t maxresp)
+igmp_delaying_member(struct igmp_group *group, uint8_t maxresp)
 {
   if ((group->group_state == IGMP_GROUP_IDLE_MEMBER) ||
      ((group->group_state == IGMP_GROUP_DELAYING_MEMBER) &&
@@ -754,7 +754,7 @@ igmp_ip_output_if(struct pbuf *p, const ip4_addr_t *src, const ip4_addr_t *dest,
  * @param type the type of igmp packet to send
  */
 static void
-igmp_send(struct netif *netif, struct igmp_group *group, u8_t type)
+igmp_send(struct netif *netif, struct igmp_group *group, uint8_t type)
 {
   struct pbuf*     p    = NULL;
   struct igmp_msg* igmp = NULL;

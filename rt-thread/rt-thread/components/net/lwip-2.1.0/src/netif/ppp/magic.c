@@ -85,7 +85,7 @@
 #define MD5_HASH_SIZE 16
 static char magic_randpool[MD5_HASH_SIZE];   /* Pool of randomness. */
 static long magic_randcount;      /* Pseudo-random incrementer */
-static u32_t magic_randomseed;    /* Seed used for random number generation. */
+static uint32_t magic_randomseed;    /* Seed used for random number generation. */
 
 /*
  * Churn the randomness pool on a random event.  Call this early and often
@@ -97,7 +97,7 @@ static u32_t magic_randomseed;    /* Seed used for random number generation. */
  *
  * Ref: Applied Cryptography 2nd Ed. by Bruce Schneier p. 427
  */
-static void magic_churnrand(char *rand_data, u32_t rand_len) {
+static void magic_churnrand(char *rand_data, uint32_t rand_len) {
   lwip_md5_context md5_ctx;
 
   /* LWIP_DEBUGF(LOG_INFO, ("magic_churnrand: %u@%P\n", rand_len, rand_data)); */
@@ -109,9 +109,9 @@ static void magic_churnrand(char *rand_data, u32_t rand_len) {
   } else {
     struct {
       /* INCLUDE fields for any system sources of randomness */
-      u32_t jiffies;
+      uint32_t jiffies;
 #ifdef LWIP_RAND
-      u32_t rand;
+      uint32_t rand;
 #endif /* LWIP_RAND */
     } sys_data;
     magic_randomseed += sys_jiffies();
@@ -159,10 +159,10 @@ void magic_randomize(void) {
  *  magic_randcount each time?  Probably there is a weakness but I wish that
  *  it was documented.
  */
-void magic_random_bytes(unsigned char *buf, u32_t buf_len) {
+void magic_random_bytes(unsigned char *buf, uint32_t buf_len) {
   lwip_md5_context md5_ctx;
   u_char tmp[MD5_HASH_SIZE];
-  u32_t n;
+  uint32_t n;
 
   while (buf_len > 0) {
     lwip_md5_init(&md5_ctx);
@@ -182,8 +182,8 @@ void magic_random_bytes(unsigned char *buf, u32_t buf_len) {
 /*
  * Return a new random number.
  */
-u32_t magic(void) {
-  u32_t new_rand;
+uint32_t magic(void) {
+  uint32_t new_rand;
 
   magic_random_bytes((unsigned char *)&new_rand, sizeof(new_rand));
 
@@ -198,7 +198,7 @@ u32_t magic(void) {
 #ifndef LWIP_RAND
 static int  magic_randomized;       /* Set when truely randomized. */
 #endif /* LWIP_RAND */
-static u32_t magic_randomseed;      /* Seed used for random number generation. */
+static uint32_t magic_randomseed;      /* Seed used for random number generation. */
 
 
 /***********************************/
@@ -260,19 +260,19 @@ void magic_randomize(void) {
  * operator or network events in which case it will be pseudo random
  * seeded by the real time clock.
  */
-u32_t magic(void) {
+uint32_t magic(void) {
 #ifdef LWIP_RAND
   return LWIP_RAND() + magic_randomseed;
 #else /* LWIP_RAND */
-  return ((u32_t)rand() << 16) + (u32_t)rand() + magic_randomseed;
+  return ((uint32_t)rand() << 16) + (uint32_t)rand() + magic_randomseed;
 #endif /* LWIP_RAND */
 }
 
 /*
  * magic_random_bytes - Fill a buffer with random bytes.
  */
-void magic_random_bytes(unsigned char *buf, u32_t buf_len) {
-  u32_t new_rand, n;
+void magic_random_bytes(unsigned char *buf, uint32_t buf_len) {
+  uint32_t new_rand, n;
 
   while (buf_len > 0) {
     new_rand = magic();
@@ -287,7 +287,7 @@ void magic_random_bytes(unsigned char *buf, u32_t buf_len) {
 /*
  * Return a new random number between 0 and (2^pow)-1 included.
  */
-u32_t magic_pow(u8_t pow) {
+uint32_t magic_pow(uint8_t pow) {
   return magic() & ~(~0UL<<pow);
 }
 

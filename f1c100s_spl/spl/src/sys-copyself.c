@@ -118,10 +118,8 @@ void print_hex(uint32_t num)
 
 void sys_copyself(void)
 {
-	int r;
 	int d = get_boot_device();
 	void * mem;
-	uint32_t size;
 
 	void (*jamp)(void);
 
@@ -145,7 +143,7 @@ void sys_copyself(void)
 			print_string("Copy Flash offset 1M to RAM 0x8000000 size:");
 			print_number(h->magic[3]);
 			sys_spi_flash_init();
-			r = sys_spi_flash_read(SIZE_1M, mem, h->magic[3]);
+			sys_spi_flash_read(SIZE_1M, mem, h->magic[3]);
 			sys_spi_flash_exit();
 			print_string("Copy Flash Ok!\n");
 		} else {

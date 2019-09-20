@@ -110,7 +110,7 @@ static const struct snmp_node* const mib2_nodes[] = {
 
 static const struct snmp_tree_node mib2_root = SNMP_CREATE_TREE_NODE(1, mib2_nodes);
 
-static const u32_t  mib2_base_oid_arr[] = { 1,3,6,1,2,1 };
+static const uint32_t  mib2_base_oid_arr[] = { 1,3,6,1,2,1 };
 const struct snmp_mib mib2 = SNMP_MIB_CREATE(mib2_base_oid_arr, &mib2_root.node);
 
 #endif /* LWIP_SNMP && SNMP_LWIP_MIB2 */

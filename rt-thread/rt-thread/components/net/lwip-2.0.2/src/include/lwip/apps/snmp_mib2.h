@@ -60,13 +60,13 @@ extern struct snmp_threadsync_instance snmp_mib2_lwip_locks;
 #define SNMP_SYSSERVICES ((1 << 6) | (1 << 3) | ((IP_FORWARD) << 2))
 #endif
 
-void snmp_mib2_set_sysdescr(const u8_t* str, const u16_t* len); /* read-only be defintion */
-void snmp_mib2_set_syscontact(u8_t *ocstr, u16_t *ocstrlen, u16_t bufsize);
-void snmp_mib2_set_syscontact_readonly(const u8_t *ocstr, const u16_t *ocstrlen);
-void snmp_mib2_set_sysname(u8_t *ocstr, u16_t *ocstrlen, u16_t bufsize);
-void snmp_mib2_set_sysname_readonly(const u8_t *ocstr, const u16_t *ocstrlen);
-void snmp_mib2_set_syslocation(u8_t *ocstr, u16_t *ocstrlen, u16_t bufsize);
-void snmp_mib2_set_syslocation_readonly(const u8_t *ocstr, const u16_t *ocstrlen);
+void snmp_mib2_set_sysdescr(const uint8_t* str, const u16_t* len); /* read-only be defintion */
+void snmp_mib2_set_syscontact(uint8_t *ocstr, u16_t *ocstrlen, u16_t bufsize);
+void snmp_mib2_set_syscontact_readonly(const uint8_t *ocstr, const u16_t *ocstrlen);
+void snmp_mib2_set_sysname(uint8_t *ocstr, u16_t *ocstrlen, u16_t bufsize);
+void snmp_mib2_set_sysname_readonly(const uint8_t *ocstr, const u16_t *ocstrlen);
+void snmp_mib2_set_syslocation(uint8_t *ocstr, u16_t *ocstrlen, u16_t bufsize);
+void snmp_mib2_set_syslocation_readonly(const uint8_t *ocstr, const u16_t *ocstrlen);
 
 #endif /* SNMP_LWIP_MIB2 */
 #endif /* LWIP_SNMP */

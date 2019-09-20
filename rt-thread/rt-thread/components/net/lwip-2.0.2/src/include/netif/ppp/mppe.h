@@ -131,13 +131,13 @@
 /* Shared MPPE padding between MSCHAP and MPPE */
 #define SHA1_PAD_SIZE 40
 
-static const u8_t mppe_sha1_pad1[SHA1_PAD_SIZE] = {
+static const uint8_t mppe_sha1_pad1[SHA1_PAD_SIZE] = {
   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 };
-static const u8_t mppe_sha1_pad2[SHA1_PAD_SIZE] = {
+static const uint8_t mppe_sha1_pad2[SHA1_PAD_SIZE] = {
   0xf2, 0xf2, 0xf2, 0xf2, 0xf2, 0xf2, 0xf2, 0xf2, 0xf2, 0xf2,
   0xf2, 0xf2, 0xf2, 0xf2, 0xf2, 0xf2, 0xf2, 0xf2, 0xf2, 0xf2,
   0xf2, 0xf2, 0xf2, 0xf2, 0xf2, 0xf2, 0xf2, 0xf2, 0xf2, 0xf2,
@@ -149,21 +149,21 @@ static const u8_t mppe_sha1_pad2[SHA1_PAD_SIZE] = {
  */
 typedef struct ppp_mppe_state {
 	lwip_arc4_context arc4;
-	u8_t master_key[MPPE_MAX_KEY_LEN];
-	u8_t session_key[MPPE_MAX_KEY_LEN];
-	u8_t keylen;                /* key length in bytes */
+	uint8_t master_key[MPPE_MAX_KEY_LEN];
+	uint8_t session_key[MPPE_MAX_KEY_LEN];
+	uint8_t keylen;                /* key length in bytes */
 	/* NB: 128-bit == 16, 40-bit == 8!
 	 * If we want to support 56-bit, the unit has to change to bits
 	 */
-	u8_t bits;                  /* MPPE control bits */
+	uint8_t bits;                  /* MPPE control bits */
 	u16_t ccount;               /* 12-bit coherency count (seqno)  */
 	u16_t sanity_errors;        /* take down LCP if too many */
 	unsigned int stateful  :1;  /* stateful mode flag */
 	unsigned int discard   :1;  /* stateful mode packet loss flag */
 } ppp_mppe_state;
 
-void mppe_set_key(ppp_pcb *pcb, ppp_mppe_state *state, u8_t *key);
-void mppe_init(ppp_pcb *pcb, ppp_mppe_state *state, u8_t options);
+void mppe_set_key(ppp_pcb *pcb, ppp_mppe_state *state, uint8_t *key);
+void mppe_init(ppp_pcb *pcb, ppp_mppe_state *state, uint8_t options);
 void mppe_comp_reset(ppp_pcb *pcb, ppp_mppe_state *state);
 err_t mppe_compress(ppp_pcb *pcb, ppp_mppe_state *state, struct pbuf **pb, u16_t protocol);
 void mppe_decomp_reset(ppp_pcb *pcb, ppp_mppe_state *state);

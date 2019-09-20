@@ -54,8 +54,8 @@ const ip_addr_t ip_addr_broadcast = IPADDR4_INIT(IPADDR_BROADCAST);
  * @param netif the network interface against which the address is checked
  * @return returns non-zero if the address is a broadcast address
  */
-u8_t
-ip4_addr_isbroadcast_u32(u32_t addr, const struct netif *netif)
+uint8_t
+ip4_addr_isbroadcast_u32(uint32_t addr, const struct netif *netif)
 {
   ip4_addr_t ipaddr;
   ip4_addr_set_u32(&ipaddr, addr);
@@ -89,11 +89,11 @@ ip4_addr_isbroadcast_u32(u32_t addr, const struct netif *netif)
  * @param netmask the IPv4 netmask to check (in network byte order!)
  * @return 1 if the netmask is valid, 0 if it is not
  */
-u8_t
-ip4_addr_netmask_valid(u32_t netmask)
+uint8_t
+ip4_addr_netmask_valid(uint32_t netmask)
 {
-  u32_t mask;
-  u32_t nm_hostorder = lwip_htonl(netmask);
+  uint32_t mask;
+  uint32_t nm_hostorder = lwip_htonl(netmask);
 
   /* first, check for the first zero */
   for (mask = 1UL << 31 ; mask != 0; mask >>= 1) {
@@ -114,7 +114,7 @@ ip4_addr_netmask_valid(u32_t netmask)
 
 /* Here for now until needed in other places in lwIP */
 #ifndef isprint
-#define in_range(c, lo, up)  ((u8_t)c >= lo && (u8_t)c <= up)
+#define in_range(c, lo, up)  ((uint8_t)c >= lo && (uint8_t)c <= up)
 #define isprint(c)           in_range(c, 0x20, 0x7f)
 #define isdigit(c)           in_range(c, '0', '9')
 #define isxdigit(c)          (isdigit(c) || in_range(c, 'a', 'f') || in_range(c, 'A', 'F'))
@@ -129,7 +129,7 @@ ip4_addr_netmask_valid(u32_t netmask)
  * @param cp IP address in ascii representation (e.g. "127.0.0.1")
  * @return ip address in network order
  */
-u32_t
+uint32_t
 ipaddr_addr(const char *cp)
 {
   ip4_addr_t val;
@@ -154,11 +154,11 @@ ipaddr_addr(const char *cp)
 int
 ip4addr_aton(const char *cp, ip4_addr_t *addr)
 {
-  u32_t val;
-  u8_t base;
+  uint32_t val;
+  uint8_t base;
   char c;
-  u32_t parts[4];
-  u32_t *pp = parts;
+  uint32_t parts[4];
+  uint32_t *pp = parts;
 
   c = *cp;
   for (;;) {
@@ -183,10 +183,10 @@ ip4addr_aton(const char *cp, ip4_addr_t *addr)
     }
     for (;;) {
       if (isdigit(c)) {
-        val = (val * base) + (u32_t)(c - '0');
+        val = (val * base) + (uint32_t)(c - '0');
         c = *++cp;
       } else if (base == 16 && isxdigit(c)) {
-        val = (val << 4) | (u32_t)(c + 10 - (islower(c) ? 'a' : 'A'));
+        val = (val << 4) | (uint32_t)(c + 10 - (islower(c) ? 'a' : 'A'));
         c = *++cp;
       } else {
         break;
@@ -292,24 +292,24 @@ ip4addr_ntoa(const ip4_addr_t *addr)
 char*
 ip4addr_ntoa_r(const ip4_addr_t *addr, char *buf, int buflen)
 {
-  u32_t s_addr;
+  uint32_t s_addr;
   char inv[3];
   char *rp;
-  u8_t *ap;
-  u8_t rem;
-  u8_t n;
-  u8_t i;
+  uint8_t *ap;
+  uint8_t rem;
+  uint8_t n;
+  uint8_t i;
   int len = 0;
 
   s_addr = ip4_addr_get_u32(addr);
 
   rp = buf;
-  ap = (u8_t *)&s_addr;
+  ap = (uint8_t *)&s_addr;
   for (n = 0; n < 4; n++) {
     i = 0;
     do {
-      rem = *ap % (u8_t)10;
-      *ap /= (u8_t)10;
+      rem = *ap % (uint8_t)10;
+      *ap /= (uint8_t)10;
       inv[i++] = (char)('0' + rem);
     } while (*ap);
     while (i--) {

@@ -40,7 +40,7 @@ struct pbuf {
 
   /** pointer to the actual data in the buffer */
   void *payload;
-  
+
   /**
    * total length of this buffer and all next buffers in chain
    * belonging to the same packet.
@@ -49,15 +49,15 @@ struct pbuf {
    * p->tot_len == p->len + (p->next? p->next->tot_len: 0)
    */
   u16_t tot_len;
-  
-  /** length of this buffer */
-  u16_t len;  
 
-  /** pbuf_type as u8_t instead of enum to save space */
-  u8_t /*pbuf_type*/ type;
+  /** length of this buffer */
+  u16_t len;
+
+  /** pbuf_type as uint8_t instead of enum to save space */
+  uint8_t /*pbuf_type*/ type;
 
   /** misc flags */
-  u8_t flags;
+  uint8_t flags;
 
   /**
    * the reference count always equals the number of pointers
@@ -65,7 +65,7 @@ struct pbuf {
    * the stack itself, or pbuf->next pointers from a chain.
    */
   u16_t ref;
-  
+
 };
 #else    /* RT_USING_UIP */
 struct pbuf
@@ -79,9 +79,9 @@ struct pbuf
 
 
 struct pbuf *pbuf_alloc(pbuf_layer l, u16_t size, pbuf_type type);
- 
-u8_t pbuf_header(struct pbuf *p, s16_t header_size);
 
-u8_t pbuf_free(struct pbuf *p);
+uint8_t pbuf_header(struct pbuf *p, s16_t header_size);
+
+uint8_t pbuf_free(struct pbuf *p);
 
 #endif /* __UIP_PBUF_H__ */

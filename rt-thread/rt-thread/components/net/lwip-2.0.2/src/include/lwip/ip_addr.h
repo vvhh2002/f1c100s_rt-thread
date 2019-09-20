@@ -72,7 +72,7 @@ typedef struct ip_addr {
     ip4_addr_t ip4;
   } u_addr;
   /** @ref lwip_ip_addr_type */
-  u8_t type;
+  uint8_t type;
 } ip_addr_t;
 
 extern const ip_addr_t ip_addr_any_type;
@@ -373,7 +373,7 @@ extern const ip_addr_t ip_addr_broadcast;
 
 extern const ip_addr_t ip6_addr_any;
 
-/** 
+/**
  * @ingroup ip6addr
  * IP6_ADDR_ANY can be used as a fixed ip_addr_t
  * for the IPv6 wildcard address

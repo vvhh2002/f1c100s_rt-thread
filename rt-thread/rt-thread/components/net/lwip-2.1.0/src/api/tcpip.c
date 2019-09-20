@@ -83,7 +83,7 @@ static void tcpip_thread_handle_msg(struct tcpip_msg *msg);
 static void
 tcpip_timeouts_mbox_fetch(sys_mbox_t *mbox, void **msg)
 {
-  u32_t sleeptime, res;
+  uint32_t sleeptime, res;
 
 again:
   LWIP_ASSERT_CORE_LOCKED();
@@ -374,7 +374,7 @@ tcpip_try_callback(tcpip_callback_fn function, void *ctx)
  * @return ERR_MEM on memory error, ERR_OK otherwise
  */
 err_t
-tcpip_timeout(u32_t msecs, sys_timeout_handler h, void *arg)
+tcpip_timeout(uint32_t msecs, sys_timeout_handler h, void *arg)
 {
   struct tcpip_msg *msg;
 
@@ -519,7 +519,7 @@ tcpip_api_call(tcpip_api_call_fn fn, struct tcpip_api_call_data *call)
  * e.g. the message is allocated once and posted several times from an IRQ
  * using tcpip_callbackmsg_trycallback().
  * Example usage: Trigger execution of an ethernet IRQ DPC routine in lwIP thread context.
- * 
+ *
  * @param function the function to call
  * @param ctx parameter passed to function
  * @return a struct pointer to pass to tcpip_callbackmsg_trycallback().

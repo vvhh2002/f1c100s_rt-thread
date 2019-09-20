@@ -7,13 +7,13 @@
 * The authors hereby grant permission to use, copy, modify, distribute,
 * and license this software and its documentation for any purpose, provided
 * that existing copyright notices are retained in all copies and that this
-* notice and the following disclaimer are included verbatim in any 
+* notice and the following disclaimer are included verbatim in any
 * distributions. No written agreement, license, or royalty fee is required
 * for any of the authorized uses.
 *
 * THIS SOFTWARE IS PROVIDED BY THE CONTRIBUTORS *AS IS* AND ANY EXPRESS OR
 * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
-* OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
+* OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
 * IN NO EVENT SHALL THE CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
 * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
 * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
@@ -81,7 +81,7 @@ avRandomInit()
  * Ref: Applied Cryptography 2nd Ed. by Bruce Schneier p. 427
  */
 void
-avChurnRand(char *randData, u32_t randLen)
+avChurnRand(char *randData, uint32_t randLen)
 {
   MD5_CTX md5;
 
@@ -120,11 +120,11 @@ avChurnRand(char *randData, u32_t randLen)
  *  it was documented.
  */
 void
-avGenRand(char *buf, u32_t bufLen)
+avGenRand(char *buf, uint32_t bufLen)
 {
   MD5_CTX md5;
   u_char tmp[16];
-  u32_t n;
+  uint32_t n;
 
   while (bufLen > 0) {
     n = LWIP_MIN(bufLen, RANDPOOLSZ);
@@ -142,10 +142,10 @@ avGenRand(char *buf, u32_t bufLen)
 /*
  * Return a new random number.
  */
-u32_t
+uint32_t
 avRandom()
 {
-  u32_t newRand;
+  uint32_t newRand;
 
   avGenRand((char *)&newRand, sizeof(newRand));
 
@@ -158,7 +158,7 @@ avRandom()
 /*** LOCAL DATA STRUCTURES ***/
 /*****************************/
 static int  avRandomized = 0;       /* Set when truely randomized. */
-static u32_t avRandomSeed = 0;      /* Seed used for random number generation. */
+static uint32_t avRandomSeed = 0;      /* Seed used for random number generation. */
 
 
 /***********************************/
@@ -183,7 +183,7 @@ avRandomInit()
 {
 #if 0
   /* Get a pointer into the last 4 bytes of clockBuf. */
-  u32_t *lptr1 = (u32_t *)((char *)&clockBuf[3]);
+  uint32_t *lptr1 = (uint32_t *)((char *)&clockBuf[3]);
 
   /*
    * Initialize our seed using the real-time clock, the idle
@@ -196,8 +196,8 @@ avRandomInit()
    * randomize the lower 16 bits of the seed.
    */
   readClk();
-  avRandomSeed += *(u32_t *)clockBuf + *lptr1 + OSIdleCtr
-           + ppp_mtime() + ((u32_t)TM1 << 16) + TM1;
+  avRandomSeed += *(uint32_t *)clockBuf + *lptr1 + OSIdleCtr
+           + ppp_mtime() + ((uint32_t)TM1 << 16) + TM1;
 #else
   avRandomSeed += sys_jiffies(); /* XXX */
 #endif
@@ -216,7 +216,7 @@ avRandomInit()
 void
 avRandomize(void)
 {
-  static u32_t last_jiffies;
+  static uint32_t last_jiffies;
 
   if (!avRandomized) {
     avRandomized = !0;
@@ -233,15 +233,15 @@ avRandomize(void)
  * Return a new random number.
  * Here we use the Borland rand() function to supply a pseudo random
  * number which we make truely random by combining it with our own
- * seed which is randomized by truely random events. 
+ * seed which is randomized by truely random events.
  * Thus the numbers will be truely random unless there have been no
  * operator or network events in which case it will be pseudo random
  * seeded by the real time clock.
  */
-u32_t
+uint32_t
 avRandom()
 {
-  return ((((u32_t)rand() << 16) + rand()) + avRandomSeed);
+  return ((((uint32_t)rand() << 16) + rand()) + avRandomSeed);
 }
 
 #endif /* MD5_SUPPORT */

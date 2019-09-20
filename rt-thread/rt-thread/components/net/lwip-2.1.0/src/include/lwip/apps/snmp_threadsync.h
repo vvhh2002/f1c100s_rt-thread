@@ -61,11 +61,11 @@ struct threadsync_data
     s16_t s16;
   } retval;
   union {
-    const u32_t *root_oid;
+    const uint32_t *root_oid;
     void *value;
   } arg1;
   union {
-    u8_t root_oid_len;
+    uint8_t root_oid_len;
     u16_t len;
   } arg2;
   const struct snmp_threadsync_node *threadsync_node;
@@ -91,8 +91,8 @@ struct snmp_threadsync_node
   struct snmp_threadsync_instance *instance;
 };
 
-snmp_err_t snmp_threadsync_get_instance(const u32_t *root_oid, u8_t root_oid_len, struct snmp_node_instance* instance);
-snmp_err_t snmp_threadsync_get_next_instance(const u32_t *root_oid, u8_t root_oid_len, struct snmp_node_instance* instance);
+snmp_err_t snmp_threadsync_get_instance(const uint32_t *root_oid, uint8_t root_oid_len, struct snmp_node_instance* instance);
+snmp_err_t snmp_threadsync_get_next_instance(const uint32_t *root_oid, uint8_t root_oid_len, struct snmp_node_instance* instance);
 
 /** Create thread sync proxy node */
 #define SNMP_CREATE_THREAD_SYNC_NODE(oid, target_leaf_node, threadsync_instance) \

@@ -158,7 +158,7 @@ altcp_free(struct altcp_pcb *conn)
 
 /**
  * @ingroup altcp
- * altcp_new_ip6: @ref altcp_new for IPv6 
+ * altcp_new_ip6: @ref altcp_new for IPv6
  */
 struct altcp_pcb *
 altcp_new_ip6(altcp_allocator_t *allocator)
@@ -166,9 +166,9 @@ altcp_new_ip6(altcp_allocator_t *allocator)
   return altcp_new_ip_type(allocator, IPADDR_TYPE_V6);
 }
 
-/** 
+/**
  * @ingroup altcp
- * altcp_new: @ref altcp_new for IPv4 
+ * altcp_new: @ref altcp_new for IPv4
  */
 struct altcp_pcb *
 altcp_new(altcp_allocator_t *allocator)
@@ -186,7 +186,7 @@ altcp_new(altcp_allocator_t *allocator)
  * @return a new altcp_pcb or NULL on error
  */
 struct altcp_pcb *
-altcp_new_ip_type(altcp_allocator_t *allocator, u8_t ip_type)
+altcp_new_ip_type(altcp_allocator_t *allocator, uint8_t ip_type)
 {
   struct altcp_pcb *conn;
   if (allocator == NULL) {
@@ -258,7 +258,7 @@ altcp_sent(struct altcp_pcb *conn, altcp_sent_fn sent)
  * @see tcp_poll()
  */
 void
-altcp_poll(struct altcp_pcb *conn, altcp_poll_fn poll, u8_t interval)
+altcp_poll(struct altcp_pcb *conn, altcp_poll_fn poll, uint8_t interval)
 {
   if (conn) {
     conn->poll = poll;
@@ -326,7 +326,7 @@ altcp_connect(struct altcp_pcb *conn, const ip_addr_t *ipaddr, u16_t port, altcp
  * @see tcp_listen_with_backlog_and_err()
  */
 struct altcp_pcb *
-altcp_listen_with_backlog_and_err(struct altcp_pcb *conn, u8_t backlog, err_t *err)
+altcp_listen_with_backlog_and_err(struct altcp_pcb *conn, uint8_t backlog, err_t *err)
 {
   if (conn && conn->fns && conn->fns->listen) {
     return conn->fns->listen(conn, backlog, err);
@@ -377,7 +377,7 @@ altcp_shutdown(struct altcp_pcb *conn, int shut_rx, int shut_tx)
  * @see tcp_write()
  */
 err_t
-altcp_write(struct altcp_pcb *conn, const void *dataptr, u16_t len, u8_t apiflags)
+altcp_write(struct altcp_pcb *conn, const void *dataptr, u16_t len, uint8_t apiflags)
 {
   if (conn && conn->fns && conn->fns->write) {
     return conn->fns->write(conn, dataptr, len, apiflags);
@@ -467,7 +467,7 @@ altcp_nagle_disabled(struct altcp_pcb *conn)
  * @see tcp_setprio()
  */
 void
-altcp_setprio(struct altcp_pcb *conn, u8_t prio)
+altcp_setprio(struct altcp_pcb *conn, uint8_t prio)
 {
   if (conn && conn->fns && conn->fns->setprio) {
     conn->fns->setprio(conn, prio);
@@ -515,7 +515,7 @@ altcp_dbg_get_tcp_state(struct altcp_pcb *conn)
 /* Default implementations for the "virtual" functions */
 
 void
-altcp_default_set_poll(struct altcp_pcb *conn, u8_t interval)
+altcp_default_set_poll(struct altcp_pcb *conn, uint8_t interval)
 {
   if (conn && conn->inner_conn) {
     altcp_poll(conn->inner_conn, conn->poll, interval);
@@ -555,7 +555,7 @@ altcp_default_shutdown(struct altcp_pcb *conn, int shut_rx, int shut_tx)
 }
 
 err_t
-altcp_default_write(struct altcp_pcb *conn, const void *dataptr, u16_t len, u8_t apiflags)
+altcp_default_write(struct altcp_pcb *conn, const void *dataptr, u16_t len, uint8_t apiflags)
 {
   if (conn && conn->inner_conn) {
     return altcp_write(conn->inner_conn, dataptr, len, apiflags);
@@ -625,7 +625,7 @@ altcp_default_nagle_disabled(struct altcp_pcb *conn)
 }
 
 void
-altcp_default_setprio(struct altcp_pcb *conn, u8_t prio)
+altcp_default_setprio(struct altcp_pcb *conn, uint8_t prio)
 {
   if (conn && conn->inner_conn) {
     altcp_setprio(conn->inner_conn, prio);

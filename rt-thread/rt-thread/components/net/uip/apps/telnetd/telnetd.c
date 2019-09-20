@@ -85,7 +85,7 @@ static void
 sendline(char *line)
 {
   static unsigned int i;
-  
+
   for(i = 0; i < TELNETD_CONF_NUMLINES; ++i) {
     if(s.lines[i] == NULL) {
       s.lines[i] = line;
@@ -145,7 +145,7 @@ static void
 acked(void)
 {
   static unsigned int i;
-  
+
   while(s.numsent > 0) {
     dealloc_line(s.lines[0]);
     for(i = 1; i < TELNETD_CONF_NUMLINES; ++i) {
@@ -161,7 +161,7 @@ senddata(void)
 {
   static char *bufptr, *lineptr;
   static int buflen, linelen;
-  
+
   bufptr = uip_appdata;
   buflen = 0;
   for(s.numsent = 0; s.numsent < TELNETD_CONF_NUMLINES &&
@@ -186,7 +186,7 @@ static void
 closed(void)
 {
   static unsigned int i;
-  
+
   for(i = 0; i < TELNETD_CONF_NUMLINES; ++i) {
     if(s.lines[i] != NULL) {
       dealloc_line(s.lines[i]);
@@ -195,12 +195,12 @@ closed(void)
 }
 /*---------------------------------------------------------------------------*/
 static void
-get_char(u8_t c)
+get_char(uint8_t c)
 {
   if(c == ISO_cr) {
     return;
   }
-  
+
   s.buf[(int)s.bufptr] = c;
   if(s.buf[(int)s.bufptr] == ISO_nl ||
      s.bufptr == sizeof(s.buf) - 1) {
@@ -216,7 +216,7 @@ get_char(u8_t c)
 }
 /*---------------------------------------------------------------------------*/
 static void
-sendopt(u8_t option, u8_t value)
+sendopt(uint8_t option, uint8_t value)
 {
   char *line;
   line = alloc_line();
@@ -233,13 +233,13 @@ static void
 newdata(void)
 {
   u16_t len;
-  u8_t c;
+  uint8_t c;
   char *dataptr;
-    
-  
+
+
   len = uip_datalen();
   dataptr = (char *)uip_appdata;
-  
+
   while(len > 0 && s.bufptr < sizeof(s.buf)) {
     c = *dataptr;
     ++dataptr;
@@ -274,7 +274,7 @@ newdata(void)
       sendopt(TELNET_DONT, c);
       s.state = STATE_NORMAL;
       break;
-      
+
     case STATE_WONT:
       /* Reply with a DONT */
       sendopt(TELNET_DONT, c);
@@ -299,9 +299,9 @@ newdata(void)
       break;
     }
 
-    
+
   }
-  
+
 }
 /*---------------------------------------------------------------------------*/
 void
@@ -324,21 +324,21 @@ telnetd_appcall(void)
     uip_close();
     return;
   }
-  
+
   if(uip_closed() ||
      uip_aborted() ||
      uip_timedout()) {
     closed();
   }
-  
+
   if(uip_acked()) {
     acked();
   }
-  
+
   if(uip_newdata()) {
     newdata();
   }
-  
+
   if(uip_rexmit() ||
      uip_newdata() ||
      uip_acked() ||

@@ -56,7 +56,7 @@ extern "C" {
 #endif
 PACK_STRUCT_BEGIN
 struct eth_addr {
-  PACK_STRUCT_FLD_8(u8_t addr[ETH_HWADDR_LEN]);
+  PACK_STRUCT_FLD_8(uint8_t addr[ETH_HWADDR_LEN]);
 } PACK_STRUCT_STRUCT;
 PACK_STRUCT_END
 #ifdef PACK_STRUCT_USE_INCLUDES
@@ -70,7 +70,7 @@ PACK_STRUCT_BEGIN
 /** Ethernet header */
 struct eth_hdr {
 #if ETH_PAD_SIZE
-  PACK_STRUCT_FLD_8(u8_t padding[ETH_PAD_SIZE]);
+  PACK_STRUCT_FLD_8(uint8_t padding[ETH_PAD_SIZE]);
 #endif
   PACK_STRUCT_FLD_S(struct eth_addr dest);
   PACK_STRUCT_FLD_S(struct eth_addr src);
@@ -109,7 +109,7 @@ enum eth_type {
   /** Internet protocol v4 */
   ETHTYPE_IP        = 0x0800U,
   /** Address resolution protocol */
-  ETHTYPE_ARP       = 0x0806U, 
+  ETHTYPE_ARP       = 0x0806U,
   /** Wake on lan */
   ETHTYPE_WOL       = 0x0842U,
   /** RARP */

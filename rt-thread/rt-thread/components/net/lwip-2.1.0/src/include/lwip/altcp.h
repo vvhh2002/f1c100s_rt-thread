@@ -63,7 +63,7 @@ typedef err_t (*altcp_sent_fn)(void *arg, struct altcp_pcb *conn, u16_t len);
 typedef err_t (*altcp_poll_fn)(void *arg, struct altcp_pcb *conn);
 typedef void  (*altcp_err_fn)(void *arg, err_t err);
 
-typedef struct altcp_pcb* (*altcp_new_fn)(void *arg, u8_t ip_type);
+typedef struct altcp_pcb* (*altcp_new_fn)(void *arg, uint8_t ip_type);
 
 struct altcp_pcb {
   const struct altcp_functions *fns;
@@ -77,7 +77,7 @@ struct altcp_pcb {
   altcp_sent_fn       sent;
   altcp_poll_fn       poll;
   altcp_err_fn        err;
-  u8_t pollinterval;
+  uint8_t pollinterval;
 };
 
 /** @ingroup altcp */
@@ -90,13 +90,13 @@ typedef struct altcp_allocator_s {
 
 struct altcp_pcb *altcp_new(altcp_allocator_t *allocator);
 struct altcp_pcb *altcp_new_ip6(altcp_allocator_t *allocator);
-struct altcp_pcb *altcp_new_ip_type(altcp_allocator_t *allocator, u8_t ip_type);
+struct altcp_pcb *altcp_new_ip_type(altcp_allocator_t *allocator, uint8_t ip_type);
 
 void altcp_arg(struct altcp_pcb *conn, void *arg);
 void altcp_accept(struct altcp_pcb *conn, altcp_accept_fn accept);
 void altcp_recv(struct altcp_pcb *conn, altcp_recv_fn recv);
 void altcp_sent(struct altcp_pcb *conn, altcp_sent_fn sent);
-void altcp_poll(struct altcp_pcb *conn, altcp_poll_fn poll, u8_t interval);
+void altcp_poll(struct altcp_pcb *conn, altcp_poll_fn poll, uint8_t interval);
 void altcp_err(struct altcp_pcb *conn, altcp_err_fn err);
 
 void  altcp_recved(struct altcp_pcb *conn, u16_t len);
@@ -104,7 +104,7 @@ err_t altcp_bind(struct altcp_pcb *conn, const ip_addr_t *ipaddr, u16_t port);
 err_t altcp_connect(struct altcp_pcb *conn, const ip_addr_t *ipaddr, u16_t port, altcp_connected_fn connected);
 
 /* return conn for source code compatibility to tcp callback API only */
-struct altcp_pcb *altcp_listen_with_backlog_and_err(struct altcp_pcb *conn, u8_t backlog, err_t *err);
+struct altcp_pcb *altcp_listen_with_backlog_and_err(struct altcp_pcb *conn, uint8_t backlog, err_t *err);
 #define altcp_listen_with_backlog(conn, backlog) altcp_listen_with_backlog_and_err(conn, backlog, NULL)
 /** @ingroup altcp */
 #define altcp_listen(conn) altcp_listen_with_backlog_and_err(conn, TCP_DEFAULT_LISTEN_BACKLOG, NULL)
@@ -113,7 +113,7 @@ void altcp_abort(struct altcp_pcb *conn);
 err_t altcp_close(struct altcp_pcb *conn);
 err_t altcp_shutdown(struct altcp_pcb *conn, int shut_rx, int shut_tx);
 
-err_t altcp_write(struct altcp_pcb *conn, const void *dataptr, u16_t len, u8_t apiflags);
+err_t altcp_write(struct altcp_pcb *conn, const void *dataptr, u16_t len, uint8_t apiflags);
 err_t altcp_output(struct altcp_pcb *conn);
 
 u16_t altcp_mss(struct altcp_pcb *conn);
@@ -123,7 +123,7 @@ void  altcp_nagle_disable(struct altcp_pcb *conn);
 void  altcp_nagle_enable(struct altcp_pcb *conn);
 int   altcp_nagle_disabled(struct altcp_pcb *conn);
 
-void  altcp_setprio(struct altcp_pcb *conn, u8_t prio);
+void  altcp_setprio(struct altcp_pcb *conn, uint8_t prio);
 
 err_t altcp_get_tcp_addrinfo(struct altcp_pcb *conn, int local, ip_addr_t *addr, u16_t *port);
 ip_addr_t *altcp_get_ip(struct altcp_pcb *conn, int local);

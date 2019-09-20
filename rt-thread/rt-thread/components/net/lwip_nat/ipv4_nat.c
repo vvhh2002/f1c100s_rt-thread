@@ -158,7 +158,7 @@ static ip_nat_entries_tcp_t ip_nat_tcp_table[LWIP_NAT_DEFAULT_STATE_TABLES_TCP];
 static ip_nat_entries_udp_t ip_nat_udp_table[LWIP_NAT_DEFAULT_STATE_TABLES_UDP];
 
 /* ----------------------- Static functions (COMMON) --------------------*/
-static void     ip_nat_chksum_adjust(u8_t *chksum, const u8_t *optr, s16_t olen, const u8_t *nptr, s16_t nlen);
+static void     ip_nat_chksum_adjust(uint8_t *chksum, const uint8_t *optr, s16_t olen, const uint8_t *nptr, s16_t nlen);
 static void     ip_nat_cmn_init(ip_nat_conf_t *nat_config, const struct ip_hdr *iphdr,
                                  ip_nat_entry_common_t *nat_entry);
 static ip_nat_conf_t *ip_nat_shallnat(const struct ip_hdr *iphdr);
@@ -187,13 +187,13 @@ static void     ip_nat_dbg_dump_remove(ip_nat_conf_t *cur);
 static ip_nat_entries_tcp_t *ip_nat_tcp_lookup_incoming(const struct ip_hdr *iphdr, const struct tcp_hdr *tcphdr);
 static ip_nat_entries_tcp_t *ip_nat_tcp_lookup_outgoing(ip_nat_conf_t *nat_config,
                                                          const struct ip_hdr *iphdr, const struct tcp_hdr *tcphdr,
-                                                         u8_t allocate);
+                                                         uint8_t allocate);
 
 /* ----------------------- Static functions (UDP) -----------------------*/
 static ip_nat_entries_udp_t *ip_nat_udp_lookup_incoming(const struct ip_hdr *iphdr, const struct udp_hdr *udphdr);
 static ip_nat_entries_udp_t *ip_nat_udp_lookup_outgoing(ip_nat_conf_t *nat_config,
                                                          const struct ip_hdr *iphdr, const struct udp_hdr *udphdr,
-                                                         u8_t allocate);
+                                                         uint8_t allocate);
 
 /**
  * Timer callback function that calls ip_nat_tmr() and reschedules itself.
@@ -414,7 +414,7 @@ ip_nat_check_header(struct pbuf *p, u16_t min_size)
  * @return 1 if the packet has been consumed (it was a NAT packet),
  *         0 if the packet has not been consumed (no NAT packet)
  */
-u8_t
+uint8_t
 ip_nat_input(struct pbuf *p)
 {
   struct ip_hdr        *iphdr = (struct ip_hdr*)p->payload;
@@ -423,7 +423,7 @@ ip_nat_input(struct pbuf *p)
   struct icmp_echo_hdr *icmphdr;
   nat_entry_t           nat_entry;
   err_t                 err;
-  u8_t                  consumed = 0;
+  uint8_t                  consumed = 0;
   int                   i;
   struct pbuf          *q = NULL;
 
@@ -442,12 +442,12 @@ ip_nat_input(struct pbuf *p)
           nat_entry.tcp->common.ttl = LWIP_NAT_DEFAULT_TTL_SECONDS;
           tcphdr->dest = nat_entry.tcp->sport;
           /* Adjust TCP checksum for changed destination port */
-          ip_nat_chksum_adjust((u8_t *)&(tcphdr->chksum),
-            (u8_t *)&(nat_entry.tcp->nport), 2, (u8_t *)&(tcphdr->dest), 2);
+          ip_nat_chksum_adjust((uint8_t *)&(tcphdr->chksum),
+            (uint8_t *)&(nat_entry.tcp->nport), 2, (uint8_t *)&(tcphdr->dest), 2);
           /* Adjust TCP checksum for changing dest IP address */
-          ip_nat_chksum_adjust((u8_t *)&(tcphdr->chksum),
-            (u8_t *)&(nat_entry.cmn->cfg->entry.out_if->ip_addr.addr), 4,
-            (u8_t *)&(nat_entry.cmn->source.addr), 4);
+          ip_nat_chksum_adjust((uint8_t *)&(tcphdr->chksum),
+            (uint8_t *)&(nat_entry.cmn->cfg->entry.out_if->ip_addr.addr), 4,
+            (uint8_t *)&(nat_entry.cmn->source.addr), 4);
 
           consumed = 1;
         }
@@ -467,12 +467,12 @@ ip_nat_input(struct pbuf *p)
           nat_entry.udp->common.ttl = LWIP_NAT_DEFAULT_TTL_SECONDS;
           udphdr->dest = nat_entry.udp->sport;
           /* Adjust UDP checksum for changed destination port */
-          ip_nat_chksum_adjust((u8_t *)&(udphdr->chksum),
-            (u8_t *)&(nat_entry.udp->nport), 2, (u8_t *)&(udphdr->dest), 2);
+          ip_nat_chksum_adjust((uint8_t *)&(udphdr->chksum),
+            (uint8_t *)&(nat_entry.udp->nport), 2, (uint8_t *)&(udphdr->dest), 2);
           /* Adjust UDP checksum for changing dest IP address */
-          ip_nat_chksum_adjust((u8_t *)&(udphdr->chksum),
-            (u8_t *)&(nat_entry.cmn->cfg->entry.out_if->ip_addr.addr), 4,
-            (u8_t *)&(nat_entry.cmn->source.addr), 4);
+          ip_nat_chksum_adjust((uint8_t *)&(udphdr->chksum),
+            (uint8_t *)&(nat_entry.cmn->cfg->entry.out_if->ip_addr.addr), 4,
+            (uint8_t *)&(nat_entry.cmn->source.addr), 4);
 
           consumed = 1;
         }
@@ -540,9 +540,9 @@ ip_nat_input(struct pbuf *p)
     /* if we come here, q is the pbuf to send (either points to p or to a chain) */
     in_if = nat_entry.cmn->cfg->entry.in_if;
     iphdr->dest.addr = nat_entry.cmn->source.addr;
-    ip_nat_chksum_adjust((u8_t *) & IPH_CHKSUM(iphdr),
-      (u8_t *) & (nat_entry.cmn->cfg->entry.out_if->ip_addr.addr), 4,
-      (u8_t *) & (iphdr->dest.addr), 4);
+    ip_nat_chksum_adjust((uint8_t *) & IPH_CHKSUM(iphdr),
+      (uint8_t *) & (nat_entry.cmn->cfg->entry.out_if->ip_addr.addr), 4,
+      (uint8_t *) & (iphdr->dest.addr), 4);
 
     ip_nat_dbg_dump("ip_nat_input: packet back to source after nat: ", iphdr);
     LWIP_DEBUGF(LWIP_NAT_DEBUG, ("ip_nat_input: sending packet on interface ("));
@@ -607,10 +607,10 @@ ip_nat_tmr(void)
  * @return 1: the packet has been sent using NAT,
  *         0: the packet did not belong to a NAT entry
  */
-u8_t
+uint8_t
 ip_nat_out(struct pbuf *p)
 {
-  u8_t                  sent = 0;
+  uint8_t                  sent = 0;
   err_t                 err;
   struct ip_hdr        *iphdr = p->payload;
   struct icmp_echo_hdr *icmphdr;
@@ -642,12 +642,12 @@ ip_nat_out(struct pbuf *p)
           if (nat_entry.tcp != NULL) {
             /* Adjust TCP checksum for changing source port */
             tcphdr->src = nat_entry.tcp->nport;
-            ip_nat_chksum_adjust((u8_t *)&(tcphdr->chksum),
-              (u8_t *)&(nat_entry.tcp->sport), 2, (u8_t *)&(tcphdr->src), 2);
+            ip_nat_chksum_adjust((uint8_t *)&(tcphdr->chksum),
+              (uint8_t *)&(nat_entry.tcp->sport), 2, (uint8_t *)&(tcphdr->src), 2);
             /* Adjust TCP checksum for changing source IP address */
-            ip_nat_chksum_adjust((u8_t *)&(tcphdr->chksum),
-              (u8_t *)&(nat_entry.cmn->source.addr), 4,
-              (u8_t *)&(nat_entry.cmn->cfg->entry.out_if->ip_addr.addr), 4);
+            ip_nat_chksum_adjust((uint8_t *)&(tcphdr->chksum),
+              (uint8_t *)&(nat_entry.cmn->source.addr), 4,
+              (uint8_t *)&(nat_entry.cmn->cfg->entry.out_if->ip_addr.addr), 4);
           }
         }
         break;
@@ -662,12 +662,12 @@ ip_nat_out(struct pbuf *p)
           if (nat_entry.udp != NULL) {
             /* Adjust UDP checksum for changing source port */
             udphdr->src = nat_entry.udp->nport;
-            ip_nat_chksum_adjust((u8_t *)&(udphdr->chksum),
-              (u8_t *)&(nat_entry.udp->sport), 2, (u8_t *) & (udphdr->src), 2);
+            ip_nat_chksum_adjust((uint8_t *)&(udphdr->chksum),
+              (uint8_t *)&(nat_entry.udp->sport), 2, (uint8_t *) & (udphdr->src), 2);
             /* Adjust UDP checksum for changing source IP address */
-            ip_nat_chksum_adjust((u8_t *)&(udphdr->chksum),
-              (u8_t *)&(nat_entry.cmn->source.addr), 4,
-              (u8_t *)&(nat_entry.cmn->cfg->entry.out_if->ip_addr.addr), 4);
+            ip_nat_chksum_adjust((uint8_t *)&(udphdr->chksum),
+              (uint8_t *)&(nat_entry.cmn->source.addr), 4,
+              (uint8_t *)&(nat_entry.cmn->cfg->entry.out_if->ip_addr.addr), 4);
           }
         }
         break;
@@ -707,8 +707,8 @@ ip_nat_out(struct pbuf *p)
         */
         /* @todo: check nat_config->entry.out_if agains nat_entry.cmn->cfg->entry.out_if */
         iphdr->src.addr = nat_config->entry.out_if->ip_addr.addr;
-        ip_nat_chksum_adjust((u8_t *) & IPH_CHKSUM(iphdr),
-          (u8_t *) & (nat_entry.cmn->source.addr), 4, (u8_t *) & iphdr->src.addr, 4);
+        ip_nat_chksum_adjust((uint8_t *) & IPH_CHKSUM(iphdr),
+          (uint8_t *) & (nat_entry.cmn->source.addr), 4, (uint8_t *) & iphdr->src.addr, 4);
 
         ip_nat_dbg_dump("ip_nat_out: rewritten packet", iphdr);
         LWIP_DEBUGF(LWIP_NAT_DEBUG, ("ip_nat_out: sending packet on interface ("));
@@ -790,7 +790,7 @@ ip_nat_udp_lookup_incoming(const struct ip_hdr *iphdr, const struct udp_hdr *udp
  */
 static ip_nat_entries_udp_t *
 ip_nat_udp_lookup_outgoing(ip_nat_conf_t *nat_config, const struct ip_hdr *iphdr,
-                           const struct udp_hdr *udphdr, u8_t allocate)
+                           const struct udp_hdr *udphdr, uint8_t allocate)
 {
   int i;
   nat_entry_t nat_entry;
@@ -875,7 +875,7 @@ ip_nat_tcp_lookup_incoming(const struct ip_hdr *iphdr, const struct tcp_hdr *tcp
  */
 static ip_nat_entries_tcp_t *
 ip_nat_tcp_lookup_outgoing(ip_nat_conf_t *nat_config, const struct ip_hdr *iphdr,
-                           const struct tcp_hdr *tcphdr, u8_t allocate)
+                           const struct tcp_hdr *tcphdr, uint8_t allocate)
 {
   int i;
   nat_entry_t nat_entry;
@@ -928,7 +928,7 @@ ip_nat_tcp_lookup_outgoing(ip_nat_conf_t *nat_config, const struct ip_hdr *iphdr
  * @param nlen length of new data
  */
 static void
-ip_nat_chksum_adjust(u8_t *chksum, const u8_t *optr, s16_t olen, const u8_t *nptr, s16_t nlen)
+ip_nat_chksum_adjust(uint8_t *chksum, const uint8_t *optr, s16_t olen, const uint8_t *nptr, s16_t nlen)
 {
   s32_t x, oldval, newval;
 

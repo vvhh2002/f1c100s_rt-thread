@@ -98,7 +98,7 @@ void magic_randomize(void);
 /*
  * Return a new random number.
  */
-u32_t magic(void);	/* Returns the next magic number */
+uint32_t magic(void);	/* Returns the next magic number */
 
 /*
  * Fill buffer with random bytes
@@ -110,12 +110,12 @@ u32_t magic(void);	/* Returns the next magic number */
  * least some degree.  Also, it's important to get a good seed before
  * the first use.
  */
-void magic_random_bytes(unsigned char *buf, u32_t buf_len);
+void magic_random_bytes(unsigned char *buf, uint32_t buf_len);
 
 /*
  * Return a new random number between 0 and (2^pow)-1 included.
  */
-u32_t magic_pow(u8_t pow);
+uint32_t magic_pow(uint8_t pow);
 
 #endif /* MAGIC_H */
 

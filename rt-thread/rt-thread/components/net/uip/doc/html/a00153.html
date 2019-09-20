@@ -14,7 +14,7 @@
     <li><a href="examples.html"><span>Examples</span></a></li>
   </ul></div>
 <h1>Configuration options for uIP</h1><hr><a name="_details"></a><h2>Detailed Description</h2>
-uIP is configured using the per-project configuration file <a class="el" href="a00140.html">uipopt.h</a>. 
+uIP is configured using the per-project configuration file <a class="el" href="a00140.html">uipopt.h</a>.
 <p>
 This file contains all compile-time options for uIP and should be tweaked to match each specific project. The uIP distribution contains a documented example "uipopt.h" that can be copied and modified for each project.<p>
 <dl compact><dt><b>Note:</b></dt><dd>Most of the configuration options in the <a class="el" href="a00140.html">uipopt.h</a> should not be changed, but rather the per-project uip-conf.h file. </dd></dl>
@@ -67,7 +67,7 @@ This file contains all compile-time options for uIP and should be tweaked to mat
 #define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00153.html#g529648ad3b0b327a43689b0f1779ff55">UIP_CONF_STATISTICS</a></td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">uIP statistics on or off <br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">typedef uint8_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">typedef uint8_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a></td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">8 bit datatype  <a href="#g4caecabca98b43919dd11be1c0d4cd8e"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">typedef uint16_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00153.html#g77570ac4fcab86864fa1916e55676da2">u16_t</a></td></tr>
@@ -181,7 +181,7 @@ The following example illustrates how this can look. <div class="fragment"><pre 
 <span class="preprocessor">#define UIP_APPCALL     httpd_appcall</span>
 <span class="preprocessor"></span>
 <span class="keyword">struct </span><a class="code" href="a00080.html">httpd_state</a> {
-  <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a> <a class="code" href="a00080.html#94fcc9f5c47f419040d849ce58beae35">state</a>;
+  <a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a> <a class="code" href="a00080.html#94fcc9f5c47f419040d849ce58beae35">state</a>;
   <a class="code" href="a00153.html#g77570ac4fcab86864fa1916e55676da2">u16_t</a> <a class="code" href="a00080.html#6df929b448ea98bc44d41f5e96237bda">count</a>;
   <span class="keywordtype">char</span> *dataptr;
   <span class="keywordtype">char</span> *script;
@@ -227,9 +227,9 @@ The following example illustrates how this can look. <div class="fragment"><pre 
     <td>
 
 <p>
-Determines if support for opening connections from uIP should be compiled in. 
+Determines if support for opening connections from uIP should be compiled in.
 <p>
-If the applications that are running on top of uIP for this project do not need to open outgoing TCP connections, this configration option can be turned off to reduce the code size of uIP. 
+If the applications that are running on top of uIP for this project do not need to open outgoing TCP connections, this configration option can be turned off to reduce the code size of uIP.
 <p>
 Definition at line <a class="el" href="a00206.html#l00233">233</a> of file <a class="el" href="a00206.html">uipopt.h</a>.    </td>
   </tr>
@@ -254,9 +254,9 @@ Definition at line <a class="el" href="a00206.html#l00233">233</a> of file <a cl
     <td>
 
 <p>
-The maxium age of ARP table entries measured in 10ths of seconds. 
+The maxium age of ARP table entries measured in 10ths of seconds.
 <p>
-An UIP_ARP_MAXAGE of 120 corresponds to 20 minutes (BSD default). 
+An UIP_ARP_MAXAGE of 120 corresponds to 20 minutes (BSD default).
 <p>
 Definition at line <a class="el" href="a00206.html#l00358">358</a> of file <a class="el" href="a00206.html">uipopt.h</a>.
 <p>
@@ -283,9 +283,9 @@ Referenced by <a class="el" href="a00204.html#l00142">uip_arp_timer()</a>.    </
     <td>
 
 <p>
-The size of the ARP table. 
+The size of the ARP table.
 <p>
-This option should be set to a larger value if this uIP node will have many connections from the local network. 
+This option should be set to a larger value if this uIP node will have many connections from the local network.
 <p>
 Definition at line <a class="el" href="a00206.html#l00349">349</a> of file <a class="el" href="a00206.html">uipopt.h</a>.
 <p>
@@ -312,9 +312,9 @@ Referenced by <a class="el" href="a00204.html#l00125">uip_arp_init()</a>, <a cla
     <td>
 
 <p>
-Broadcast support. 
+Broadcast support.
 <p>
-This flag configures IP broadcast support. This is useful only together with UDP. 
+This flag configures IP broadcast support. This is useful only together with UDP.
 <p>
 Definition at line <a class="el" href="a00206.html#l00423">423</a> of file <a class="el" href="a00206.html">uipopt.h</a>.    </td>
   </tr>
@@ -339,9 +339,9 @@ Definition at line <a class="el" href="a00206.html#l00423">423</a> of file <a cl
     <td>
 
 <p>
-The size of the uIP packet buffer. 
+The size of the uIP packet buffer.
 <p>
-The uIP packet buffer should not be smaller than 60 bytes, and does not need to be larger than 1500 bytes. Lower size results in lower TCP throughput, larger size results in higher TCP throughput. 
+The uIP packet buffer should not be smaller than 60 bytes, and does not need to be larger than 1500 bytes. Lower size results in lower TCP throughput, larger size results in higher TCP throughput.
 <p>
 Definition at line <a class="el" href="a00206.html#l00379">379</a> of file <a class="el" href="a00206.html">uipopt.h</a>.
 <p>
@@ -368,9 +368,9 @@ Referenced by <a class="el" href="a00199.html#l00049">uip_split_output()</a>.   
     <td>
 
 <p>
-The byte order of the CPU architecture on which uIP is to be run. 
+The byte order of the CPU architecture on which uIP is to be run.
 <p>
-This option can be either BIG_ENDIAN (Motorola byte order) or LITTLE_ENDIAN (Intel byte order). 
+This option can be either BIG_ENDIAN (Motorola byte order) or LITTLE_ENDIAN (Intel byte order).
 <p>
 Definition at line <a class="el" href="a00206.html#l00475">475</a> of file <a class="el" href="a00206.html">uipopt.h</a>.    </td>
   </tr>
@@ -395,7 +395,7 @@ Definition at line <a class="el" href="a00206.html#l00475">475</a> of file <a cl
     <td>
 
 <p>
-The maximum number of simultaneously open TCP connections. 
+The maximum number of simultaneously open TCP connections.
 <p>
 Since the TCP connections are statically allocated, turning this configuration knob down results in less RAM used. Each TCP connection requires approximatly 30 bytes of memory. <dl compact><dt><b>Examples: </b></dt><dd>
 <a class="el" href="a00042.html#a79">example-mainloop-with-arp.c</a>, and <a class="el" href="a00043.html#a96">example-mainloop-without-arp.c</a>.</dl>
@@ -425,9 +425,9 @@ Referenced by <a class="el" href="a00201.html#l00407">uip_connect()</a>.    </td
     <td>
 
 <p>
-Determines if uIP should use a fixed IP address or not. 
+Determines if uIP should use a fixed IP address or not.
 <p>
-If uIP should use a fixed IP address, the settings are set in the <a class="el" href="a00140.html">uipopt.h</a> file. If not, the macros <a class="el" href="a00144.html#g12b467f314489259dd718228d0827a51">uip_sethostaddr()</a>, <a class="el" href="a00144.html#g41d37ea1e3bd24f7b51e9409aceaaa80">uip_setdraddr()</a> and <a class="el" href="a00144.html#geb79c914cf137e6d27fd7583e5a66679">uip_setnetmask()</a> should be used instead. 
+If uIP should use a fixed IP address, the settings are set in the <a class="el" href="a00140.html">uipopt.h</a> file. If not, the macros <a class="el" href="a00144.html#g12b467f314489259dd718228d0827a51">uip_sethostaddr()</a>, <a class="el" href="a00144.html#g41d37ea1e3bd24f7b51e9409aceaaa80">uip_setdraddr()</a> and <a class="el" href="a00144.html#geb79c914cf137e6d27fd7583e5a66679">uip_setnetmask()</a> should be used instead.
 <p>
 Definition at line <a class="el" href="a00206.html#l00097">97</a> of file <a class="el" href="a00206.html">uipopt.h</a>.    </td>
   </tr>
@@ -452,9 +452,9 @@ Definition at line <a class="el" href="a00206.html#l00097">97</a> of file <a cla
     <td>
 
 <p>
-Specifies if the uIP ARP module should be compiled with a fixed Ethernet MAC address or not. 
+Specifies if the uIP ARP module should be compiled with a fixed Ethernet MAC address or not.
 <p>
-If this configuration option is 0, the macro <a class="el" href="a00144.html#g30e827f33eacff55ecb4d8fb5a11d5d1">uip_setethaddr()</a> can be used to specify the Ethernet address at run-time. 
+If this configuration option is 0, the macro <a class="el" href="a00144.html#g30e827f33eacff55ecb4d8fb5a11d5d1">uip_setethaddr()</a> can be used to specify the Ethernet address at run-time.
 <p>
 Definition at line <a class="el" href="a00206.html#l00127">127</a> of file <a class="el" href="a00206.html">uipopt.h</a>.    </td>
   </tr>
@@ -479,9 +479,9 @@ Definition at line <a class="el" href="a00206.html#l00127">127</a> of file <a cl
     <td>
 
 <p>
-The maximum number of simultaneously listening TCP ports. 
+The maximum number of simultaneously listening TCP ports.
 <p>
-Each listening TCP port requires 2 bytes of memory. 
+Each listening TCP port requires 2 bytes of memory.
 <p>
 Definition at line <a class="el" href="a00206.html#l00259">259</a> of file <a class="el" href="a00206.html">uipopt.h</a>.
 <p>
@@ -508,9 +508,9 @@ Referenced by <a class="el" href="a00201.html#l00379">uip_init()</a>, <a class="
     <td>
 
 <p>
-The link level header length. 
+The link level header length.
 <p>
-This is the offset into the uip_buf where the IP header can be found. For Ethernet, this should be set to 14. For SLIP, this should be set to 0. 
+This is the offset into the uip_buf where the IP header can be found. For Ethernet, this should be set to 14. For SLIP, this should be set to 0.
 <p>
 Definition at line <a class="el" href="a00206.html#l00448">448</a> of file <a class="el" href="a00206.html">uipopt.h</a>.
 <p>
@@ -537,9 +537,9 @@ Referenced by <a class="el" href="a00201.html#l00318">uip_ipchksum()</a>, <a cla
     <td>
 
 <p>
-Determines if logging of certain events should be compiled in. 
+Determines if logging of certain events should be compiled in.
 <p>
-This is useful mostly for debugging. The function <a class="el" href="a00153.html#gb58e1ceb7cb73ca2bcd73146b6c1b4e7">uip_log()</a> must be implemented to suit the architecture of the project, if logging is turned on. 
+This is useful mostly for debugging. The function <a class="el" href="a00153.html#gb58e1ceb7cb73ca2bcd73146b6c1b4e7">uip_log()</a> must be implemented to suit the architecture of the project, if logging is turned on.
 <p>
 Definition at line <a class="el" href="a00206.html#l00408">408</a> of file <a class="el" href="a00206.html">uipopt.h</a>.    </td>
   </tr>
@@ -564,9 +564,9 @@ Definition at line <a class="el" href="a00206.html#l00408">408</a> of file <a cl
     <td>
 
 <p>
-The maximum number of times a segment should be retransmitted before the connection should be aborted. 
+The maximum number of times a segment should be retransmitted before the connection should be aborted.
 <p>
-This should not be changed. 
+This should not be changed.
 <p>
 Definition at line <a class="el" href="a00206.html#l00288">288</a> of file <a class="el" href="a00206.html">uipopt.h</a>.
 <p>
@@ -593,9 +593,9 @@ Referenced by <a class="el" href="a00201.html#l00682">uip_process()</a>.    </td
     <td>
 
 <p>
-The maximum number of times a SYN segment should be retransmitted before a connection request should be deemed to have been unsuccessful. 
+The maximum number of times a SYN segment should be retransmitted before a connection request should be deemed to have been unsuccessful.
 <p>
-This should not need to be changed. 
+This should not need to be changed.
 <p>
 Definition at line <a class="el" href="a00206.html#l00297">297</a> of file <a class="el" href="a00206.html">uipopt.h</a>.
 <p>
@@ -622,7 +622,7 @@ Referenced by <a class="el" href="a00201.html#l00682">uip_process()</a>.    </td
     <td>
 
 <p>
-Ping IP address asignment. 
+Ping IP address asignment.
 <p>
 uIP uses a "ping" packets for setting its own IP address if this option is set. If so, uIP will start with an empty IP address and the destination IP address of the first incoming "ping" (ICMP echo) packet will be used for setting the hosts IP address.<p>
 <dl compact><dt><b>Note:</b></dt><dd>This works only if UIP_FIXEDADDR is 0. </dd></dl>
@@ -651,7 +651,7 @@ Definition at line <a class="el" href="a00206.html#l00114">114</a> of file <a cl
     <td>
 
 <p>
-Turn on support for IP packet reassembly. 
+Turn on support for IP packet reassembly.
 <p>
 uIP supports reassembly of fragmented IP packets. This features requires an additonal amount of RAM to hold the reassembly buffer and the reassembly code size is approximately 700 bytes. The reassembly buffer is of the same size as the uip_buf buffer (configured by UIP_BUFSIZE).<p>
 <dl compact><dt><b>Note:</b></dt><dd>IP packet reassembly is not heavily tested. </dd></dl>
@@ -680,9 +680,9 @@ Definition at line <a class="el" href="a00206.html#l00156">156</a> of file <a cl
     <td>
 
 <p>
-The size of the advertised receiver's window. 
+The size of the advertised receiver's window.
 <p>
-Should be set low (i.e., to the size of the uip_buf buffer) is the application is slow to process incoming data, or high (32768 bytes) if the application processes data quickly. 
+Should be set low (i.e., to the size of the uip_buf buffer) is the application is slow to process incoming data, or high (32768 bytes) if the application processes data quickly.
 <p>
 Definition at line <a class="el" href="a00206.html#l00317">317</a> of file <a class="el" href="a00206.html">uipopt.h</a>.    </td>
   </tr>
@@ -707,9 +707,9 @@ Definition at line <a class="el" href="a00206.html#l00317">317</a> of file <a cl
     <td>
 
 <p>
-The initial retransmission timeout counted in timer pulses. 
+The initial retransmission timeout counted in timer pulses.
 <p>
-This should not be changed. 
+This should not be changed.
 <p>
 Definition at line <a class="el" href="a00206.html#l00280">280</a> of file <a class="el" href="a00206.html">uipopt.h</a>.
 <p>
@@ -736,9 +736,9 @@ Referenced by <a class="el" href="a00201.html#l00682">uip_process()</a>.    </td
     <td>
 
 <p>
-Determines if statistics support should be compiled in. 
+Determines if statistics support should be compiled in.
 <p>
-The statistics is useful for debugging and to show the user. 
+The statistics is useful for debugging and to show the user.
 <p>
 Definition at line <a class="el" href="a00206.html#l00393">393</a> of file <a class="el" href="a00206.html">uipopt.h</a>.    </td>
   </tr>
@@ -763,9 +763,9 @@ Definition at line <a class="el" href="a00206.html#l00393">393</a> of file <a cl
     <td>
 
 <p>
-The TCP maximum segment size. 
+The TCP maximum segment size.
 <p>
-This is should not be to set to more than UIP_BUFSIZE - UIP_LLH_LEN - UIP_TCPIP_HLEN. 
+This is should not be to set to more than UIP_BUFSIZE - UIP_LLH_LEN - UIP_TCPIP_HLEN.
 <p>
 Definition at line <a class="el" href="a00206.html#l00305">305</a> of file <a class="el" href="a00206.html">uipopt.h</a>.    </td>
   </tr>
@@ -790,9 +790,9 @@ Definition at line <a class="el" href="a00206.html#l00305">305</a> of file <a cl
     <td>
 
 <p>
-How long a connection should stay in the TIME_WAIT state. 
+How long a connection should stay in the TIME_WAIT state.
 <p>
-This configiration option has no real implication, and it should be left untouched. 
+This configiration option has no real implication, and it should be left untouched.
 <p>
 Definition at line <a class="el" href="a00206.html#l00328">328</a> of file <a class="el" href="a00206.html">uipopt.h</a>.
 <p>
@@ -819,9 +819,9 @@ Referenced by <a class="el" href="a00201.html#l00682">uip_process()</a>.    </td
     <td>
 
 <p>
-The IP TTL (time to live) of IP packets sent by uIP. 
+The IP TTL (time to live) of IP packets sent by uIP.
 <p>
-This should normally not be changed. 
+This should normally not be changed.
 <p>
 Definition at line <a class="el" href="a00206.html#l00141">141</a> of file <a class="el" href="a00206.html">uipopt.h</a>.    </td>
   </tr>
@@ -846,7 +846,7 @@ Definition at line <a class="el" href="a00206.html#l00141">141</a> of file <a cl
     <td>
 
 <p>
-Toggles if UDP checksums should be used or not. 
+Toggles if UDP checksums should be used or not.
 <p>
 <dl compact><dt><b>Note:</b></dt><dd>Support for UDP checksums is currently not included in uIP, so this option has no function. </dd></dl>
 
@@ -874,9 +874,9 @@ Definition at line <a class="el" href="a00206.html#l00195">195</a> of file <a cl
     <td>
 
 <p>
-Determines if support for TCP urgent data notification should be compiled in. 
+Determines if support for TCP urgent data notification should be compiled in.
 <p>
-Urgent data (out-of-band data) is a rarely used TCP feature that very seldom would be required. 
+Urgent data (out-of-band data) is a rarely used TCP feature that very seldom would be required.
 <p>
 Definition at line <a class="el" href="a00206.html#l00273">273</a> of file <a class="el" href="a00206.html">uipopt.h</a>.    </td>
   </tr>
@@ -902,7 +902,7 @@ Definition at line <a class="el" href="a00206.html#l00273">273</a> of file <a cl
     <td>
 
 <p>
-16 bit datatype 
+16 bit datatype
 <p>
 This typedef defines the 16-bit type used throughout uIP. <dl compact><dt><b>Examples: </b></dt><dd>
 <a class="el" href="a00048.html#a2">dhcpc.c</a>, <a class="el" href="a00049.html#a51">dhcpc.h</a>, <a class="el" href="a00046.html#a125">resolv.c</a>, <a class="el" href="a00047.html#a157">resolv.h</a>, <a class="el" href="a00038.html#a188">smtp.c</a>, <a class="el" href="a00039.html#a197">smtp.h</a>, <a class="el" href="a00044.html#a230">telnetd.c</a>, and <a class="el" href="a00050.html#a250">uip-conf.h</a>.</dl>
@@ -910,13 +910,13 @@ This typedef defines the 16-bit type used throughout uIP. <dl compact><dt><b>Exa
 Definition at line <a class="el" href="a00207.html#l00076">76</a> of file <a class="el" href="a00207.html">uip-conf.h</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="g4caecabca98b43919dd11be1c0d4cd8e"></a><!-- doxytag: member="uip-conf.h::u8_t" ref="g4caecabca98b43919dd11be1c0d4cd8e" args="" --><p>
+<a class="anchor" name="g4caecabca98b43919dd11be1c0d4cd8e"></a><!-- doxytag: member="uip-conf.h::uint8_t" ref="g4caecabca98b43919dd11be1c0d4cd8e" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top">typedef uint8_t <a class="el" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a>          </td>
+          <td class="md" nowrap valign="top">typedef uint8_t <a class="el" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a>          </td>
         </tr>
       </table>
     </td>
@@ -930,7 +930,7 @@ Definition at line <a class="el" href="a00207.html#l00076">76</a> of file <a cla
     <td>
 
 <p>
-8 bit datatype 
+8 bit datatype
 <p>
 This typedef defines the 8-bit type used throughout uIP. <dl compact><dt><b>Examples: </b></dt><dd>
 <a class="el" href="a00048.html#a1">dhcpc.c</a>, <a class="el" href="a00049.html#a53">dhcpc.h</a>, <a class="el" href="a00046.html#a126">resolv.c</a>, <a class="el" href="a00039.html#a200">smtp.h</a>, <a class="el" href="a00044.html#a227">telnetd.c</a>, <a class="el" href="a00045.html#a245">telnetd.h</a>, and <a class="el" href="a00050.html#a249">uip-conf.h</a>.</dl>
@@ -958,9 +958,9 @@ Definition at line <a class="el" href="a00207.html#l00067">67</a> of file <a cla
     <td>
 
 <p>
-Statistics datatype. 
+Statistics datatype.
 <p>
-This typedef defines the dataype used for keeping statistics in uIP. 
+This typedef defines the dataype used for keeping statistics in uIP.
 <p>
 Definition at line <a class="el" href="a00207.html#l00086">86</a> of file <a class="el" href="a00207.html">uip-conf.h</a>.    </td>
   </tr>
@@ -985,7 +985,7 @@ Definition at line <a class="el" href="a00207.html#l00086">86</a> of file <a cla
     <td>
 
 <p>
-The type of the application state that is to be stored in the <a class="el" href="a00088.html">uip_conn</a> structure. 
+The type of the application state that is to be stored in the <a class="el" href="a00088.html">uip_conn</a> structure.
 <p>
 This usually is typedef:ed to a struct holding application state information. <dl compact><dt><b>Examples: </b></dt><dd>
 <a class="el" href="a00039.html#a205">smtp.h</a>, <a class="el" href="a00045.html#a248">telnetd.h</a>, and <a class="el" href="a00041.html#a317">webclient.h</a>.</dl>
@@ -1013,7 +1013,7 @@ Definition at line <a class="el" href="a00175.html#l00098">98</a> of file <a cla
     <td>
 
 <p>
-The type of the application state that is to be stored in the <a class="el" href="a00088.html">uip_conn</a> structure. 
+The type of the application state that is to be stored in the <a class="el" href="a00088.html">uip_conn</a> structure.
 <p>
 This usually is typedef:ed to a struct holding application state information. <dl compact><dt><b>Examples: </b></dt><dd>
 <a class="el" href="a00049.html#a59">dhcpc.h</a>.</dl>
@@ -1047,7 +1047,7 @@ Definition at line <a class="el" href="a00173.html#l00047">47</a> of file <a cla
     <td>
 
 <p>
-Print out a uIP log message. 
+Print out a uIP log message.
 <p>
 This function must be implemented by the module that uses uIP, and is called by uIP whenever a log message is generated.     </td>
   </tr>

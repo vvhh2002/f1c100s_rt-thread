@@ -1,7 +1,7 @@
 /**
  * @file
  * This is the IPv4 layer implementation for incoming and outgoing IP traffic.
- * 
+ *
  * @see ip_frag.c
  *
  */
@@ -165,7 +165,7 @@ ip_route(ip_addr_t *dest)
 static int
 ip_canforward(struct pbuf *p)
 {
-  u32_t addr = ip4_addr_get_u32(ip_current_dest_addr());
+  uint32_t addr = ip4_addr_get_u32(ip_current_dest_addr());
 
   if (p->flags & PBUF_FLAG_LLBCAST) {
     /* don't route link-layer broadcasts */
@@ -180,7 +180,7 @@ ip_canforward(struct pbuf *p)
     return 0;
   }
   if (IP_CLASSA(addr)) {
-    u32_t net = addr & IP_CLASSA_NET;
+    uint32_t net = addr & IP_CLASSA_NET;
     if ((net == 0) || (net == (IP_LOOPBACKNET << IP_CLASSA_NSHIFT))) {
       /* don't route loopback packets */
       return 0;
@@ -295,7 +295,7 @@ return_noroute:
  * forwarded (using ip_forward). The IP checksum is always checked.
  *
  * Finally, the packet is sent to the upper layer protocol input function.
- * 
+ *
  * @param p the received IP packet (p->payload points to IP header)
  * @param inp the netif on which this packet was received
  * @return ERR_OK if the packet was processed (could return ERR_* if it wasn't
@@ -313,8 +313,8 @@ ip_input(struct pbuf *p, struct netif *inp)
 #endif /* IP_ACCEPT_LINK_LAYER_ADDRESSING */
 
 #if IP_NAT
-  extern u8_t ip_nat_input(struct pbuf *p);
-  extern u8_t ip_nat_out(struct pbuf *p);
+  extern uint8_t ip_nat_input(struct pbuf *p);
+  extern uint8_t ip_nat_out(struct pbuf *p);
 #endif
 
   IP_STATS_INC(ip.recv);
@@ -460,7 +460,7 @@ ip_input(struct pbuf *p, struct netif *inp)
   if (netif == NULL) {
     /* remote port is DHCP server? */
     if (IPH_PROTO(iphdr) == IP_PROTO_UDP) {
-      struct udp_hdr *udphdr = (struct udp_hdr *)((u8_t *)iphdr + iphdr_hlen);
+      struct udp_hdr *udphdr = (struct udp_hdr *)((uint8_t *)iphdr + iphdr_hlen);
       LWIP_DEBUGF(IP_DEBUG | LWIP_DBG_TRACE, ("ip_input: UDP packet to DHCP client port %"U16_F"\n",
         ntohs(udphdr->dest)));
       if (IP_ACCEPT_LINK_LAYER_ADDRESSED_PORT(udphdr->dest)) {
@@ -493,7 +493,7 @@ ip_input(struct pbuf *p, struct netif *inp)
   /* packet not for us? */
   if (netif == NULL) {
 #if IP_FORWARD || IP_NAT
-    u8_t taken = 0;
+    uint8_t taken = 0;
 #endif /* IP_FORWARD || IP_NAT */
     /* packet not for us, route or discard */
     LWIP_DEBUGF(IP_DEBUG | LWIP_DBG_TRACE, ("ip_input: packet not for us.\n"));
@@ -666,8 +666,8 @@ ip_input(struct pbuf *p, struct netif *inp)
  */
 err_t
 ip_output_if(struct pbuf *p, ip_addr_t *src, ip_addr_t *dest,
-             u8_t ttl, u8_t tos,
-             u8_t proto, struct netif *netif)
+             uint8_t ttl, uint8_t tos,
+             uint8_t proto, struct netif *netif)
 {
 #if IP_OPTIONS_SEND
   return ip_output_if_opt(p, src, dest, ttl, tos, proto, netif, NULL, 0);
@@ -680,14 +680,14 @@ ip_output_if(struct pbuf *p, ip_addr_t *src, ip_addr_t *dest,
  * @ param optlen length of ip_options
  */
 err_t ip_output_if_opt(struct pbuf *p, ip_addr_t *src, ip_addr_t *dest,
-       u8_t ttl, u8_t tos, u8_t proto, struct netif *netif, void *ip_options,
+       uint8_t ttl, uint8_t tos, uint8_t proto, struct netif *netif, void *ip_options,
        u16_t optlen)
 {
 #endif /* IP_OPTIONS_SEND */
   struct ip_hdr *iphdr;
   ip_addr_t dest_addr;
 #if CHECKSUM_GEN_IP_INLINE
-  u32_t chk_sum = 0;
+  uint32_t chk_sum = 0;
 #endif /* CHECKSUM_GEN_IP_INLINE */
 
   /* pbufs passed to IP must have a ref-count of 1 as their payload pointer
@@ -843,7 +843,7 @@ err_t ip_output_if_opt(struct pbuf *p, ip_addr_t *src, ip_addr_t *dest,
  */
 err_t
 ip_output(struct pbuf *p, ip_addr_t *src, ip_addr_t *dest,
-          u8_t ttl, u8_t tos, u8_t proto)
+          uint8_t ttl, uint8_t tos, uint8_t proto)
 {
   struct netif *netif;
 
@@ -882,7 +882,7 @@ ip_output(struct pbuf *p, ip_addr_t *src, ip_addr_t *dest,
  */
 err_t
 ip_output_hinted(struct pbuf *p, ip_addr_t *src, ip_addr_t *dest,
-          u8_t ttl, u8_t tos, u8_t proto, u8_t *addr_hint)
+          uint8_t ttl, uint8_t tos, uint8_t proto, uint8_t *addr_hint)
 {
   struct netif *netif;
   err_t err;

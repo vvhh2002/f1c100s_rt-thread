@@ -43,7 +43,7 @@ const struct snmp_obj_id usmAESPrivProtocol = { 10, { 1, 3, 6, 1, 6, 3, 10, 1, 2
 static s16_t snmpengine_scalars_get_value(const struct snmp_scalar_array_node_def *node, void *value)
 {
   const char *engineid;
-  u8_t engineid_len;
+  uint8_t engineid_len;
 
   switch (node->oid) {
     case 1: /* snmpEngineID */
@@ -83,7 +83,7 @@ static const struct snmp_node *const snmpframeworkmib_subnodes[] = {
   &snmpframeworkmibobjects_treenode.node
 };
 static const struct snmp_tree_node snmpframeworkmib_root = SNMP_CREATE_TREE_NODE(10, snmpframeworkmib_subnodes);
-static const u32_t snmpframeworkmib_base_oid[] = {1, 3, 6, 1, 6, 3, 10};
+static const uint32_t snmpframeworkmib_base_oid[] = {1, 3, 6, 1, 6, 3, 10};
 const struct snmp_mib snmpframeworkmib = {snmpframeworkmib_base_oid, LWIP_ARRAYSIZE(snmpframeworkmib_base_oid), &snmpframeworkmib_root.node};
 
 /* --- snmpFrameworkMIB  ----------------------------------------------------- */

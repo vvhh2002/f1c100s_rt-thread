@@ -146,7 +146,7 @@ int ppp_vslprintf(char *buf, int buflen, const char *fmt, va_list args) {
 #if 0 /* need port */
     time_t t;
 #endif /* need port */
-    u32_t ip;
+    uint32_t ip;
     static char hexchars[] = "0123456789abcdef";
 #if PRINTPKT_SUPPORT
     struct buffer_info bufinfo;
@@ -268,7 +268,7 @@ int ppp_vslprintf(char *buf, int buflen, const char *fmt, va_list args) {
 	    break;
 #endif /* do we always have strerror() in embedded ? */
 	case 'I':
-	    ip = va_arg(args, u32_t);
+	    ip = va_arg(args, uint32_t);
 	    ip = lwip_ntohl(ip);
 	    ppp_slprintf(num, sizeof(num), "%d.%d.%d.%d", (ip >> 24) & 0xff,
 		     (ip >> 16) & 0xff, (ip >> 8) & 0xff, ip & 0xff);
@@ -593,7 +593,7 @@ void ppp_print_string(const u_char *p, int len, void (*printer) (void *, const c
 		printer(arg, "\\t");
 		break;
 	    default:
-		printer(arg, "\\%.3o", (u8_t)c);
+		printer(arg, "\\%.3o", (uint8_t)c);
 		/* no break */
 	    }
 	}

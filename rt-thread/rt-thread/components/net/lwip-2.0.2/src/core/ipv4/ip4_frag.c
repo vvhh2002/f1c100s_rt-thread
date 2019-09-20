@@ -763,7 +763,7 @@ ip4_frag(struct pbuf *p, struct netif *netif, const ip4_addr_t *dest)
       }
       /* Mirror this pbuf, although we might not need all of it. */
       newpbuf = pbuf_alloced_custom(PBUF_RAW, newpbuflen, PBUF_REF, &pcr->pc,
-        (u8_t*)p->payload + poff, newpbuflen);
+        (uint8_t*)p->payload + poff, newpbuflen);
       if (newpbuf == NULL) {
         ip_frag_free_pbuf_custom_ref(pcr);
         pbuf_free(rambuf);

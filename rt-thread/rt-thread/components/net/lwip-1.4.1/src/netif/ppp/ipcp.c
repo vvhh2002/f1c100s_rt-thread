@@ -9,13 +9,13 @@
 * The authors hereby grant permission to use, copy, modify, distribute,
 * and license this software and its documentation for any purpose, provided
 * that existing copyright notices are retained in all copies and that this
-* notice and the following disclaimer are included verbatim in any 
+* notice and the following disclaimer are included verbatim in any
 * distributions. No written agreement, license, or royalty fee is required
 * for any of the authorized uses.
 *
 * THIS SOFTWARE IS PROVIDED BY THE CONTRIBUTORS *AS IS* AND ANY EXPRESS OR
 * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
-* OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
+* OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
 * IN NO EVENT SHALL THE CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
 * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
 * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
@@ -280,7 +280,7 @@ static void
 ipcp_resetci(fsm *f)
 {
   ipcp_options *wo = &ipcp_wantoptions[f->unit];
-  
+
   wo->req_addr = wo->neg_addr && ipcp_allowoptions[f->unit].neg_addr;
   if (wo->ouraddr == 0) {
     wo->accept_local = 1;
@@ -371,7 +371,7 @@ ipcp_addci(fsm *f, u_char *ucp, int *lenp)
   if (neg) { \
     int addrlen = (old? CILEN_ADDRS: CILEN_ADDR); \
     if (len >= addrlen) { \
-      u32_t l; \
+      uint32_t l; \
       PUTCHAR(opt, ucp); \
       PUTCHAR(addrlen, ucp); \
       l = ntohl(val1); \
@@ -389,7 +389,7 @@ ipcp_addci(fsm *f, u_char *ucp, int *lenp)
 #define ADDCIDNS(opt, neg, addr) \
   if (neg) { \
     if (len >= CILEN_ADDR) { \
-      u32_t l; \
+      uint32_t l; \
       PUTCHAR(opt, ucp); \
       PUTCHAR(CILEN_ADDR, ucp); \
       l = ntohl(addr); \
@@ -426,7 +426,7 @@ ipcp_ackci(fsm *f, u_char *p, int len)
 {
   ipcp_options *go = &ipcp_gotoptions[f->unit];
   u_short cilen, citype, cishort;
-  u32_t cilong;
+  uint32_t cilong;
   u_char cimaxslotindex, cicflag;
 
   /*
@@ -462,11 +462,11 @@ ipcp_ackci(fsm *f, u_char *p, int len)
       } \
     } \
   }
-  
+
 #define ACKCIADDR(opt, neg, old, val1, val2) \
   if (neg) { \
     int addrlen = (old? CILEN_ADDRS: CILEN_ADDR); \
-    u32_t l; \
+    uint32_t l; \
     if ((len -= addrlen) < 0) { \
       goto bad; \
     } \
@@ -492,7 +492,7 @@ ipcp_ackci(fsm *f, u_char *p, int len)
 
 #define ACKCIDNS(opt, neg, addr) \
   if (neg) { \
-    u32_t l; \
+    uint32_t l; \
     if ((len -= CILEN_ADDR) < 0) { \
       goto bad; \
     } \
@@ -548,7 +548,7 @@ ipcp_nakci(fsm *f, u_char *p, int len)
   u_char cimaxslotindex, cicflag;
   u_char citype, cilen, *next;
   u_short cishort;
-  u32_t ciaddr1, ciaddr2, l, cidnsaddr;
+  uint32_t ciaddr1, ciaddr2, l, cidnsaddr;
   ipcp_options no;    /* options we've seen Naks for */
   ipcp_options try;    /* options to request next time */
 
@@ -591,7 +591,7 @@ ipcp_nakci(fsm *f, u_char *p, int len)
     no.neg = 1; \
     code \
   }
-  
+
 #define NAKCIDNS(opt, neg, code) \
   if (go->neg && \
       ((cilen = p[1]) == CILEN_ADDR) && \
@@ -752,7 +752,7 @@ ipcp_rejci(fsm *f, u_char *p, int len)
   ipcp_options *go = &ipcp_gotoptions[f->unit];
   u_char cimaxslotindex, ciflag, cilen;
   u_short cishort;
-  u32_t cilong;
+  uint32_t cilong;
   ipcp_options try;    /* options to request next time */
 
   try = *go;
@@ -766,7 +766,7 @@ ipcp_rejci(fsm *f, u_char *p, int len)
       len >= (cilen = old? CILEN_ADDRS: CILEN_ADDR) && \
       p[1] == cilen && \
       p[0] == opt) { \
-    u32_t l; \
+    uint32_t l; \
     len -= cilen; \
     INCPTR(2, p); \
     GETLONG(l, p); \
@@ -816,7 +816,7 @@ ipcp_rejci(fsm *f, u_char *p, int len)
       ((cilen = p[1]) == CILEN_ADDR) && \
       len >= cilen && \
       p[0] == opt) { \
-    u32_t l; \
+    uint32_t l; \
     len -= cilen; \
     INCPTR(2, p); \
     GETLONG(l, p); \
@@ -877,9 +877,9 @@ ipcp_reqci(fsm *f, u_char *inp/* Requested CIs */,int *len/* Length of requested
   u_char *cip, *next;     /* Pointer to current and next CIs */
   u_short cilen, citype;  /* Parsed len, type */
   u_short cishort;        /* Parsed short value */
-  u32_t tl, ciaddr1;      /* Parsed address values */
+  uint32_t tl, ciaddr1;      /* Parsed address values */
 #ifdef OLD_CI_ADDRS
-  u32_t ciaddr2;          /* Parsed address values */
+  uint32_t ciaddr2;          /* Parsed address values */
 #endif
   int rc = CONFACK;       /* Final packet return code */
   int orc;                /* Individual option return code */
@@ -940,7 +940,7 @@ ipcp_reqci(fsm *f, u_char *inp/* Requested CIs */,int *len/* Length of requested
             && (ciaddr1 == 0 || !wo->accept_remote)) {
           orc = CONFNAK;
           if (!reject_if_disagree) {
-            DECPTR(sizeof(u32_t), p);
+            DECPTR(sizeof(uint32_t), p);
             tl = ntohl(wo->hisaddr);
             PUTLONG(tl, p);
           }
@@ -964,7 +964,7 @@ ipcp_reqci(fsm *f, u_char *inp/* Requested CIs */,int *len/* Length of requested
           if (ciaddr2 == 0 || !wo->accept_local) {
             orc = CONFNAK;
             if (!reject_if_disagree) {
-              DECPTR(sizeof(u32_t), p);
+              DECPTR(sizeof(uint32_t), p);
               tl = ntohl(wo->ouraddr);
               PUTLONG(tl, p);
             }
@@ -1003,7 +1003,7 @@ ipcp_reqci(fsm *f, u_char *inp/* Requested CIs */,int *len/* Length of requested
             && (ciaddr1 == 0 || !wo->accept_remote)) {
           orc = CONFNAK;
           if (!reject_if_disagree) {
-            DECPTR(sizeof(u32_t), p);
+            DECPTR(sizeof(uint32_t), p);
             tl = ntohl(wo->hisaddr);
             PUTLONG(tl, p);
           }
@@ -1039,7 +1039,7 @@ ipcp_reqci(fsm *f, u_char *inp/* Requested CIs */,int *len/* Length of requested
         if (htonl(tl) != ao->dnsaddr[d]) {
           IPCPDEBUG(LOG_INFO, ("ipcp_reqci: Naking DNS%d Request %s\n",
                 d+1, inet_ntoa(tl)));
-          DECPTR(sizeof(u32_t), p);
+          DECPTR(sizeof(uint32_t), p);
           tl = ntohl(ao->dnsaddr[d]);
           PUTLONG(tl, p);
           orc = CONFNAK;
@@ -1061,7 +1061,7 @@ ipcp_reqci(fsm *f, u_char *inp/* Requested CIs */,int *len/* Length of requested
         }
         GETLONG(tl, p);
         if (htonl(tl) != ao->winsaddr[d]) {
-          DECPTR(sizeof(u32_t), p);
+          DECPTR(sizeof(uint32_t), p);
           tl = ntohl(ao->winsaddr[d]);
           PUTLONG(tl, p);
           orc = CONFNAK;
@@ -1091,7 +1091,7 @@ ipcp_reqci(fsm *f, u_char *inp/* Requested CIs */,int *len/* Length of requested
         ho->vj_protocol = cishort;
         if (cilen == CILEN_VJ) {
           GETCHAR(maxslotindex, p);
-          if (maxslotindex > ao->maxslotindex) { 
+          if (maxslotindex > ao->maxslotindex) {
             IPCPDEBUG(LOG_INFO, ("ipcp_reqci: Naking VJ max slot %d\n", maxslotindex));
             orc = CONFNAK;
             if (!reject_if_disagree) {
@@ -1152,7 +1152,7 @@ endswitch:
       rc = CONFREJ;
       ucp = inp;        /* Backup */
     }
-    
+
     /* Need to move CI? */
     if (ucp != cip) {
       BCOPY(cip, ucp, cilen);  /* Move it */
@@ -1219,7 +1219,7 @@ ip_check_options(u_long localAddr)
 static void
 ipcp_up(fsm *f)
 {
-  u32_t mask;
+  uint32_t mask;
   ipcp_options *ho = &ipcp_hisoptions[f->unit];
   ipcp_options *go = &ipcp_gotoptions[f->unit];
   ipcp_options *wo = &ipcp_wantoptions[f->unit];
@@ -1324,7 +1324,7 @@ ipcp_down(fsm *f)
 static void
 ipcp_clear_addrs(int unit)
 {
-  u32_t ouraddr, hisaddr;
+  uint32_t ouraddr, hisaddr;
 
   ouraddr = ipcp_gotoptions[unit].ouraddr;
   hisaddr = ipcp_hisoptions[unit].hisaddr;

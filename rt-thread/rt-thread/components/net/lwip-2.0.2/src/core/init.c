@@ -69,8 +69,8 @@
 PACK_STRUCT_BEGIN
 struct packed_struct_test
 {
-  PACK_STRUCT_FLD_8(u8_t  dummy1);
-  PACK_STRUCT_FIELD(u32_t dummy2);
+  PACK_STRUCT_FLD_8(uint8_t  dummy1);
+  PACK_STRUCT_FIELD(uint32_t dummy2);
 } PACK_STRUCT_STRUCT;
 PACK_STRUCT_END
 #ifdef PACK_STRUCT_USE_INCLUDES
@@ -139,7 +139,7 @@ PACK_STRUCT_END
 #endif /* !MEMP_MEM_MALLOC */
 #if LWIP_WND_SCALE
 #if (LWIP_TCP && (TCP_WND > 0xffffffff))
-  #error "If you want to use TCP, TCP_WND must fit in an u32_t, so, you have to reduce it in your lwipopts.h"
+  #error "If you want to use TCP, TCP_WND must fit in an uint32_t, so, you have to reduce it in your lwipopts.h"
 #endif
 #if (LWIP_TCP && (TCP_RCV_SCALE > 14))
   #error "The maximum valid window scale value is 14!"
@@ -165,7 +165,7 @@ PACK_STRUCT_END
   #error "If you want to use TCP, TCP_MAXRTX and TCP_SYNMAXRTX must less or equal to 12 (due to tcp_backoff table), so, you have to reduce them in your lwipopts.h"
 #endif
 #if (LWIP_TCP && TCP_LISTEN_BACKLOG && ((TCP_DEFAULT_LISTEN_BACKLOG < 0) || (TCP_DEFAULT_LISTEN_BACKLOG > 0xff)))
-  #error "If you want to use TCP backlog, TCP_DEFAULT_LISTEN_BACKLOG must fit into an u8_t"
+  #error "If you want to use TCP backlog, TCP_DEFAULT_LISTEN_BACKLOG must fit into an uint8_t"
 #endif
 #if (LWIP_NETIF_API && (NO_SYS==1))
   #error "If you want to use NETIF API, you have to define NO_SYS=0 in your lwipopts.h"
@@ -378,7 +378,7 @@ lwip_init(void)
 #if PPP_SUPPORT
   ppp_init();
 #endif
- 
+
 #if LWIP_TIMERS
   sys_timeouts_init();
 #endif /* LWIP_TIMERS */

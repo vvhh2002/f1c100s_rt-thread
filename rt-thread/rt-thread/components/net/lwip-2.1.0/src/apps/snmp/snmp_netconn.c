@@ -91,7 +91,7 @@ snmp_sendto(void *handle, struct pbuf *p, const ip_addr_t *dst, u16_t port)
   return result;
 }
 
-u8_t
+uint8_t
 snmp_get_local_ip_for_dst(void *handle, const ip_addr_t *dst, ip_addr_t *result)
 {
   struct netconn *conn = (struct netconn *)handle;

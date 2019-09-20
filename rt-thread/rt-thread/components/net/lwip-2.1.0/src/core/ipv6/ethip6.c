@@ -79,7 +79,7 @@ err_t
 ethip6_output(struct netif *netif, struct pbuf *q, const ip6_addr_t *ip6addr)
 {
   struct eth_addr dest;
-  const u8_t *hwaddr;
+  const uint8_t *hwaddr;
   err_t result;
 
   LWIP_ASSERT_CORE_LOCKED();
@@ -92,10 +92,10 @@ ethip6_output(struct netif *netif, struct pbuf *q, const ip6_addr_t *ip6addr)
     /* Hash IP multicast address to MAC address.*/
     dest.addr[0] = 0x33;
     dest.addr[1] = 0x33;
-    dest.addr[2] = ((const u8_t *)(&(ip6addr->addr[3])))[0];
-    dest.addr[3] = ((const u8_t *)(&(ip6addr->addr[3])))[1];
-    dest.addr[4] = ((const u8_t *)(&(ip6addr->addr[3])))[2];
-    dest.addr[5] = ((const u8_t *)(&(ip6addr->addr[3])))[3];
+    dest.addr[2] = ((const uint8_t *)(&(ip6addr->addr[3])))[0];
+    dest.addr[3] = ((const uint8_t *)(&(ip6addr->addr[3])))[1];
+    dest.addr[4] = ((const uint8_t *)(&(ip6addr->addr[3])))[2];
+    dest.addr[5] = ((const uint8_t *)(&(ip6addr->addr[3])))[3];
 
     /* Send out. */
     return ethernet_output(netif, q, (const struct eth_addr*)(netif->hwaddr), &dest, ETHTYPE_IPV6);

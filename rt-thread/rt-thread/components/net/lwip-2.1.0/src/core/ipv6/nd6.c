@@ -80,17 +80,17 @@ struct nd6_prefix_list_entry prefix_list[LWIP_ND6_NUM_PREFIXES];
 struct nd6_router_list_entry default_router_list[LWIP_ND6_NUM_ROUTERS];
 
 /* Default values, can be updated by a RA message. */
-u32_t reachable_time = LWIP_ND6_REACHABLE_TIME;
-u32_t retrans_timer = LWIP_ND6_RETRANS_TIMER; /* @todo implement this value in timer */
+uint32_t reachable_time = LWIP_ND6_REACHABLE_TIME;
+uint32_t retrans_timer = LWIP_ND6_RETRANS_TIMER; /* @todo implement this value in timer */
 
 /* Index for cache entries. */
-static u8_t nd6_cached_neighbor_index;
+static uint8_t nd6_cached_neighbor_index;
 static netif_addr_idx_t nd6_cached_destination_index;
 
 /* Multicast address holder. */
 static ip6_addr_t multicast_address;
 
-static u8_t nd6_tmr_rs_reduction;
+static uint8_t nd6_tmr_rs_reduction;
 
 /* Static buffer to parse RA packet options */
 union ra_options {
@@ -121,9 +121,9 @@ static err_t nd6_queue_packet(s8_t neighbor_index, struct pbuf *q);
 #define ND6_SEND_FLAG_MULTICAST_DEST 0x01
 #define ND6_SEND_FLAG_ALLNODES_DEST 0x02
 #define ND6_SEND_FLAG_ANY_SRC 0x04
-static void nd6_send_ns(struct netif *netif, const ip6_addr_t *target_addr, u8_t flags);
-static void nd6_send_na(struct netif *netif, const ip6_addr_t *target_addr, u8_t flags);
-static void nd6_send_neighbor_cache_probe(struct nd6_neighbor_cache_entry *entry, u8_t flags);
+static void nd6_send_ns(struct netif *netif, const ip6_addr_t *target_addr, uint8_t flags);
+static void nd6_send_na(struct netif *netif, const ip6_addr_t *target_addr, uint8_t flags);
+static void nd6_send_neighbor_cache_probe(struct nd6_neighbor_cache_entry *entry, uint8_t flags);
 #if LWIP_IPV6_SEND_ROUTER_SOLICIT
 static err_t nd6_send_rs(struct netif *netif);
 #endif /* LWIP_IPV6_SEND_ROUTER_SOLICIT */
@@ -187,8 +187,8 @@ nd6_process_autoconfig_prefix(struct netif *netif,
   struct prefix_option *prefix_opt, const ip6_addr_t *prefix_addr)
 {
   ip6_addr_t ip6addr;
-  u32_t valid_life, pref_life;
-  u8_t addr_state;
+  uint32_t valid_life, pref_life;
+  uint8_t addr_state;
   s8_t i, free_idx;
 
   /* The caller already checks RFC 4862 Sec. 5.5.3 points (a) and (b). We do
@@ -213,7 +213,7 @@ nd6_process_autoconfig_prefix(struct netif *netif,
         ip6_addr_netcmp(prefix_addr, netif_ip6_addr(netif, i))) {
       /* Update the valid lifetime, as per RFC 4862 Sec. 5.5.3 point (e).
        * The valid lifetime will never drop to zero as a result of this. */
-      u32_t remaining_life = netif_ip6_addr_valid_life(netif, i);
+      uint32_t remaining_life = netif_ip6_addr_valid_life(netif, i);
       if (valid_life > ND6_2HRS || valid_life > remaining_life) {
         netif_ip6_addr_set_valid_life(netif, i, valid_life);
       } else if (remaining_life > ND6_2HRS) {
@@ -286,13 +286,13 @@ nd6_process_autoconfig_prefix(struct netif *netif,
 void
 nd6_input(struct pbuf *p, struct netif *inp)
 {
-  u8_t msg_type;
+  uint8_t msg_type;
   s8_t i;
   s16_t dest_idx;
 
   ND6_STATS_INC(nd6.recv);
 
-  msg_type = *((u8_t *)p->payload);
+  msg_type = *((uint8_t *)p->payload);
   switch (msg_type) {
   case ICMP6_TYPE_NA: /* Neighbor Advertisement. */
   {
@@ -357,7 +357,7 @@ nd6_input(struct pbuf *p, struct netif *inp)
         return;
       }
 
-      lladdr_opt = (struct lladdr_option *)((u8_t*)p->payload + sizeof(struct na_header));
+      lladdr_opt = (struct lladdr_option *)((uint8_t*)p->payload + sizeof(struct na_header));
 
       if (p->len < (sizeof(struct na_header) + (lladdr_opt->length << 3))) {
         /* @todo debug message */
@@ -399,7 +399,7 @@ nd6_input(struct pbuf *p, struct netif *inp)
           return;
         }
 
-        lladdr_opt = (struct lladdr_option *)((u8_t*)p->payload + sizeof(struct na_header));
+        lladdr_opt = (struct lladdr_option *)((uint8_t*)p->payload + sizeof(struct na_header));
 
         if (p->len < (sizeof(struct na_header) + (lladdr_opt->length << 3))) {
           /* @todo debug message */
@@ -429,7 +429,7 @@ nd6_input(struct pbuf *p, struct netif *inp)
     struct ns_header *ns_hdr;
     struct lladdr_option *lladdr_opt;
     ip6_addr_t target_address;
-    u8_t accepted;
+    uint8_t accepted;
 
     /* Check that ns header fits in packet. */
     if (p->len < sizeof(struct ns_header)) {
@@ -461,7 +461,7 @@ nd6_input(struct pbuf *p, struct netif *inp)
 
     /* Check if there is a link-layer address provided. Only point to it if in this buffer. */
     if (p->len >= (sizeof(struct ns_header) + 2)) {
-      lladdr_opt = (struct lladdr_option *)((u8_t*)p->payload + sizeof(struct ns_header));
+      lladdr_opt = (struct lladdr_option *)((uint8_t*)p->payload + sizeof(struct ns_header));
       if (p->len < (sizeof(struct ns_header) + (lladdr_opt->length << 3))) {
         lladdr_opt = NULL;
       }
@@ -554,11 +554,11 @@ nd6_input(struct pbuf *p, struct netif *inp)
   case ICMP6_TYPE_RA: /* Router Advertisement. */
   {
     struct ra_header *ra_hdr;
-    u8_t *buffer; /* Used to copy options. */
+    uint8_t *buffer; /* Used to copy options. */
     u16_t offset;
 #if LWIP_ND6_RDNSS_MAX_DNS_SERVERS
     /* There can be multiple RDNSS options per RA */
-    u8_t rdnss_server_idx = 0;
+    uint8_t rdnss_server_idx = 0;
 #endif /* LWIP_ND6_RDNSS_MAX_DNS_SERVERS */
 
     /* Check that RA header fits in packet. */
@@ -638,21 +638,21 @@ nd6_input(struct pbuf *p, struct netif *inp)
 
     /* Process each option. */
     while ((p->tot_len - offset) >= 2) {
-      u8_t option_type;
+      uint8_t option_type;
       u16_t option_len;
       int option_len8 = pbuf_try_get_at(p, offset + 1);
       if (option_len8 <= 0) {
         /* read beyond end or zero length */
         goto lenerr_drop_free_return;
       }
-      option_len = ((u8_t)option_len8) << 3;
+      option_len = ((uint8_t)option_len8) << 3;
       if (option_len > p->tot_len - offset) {
         /* short packet (option does not fit in) */
         goto lenerr_drop_free_return;
       }
       if (p->len == p->tot_len) {
         /* no need to copy from contiguous pbuf */
-        buffer = &((u8_t*)p->payload)[offset];
+        buffer = &((uint8_t*)p->payload)[offset];
       } else {
         /* check if this option fits into our buffer */
         if (option_len > sizeof(nd6_ra_buffer)) {
@@ -664,7 +664,7 @@ nd6_input(struct pbuf *p, struct netif *inp)
           /* we allow RDNSS option to be longer - we'll just drop some servers */
           option_len = sizeof(nd6_ra_buffer);
         }
-        buffer = (u8_t*)&nd6_ra_buffer;
+        buffer = (uint8_t*)&nd6_ra_buffer;
         option_len = pbuf_copy_partial(p, &nd6_ra_buffer, option_len, offset);
       }
       option_type = buffer[0];
@@ -687,7 +687,7 @@ nd6_input(struct pbuf *p, struct netif *inp)
       case ND6_OPTION_TYPE_MTU:
       {
         struct mtu_option *mtu_opt;
-        u32_t mtu32;
+        uint32_t mtu32;
         if (option_len < sizeof(struct mtu_option)) {
           goto lenerr_drop_free_return;
         }
@@ -723,7 +723,7 @@ nd6_input(struct pbuf *p, struct netif *inp)
           if ((prefix_opt->flags & ND6_PREFIX_FLAG_ON_LINK) &&
               (prefix_opt->prefix_length == 64)) {
             /* Add to on-link prefix list. */
-            u32_t valid_life;
+            uint32_t valid_life;
             s8_t prefix;
 
             valid_life = lwip_htonl(prefix_opt->valid_lifetime);
@@ -757,7 +757,7 @@ nd6_input(struct pbuf *p, struct netif *inp)
 #if LWIP_ND6_RDNSS_MAX_DNS_SERVERS
       case ND6_OPTION_TYPE_RDNSS:
       {
-        u8_t num, n;
+        uint8_t num, n;
         u16_t copy_offset = offset + SIZEOF_RDNSS_OPTION_BASE;
         struct rdnss_option * rdnss_opt;
         if (option_len < SIZEOF_RDNSS_OPTION_BASE) {
@@ -779,7 +779,7 @@ nd6_input(struct pbuf *p, struct netif *inp)
               dns_setserver(rdnss_server_idx++, &rdnss_address);
             } else {
               /* TODO implement DNS removal in dns.c */
-              u8_t s;
+              uint8_t s;
               for (s = 0; s < DNS_MAX_SERVERS; s++) {
                 const ip_addr_t *addr = dns_getserver(s);
                 if(ip_addr_cmp(addr, &rdnss_address)) {
@@ -798,7 +798,7 @@ nd6_input(struct pbuf *p, struct netif *inp)
         break;
       }
       /* option length is checked earlier to be non-zero to make sure loop ends */
-      offset += 8 * (u8_t)option_len8;
+      offset += 8 * (uint8_t)option_len8;
     }
 
     break; /* ICMP6_TYPE_RA */
@@ -839,7 +839,7 @@ nd6_input(struct pbuf *p, struct netif *inp)
     /* @todo RFC MUST: all included options have a length greater than zero */
 
     if (p->len >= (sizeof(struct redirect_header) + 2)) {
-      lladdr_opt = (struct lladdr_option *)((u8_t*)p->payload + sizeof(struct redirect_header));
+      lladdr_opt = (struct lladdr_option *)((uint8_t*)p->payload + sizeof(struct redirect_header));
       if (p->len < (sizeof(struct redirect_header) + (lladdr_opt->length << 3))) {
         lladdr_opt = NULL;
       }
@@ -896,7 +896,7 @@ nd6_input(struct pbuf *p, struct netif *inp)
   {
     struct icmp6_hdr *icmp6hdr; /* Packet too big message */
     struct ip6_hdr *ip6hdr; /* IPv6 header of the packet which caused the error */
-    u32_t pmtu;
+    uint32_t pmtu;
     ip6_addr_t destination_address;
 
     /* Check that ICMPv6 header + IPv6 header fit in payload */
@@ -909,7 +909,7 @@ nd6_input(struct pbuf *p, struct netif *inp)
     }
 
     icmp6hdr = (struct icmp6_hdr *)p->payload;
-    ip6hdr = (struct ip6_hdr *)((u8_t*)p->payload + sizeof(struct icmp6_hdr));
+    ip6hdr = (struct ip6_hdr *)((uint8_t*)p->payload + sizeof(struct icmp6_hdr));
 
     /* Create an aligned, zoned copy of the destination address. */
     ip6_addr_copy_from_packed(destination_address, ip6hdr->dest);
@@ -1063,7 +1063,7 @@ nd6_tmr(void)
   /* Process our own addresses, updating address lifetimes and/or DAD state. */
   NETIF_FOREACH(netif) {
     for (i = 0; i < LWIP_IPV6_NUM_ADDRESSES; ++i) {
-      u8_t addr_state;
+      uint8_t addr_state;
 #if LWIP_IPV6_ADDRESS_LIFETIMES
       /* Step 1: update address lifetimes (valid and preferred). */
       addr_state = netif_ip6_addr_state(netif, i);
@@ -1082,7 +1082,7 @@ nd6_tmr(void)
        */
       if (!ip6_addr_isinvalid(addr_state) &&
           !netif_ip6_addr_isstatic(netif, i)) {
-        u32_t life = netif_ip6_addr_valid_life(netif, i);
+        uint32_t life = netif_ip6_addr_valid_life(netif, i);
         if (life <= ND6_TMR_INTERVAL / 1000) {
           /* The address has expired. */
           netif_ip6_addr_set_valid_life(netif, i, 0);
@@ -1165,7 +1165,7 @@ nd6_tmr(void)
  * @param flags one of ND6_SEND_FLAG_*
  */
 static void
-nd6_send_neighbor_cache_probe(struct nd6_neighbor_cache_entry *entry, u8_t flags)
+nd6_send_neighbor_cache_probe(struct nd6_neighbor_cache_entry *entry, uint8_t flags)
 {
   nd6_send_ns(entry->netif, &entry->next_hop_address, flags);
 }
@@ -1178,7 +1178,7 @@ nd6_send_neighbor_cache_probe(struct nd6_neighbor_cache_entry *entry, u8_t flags
  * @param flags one of ND6_SEND_FLAG_*
  */
 static void
-nd6_send_ns(struct netif *netif, const ip6_addr_t *target_addr, u8_t flags)
+nd6_send_ns(struct netif *netif, const ip6_addr_t *target_addr, uint8_t flags)
 {
   struct ns_header *ns_hdr;
   struct pbuf *p;
@@ -1216,9 +1216,9 @@ nd6_send_ns(struct netif *netif, const ip6_addr_t *target_addr, u8_t flags)
   ip6_addr_copy_to_packed(ns_hdr->target_address, *target_addr);
 
   if (lladdr_opt_len != 0) {
-    struct lladdr_option *lladdr_opt = (struct lladdr_option *)((u8_t*)p->payload + sizeof(struct ns_header));
+    struct lladdr_option *lladdr_opt = (struct lladdr_option *)((uint8_t*)p->payload + sizeof(struct ns_header));
     lladdr_opt->type = ND6_OPTION_TYPE_SOURCE_LLADDR;
-    lladdr_opt->length = (u8_t)lladdr_opt_len;
+    lladdr_opt->length = (uint8_t)lladdr_opt_len;
     SMEMCPY(lladdr_opt->addr, netif->hwaddr, netif->hwaddr_len);
   }
 
@@ -1251,7 +1251,7 @@ nd6_send_ns(struct netif *netif, const ip6_addr_t *target_addr, u8_t flags)
  * @param flags one of ND6_SEND_FLAG_*
  */
 static void
-nd6_send_na(struct netif *netif, const ip6_addr_t *target_addr, u8_t flags)
+nd6_send_na(struct netif *netif, const ip6_addr_t *target_addr, uint8_t flags)
 {
   struct na_header *na_hdr;
   struct lladdr_option *lladdr_opt;
@@ -1277,7 +1277,7 @@ nd6_send_na(struct netif *netif, const ip6_addr_t *target_addr, u8_t flags)
 
   /* Set fields. */
   na_hdr = (struct na_header *)p->payload;
-  lladdr_opt = (struct lladdr_option *)((u8_t*)p->payload + sizeof(struct na_header));
+  lladdr_opt = (struct lladdr_option *)((uint8_t*)p->payload + sizeof(struct na_header));
 
   na_hdr->type = ICMP6_TYPE_NA;
   na_hdr->code = 0;
@@ -1289,7 +1289,7 @@ nd6_send_na(struct netif *netif, const ip6_addr_t *target_addr, u8_t flags)
   ip6_addr_copy_to_packed(na_hdr->target_address, *target_addr);
 
   lladdr_opt->type = ND6_OPTION_TYPE_TARGET_LLADDR;
-  lladdr_opt->length = (u8_t)lladdr_opt_len;
+  lladdr_opt->length = (uint8_t)lladdr_opt_len;
   SMEMCPY(lladdr_opt->addr, netif->hwaddr, netif->hwaddr_len);
 
   /* Generate the solicited node address for the target address. */
@@ -1366,9 +1366,9 @@ nd6_send_rs(struct netif *netif)
 
   if (src_addr != IP6_ADDR_ANY6) {
     /* Include our hw address. */
-    lladdr_opt = (struct lladdr_option *)((u8_t*)p->payload + sizeof(struct rs_header));
+    lladdr_opt = (struct lladdr_option *)((uint8_t*)p->payload + sizeof(struct rs_header));
     lladdr_opt->type = ND6_OPTION_TYPE_SOURCE_LLADDR;
-    lladdr_opt->length = (u8_t)lladdr_opt_len;
+    lladdr_opt->length = (uint8_t)lladdr_opt_len;
     SMEMCPY(lladdr_opt->addr, netif->hwaddr, netif->hwaddr_len);
   }
 
@@ -1423,7 +1423,7 @@ nd6_new_neighbor_cache_entry(void)
 {
   s8_t i;
   s8_t j;
-  u32_t time;
+  uint32_t time;
 
 
   /* First, try to find an empty entry. */
@@ -1582,7 +1582,7 @@ static s16_t
 nd6_new_destination_cache_entry(void)
 {
   s16_t i, j;
-  u32_t age;
+  uint32_t age;
 
   /* Find an empty entry. */
   for (i = 0; i < LWIP_ND6_NUM_DESTINATIONS; i++) {
@@ -1835,9 +1835,9 @@ nd6_new_router(const ip6_addr_t *router_addr, struct netif *netif)
   for (router_index = LWIP_ND6_NUM_ROUTERS - 1; router_index >= 0; router_index--) {
     /* check if router already exists (this is a special case for 2 netifs on the same subnet
        - e.g. wifi and cable) */
-    if(default_router_list[router_index].neighbor_entry == &(neighbor_cache[neighbor_index])){ 
-      return router_index; 
-    } 
+    if(default_router_list[router_index].neighbor_entry == &(neighbor_cache[neighbor_index])){
+      return router_index;
+    }
     if (default_router_list[router_index].neighbor_entry == NULL) {
       /* remember lowest free index to create a new entry */
       free_router_index = router_index;
@@ -2244,7 +2244,7 @@ nd6_send_q(s8_t i)
  * or ERR_MEM if low memory conditions prohibit sending the packet at all.
  */
 err_t
-nd6_get_next_hop_addr_or_queue(struct netif *netif, struct pbuf *q, const ip6_addr_t *ip6addr, const u8_t **hwaddrp)
+nd6_get_next_hop_addr_or_queue(struct netif *netif, struct pbuf *q, const ip6_addr_t *ip6addr, const uint8_t **hwaddrp)
 {
   s8_t i;
 
@@ -2361,7 +2361,7 @@ nd6_reachability_hint(const ip6_addr_t *ip6addr)
 void
 nd6_cleanup_netif(struct netif *netif)
 {
-  u8_t i;
+  uint8_t i;
   s8_t router_index;
   for (i = 0; i < LWIP_ND6_NUM_PREFIXES; i++) {
     if (prefix_list[i].netif == netif) {
@@ -2396,9 +2396,9 @@ nd6_cleanup_netif(struct netif *netif)
  * @param new_state The new (IP6_ADDR_) state for the address.
  */
 void
-nd6_adjust_mld_membership(struct netif *netif, s8_t addr_idx, u8_t new_state)
+nd6_adjust_mld_membership(struct netif *netif, s8_t addr_idx, uint8_t new_state)
 {
-  u8_t old_state, old_member, new_member;
+  uint8_t old_state, old_member, new_member;
 
   old_state = netif_ip6_addr_state(netif, addr_idx);
 

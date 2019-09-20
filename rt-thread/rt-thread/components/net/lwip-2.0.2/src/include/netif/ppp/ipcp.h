@@ -76,7 +76,7 @@
 
 #define IPCP_VJ_COMP 0x002d	/* current value for VJ compression option*/
 #define IPCP_VJ_COMP_OLD 0x0037	/* "old" (i.e, broken) value for VJ */
-				/* compression option*/ 
+				/* compression option*/
 #endif /* VJ_SUPPORT */
 
 typedef struct ipcp_options {
@@ -102,22 +102,22 @@ typedef struct ipcp_options {
     unsigned int req_dns2               :1; /* Ask peer to send secondary DNS address? */
 #endif /* LWIP_DNS */
 
-    u32_t ouraddr, hisaddr;	/* Addresses in NETWORK BYTE ORDER */
+    uint32_t ouraddr, hisaddr;	/* Addresses in NETWORK BYTE ORDER */
 #if LWIP_DNS
-    u32_t dnsaddr[2];	/* Primary and secondary MS DNS entries */
+    uint32_t dnsaddr[2];	/* Primary and secondary MS DNS entries */
 #endif /* LWIP_DNS */
 #if 0 /* UNUSED - WINS */
-    u32_t winsaddr[2];	/* Primary and secondary MS WINS entries */
+    uint32_t winsaddr[2];	/* Primary and secondary MS WINS entries */
 #endif /* UNUSED - WINS */
 
 #if VJ_SUPPORT
     u16_t vj_protocol;		/* protocol value to use in VJ option */
-    u8_t  maxslotindex;		/* values for RFC1332 VJ compression neg. */
+    uint8_t  maxslotindex;		/* values for RFC1332 VJ compression neg. */
 #endif /* VJ_SUPPORT */
 } ipcp_options;
 
 #if 0 /* UNUSED, already defined by lwIP */
-char *ip_ntoa (u32_t);
+char *ip_ntoa (uint32_t);
 #endif /* UNUSED, already defined by lwIP */
 
 extern const struct protent ipcp_protent;

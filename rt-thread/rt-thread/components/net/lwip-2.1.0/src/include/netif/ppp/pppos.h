@@ -59,12 +59,12 @@ enum {
 };
 
 /* PPPoS serial output callback function prototype */
-typedef u32_t (*pppos_output_cb_fn)(ppp_pcb *pcb, u8_t *data, u32_t len, void *ctx);
+typedef uint32_t (*pppos_output_cb_fn)(ppp_pcb *pcb, uint8_t *data, uint32_t len, void *ctx);
 
 /*
  * Extended asyncmap - allows any character to be escaped.
  */
-typedef u8_t ext_accm[32];
+typedef uint8_t ext_accm[32];
 
 /*
  * PPPoS interface control block.
@@ -80,7 +80,7 @@ struct pppos_pcb_s {
    * last_xmit must be the first member of cleared members, because it is
    * used to know which part must not be cleared.
    */
-  u32_t last_xmit;                 /* Time of last transmission. */
+  uint32_t last_xmit;                 /* Time of last transmission. */
   ext_accm out_accm;               /* Async-Ctl-Char-Map for output. */
 
   /* flags */
@@ -93,8 +93,8 @@ struct pppos_pcb_s {
   struct pbuf *in_head, *in_tail;  /* The input packet. */
   u16_t in_protocol;               /* The input protocol code. */
   u16_t in_fcs;                    /* Input Frame Check Sequence value. */
-  u8_t in_state;                   /* The input process state. */
-  u8_t in_escaped;                 /* Escape next character. */
+  uint8_t in_state;                   /* The input process state. */
+  uint8_t in_escaped;                 /* Escape next character. */
 };
 
 /* Create a new PPPoS session. */
@@ -103,11 +103,11 @@ ppp_pcb *pppos_create(struct netif *pppif, pppos_output_cb_fn output_cb,
 
 #if !NO_SYS && !PPP_INPROC_IRQ_SAFE
 /* Pass received raw characters to PPPoS to be decoded through lwIP TCPIP thread. */
-err_t pppos_input_tcpip(ppp_pcb *ppp, u8_t *s, int l);
+err_t pppos_input_tcpip(ppp_pcb *ppp, uint8_t *s, int l);
 #endif /* !NO_SYS && !PPP_INPROC_IRQ_SAFE */
 
 /* PPP over Serial: this is the input function to be called for received data. */
-void pppos_input(ppp_pcb *ppp, u8_t* data, int len);
+void pppos_input(ppp_pcb *ppp, uint8_t* data, int len);
 
 
 /*

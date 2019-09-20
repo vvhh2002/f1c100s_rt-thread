@@ -39,11 +39,11 @@
 #include <rtthread.h>
 
 #include <stdint.h>
-typedef uint8_t   u8_t;
+typedef uint8_t   uint8_t;
 typedef int8_t    s8_t;
 typedef uint16_t  u16_t;
 typedef int16_t   s16_t;
-typedef uint32_t  u32_t;
+typedef uint32_t  uint32_t;
 typedef int32_t   s32_t;
 typedef uintptr_t mem_ptr_t;
 
@@ -102,7 +102,7 @@ void sys_arch_assert(const char* file, int line);
 
 #include "string.h"
 
-#define SYS_ARCH_DECL_PROTECT(level)	
+#define SYS_ARCH_DECL_PROTECT(level)
 #define SYS_ARCH_PROTECT(level)		rt_enter_critical()
 #define SYS_ARCH_UNPROTECT(level) 	rt_exit_critical()
 

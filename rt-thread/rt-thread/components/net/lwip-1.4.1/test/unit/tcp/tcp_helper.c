@@ -40,7 +40,7 @@ tcp_remove_all(void)
 static struct pbuf*
 tcp_create_segment_wnd(ip_addr_t* src_ip, ip_addr_t* dst_ip,
                    u16_t src_port, u16_t dst_port, void* data, size_t data_len,
-                   u32_t seqno, u32_t ackno, u8_t headerflags, u16_t wnd)
+                   uint32_t seqno, uint32_t ackno, uint8_t headerflags, u16_t wnd)
 {
   struct pbuf *p, *q;
   struct ip_hdr* iphdr;
@@ -104,7 +104,7 @@ tcp_create_segment_wnd(ip_addr_t* src_ip, ip_addr_t* dst_ip,
 struct pbuf*
 tcp_create_segment(ip_addr_t* src_ip, ip_addr_t* dst_ip,
                    u16_t src_port, u16_t dst_port, void* data, size_t data_len,
-                   u32_t seqno, u32_t ackno, u8_t headerflags)
+                   uint32_t seqno, uint32_t ackno, uint8_t headerflags)
 {
   return tcp_create_segment_wnd(src_ip, dst_ip, src_port, dst_port, data,
     data_len, seqno, ackno, headerflags, TCP_WND);
@@ -115,8 +115,8 @@ tcp_create_segment(ip_addr_t* src_ip, ip_addr_t* dst_ip,
  * - seqno and ackno can be altered with an offset
  */
 struct pbuf*
-tcp_create_rx_segment(struct tcp_pcb* pcb, void* data, size_t data_len, u32_t seqno_offset,
-                      u32_t ackno_offset, u8_t headerflags)
+tcp_create_rx_segment(struct tcp_pcb* pcb, void* data, size_t data_len, uint32_t seqno_offset,
+                      uint32_t ackno_offset, uint8_t headerflags)
 {
   return tcp_create_segment(&pcb->remote_ip, &pcb->local_ip, pcb->remote_port, pcb->local_port,
     data, data_len, pcb->rcv_nxt + seqno_offset, pcb->lastack + ackno_offset, headerflags);
@@ -128,7 +128,7 @@ tcp_create_rx_segment(struct tcp_pcb* pcb, void* data, size_t data_len, u32_t se
  * - TCP window can be adjusted
  */
 struct pbuf* tcp_create_rx_segment_wnd(struct tcp_pcb* pcb, void* data, size_t data_len,
-                   u32_t seqno_offset, u32_t ackno_offset, u8_t headerflags, u16_t wnd)
+                   uint32_t seqno_offset, uint32_t ackno_offset, uint8_t headerflags, u16_t wnd)
 {
   return tcp_create_segment_wnd(&pcb->remote_ip, &pcb->local_ip, pcb->remote_port, pcb->local_port,
     data, data_len, pcb->rcv_nxt + seqno_offset, pcb->lastack + ackno_offset, headerflags, wnd);
@@ -176,7 +176,7 @@ static void
 test_tcp_counters_check_rxdata(struct test_tcp_counters* counters, struct pbuf* p)
 {
   struct pbuf* q;
-  u32_t i, received;
+  uint32_t i, received;
   if(counters->expected_data == NULL) {
     /* no data to compare */
     return;

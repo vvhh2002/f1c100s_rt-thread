@@ -45,7 +45,7 @@ This opens UDP sockets on port 5353 for IPv4 and IPv6.
 
 
 To start responding on a netif, run
-  mdns_resp_add_netif(struct netif *netif, char *hostname, u32_t dns_ttl)
+  mdns_resp_add_netif(struct netif *netif, char *hostname, uint32_t dns_ttl)
 
 The hostname will be copied. If this returns successfully, the netif will join
 the multicast groups and any MDNS/legacy DNS requests sent unicast or multicast
@@ -60,7 +60,7 @@ since the default case-insensitive comparison assumes this.
 Call mdns_resp_announce() every time the IP address on the netif has changed.
 
 Call mdns_resp_restart() every time the network interface comes up after being
-down, for example cable connected after being disconnected, administrative 
+down, for example cable connected after being disconnected, administrative
 interface comes up after being down, or the device wakes up from sleep.
 
 To stop responding on a netif, run
@@ -72,7 +72,7 @@ Adding services:
 
 The netif first needs to be registered. Then run
   mdns_resp_add_service(struct netif *netif, char *name, char *service,
-      u16_t proto, u16_t port, u32_t dns_ttl,
+      u16_t proto, u16_t port, uint32_t dns_ttl,
       service_get_txt_fn_t txt_fn, void *txt_userdata);
 
 The name and service pointers will be copied. Name refers to the name of the

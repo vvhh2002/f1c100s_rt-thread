@@ -62,7 +62,7 @@
 /* The amount of data from the original packet to return in a dest-unreachable */
 #define ICMP_DEST_UNREACH_DATASIZE 8
 
-static void icmp_send_response(struct pbuf *p, u8_t type, u8_t code);
+static void icmp_send_response(struct pbuf *p, uint8_t type, uint8_t code);
 
 /**
  * Processes ICMP input packets, called from ip_input().
@@ -76,9 +76,9 @@ static void icmp_send_response(struct pbuf *p, u8_t type, u8_t code);
 void
 icmp_input(struct pbuf *p, struct netif *inp)
 {
-  u8_t type;
+  uint8_t type;
 #ifdef LWIP_DEBUG
-  u8_t code;
+  uint8_t code;
 #endif /* LWIP_DEBUG */
   struct icmp_echo_hdr *iecho;
   struct ip_hdr *iphdr;
@@ -95,15 +95,15 @@ icmp_input(struct pbuf *p, struct netif *inp)
     goto lenerr;
   }
 
-  type = *((u8_t *)p->payload);
+  type = *((uint8_t *)p->payload);
 #ifdef LWIP_DEBUG
-  code = *(((u8_t *)p->payload)+1);
+  code = *(((uint8_t *)p->payload)+1);
 #endif /* LWIP_DEBUG */
   switch (type) {
   case ICMP_ER:
     /* This is OK, echo reply might have been parsed by a raw PCB
        (as obviously, an echo request has been sent, too). */
-    break; 
+    break;
   case ICMP_ECHO:
 #if !LWIP_MULTICAST_PING || !LWIP_BROADCAST_PING
     {
@@ -227,7 +227,7 @@ icmp_input(struct pbuf *p, struct netif *inp)
     }
     break;
   default:
-    LWIP_DEBUGF(ICMP_DEBUG, ("icmp_input: ICMP type %"S16_F" code %"S16_F" not supported.\n", 
+    LWIP_DEBUGF(ICMP_DEBUG, ("icmp_input: ICMP type %"S16_F" code %"S16_F" not supported.\n",
                 (s16_t)type, (s16_t)code));
     ICMP_STATS_INC(icmp.proterr);
     ICMP_STATS_INC(icmp.drop);
@@ -288,7 +288,7 @@ icmp_time_exceeded(struct pbuf *p, enum icmp_te_type t)
  * @param code Code of the ICMP header
  */
 static void
-icmp_send_response(struct pbuf *p, u8_t type, u8_t code)
+icmp_send_response(struct pbuf *p, uint8_t type, uint8_t code)
 {
   struct pbuf *q;
   struct ip_hdr *iphdr;
@@ -320,7 +320,7 @@ icmp_send_response(struct pbuf *p, u8_t type, u8_t code)
   icmphdr->seqno = 0;
 
   /* copy fields from original packet */
-  SMEMCPY((u8_t *)q->payload + sizeof(struct icmp_echo_hdr), (u8_t *)p->payload,
+  SMEMCPY((uint8_t *)q->payload + sizeof(struct icmp_echo_hdr), (uint8_t *)p->payload,
           IP_HLEN + ICMP_DEST_UNREACH_DATASIZE);
 
   /* calculate checksum */

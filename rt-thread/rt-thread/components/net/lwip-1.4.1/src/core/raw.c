@@ -72,13 +72,13 @@ static struct raw_pcb *raw_pcbs;
  *           caller).
  *
  */
-u8_t
+uint8_t
 raw_input(struct pbuf *p, struct netif *inp)
 {
   struct raw_pcb *pcb, *prev;
   struct ip_hdr *iphdr;
   s16_t proto;
-  u8_t eaten = 0;
+  uint8_t eaten = 0;
 
   LWIP_UNUSED_ARG(inp);
 
@@ -168,14 +168,14 @@ raw_connect(struct raw_pcb *pcb, ip_addr_t *ipaddr)
 
 /**
  * Set the callback function for received packets that match the
- * raw PCB's protocol and binding. 
- * 
+ * raw PCB's protocol and binding.
+ *
  * The callback function MUST either
  * - eat the packet by calling pbuf_free() and returning non-zero. The
  *   packet will not be passed to other raw PCBs or other protocol layers.
  * - not free the packet, and return zero. The packet will be matched
  *   against further PCBs and/or forwarded to another protocol layers.
- * 
+ *
  * @return non-zero if the packet was free()d, zero if the packet remains
  * available for others.
  */
@@ -206,9 +206,9 @@ raw_sendto(struct raw_pcb *pcb, struct pbuf *p, ip_addr_t *ipaddr)
   struct netif *netif;
   ip_addr_t *src_ip;
   struct pbuf *q; /* q will be sent down the stack */
-  
+
   LWIP_DEBUGF(RAW_DEBUG | LWIP_DBG_TRACE, ("raw_sendto\n"));
-  
+
   /* not enough space to add an IP header to first pbuf in given p chain? */
   if (pbuf_header(p, IP_HLEN)) {
     /* allocate header in new pbuf */
@@ -328,7 +328,7 @@ raw_remove(struct raw_pcb *pcb)
  * @see raw_remove()
  */
 struct raw_pcb *
-raw_new(u8_t proto)
+raw_new(uint8_t proto)
 {
   struct raw_pcb *pcb;
 

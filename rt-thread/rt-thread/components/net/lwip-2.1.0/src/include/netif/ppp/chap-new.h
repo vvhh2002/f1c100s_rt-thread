@@ -154,7 +154,7 @@ struct chap_digest_type {
  */
 #if CHAP_SUPPORT
 typedef struct chap_client_state {
-	u8_t flags;
+	uint8_t flags;
 	const char *name;
 	const struct chap_digest_type *digest;
 	unsigned char priv[64];		/* private area for digest's use */
@@ -162,8 +162,8 @@ typedef struct chap_client_state {
 
 #if PPP_SERVER
 typedef struct chap_server_state {
-	u8_t flags;
-	u8_t id;
+	uint8_t flags;
+	uint8_t id;
 	const char *name;
 	const struct chap_digest_type *digest;
 	int challenge_xmits;

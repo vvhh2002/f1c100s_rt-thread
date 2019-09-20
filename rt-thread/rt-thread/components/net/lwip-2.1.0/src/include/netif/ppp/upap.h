@@ -103,15 +103,15 @@ extern "C" {
 #if PAP_SUPPORT
 typedef struct upap_state {
     const char *us_user;	/* User */
-    u8_t us_userlen;		/* User length */
+    uint8_t us_userlen;		/* User length */
     const char *us_passwd;	/* Password */
-    u8_t us_passwdlen;		/* Password length */
-    u8_t us_clientstate;	/* Client state */
+    uint8_t us_passwdlen;		/* Password length */
+    uint8_t us_clientstate;	/* Client state */
 #if PPP_SERVER
-    u8_t us_serverstate;	/* Server state */
+    uint8_t us_serverstate;	/* Server state */
 #endif /* PPP_SERVER */
-    u8_t us_id;		        /* Current id */
-    u8_t us_transmits;		/* Number of auth-reqs sent */
+    uint8_t us_id;		        /* Current id */
+    uint8_t us_transmits;		/* Number of auth-reqs sent */
 } upap_state;
 #endif /* PAP_SUPPORT */
 

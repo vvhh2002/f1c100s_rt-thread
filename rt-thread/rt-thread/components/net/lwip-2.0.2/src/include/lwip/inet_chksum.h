@@ -47,7 +47,7 @@
 #define SWAP_BYTES_IN_WORD(w) (((w) & 0xff) << 8) | (((w) & 0xff00) >> 8)
 #endif /* SWAP_BYTES_IN_WORD */
 
-/** Split an u32_t in two u16_ts and add them up */
+/** Split an uint32_t in two u16_ts and add them up */
 #ifndef FOLD_U32T
 #define FOLD_U32T(u)          (((u) >> 16) + ((u) & 0x0000ffffUL))
 #endif
@@ -78,23 +78,23 @@ u16_t lwip_chksum_copy(void *dst, const void *src, u16_t len);
 #endif /* LWIP_CHKSUM_COPY_ALGORITHM */
 
 #if LWIP_IPV4
-u16_t inet_chksum_pseudo(struct pbuf *p, u8_t proto, u16_t proto_len,
+u16_t inet_chksum_pseudo(struct pbuf *p, uint8_t proto, u16_t proto_len,
        const ip4_addr_t *src, const ip4_addr_t *dest);
-u16_t inet_chksum_pseudo_partial(struct pbuf *p, u8_t proto,
+u16_t inet_chksum_pseudo_partial(struct pbuf *p, uint8_t proto,
        u16_t proto_len, u16_t chksum_len, const ip4_addr_t *src, const ip4_addr_t *dest);
 #endif /* LWIP_IPV4 */
 
 #if LWIP_IPV6
-u16_t ip6_chksum_pseudo(struct pbuf *p, u8_t proto, u16_t proto_len,
+u16_t ip6_chksum_pseudo(struct pbuf *p, uint8_t proto, u16_t proto_len,
        const ip6_addr_t *src, const ip6_addr_t *dest);
-u16_t ip6_chksum_pseudo_partial(struct pbuf *p, u8_t proto, u16_t proto_len,
+u16_t ip6_chksum_pseudo_partial(struct pbuf *p, uint8_t proto, u16_t proto_len,
        u16_t chksum_len, const ip6_addr_t *src, const ip6_addr_t *dest);
 #endif /* LWIP_IPV6 */
 
 
-u16_t ip_chksum_pseudo(struct pbuf *p, u8_t proto, u16_t proto_len,
+u16_t ip_chksum_pseudo(struct pbuf *p, uint8_t proto, u16_t proto_len,
        const ip_addr_t *src, const ip_addr_t *dest);
-u16_t ip_chksum_pseudo_partial(struct pbuf *p, u8_t proto, u16_t proto_len,
+u16_t ip_chksum_pseudo_partial(struct pbuf *p, uint8_t proto, u16_t proto_len,
        u16_t chksum_len, const ip_addr_t *src, const ip_addr_t *dest);
 
 #ifdef __cplusplus

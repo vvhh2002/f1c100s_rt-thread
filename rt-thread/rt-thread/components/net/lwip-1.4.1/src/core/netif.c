@@ -71,18 +71,18 @@
 #define NETIF_STATUS_CALLBACK(n) do{ if (n->status_callback) { (n->status_callback)(n); }}while(0)
 #else
 #define NETIF_STATUS_CALLBACK(n)
-#endif /* LWIP_NETIF_STATUS_CALLBACK */ 
+#endif /* LWIP_NETIF_STATUS_CALLBACK */
 
 #if LWIP_NETIF_LINK_CALLBACK
 #define NETIF_LINK_CALLBACK(n) do{ if (n->link_callback) { (n->link_callback)(n); }}while(0)
 #else
 #define NETIF_LINK_CALLBACK(n)
-#endif /* LWIP_NETIF_LINK_CALLBACK */ 
+#endif /* LWIP_NETIF_LINK_CALLBACK */
 
 struct netif *netif_list;
 struct netif *netif_default;
 
-static u8_t netif_num;
+static uint8_t netif_num;
 
 #if LWIP_HAVE_LOOPIF
 static struct netif loop_netif;
@@ -297,7 +297,7 @@ struct netif *
 netif_find(char *name)
 {
   struct netif *netif;
-  u8_t num;
+  uint8_t num;
 
   if (name == NULL) {
     return NULL;
@@ -466,17 +466,17 @@ netif_set_default(struct netif *netif)
 /**
  * Bring an interface up, available for processing
  * traffic.
- * 
+ *
  * @note: Enabling DHCP on a down interface will make it come
  * up once configured.
- * 
+ *
  * @see dhcp_start()
- */ 
+ */
 void netif_set_up(struct netif *netif)
 {
   if (!(netif->flags & NETIF_FLAG_UP)) {
     netif->flags |= NETIF_FLAG_UP;
-    
+
 #if LWIP_SNMP
     snmp_get_sysuptime(&netif->ts);
 #endif /* LWIP_SNMP */
@@ -485,7 +485,7 @@ void netif_set_up(struct netif *netif)
 
     if (netif->flags & NETIF_FLAG_LINK_UP) {
 #if LWIP_ARP
-      /* For Ethernet network interfaces, we would like to send a "gratuitous ARP" */ 
+      /* For Ethernet network interfaces, we would like to send a "gratuitous ARP" */
       if (netif->flags & (NETIF_FLAG_ETHARP)) {
         etharp_gratuitous(netif);
       }
@@ -511,9 +511,9 @@ void netif_set_up(struct netif *netif)
  *
  * @note: Enabling DHCP on a down interface will make it come
  * up once configured.
- * 
+ *
  * @see dhcp_start()
- */ 
+ */
 void netif_set_down(struct netif *netif)
 {
   if (netif->flags & NETIF_FLAG_UP) {
@@ -583,7 +583,7 @@ void netif_set_link_up(struct netif *netif )
 
     if (netif->flags & NETIF_FLAG_UP) {
 #if LWIP_ARP
-      /* For Ethernet network interfaces, we would like to send a "gratuitous ARP" */ 
+      /* For Ethernet network interfaces, we would like to send a "gratuitous ARP" */
       if (netif->flags & NETIF_FLAG_ETHARP) {
         etharp_gratuitous(netif);
       }
@@ -656,7 +656,7 @@ netif_loop_output(struct netif *netif, struct pbuf *p,
   err_t err;
   struct pbuf *last;
 #if LWIP_LOOPBACK_MAX_PBUFS
-  u8_t clen = 0;
+  uint8_t clen = 0;
 #endif /* LWIP_LOOPBACK_MAX_PBUFS */
   /* If we have a loopif, SNMP counters are adjusted for it,
    * if not they are adjusted for 'netif'. */
@@ -758,7 +758,7 @@ netif_poll(struct netif *netif)
     if (in != NULL) {
       struct pbuf *in_end = in;
 #if LWIP_LOOPBACK_MAX_PBUFS
-      u8_t clen = pbuf_clen(in);
+      uint8_t clen = pbuf_clen(in);
       /* adjust the number of pbufs on queue */
       LWIP_ASSERT("netif->loop_cnt_current underflow",
         ((netif->loop_cnt_current - clen) < netif->loop_cnt_current));

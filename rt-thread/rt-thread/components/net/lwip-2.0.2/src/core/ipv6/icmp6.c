@@ -65,7 +65,7 @@
 #endif
 
 /* Forward declarations */
-static void icmp6_send_response(struct pbuf *p, u8_t code, u32_t data, u8_t type);
+static void icmp6_send_response(struct pbuf *p, uint8_t code, uint32_t data, uint8_t type);
 
 
 /**
@@ -227,7 +227,7 @@ icmp6_dest_unreach(struct pbuf *p, enum icmp6_dur_code c)
  * @param mtu the maximum mtu that we can accept
  */
 void
-icmp6_packet_too_big(struct pbuf *p, u32_t mtu)
+icmp6_packet_too_big(struct pbuf *p, uint32_t mtu)
 {
   icmp6_send_response(p, 0, mtu, ICMP6_TYPE_PTB);
 }
@@ -254,7 +254,7 @@ icmp6_time_exceeded(struct pbuf *p, enum icmp6_te_code c)
  * @param pointer the pointer to the byte where the parameter is found
  */
 void
-icmp6_param_problem(struct pbuf *p, enum icmp6_pp_code c, u32_t pointer)
+icmp6_param_problem(struct pbuf *p, enum icmp6_pp_code c, uint32_t pointer)
 {
   icmp6_send_response(p, c, pointer, ICMP6_TYPE_PP);
 }
@@ -269,7 +269,7 @@ icmp6_param_problem(struct pbuf *p, enum icmp6_pp_code c, u32_t pointer)
  * @param type Type of the ICMPv6 header
  */
 static void
-icmp6_send_response(struct pbuf *p, u8_t code, u32_t data, u8_t type)
+icmp6_send_response(struct pbuf *p, uint8_t code, uint32_t data, uint8_t type)
 {
   struct pbuf *q;
   struct icmp6_hdr *icmp6hdr;
@@ -296,7 +296,7 @@ icmp6_send_response(struct pbuf *p, u8_t code, u32_t data, u8_t type)
   icmp6hdr->data = data;
 
   /* copy fields from original packet */
-  SMEMCPY((u8_t *)q->payload + sizeof(struct icmp6_hdr), (u8_t *)p->payload,
+  SMEMCPY((uint8_t *)q->payload + sizeof(struct icmp6_hdr), (uint8_t *)p->payload,
           IP6_HLEN + LWIP_ICMP6_DATASIZE);
 
   /* Get the destination address and netif for this ICMP message. */

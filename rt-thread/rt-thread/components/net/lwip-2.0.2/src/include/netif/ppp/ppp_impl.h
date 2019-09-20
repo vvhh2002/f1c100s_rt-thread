@@ -152,9 +152,9 @@ struct link_callbacks {
   /* Send a packet from lwIP core (IPv4 or IPv6) */
   err_t (*netif_output)(ppp_pcb *pcb, void *ctx, struct pbuf *p, u_short protocol);
   /* configure the transmit-side characteristics of the PPP interface */
-  void (*send_config)(ppp_pcb *pcb, void *ctx, u32_t accm, int pcomp, int accomp);
+  void (*send_config)(ppp_pcb *pcb, void *ctx, uint32_t accm, int pcomp, int accomp);
   /* confire the receive-side characteristics of the PPP interface */
-  void (*recv_config)(ppp_pcb *pcb, void *ctx, u32_t accm, int pcomp, int accomp);
+  void (*recv_config)(ppp_pcb *pcb, void *ctx, uint32_t accm, int pcomp, int accomp);
 };
 
 /*
@@ -242,11 +242,11 @@ struct ppp_idle {
  * Global variables.
  */
 #ifdef HAVE_MULTILINK
-extern u8_t	multilink;	/* enable multilink operation */
-extern u8_t	doing_multilink;
-extern u8_t	multilink_master;
-extern u8_t	bundle_eof;
-extern u8_t	bundle_terminating;
+extern uint8_t	multilink;	/* enable multilink operation */
+extern uint8_t	doing_multilink;
+extern uint8_t	multilink_master;
+extern uint8_t	bundle_eof;
+extern uint8_t	bundle_terminating;
 #endif
 
 #ifdef MAXOCTETS
@@ -378,7 +378,7 @@ struct pppd_stats {
  * PPP private functions
  */
 
- 
+
 /*
  * Functions called from lwIP core.
  */
@@ -422,26 +422,26 @@ void ppp_link_terminated(ppp_pcb *pcb);
 
 void new_phase(ppp_pcb *pcb, int p);
 
-int ppp_send_config(ppp_pcb *pcb, int mtu, u32_t accm, int pcomp, int accomp);
-int ppp_recv_config(ppp_pcb *pcb, int mru, u32_t accm, int pcomp, int accomp);
+int ppp_send_config(ppp_pcb *pcb, int mtu, uint32_t accm, int pcomp, int accomp);
+int ppp_recv_config(ppp_pcb *pcb, int mru, uint32_t accm, int pcomp, int accomp);
 
 #if PPP_IPV4_SUPPORT
-int sifaddr(ppp_pcb *pcb, u32_t our_adr, u32_t his_adr, u32_t netmask);
-int cifaddr(ppp_pcb *pcb, u32_t our_adr, u32_t his_adr);
+int sifaddr(ppp_pcb *pcb, uint32_t our_adr, uint32_t his_adr, uint32_t netmask);
+int cifaddr(ppp_pcb *pcb, uint32_t our_adr, uint32_t his_adr);
 #if 0 /* UNUSED - PROXY ARP */
-int sifproxyarp(ppp_pcb *pcb, u32_t his_adr);
-int cifproxyarp(ppp_pcb *pcb, u32_t his_adr);
+int sifproxyarp(ppp_pcb *pcb, uint32_t his_adr);
+int cifproxyarp(ppp_pcb *pcb, uint32_t his_adr);
 #endif /* UNUSED - PROXY ARP */
 #if LWIP_DNS
-int sdns(ppp_pcb *pcb, u32_t ns1, u32_t ns2);
-int cdns(ppp_pcb *pcb, u32_t ns1, u32_t ns2);
+int sdns(ppp_pcb *pcb, uint32_t ns1, uint32_t ns2);
+int cdns(ppp_pcb *pcb, uint32_t ns1, uint32_t ns2);
 #endif /* LWIP_DNS */
 #if VJ_SUPPORT
 int sifvjcomp(ppp_pcb *pcb, int vjcomp, int cidcomp, int maxcid);
 #endif /* VJ_SUPPORT */
 int sifup(ppp_pcb *pcb);
 int sifdown (ppp_pcb *pcb);
-u32_t get_mask(u32_t addr);
+uint32_t get_mask(uint32_t addr);
 #endif /* PPP_IPV4_SUPPORT */
 
 #if PPP_IPV6_SUPPORT
@@ -462,7 +462,7 @@ int netif_get_mtu(ppp_pcb *pcb);
 #if 0 /* unused */
 int ccp_test(ppp_pcb *pcb, u_char *opt_ptr, int opt_len, int for_transmit);
 #endif /* unused */
-void ccp_set(ppp_pcb *pcb, u8_t isopen, u8_t isup, u8_t receive_method, u8_t transmit_method);
+void ccp_set(ppp_pcb *pcb, uint8_t isopen, uint8_t isup, uint8_t receive_method, uint8_t transmit_method);
 void ccp_reset_comp(ppp_pcb *pcb);
 void ccp_reset_decomp(ppp_pcb *pcb);
 #if 0 /* unused */
@@ -579,7 +579,7 @@ int get_secret(ppp_pcb *pcb, const char *client, const char *server, char *secre
 #endif /* PPP_AUTH_SUPPORT */
 
 /* Procedures exported from ipcp.c */
-/* int parse_dotted_ip (char *, u32_t *); */
+/* int parse_dotted_ip (char *, uint32_t *); */
 
 /* Procedures exported from demand.c */
 #if DEMAND_SUPPORT
@@ -587,7 +587,7 @@ void demand_conf (void);	/* config interface(s) for demand-dial */
 void demand_block (void);	/* set all NPs to queue up packets */
 void demand_unblock (void); /* set all NPs to pass packets */
 void demand_discard (void); /* set all NPs to discard packets */
-void demand_rexmit (int, u32_t); /* retransmit saved frames for an NP*/
+void demand_rexmit (int, uint32_t); /* retransmit saved frames for an NP*/
 int  loop_chars (unsigned char *, int); /* process chars from loopback */
 int  loop_frame (unsigned char *, int); /* should we bring link up? */
 #endif /* DEMAND_SUPPORT */

@@ -96,7 +96,7 @@ struct slipif_priv {
   sio_fd_t sd;
   /* q is the whole pbuf chain for a packet, p is the current pbuf in the chain */
   struct pbuf *p, *q;
-  u8_t state;
+  uint8_t state;
   u16_t i, recved;
 #if SLIP_RX_FROM_ISR
   struct pbuf *rxpackets;
@@ -118,7 +118,7 @@ slipif_output(struct netif *netif, struct pbuf *p)
   struct slipif_priv *priv;
   struct pbuf *q;
   u16_t i;
-  u8_t c;
+  uint8_t c;
 
   LWIP_ASSERT("netif != NULL", (netif != NULL));
   LWIP_ASSERT("netif->state != NULL", (netif->state != NULL));
@@ -133,7 +133,7 @@ slipif_output(struct netif *netif, struct pbuf *p)
 
   for (q = p; q != NULL; q = q->next) {
     for (i = 0; i < q->len; i++) {
-      c = ((u8_t *)q->payload)[i];
+      c = ((uint8_t *)q->payload)[i];
       switch (c) {
       case SLIP_END:
         /* need to escape this byte (0xC0 -> 0xDB, 0xDC) */
@@ -204,7 +204,7 @@ slipif_output_v6(struct netif *netif, struct pbuf *p, const ip6_addr_t *ipaddr)
  * @return The IP packet when SLIP_END is received
  */
 static struct pbuf*
-slipif_rxbyte(struct netif *netif, u8_t c)
+slipif_rxbyte(struct netif *netif, uint8_t c)
 {
   struct slipif_priv *priv;
   struct pbuf *t;
@@ -282,7 +282,7 @@ slipif_rxbyte(struct netif *netif, u8_t c)
 
   /* this automatically drops bytes if > SLIP_MAX_SIZE */
   if ((priv->p != NULL) && (priv->recved <= SLIP_MAX_SIZE)) {
-    ((u8_t *)priv->p->payload)[priv->i] = c;
+    ((uint8_t *)priv->p->payload)[priv->i] = c;
     priv->recved++;
     priv->i++;
     if (priv->i >= priv->p->len) {
@@ -307,7 +307,7 @@ slipif_rxbyte(struct netif *netif, u8_t c)
  * @param c received character
  */
 static void
-slipif_rxbyte_input(struct netif *netif, u8_t c)
+slipif_rxbyte_input(struct netif *netif, uint8_t c)
 {
   struct pbuf *p;
   p = slipif_rxbyte(netif, c);
@@ -329,7 +329,7 @@ slipif_rxbyte_input(struct netif *netif, u8_t c)
 static void
 slipif_loop_thread(void *nf)
 {
-  u8_t c;
+  uint8_t c;
   struct netif *netif = (struct netif *)nf;
   struct slipif_priv *priv = (struct slipif_priv *)netif->state;
 
@@ -354,14 +354,14 @@ slipif_loop_thread(void *nf)
  *
  * @note netif->num must contain the number of the serial port to open
  *       (0 by default). If netif->state is != NULL, it is interpreted as an
- *       u8_t pointer pointing to the serial port number instead of netif->num.
+ *       uint8_t pointer pointing to the serial port number instead of netif->num.
  *
  */
 err_t
 slipif_init(struct netif *netif)
 {
   struct slipif_priv *priv;
-  u8_t sio_num;
+  uint8_t sio_num;
 
   LWIP_DEBUGF(SLIP_DEBUG, ("slipif_init: netif->num=%"U16_F"\n", (u16_t)netif->num));
 
@@ -383,7 +383,7 @@ slipif_init(struct netif *netif)
 
   /* netif->state or netif->num contain the port number */
   if (netif->state != NULL) {
-    sio_num = *(u8_t*)netif->state;
+    sio_num = *(uint8_t*)netif->state;
   } else {
     sio_num = netif->num;
   }
@@ -426,7 +426,7 @@ slipif_init(struct netif *netif)
 void
 slipif_poll(struct netif *netif)
 {
-  u8_t c;
+  uint8_t c;
   struct slipif_priv *priv;
 
   LWIP_ASSERT("netif != NULL", (netif != NULL));
@@ -484,7 +484,7 @@ slipif_process_rxqueue(struct netif *netif)
  * @param data Received serial byte
  */
 static void
-slipif_rxbyte_enqueue(struct netif *netif, u8_t data)
+slipif_rxbyte_enqueue(struct netif *netif, uint8_t data)
 {
   struct pbuf *p;
   struct slipif_priv *priv = (struct slipif_priv *)netif->state;
@@ -523,7 +523,7 @@ slipif_rxbyte_enqueue(struct netif *netif, u8_t data)
  * @param data received character
  */
 void
-slipif_received_byte(struct netif *netif, u8_t data)
+slipif_received_byte(struct netif *netif, uint8_t data)
 {
   LWIP_ASSERT("netif != NULL", (netif != NULL));
   LWIP_ASSERT("netif->state != NULL", (netif->state != NULL));
@@ -541,10 +541,10 @@ slipif_received_byte(struct netif *netif, u8_t data)
  * @param len Number of received characters
  */
 void
-slipif_received_bytes(struct netif *netif, u8_t *data, u8_t len)
+slipif_received_bytes(struct netif *netif, uint8_t *data, uint8_t len)
 {
-  u8_t i;
-  u8_t *rxdata = data;
+  uint8_t i;
+  uint8_t *rxdata = data;
   LWIP_ASSERT("netif != NULL", (netif != NULL));
   LWIP_ASSERT("netif->state != NULL", (netif->state != NULL));
 

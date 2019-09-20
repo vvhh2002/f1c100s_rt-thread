@@ -47,19 +47,19 @@
 static struct dhcpc_state s;
 
 struct dhcp_msg {
-  u8_t op, htype, hlen, hops;
-  u8_t xid[4];
+  uint8_t op, htype, hlen, hops;
+  uint8_t xid[4];
   u16_t secs, flags;
-  u8_t ciaddr[4];
-  u8_t yiaddr[4];
-  u8_t siaddr[4];
-  u8_t giaddr[4];
-  u8_t chaddr[16];
+  uint8_t ciaddr[4];
+  uint8_t yiaddr[4];
+  uint8_t siaddr[4];
+  uint8_t giaddr[4];
+  uint8_t chaddr[16];
 #ifndef UIP_CONF_DHCP_LIGHT
-  u8_t sname[64];
-  u8_t file[128];
+  uint8_t sname[64];
+  uint8_t file[128];
 #endif
-  u8_t options[312];
+  uint8_t options[312];
 };
 
 #define BOOTP_BROADCAST 0x8000
@@ -91,11 +91,11 @@ struct dhcp_msg {
 #define DHCP_OPTION_REQ_LIST     55
 #define DHCP_OPTION_END         255
 
-static const u8_t xid[4] = {0xad, 0xde, 0x12, 0x23};
-static const u8_t magic_cookie[4] = {99, 130, 83, 99};
+static const uint8_t xid[4] = {0xad, 0xde, 0x12, 0x23};
+static const uint8_t magic_cookie[4] = {99, 130, 83, 99};
 /*---------------------------------------------------------------------------*/
-static u8_t *
-add_msg_type(u8_t *optptr, u8_t type)
+static uint8_t *
+add_msg_type(uint8_t *optptr, uint8_t type)
 {
   *optptr++ = DHCP_OPTION_MSG_TYPE;
   *optptr++ = 1;
@@ -103,8 +103,8 @@ add_msg_type(u8_t *optptr, u8_t type)
   return optptr;
 }
 /*---------------------------------------------------------------------------*/
-static u8_t *
-add_server_id(u8_t *optptr)
+static uint8_t *
+add_server_id(uint8_t *optptr)
 {
   *optptr++ = DHCP_OPTION_SERVER_ID;
   *optptr++ = 4;
@@ -112,8 +112,8 @@ add_server_id(u8_t *optptr)
   return optptr + 4;
 }
 /*---------------------------------------------------------------------------*/
-static u8_t *
-add_req_ipaddr(u8_t *optptr)
+static uint8_t *
+add_req_ipaddr(uint8_t *optptr)
 {
   *optptr++ = DHCP_OPTION_REQ_IPADDR;
   *optptr++ = 4;
@@ -121,8 +121,8 @@ add_req_ipaddr(u8_t *optptr)
   return optptr + 4;
 }
 /*---------------------------------------------------------------------------*/
-static u8_t *
-add_req_options(u8_t *optptr)
+static uint8_t *
+add_req_options(uint8_t *optptr)
 {
   *optptr++ = DHCP_OPTION_REQ_LIST;
   *optptr++ = 3;
@@ -132,8 +132,8 @@ add_req_options(u8_t *optptr)
   return optptr;
 }
 /*---------------------------------------------------------------------------*/
-static u8_t *
-add_end(u8_t *optptr)
+static uint8_t *
+add_end(uint8_t *optptr)
 {
   *optptr++ = DHCP_OPTION_END;
   return optptr;
@@ -167,7 +167,7 @@ create_msg(register struct dhcp_msg *m)
 static void
 send_discover(void)
 {
-  u8_t *end;
+  uint8_t *end;
   struct dhcp_msg *m = (struct dhcp_msg *)uip_appdata;
 
   create_msg(m);
@@ -176,30 +176,30 @@ send_discover(void)
   end = add_req_options(end);
   end = add_end(end);
 
-  uip_send(uip_appdata, end - (u8_t *)uip_appdata);
+  uip_send(uip_appdata, end - (uint8_t *)uip_appdata);
 }
 /*---------------------------------------------------------------------------*/
 static void
 send_request(void)
 {
-  u8_t *end;
+  uint8_t *end;
   struct dhcp_msg *m = (struct dhcp_msg *)uip_appdata;
 
   create_msg(m);
-  
+
   end = add_msg_type(&m->options[4], DHCPREQUEST);
   end = add_server_id(end);
   end = add_req_ipaddr(end);
   end = add_end(end);
-  
-  uip_send(uip_appdata, end - (u8_t *)uip_appdata);
+
+  uip_send(uip_appdata, end - (uint8_t *)uip_appdata);
 }
 /*---------------------------------------------------------------------------*/
-static u8_t
-parse_options(u8_t *optptr, int len)
+static uint8_t
+parse_options(uint8_t *optptr, int len)
 {
-  u8_t *end = optptr + len;
-  u8_t type = 0;
+  uint8_t *end = optptr + len;
+  uint8_t type = 0;
 
   while(optptr < end) {
     switch(*optptr) {
@@ -230,11 +230,11 @@ parse_options(u8_t *optptr, int len)
   return type;
 }
 /*---------------------------------------------------------------------------*/
-static u8_t
+static uint8_t
 parse_msg(void)
 {
   struct dhcp_msg *m = (struct dhcp_msg *)uip_appdata;
-  
+
   if(m->op == DHCP_REPLY &&
      memcmp(m->xid, xid, sizeof(xid)) == 0 &&
      memcmp(m->chaddr, s.mac_addr, s.mac_len) == 0) {
@@ -248,7 +248,7 @@ static
 PT_THREAD(handle_dhcp(void))
 {
   PT_BEGIN(&s.pt);
-  
+
   /* try_again:*/
   s.state = STATE_SENDING;
   s.ticks = CLOCK_SECOND;
@@ -267,7 +267,7 @@ PT_THREAD(handle_dhcp(void))
       s.ticks *= 2;
     }
   } while(s.state != STATE_OFFER_RECEIVED);
-  
+
   s.ticks = CLOCK_SECOND;
 
   do {
@@ -286,7 +286,7 @@ PT_THREAD(handle_dhcp(void))
       PT_RESTART(&s.pt);
     }
   } while(s.state != STATE_CONFIG_RECEIVED);
-  
+
 #if 0
   printf("Got IP address %d.%d.%d.%d\n",
 	 uip_ipaddr1(s.ipaddr), uip_ipaddr2(s.ipaddr),
@@ -305,7 +305,7 @@ PT_THREAD(handle_dhcp(void))
 #endif
 
   dhcpc_configured(&s);
-  
+
   /*  timer_stop(&s.timer);*/
 
   /*
@@ -323,7 +323,7 @@ void
 dhcpc_init(const void *mac_addr, int mac_len)
 {
   uip_ipaddr_t addr;
-  
+
   s.mac_addr = mac_addr;
   s.mac_len  = mac_len;
 
@@ -346,7 +346,7 @@ void
 dhcpc_request(void)
 {
   u16_t ipaddr[2];
-  
+
   if(s.state == STATE_INITIAL) {
     uip_ipaddr(ipaddr, 0,0,0,0);
     uip_sethostaddr(ipaddr);

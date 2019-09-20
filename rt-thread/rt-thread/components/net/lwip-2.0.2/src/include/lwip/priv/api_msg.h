@@ -88,7 +88,7 @@ struct api_msg {
     struct netbuf *b;
     /** used for lwip_netconn_do_newconn */
     struct {
-      u8_t proto;
+      uint8_t proto;
     } n;
     /** used for lwip_netconn_do_bind and lwip_netconn_do_connect */
     struct {
@@ -99,29 +99,29 @@ struct api_msg {
     struct {
       ip_addr_t API_MSG_M_DEF(ipaddr);
       u16_t API_MSG_M_DEF(port);
-      u8_t local;
+      uint8_t local;
     } ad;
     /** used for lwip_netconn_do_write */
     struct {
       const void *dataptr;
       size_t len;
-      u8_t apiflags;
+      uint8_t apiflags;
 #if LWIP_SO_SNDTIMEO
-      u32_t time_started;
+      uint32_t time_started;
 #endif /* LWIP_SO_SNDTIMEO */
     } w;
     /** used for lwip_netconn_do_recv */
     struct {
-      u32_t len;
+      uint32_t len;
     } r;
 #if LWIP_TCP
     /** used for lwip_netconn_do_close (/shutdown) */
     struct {
-      u8_t shut;
+      uint8_t shut;
 #if LWIP_SO_SNDTIMEO || LWIP_SO_LINGER
-      u32_t time_started;
+      uint32_t time_started;
 #else /* LWIP_SO_SNDTIMEO || LWIP_SO_LINGER */
-      u8_t polls_left;
+      uint8_t polls_left;
 #endif /* LWIP_SO_SNDTIMEO || LWIP_SO_LINGER */
     } sd;
 #endif /* LWIP_TCP */
@@ -135,7 +135,7 @@ struct api_msg {
 #endif /* LWIP_IGMP || (LWIP_IPV6 && LWIP_IPV6_MLD) */
 #if TCP_LISTEN_BACKLOG
     struct {
-      u8_t backlog;
+      uint8_t backlog;
     } lb;
 #endif /* TCP_LISTEN_BACKLOG */
   } msg;
@@ -167,7 +167,7 @@ struct dns_api_msg {
   ip_addr_t API_MSG_M_DEF(addr);
 #if LWIP_IPV4 && LWIP_IPV6
   /** Type of resolve call */
-  u8_t dns_addrtype;
+  uint8_t dns_addrtype;
 #endif /* LWIP_IPV4 && LWIP_IPV6 */
   /** This semaphore is posted when the name is resolved, the application thread
       should wait on it. */
@@ -178,7 +178,7 @@ struct dns_api_msg {
 #endif /* LWIP_DNS */
 
 #if LWIP_TCP
-extern u8_t netconn_aborted;
+extern uint8_t netconn_aborted;
 #endif /* LWIP_TCP */
 
 void lwip_netconn_do_newconn         (void *m);

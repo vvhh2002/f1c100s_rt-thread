@@ -68,17 +68,17 @@
 #endif
 PACK_STRUCT_BEGIN
 struct zep_hdr {
-  PACK_STRUCT_FLD_8(u8_t prot_id[2]);
-  PACK_STRUCT_FLD_8(u8_t prot_version);
-  PACK_STRUCT_FLD_8(u8_t type);
-  PACK_STRUCT_FLD_8(u8_t channel_id);
+  PACK_STRUCT_FLD_8(uint8_t prot_id[2]);
+  PACK_STRUCT_FLD_8(uint8_t prot_version);
+  PACK_STRUCT_FLD_8(uint8_t type);
+  PACK_STRUCT_FLD_8(uint8_t channel_id);
   PACK_STRUCT_FIELD(u16_t device_id);
-  PACK_STRUCT_FLD_8(u8_t crc_mode);
-  PACK_STRUCT_FLD_8(u8_t unknown_1);
-  PACK_STRUCT_FIELD(u32_t timestamp[2]);
-  PACK_STRUCT_FIELD(u32_t seq_num);
-  PACK_STRUCT_FLD_8(u8_t unknown_2[10]);
-  PACK_STRUCT_FLD_8(u8_t len);
+  PACK_STRUCT_FLD_8(uint8_t crc_mode);
+  PACK_STRUCT_FLD_8(uint8_t unknown_1);
+  PACK_STRUCT_FIELD(uint32_t timestamp[2]);
+  PACK_STRUCT_FIELD(uint32_t seq_num);
+  PACK_STRUCT_FLD_8(uint8_t unknown_2[10]);
+  PACK_STRUCT_FLD_8(uint8_t len);
 } PACK_STRUCT_STRUCT;
 PACK_STRUCT_END
 #ifdef PACK_STRUCT_USE_INCLUDES
@@ -88,10 +88,10 @@ PACK_STRUCT_END
 struct zepif_state {
   struct zepif_init init;
   struct udp_pcb *pcb;
-  u32_t seqno;
+  uint32_t seqno;
 };
 
-static u8_t zep_lowpan_timer_running;
+static uint8_t zep_lowpan_timer_running;
 
 /* Helper function that calls the 6LoWPAN timer and reschedules itself */
 static void
@@ -199,7 +199,7 @@ zepif_linkoutput(struct netif *netif, struct pbuf *p)
   zep->unknown_1 = 0xff;
   zep->seq_num = lwip_htonl(state->seqno);
   state->seqno++;
-  zep->len = (u8_t)p->tot_len;
+  zep->len = (uint8_t)p->tot_len;
 
   err = pbuf_take_at(q, p->payload, p->tot_len, sizeof(struct zep_hdr));
   if (err == ERR_OK) {
@@ -273,7 +273,7 @@ zepif_init(struct netif *netif)
     if (init_state != NULL) {
       memcpy(netif->hwaddr, init_state->addr, 6);
     } else {
-      u8_t i;
+      uint8_t i;
       for (i = 0; i < 6; i++) {
         netif->hwaddr[i] = i;
       }

@@ -77,8 +77,8 @@ struct pppapi_msg_msg {
       API_MSG_M_DEF_C(ip_addr_t, ipaddr);
       u16_t port;
 #if PPPOL2TP_AUTH_SUPPORT
-      const u8_t *secret;
-      u8_t secret_len;
+      const uint8_t *secret;
+      uint8_t secret_len;
 #endif /* PPPOL2TP_AUTH_SUPPORT */
       ppp_link_status_cb_fn link_status_cb;
       void *ctx_cb;
@@ -88,10 +88,10 @@ struct pppapi_msg_msg {
       u16_t holdoff;
     } connect;
     struct {
-      u8_t nocarrier;
+      uint8_t nocarrier;
     } close;
     struct {
-      u8_t cmd;
+      uint8_t cmd;
       void *arg;
     } ioctl;
   } msg;
@@ -117,16 +117,16 @@ ppp_pcb *pppapi_pppoe_create(struct netif *pppif, struct netif *ethif, const cha
 #endif /* PPPOE_SUPPORT */
 #if PPPOL2TP_SUPPORT
 ppp_pcb *pppapi_pppol2tp_create(struct netif *pppif, struct netif *netif, ip_addr_t *ipaddr, u16_t port,
-                            const u8_t *secret, u8_t secret_len,
+                            const uint8_t *secret, uint8_t secret_len,
                             ppp_link_status_cb_fn link_status_cb, void *ctx_cb);
 #endif /* PPPOL2TP_SUPPORT */
 err_t pppapi_connect(ppp_pcb *pcb, u16_t holdoff);
 #if PPP_SERVER
 err_t pppapi_listen(ppp_pcb *pcb);
 #endif /* PPP_SERVER */
-err_t pppapi_close(ppp_pcb *pcb, u8_t nocarrier);
+err_t pppapi_close(ppp_pcb *pcb, uint8_t nocarrier);
 err_t pppapi_free(ppp_pcb *pcb);
-err_t pppapi_ioctl(ppp_pcb *pcb, u8_t cmd, void *arg);
+err_t pppapi_ioctl(ppp_pcb *pcb, uint8_t cmd, void *arg);
 
 #ifdef __cplusplus
 }

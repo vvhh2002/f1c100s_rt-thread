@@ -53,14 +53,14 @@ extern "C" {
 
 struct mdns_domain {
   /* Encoded domain name */
-  u8_t name[MDNS_DOMAIN_MAXLEN];
+  uint8_t name[MDNS_DOMAIN_MAXLEN];
   /* Total length of domain name, including zero */
   u16_t length;
   /* Set if compression of this domain is not allowed */
-  u8_t skip_compression;
+  uint8_t skip_compression;
 };
 
-err_t mdns_domain_add_label(struct mdns_domain *domain, const char *label, u8_t len);
+err_t mdns_domain_add_label(struct mdns_domain *domain, const char *label, uint8_t len);
 u16_t mdns_readname(struct pbuf *p, u16_t offset, struct mdns_domain *domain);
 int mdns_domain_eq(struct mdns_domain *a, struct mdns_domain *b);
 u16_t mdns_compress_domain(struct pbuf *pbuf, u16_t *offset, struct mdns_domain *domain);

@@ -1,8 +1,8 @@
 /*
  * Copyright (c) 2001-2004 Swedish Institute of Computer Science.
- * All rights reserved. 
- * 
- * Redistribution and use in source and binary forms, with or without modification, 
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification,
  * are permitted provided that the following conditions are met:
  *
  * 1. Redistributions of source code must retain the above copyright notice,
@@ -11,21 +11,21 @@
  *    this list of conditions and the following disclaimer in the documentation
  *    and/or other materials provided with the distribution.
  * 3. The name of the author may not be used to endorse or promote products
- *    derived from this software without specific prior written permission. 
+ *    derived from this software without specific prior written permission.
  *
- * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR IMPLIED 
- * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
- * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT 
- * SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, 
- * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT 
- * OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING 
- * IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+ * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT
+ * SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT
+ * OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
+ * IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY
  * OF SUCH DAMAGE.
  *
  * This file is part of the lwIP TCP/IP stack.
- * 
+ *
  * Author: Adam Dunkels <adam@sics.se>
  *
  */
@@ -42,9 +42,9 @@ extern "C" {
 
 /* For a totally minimal and standalone system, we provide null
    definitions of the sys_ functions. */
-typedef u8_t sys_sem_t;
-typedef u8_t sys_mutex_t;
-typedef u8_t sys_mbox_t;
+typedef uint8_t sys_sem_t;
+typedef uint8_t sys_mutex_t;
+typedef uint8_t sys_mbox_t;
 
 #define sys_sem_new(s, c) ERR_OK
 #define sys_sem_signal(s)
@@ -80,7 +80,7 @@ typedef u8_t sys_mbox_t;
 /** sys_mbox_tryfetch() returns SYS_MBOX_EMPTY if appropriate.
  * For now we use the same magic value, but we allow this to change in future.
  */
-#define SYS_MBOX_EMPTY SYS_ARCH_TIMEOUT 
+#define SYS_MBOX_EMPTY SYS_ARCH_TIMEOUT
 
 #include "lwip/err.h"
 #include "arch/sys_arch.h"
@@ -119,7 +119,7 @@ void sys_mutex_lock(sys_mutex_t *mutex);
 void sys_mutex_unlock(sys_mutex_t *mutex);
 /** Delete a semaphore
  * @param mutex the mutex to delete */
-void sys_mutex_free(sys_mutex_t *mutex); 
+void sys_mutex_free(sys_mutex_t *mutex);
 #ifndef sys_mutex_valid
 /** Check if a mutex is valid/allocated: return 1 for valid, 0 for invalid */
 int sys_mutex_valid(sys_mutex_t *mutex);
@@ -136,7 +136,7 @@ void sys_mutex_set_invalid(sys_mutex_t *mutex);
  * @param sem pointer to the semaphore to create
  * @param count initial count of the semaphore
  * @return ERR_OK if successful, another err_t otherwise */
-err_t sys_sem_new(sys_sem_t *sem, u8_t count);
+err_t sys_sem_new(sys_sem_t *sem, uint8_t count);
 /** Signals a semaphore
  * @param sem the semaphore to signal */
 void sys_sem_signal(sys_sem_t *sem);
@@ -145,7 +145,7 @@ void sys_sem_signal(sys_sem_t *sem);
  * @param timeout timeout in milliseconds to wait (0 = wait forever)
  * @return time (in milliseconds) waited for the semaphore
  *         or SYS_ARCH_TIMEOUT on timeout */
-u32_t sys_arch_sem_wait(sys_sem_t *sem, u32_t timeout);
+uint32_t sys_arch_sem_wait(sys_sem_t *sem, uint32_t timeout);
 /** Delete a semaphore
  * @param sem semaphore to delete */
 void sys_sem_free(sys_sem_t *sem);
@@ -162,7 +162,7 @@ void sys_sem_set_invalid(sys_sem_t *sem);
 
 /* Time functions. */
 #ifndef sys_msleep
-void sys_msleep(u32_t ms); /* only has a (close to) 1 jiffy resolution. */
+void sys_msleep(uint32_t ms); /* only has a (close to) 1 jiffy resolution. */
 #endif
 
 /* Mailbox functions. */
@@ -188,7 +188,7 @@ err_t sys_mbox_trypost(sys_mbox_t *mbox, void *msg);
  * @return time (in milliseconds) waited for a message, may be 0 if not waited
            or SYS_ARCH_TIMEOUT on timeout
  *         The returned time has to be accurate to prevent timer jitter! */
-u32_t sys_arch_mbox_fetch(sys_mbox_t *mbox, void **msg, u32_t timeout);
+uint32_t sys_arch_mbox_fetch(sys_mbox_t *mbox, void **msg, uint32_t timeout);
 /* Allow port to override with a macro, e.g. special timout for sys_arch_mbox_fetch() */
 #ifndef sys_arch_mbox_tryfetch
 /** Wait for a new message to arrive in the mbox
@@ -197,7 +197,7 @@ u32_t sys_arch_mbox_fetch(sys_mbox_t *mbox, void **msg, u32_t timeout);
  * @param timeout maximum time (in milliseconds) to wait for a message
  * @return 0 (milliseconds) if a message has been received
  *         or SYS_MBOX_EMPTY if the mailbox is empty */
-u32_t sys_arch_mbox_tryfetch(sys_mbox_t *mbox, void **msg);
+uint32_t sys_arch_mbox_tryfetch(sys_mbox_t *mbox, void **msg);
 #endif
 /** For now, we map straight to sys_arch implementation. */
 #define sys_mbox_tryfetch(mbox, msg) sys_arch_mbox_tryfetch(mbox, msg)
@@ -230,12 +230,12 @@ void sys_init(void);
 
 #ifndef sys_jiffies
 /** Ticks/jiffies since power up. */
-u32_t sys_jiffies(void);
+uint32_t sys_jiffies(void);
 #endif
 
 /** Returns the current time in milliseconds,
  * may be the same as sys_jiffies or at least based on it. */
-u32_t sys_now(void);
+uint32_t sys_now(void);
 
 /* Critical Region Protection */
 /* These functions must be implemented in the sys_arch.c file.

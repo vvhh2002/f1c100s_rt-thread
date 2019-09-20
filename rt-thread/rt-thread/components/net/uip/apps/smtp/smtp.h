@@ -79,13 +79,13 @@ unsigned char smtp_send(char *to, char *from,
 void smtp_appcall(void);
 
 struct smtp_state {
-  u8_t state;
+  uint8_t state;
   char *to;
   char *from;
   char *subject;
   char *msg;
   u16_t msglen;
-  
+
   u16_t sentlen, textlen;
   u16_t sendptr;
 

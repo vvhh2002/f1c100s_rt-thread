@@ -50,7 +50,7 @@
 <a name="l00035"></a>00035 <span class="preprocessor"></span>
 <a name="l00036"></a>00036 <span class="preprocessor">#include "<a class="code" href="a00130.html">timer.h</a>"</span>
 <a name="l00037"></a>00037 <span class="preprocessor">#include "<a class="code" href="a00128.html">pt.h</a>"</span>
-<a name="l00038"></a>00038 
+<a name="l00038"></a>00038
 <a name="l00039"></a>00039 <span class="keyword">struct </span><a name="_a43"></a><a class="code" href="a00077.html">dhcpc_state</a> {
 <a name="l00040"></a>00040   <span class="keyword">struct </span><a name="_a44"></a><a class="code" href="a00084.html">pt</a> <a name="a45"></a><a class="code" href="a00077.html#31471b5e27bda51832d0fa49bd6d9b54">pt</a>;
 <a name="l00041"></a>00041   <span class="keywordtype">char</span> <a name="a46"></a><a class="code" href="a00077.html#e0b137a3875ad12a99e5e3e0e177fd12">state</a>;
@@ -59,27 +59,27 @@
 <a name="l00044"></a>00044   <a name="a51"></a><a class="code" href="a00153.html#g77570ac4fcab86864fa1916e55676da2">u16_t</a> <a name="a52"></a><a class="code" href="a00077.html#e707c39412e09d3a47f0b3c5dad33725">ticks</a>;
 <a name="l00045"></a>00045   <span class="keyword">const</span> <span class="keywordtype">void</span> *mac_addr;
 <a name="l00046"></a>00046   <span class="keywordtype">int</span> mac_len;
-<a name="l00047"></a>00047   
-<a name="l00048"></a>00048   <a name="a53"></a><a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">u8_t</a> <a name="a54"></a><a class="code" href="a00077.html#564bab93ef6a268a5de2fab885c1d32a">serverid</a>[4];
-<a name="l00049"></a>00049 
+<a name="l00047"></a>00047
+<a name="l00048"></a>00048   <a name="a53"></a><a class="code" href="a00153.html#g4caecabca98b43919dd11be1c0d4cd8e">uint8_t</a> <a name="a54"></a><a class="code" href="a00077.html#564bab93ef6a268a5de2fab885c1d32a">serverid</a>[4];
+<a name="l00049"></a>00049
 <a name="l00050"></a>00050   <a class="code" href="a00153.html#g77570ac4fcab86864fa1916e55676da2">u16_t</a> <a name="a55"></a><a class="code" href="a00077.html#7a520a57d7d0541524f34a7685635597">lease_time</a>[2];
 <a name="l00051"></a>00051   <a class="code" href="a00153.html#g77570ac4fcab86864fa1916e55676da2">u16_t</a> ipaddr[2];
 <a name="l00052"></a>00052   <a class="code" href="a00153.html#g77570ac4fcab86864fa1916e55676da2">u16_t</a> <a name="a56"></a><a class="code" href="a00077.html#20541305548441e5dcb2e1e7e6f300eb">netmask</a>[2];
 <a name="l00053"></a>00053   <a class="code" href="a00153.html#g77570ac4fcab86864fa1916e55676da2">u16_t</a> <a name="a57"></a><a class="code" href="a00077.html#27df2817055bc099821d96eb60a40b34">dnsaddr</a>[2];
 <a name="l00054"></a>00054   <a class="code" href="a00153.html#g77570ac4fcab86864fa1916e55676da2">u16_t</a> <a name="a58"></a><a class="code" href="a00077.html#5e16ca335dfd7394527f602da879fca2">default_router</a>[2];
 <a name="l00055"></a>00055 };
-<a name="l00056"></a>00056 
+<a name="l00056"></a>00056
 <a name="l00057"></a>00057 <span class="keywordtype">void</span> dhcpc_init(<span class="keyword">const</span> <span class="keywordtype">void</span> *mac_addr, <span class="keywordtype">int</span> mac_len);
 <a name="l00058"></a>00058 <span class="keywordtype">void</span> dhcpc_request(<span class="keywordtype">void</span>);
-<a name="l00059"></a>00059 
+<a name="l00059"></a>00059
 <a name="l00060"></a>00060 <span class="keywordtype">void</span> dhcpc_appcall(<span class="keywordtype">void</span>);
-<a name="l00061"></a>00061 
+<a name="l00061"></a>00061
 <a name="l00062"></a>00062 <span class="keywordtype">void</span> dhcpc_configured(<span class="keyword">const</span> <span class="keyword">struct</span> <a class="code" href="a00077.html">dhcpc_state</a> *s);
-<a name="l00063"></a>00063 
+<a name="l00063"></a>00063
 <a name="l00064"></a>00064 <span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="a00077.html">dhcpc_state</a> <a name="a59"></a><a class="code" href="a00153.html#ga92afb113e122f860392bfbd385f842e">uip_udp_appstate_t</a>;
 <a name="l00065"></a>00065 <span class="preprocessor">#define UIP_UDP_APPCALL dhcpc_appcall</span>
 <a name="l00066"></a>00066 <span class="preprocessor"></span>
-<a name="l00067"></a>00067 
+<a name="l00067"></a>00067
 <a name="l00068"></a>00068 <span class="preprocessor">#endif </span><span class="comment">/* __DHCPC_H__ */</span>
 </pre></div> <hr size="1"><address style="align: right;"><small>Generated on Mon Jun 12 10:23:01 2006 for uIP 1.0 by&nbsp;
 <a href="http://www.doxygen.org/index.html">

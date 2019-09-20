@@ -81,13 +81,13 @@ lwip_htons(u16_t n)
 
 #if !defined(lwip_htonl)
 /**
- * Convert an u32_t from host- to network byte order.
+ * Convert an uint32_t from host- to network byte order.
  *
- * @param n u32_t in host byte order
+ * @param n uint32_t in host byte order
  * @return n in network byte order
  */
-u32_t
-lwip_htonl(u32_t n)
+uint32_t
+lwip_htonl(uint32_t n)
 {
   return PP_HTONL(n);
 }

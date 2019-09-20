@@ -107,7 +107,7 @@ enum dhcp6_option_idx {
 };
 
 struct dhcp6_option_info {
-  u8_t option_given;
+  uint8_t option_given;
   u16_t val_start;
   u16_t val_length;
 };
@@ -128,7 +128,7 @@ const ip_addr_t dhcp6_All_DHCP6_Relay_Agents_and_Servers = IPADDR6_INIT_HOST(0xF
 const ip_addr_t dhcp6_All_DHCP6_Servers = IPADDR6_INIT_HOST(0xFF020000, 0, 0, 0x00010003);
 
 static struct udp_pcb *dhcp6_pcb;
-static u8_t dhcp6_pcb_refcount;
+static uint8_t dhcp6_pcb_refcount;
 
 
 /* receive, unfold, parse and free incoming messages */
@@ -251,7 +251,7 @@ dhcp6_get_struct(struct netif *netif, const char *dbg_requester)
  * If the state changed, reset the number of tries.
  */
 static void
-dhcp6_set_state(struct dhcp6 *dhcp6, u8_t new_state, const char *dbg_caller)
+dhcp6_set_state(struct dhcp6 *dhcp6, uint8_t new_state, const char *dbg_caller)
 {
   LWIP_DEBUGF(DHCP6_DEBUG | LWIP_DBG_TRACE | LWIP_DBG_STATE, ("DHCPv6 state: %d -> %d (%s)\n",
     dhcp6->state, new_state, dbg_caller));
@@ -374,7 +374,7 @@ dhcp6_disable(struct netif *netif)
  * @return a pbuf for the message
  */
 static struct pbuf *
-dhcp6_create_msg(struct netif *netif, struct dhcp6 *dhcp6, u8_t message_type,
+dhcp6_create_msg(struct netif *netif, struct dhcp6 *dhcp6, uint8_t message_type,
                  u16_t opt_len_alloc, u16_t *options_out_len)
 {
   struct pbuf *p_out;
@@ -404,23 +404,23 @@ dhcp6_create_msg(struct netif *netif, struct dhcp6 *dhcp6, u8_t message_type,
   memset(msg_out, 0, sizeof(struct dhcp6_msg) + opt_len_alloc);
 
   msg_out->msgtype = message_type;
-  msg_out->transaction_id[0] = (u8_t)(dhcp6->xid >> 16);
-  msg_out->transaction_id[1] = (u8_t)(dhcp6->xid >> 8);
-  msg_out->transaction_id[2] = (u8_t)dhcp6->xid;
+  msg_out->transaction_id[0] = (uint8_t)(dhcp6->xid >> 16);
+  msg_out->transaction_id[1] = (uint8_t)(dhcp6->xid >> 8);
+  msg_out->transaction_id[2] = (uint8_t)dhcp6->xid;
   *options_out_len = 0;
   return p_out;
 }
 
 static u16_t
-dhcp6_option_short(u16_t options_out_len, u8_t *options, u16_t value)
+dhcp6_option_short(u16_t options_out_len, uint8_t *options, u16_t value)
 {
-  options[options_out_len++] = (u8_t)((value & 0xff00U) >> 8);
-  options[options_out_len++] = (u8_t) (value & 0x00ffU);
+  options[options_out_len++] = (uint8_t)((value & 0xff00U) >> 8);
+  options[options_out_len++] = (uint8_t) (value & 0x00ffU);
   return options_out_len;
 }
 
 static u16_t
-dhcp6_option_optionrequest(u16_t options_out_len, u8_t *options, const u16_t *req_options,
+dhcp6_option_optionrequest(u16_t options_out_len, uint8_t *options, const u16_t *req_options,
                            u16_t num_req_options, u16_t max_len)
 {
   size_t i;
@@ -461,7 +461,7 @@ dhcp6_information_request(struct netif *netif, struct dhcp6 *dhcp6)
   if (p_out != NULL) {
     err_t err;
     struct dhcp6_msg *msg_out = (struct dhcp6_msg *)p_out->payload;
-    u8_t *options = (u8_t *)(msg_out + 1);
+    uint8_t *options = (uint8_t *)(msg_out + 1);
     LWIP_DEBUGF(DHCP6_DEBUG | LWIP_DBG_TRACE, ("dhcp6_information_request: making request\n"));
 
     options_out_len = dhcp6_option_optionrequest(options_out_len, options, requested_options,
@@ -525,7 +525,7 @@ dhcp6_handle_config_reply(struct netif *netif, struct pbuf *p_msg_in)
     u16_t op_start = dhcp6_get_option_start(dhcp6, DHCP6_OPTION_IDX_DNS_SERVER);
     u16_t op_len = dhcp6_get_option_length(dhcp6, DHCP6_OPTION_IDX_DNS_SERVER);
     u16_t idx;
-    u8_t n;
+    uint8_t n;
 
     memset(&dns_addr, 0, sizeof(dns_addr));
     dns_addr6 = ip_2_ip6(&dns_addr);
@@ -550,7 +550,7 @@ dhcp6_handle_config_reply(struct netif *netif, struct pbuf *p_msg_in)
     u16_t op_start = dhcp6_get_option_start(dhcp6, DHCP6_OPTION_IDX_NTP_SERVER);
     u16_t op_len = dhcp6_get_option_length(dhcp6, DHCP6_OPTION_IDX_NTP_SERVER);
     u16_t idx;
-    u8_t n;
+    uint8_t n;
 
     for (n = 0, idx = op_start; (idx < op_start + op_len) && (n < LWIP_DHCP6_MAX_NTP_SERVERS);
          n++, idx += sizeof(struct ip6_addr_packed)) {
@@ -574,7 +574,7 @@ dhcp6_handle_config_reply(struct netif *netif, struct pbuf *p_msg_in)
  * It triggers DHCPv6 requests (if enabled).
  */
 void
-dhcp6_nd6_ra_trigger(struct netif *netif, u8_t managed_addr_config, u8_t other_config)
+dhcp6_nd6_ra_trigger(struct netif *netif, uint8_t managed_addr_config, uint8_t other_config)
 {
   struct dhcp6 *dhcp6;
 
@@ -627,8 +627,8 @@ dhcp6_parse_reply(struct pbuf *p, struct dhcp6 *dhcp6)
   offset = options_idx;
   /* at least 4 byte to read? */
   while ((offset + 4 <= offset_max)) {
-    u8_t op_len_buf[4];
-    u8_t *op_len;
+    uint8_t op_len_buf[4];
+    uint8_t *op_len;
     u16_t op;
     u16_t len;
     u16_t val_offset = (u16_t)(offset + 4);
@@ -637,7 +637,7 @@ dhcp6_parse_reply(struct pbuf *p, struct dhcp6 *dhcp6)
       return ERR_BUF;
     }
     /* copy option + length, might be split accross pbufs */
-    op_len = (u8_t *)pbuf_get_contiguous(p, op_len_buf, 4, 4, offset);
+    op_len = (uint8_t *)pbuf_get_contiguous(p, op_len_buf, 4, 4, offset);
     if (op_len == NULL) {
       /* failed to get option and length */
       return ERR_VAL;
@@ -691,8 +691,8 @@ dhcp6_recv(void *arg, struct udp_pcb *pcb, struct pbuf *p, const ip_addr_t *addr
   struct netif *netif = ip_current_input_netif();
   struct dhcp6 *dhcp6 = netif_dhcp6_data(netif);
   struct dhcp6_msg *reply_msg = (struct dhcp6_msg *)p->payload;
-  u8_t msg_type;
-  u32_t xid;
+  uint8_t msg_type;
+  uint32_t xid;
 
   LWIP_UNUSED_ARG(arg);
 

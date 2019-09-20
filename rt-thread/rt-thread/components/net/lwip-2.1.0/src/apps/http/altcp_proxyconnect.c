@@ -64,7 +64,7 @@ typedef struct altcp_proxyconnect_state_s
   ip_addr_t outer_addr;
   u16_t outer_port;
   struct altcp_proxyconnect_config *conf;
-  u8_t flags;
+  uint8_t flags;
 } altcp_proxyconnect_state_t;
 
 /* Variable prototype, the actual declaration is at the end of this file
@@ -365,7 +365,7 @@ altcp_proxyconnect_new(struct altcp_proxyconnect_config *config, struct altcp_pc
  * @param ip_type IP type of the connection (@ref lwip_ip_addr_type)
  */
 struct altcp_pcb *
-altcp_proxyconnect_new_tcp(struct altcp_proxyconnect_config *config, u8_t ip_type)
+altcp_proxyconnect_new_tcp(struct altcp_proxyconnect_config *config, uint8_t ip_type)
 {
   struct altcp_pcb *inner_pcb, *ret;
 
@@ -392,7 +392,7 @@ altcp_proxyconnect_new_tcp(struct altcp_proxyconnect_config *config, u8_t ip_typ
  * @param ip_type IP type of the connection (@ref lwip_ip_addr_type)
  */
 struct altcp_pcb *
-altcp_proxyconnect_alloc(void *arg, u8_t ip_type)
+altcp_proxyconnect_alloc(void *arg, uint8_t ip_type)
 {
   return altcp_proxyconnect_new_tcp((struct altcp_proxyconnect_config *)arg, ip_type);
 }
@@ -411,7 +411,7 @@ altcp_proxyconnect_alloc(void *arg, u8_t ip_type)
  * @param ip_type IP type of the connection (@ref lwip_ip_addr_type)
  */
 struct altcp_pcb *
-altcp_proxyconnect_tls_alloc(void *arg, u8_t ip_type)
+altcp_proxyconnect_tls_alloc(void *arg, uint8_t ip_type)
 {
   struct altcp_proxyconnect_tls_config *cfg = (struct altcp_proxyconnect_tls_config *)arg;
   struct altcp_pcb *proxy_pcb;
@@ -429,7 +429,7 @@ altcp_proxyconnect_tls_alloc(void *arg, u8_t ip_type)
 
 /* "virtual" functions */
 static void
-altcp_proxyconnect_set_poll(struct altcp_pcb *conn, u8_t interval)
+altcp_proxyconnect_set_poll(struct altcp_pcb *conn, uint8_t interval)
 {
   if (conn != NULL) {
     altcp_poll(conn->inner_conn, altcp_proxyconnect_lower_poll, interval);
@@ -479,7 +479,7 @@ altcp_proxyconnect_connect(struct altcp_pcb *conn, const ip_addr_t *ipaddr, u16_
 }
 
 static struct altcp_pcb *
-altcp_proxyconnect_listen(struct altcp_pcb *conn, u8_t backlog, err_t *err)
+altcp_proxyconnect_listen(struct altcp_pcb *conn, uint8_t backlog, err_t *err)
 {
   LWIP_UNUSED_ARG(conn);
   LWIP_UNUSED_ARG(backlog);
@@ -518,7 +518,7 @@ altcp_proxyconnect_close(struct altcp_pcb *conn)
 }
 
 static err_t
-altcp_proxyconnect_write(struct altcp_pcb *conn, const void *dataptr, u16_t len, u8_t apiflags)
+altcp_proxyconnect_write(struct altcp_pcb *conn, const void *dataptr, u16_t len, uint8_t apiflags)
 {
   altcp_proxyconnect_state_t *state;
 

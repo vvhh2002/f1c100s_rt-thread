@@ -163,17 +163,17 @@
 typedef struct pppol2tp_pcb_s pppol2tp_pcb;
 struct pppol2tp_pcb_s {
   ppp_pcb *ppp;                /* PPP PCB */
-  u8_t phase;                  /* L2TP phase */
+  uint8_t phase;                  /* L2TP phase */
   struct udp_pcb *udp;         /* UDP L2TP Socket */
   struct netif *netif;         /* Output interface, used as a default route */
   ip_addr_t remote_ip;         /* LNS IP Address */
   u16_t remote_port;           /* LNS port */
 #if PPPOL2TP_AUTH_SUPPORT
-  const u8_t *secret;          /* Secret string */
-  u8_t secret_len;             /* Secret string length */
-  u8_t secret_rv[16];          /* Random vector */
-  u8_t challenge_hash[16];     /* Challenge response */
-  u8_t send_challenge;         /* Boolean whether the next sent packet should contains a challenge response */
+  const uint8_t *secret;          /* Secret string */
+  uint8_t secret_len;             /* Secret string length */
+  uint8_t secret_rv[16];          /* Random vector */
+  uint8_t challenge_hash[16];     /* Challenge response */
+  uint8_t send_challenge;         /* Boolean whether the next sent packet should contains a challenge response */
 #endif /* PPPOL2TP_AUTH_SUPPORT */
 
   u16_t tunnel_port;           /* Tunnel port */
@@ -185,16 +185,16 @@ struct pppol2tp_pcb_s {
   u16_t source_session_id;     /* Session ID assigned by peer */
   u16_t remote_session_id;     /* Session ID assigned to peer */
 
-  u8_t sccrq_retried;          /* number of SCCRQ retries already done */
-  u8_t icrq_retried;           /* number of ICRQ retries already done */
-  u8_t iccn_retried;           /* number of ICCN retries already done */
+  uint8_t sccrq_retried;          /* number of SCCRQ retries already done */
+  uint8_t icrq_retried;           /* number of ICRQ retries already done */
+  uint8_t iccn_retried;           /* number of ICCN retries already done */
 };
 
 
 /* Create a new L2TP session. */
 ppp_pcb *pppol2tp_create(struct netif *pppif,
        struct netif *netif, const ip_addr_t *ipaddr, u16_t port,
-       const u8_t *secret, u8_t secret_len,
+       const uint8_t *secret, uint8_t secret_len,
        ppp_link_status_cb_fn link_status_cb, void *ctx_cb);
 
 #endif /* PPPOL2TP_H */

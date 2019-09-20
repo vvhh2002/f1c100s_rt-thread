@@ -35,3 +35,7 @@ config TINA_USING_SPI_FLASH
     select TINA_USING_SPI0
     select RT_USING_SFUD
     default y
+
+config TINA_USING_LCD
+    bool "Using LCD"
+    default y

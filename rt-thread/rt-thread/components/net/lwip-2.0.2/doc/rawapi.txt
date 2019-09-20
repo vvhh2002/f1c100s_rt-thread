@@ -123,7 +123,7 @@ The function for setting the application connection state is:
   connection control block, and the "arg" argument is the argument
   that will be passed to the callbacks.
 
-  
+
 --- TCP connection setup
 
 The functions used for setting up connections is similar to that of
@@ -165,7 +165,7 @@ incoming connections or be explicitly connected to another host.
   listening connection. If so, the memory associated with the pcb
   passed as an argument to tcp_listen() will not be deallocated.
 
-- struct tcp_pcb *tcp_listen_with_backlog(struct tcp_pcb *pcb, u8_t backlog)
+- struct tcp_pcb *tcp_listen_with_backlog(struct tcp_pcb *pcb, uint8_t backlog)
 
   Same as tcp_listen, but limits the number of outstanding connections
   in the listen queue to the value specified by the backlog argument.
@@ -184,7 +184,7 @@ incoming connections or be explicitly connected to another host.
                                                     err_t err));
 
   Sets up the pcb to connect to the remote host and sends the
-  initial SYN segment which opens the connection. 
+  initial SYN segment which opens the connection.
 
   The tcp_connect() function returns immediately; it does not wait for
   the connection to be properly setup. Instead, it will call the
@@ -208,7 +208,7 @@ host, the application will be notified with a call to a specified
 callback function.
 
 - err_t tcp_write(struct tcp_pcb *pcb, const void *dataptr, u16_t len,
-                  u8_t apiflags)
+                  uint8_t apiflags)
 
   Enqueues the data pointed to by the argument dataptr. The length of
   the data is passed as the len parameter. The apiflags can be one or more of:
@@ -241,7 +241,7 @@ callback function.
   host. The len argument passed to the callback function gives the
   amount bytes that was acknowledged by the last acknowledgment.
 
-  
+
 --- Receiving TCP data
 
 TCP data reception is callback based - an application specified
@@ -278,9 +278,9 @@ if a call to tcp_write() has failed because memory wasn't available,
 the application may use the polling functionality to call tcp_write()
 again when the connection has been idle for a while.
 
-- void tcp_poll(struct tcp_pcb *pcb, 
+- void tcp_poll(struct tcp_pcb *pcb,
                 err_t (* poll)(void *arg, struct tcp_pcb *tpcb),
-                u8_t interval)
+                uint8_t interval)
 
   Specifies the polling interval and the callback function that should
   be called to poll the application. The interval is specified in
@@ -299,7 +299,7 @@ again when the connection has been idle for a while.
   callback or the polling functionality. If the close succeeds, the
   function returns ERR_OK.
 
-  The pcb is deallocated by the TCP code after a call to tcp_close(). 
+  The pcb is deallocated by the TCP code after a call to tcp_close().
 
 - void tcp_abort(struct tcp_pcb *pcb)
 
@@ -336,8 +336,8 @@ level of complexity of UDP, the interface is significantly simpler.
 
 - void udp_remove(struct udp_pcb *pcb)
 
-  Removes and deallocates the pcb.  
-  
+  Removes and deallocates the pcb.
+
 - err_t udp_bind(struct udp_pcb *pcb, ip_addr_t *ipaddr,
                  u16_t port)
 
@@ -369,7 +369,7 @@ level of complexity of UDP, the interface is significantly simpler.
 
   Specifies a callback function that should be called when a UDP
   datagram is received.
-  
+
 
 --- System initalization
 
@@ -398,22 +398,22 @@ Call these functions in the order of appearance:
 
   The init function pointer must point to a initialization function for
   your Ethernet netif interface. The following code illustrates its use.
-  
+
   err_t netif_if_init(struct netif *netif)
   {
-    u8_t i;
-    
+    uint8_t i;
+
     for (i = 0; i < ETHARP_HWADDR_LEN; i++) {
       netif->hwaddr[i] = some_eth_addr[i];
     }
     init_my_eth_device();
     return ERR_OK;
   }
-  
+
   For Ethernet drivers, the input function pointer must point to the lwIP
   function ethernet_input() declared in "netif/etharp.h". Other drivers
   must use ip_input() declared in "lwip/ip.h".
-  
+
 - netif_set_default(struct netif *netif)
 
   Registers the default network interface.
@@ -433,7 +433,7 @@ Call these functions in the order of appearance:
 - dhcp_start(struct netif *netif)
 
   Creates a new DHCP client for this interface on the first call.
-  
+
   You can peek in the netif->dhcp struct for the actual DHCP status.
 
 - sys_check_timeouts()

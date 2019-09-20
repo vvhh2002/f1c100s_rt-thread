@@ -99,8 +99,8 @@ demand_conf()
     fcs = PPP_INITFCS;
 
     netif_set_mtu(pcb, LWIP_MIN(lcp_allowoptions[0].mru, PPP_MRU));
-    if (ppp_send_config(pcb, PPP_MRU, (u32_t) 0, 0, 0) < 0
-	|| ppp_recv_config(pcb, PPP_MRU, (u32_t) 0, 0, 0) < 0)
+    if (ppp_send_config(pcb, PPP_MRU, (uint32_t) 0, 0, 0) < 0
+	|| ppp_recv_config(pcb, PPP_MRU, (uint32_t) 0, 0, 0) < 0)
 	    fatal("Couldn't set up demand-dialled PPP interface: %m");
 
 #ifdef PPP_FILTER
@@ -317,7 +317,7 @@ loop_frame(frame, len)
 void
 demand_rexmit(proto, newip)
     int proto;
-    u32_t newip;
+    uint32_t newip;
 {
     struct packet *pkt, *prev, *nextpkt;
     unsigned short checksum;
@@ -345,7 +345,7 @@ demand_rexmit(proto, newip)
                     checksum = 0;
                 }
 
- 
+
                 if (pkt->data[13] == 17) {
                     pkt_checksum =  *((unsigned short *) (pkt->data+10+iphdr));
 		    if (pkt_checksum) {
@@ -375,7 +375,7 @@ demand_rexmit(proto, newip)
 		pkt_checksum -= *((unsigned short *) (pkt->data+18)) ^ 0xFFFF;
 
 		/* Change Source-IP-Address */
-                * ((u32_t *) (pkt->data + 16)) = newip;
+                * ((uint32_t *) (pkt->data + 16)) = newip;
 
 		/* Add new Source-IP-Address */
                 checksum += *((unsigned short *) (pkt->data+16)) ^ 0xFFFF;

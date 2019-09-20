@@ -58,7 +58,7 @@ extern "C" {
 /* If your port already typedef's sa_family_t, define SA_FAMILY_T_DEFINED
    to prevent this code from redefining it. */
 #if !defined(sa_family_t) && !defined(SA_FAMILY_T_DEFINED)
-typedef u8_t sa_family_t;
+typedef uint8_t sa_family_t;
 #endif
 /* If your port already typedef's in_port_t, define IN_PORT_T_DEFINED
    to prevent this code from redefining it. */
@@ -69,7 +69,7 @@ typedef u16_t in_port_t;
 #if LWIP_IPV4
 /* members are in network byte order */
 struct sockaddr_in {
-  u8_t            sin_len;
+  uint8_t            sin_len;
   sa_family_t     sin_family;
   in_port_t       sin_port;
   struct in_addr  sin_addr;
@@ -80,35 +80,35 @@ struct sockaddr_in {
 
 #if LWIP_IPV6
 struct sockaddr_in6 {
-  u8_t            sin6_len;      /* length of this structure    */
+  uint8_t            sin6_len;      /* length of this structure    */
   sa_family_t     sin6_family;   /* AF_INET6                    */
   in_port_t       sin6_port;     /* Transport layer port #      */
-  u32_t           sin6_flowinfo; /* IPv6 flow information       */
+  uint32_t           sin6_flowinfo; /* IPv6 flow information       */
   struct in6_addr sin6_addr;     /* IPv6 address                */
-  u32_t           sin6_scope_id; /* Set of interfaces for scope */
+  uint32_t           sin6_scope_id; /* Set of interfaces for scope */
 };
 #endif /* LWIP_IPV6 */
 
 struct sockaddr {
-  u8_t        sa_len;
+  uint8_t        sa_len;
   sa_family_t sa_family;
   char        sa_data[14];
 };
 
 struct sockaddr_storage {
-  u8_t        s2_len;
+  uint8_t        s2_len;
   sa_family_t ss_family;
   char        s2_data1[2];
-  u32_t       s2_data2[3];
+  uint32_t       s2_data2[3];
 #if LWIP_IPV6
-  u32_t       s2_data3[3];
+  uint32_t       s2_data3[3];
 #endif /* LWIP_IPV6 */
 };
 
 /* If your port already typedef's socklen_t, define SOCKLEN_T_DEFINED
    to prevent this code from redefining it. */
 #if !defined(socklen_t) && !defined(SOCKLEN_T_DEFINED)
-typedef u32_t socklen_t;
+typedef uint32_t socklen_t;
 #endif
 
 #if !defined IOV_MAX
@@ -162,14 +162,14 @@ will need to increase long long */
 
 #define CMSG_NXTHDR(mhdr, cmsg) \
         (((cmsg) == NULL) ? CMSG_FIRSTHDR(mhdr) : \
-         (((u8_t *)(cmsg) + ALIGN_H((cmsg)->cmsg_len) \
+         (((uint8_t *)(cmsg) + ALIGN_H((cmsg)->cmsg_len) \
                             + ALIGN_D(sizeof(struct cmsghdr)) > \
-           (u8_t *)((mhdr)->msg_control) + (mhdr)->msg_controllen) ? \
+           (uint8_t *)((mhdr)->msg_control) + (mhdr)->msg_controllen) ? \
           (struct cmsghdr *)NULL : \
-          (struct cmsghdr *)((void*)((u8_t *)(cmsg) + \
+          (struct cmsghdr *)((void*)((uint8_t *)(cmsg) + \
                                       ALIGN_H((cmsg)->cmsg_len)))))
 
-#define CMSG_DATA(cmsg) ((void*)((u8_t *)(cmsg) + \
+#define CMSG_DATA(cmsg) ((void*)((uint8_t *)(cmsg) + \
                          ALIGN_D(sizeof(struct cmsghdr))))
 
 #define CMSG_SPACE(length) (ALIGN_D(sizeof(struct cmsghdr)) + \
@@ -473,8 +473,8 @@ typedef struct ipv6_mreq {
   code; }} while(0)
 #define FDSETSAFEGET(n, code) (((n) - LWIP_SOCKET_OFFSET < MEMP_NUM_NETCONN) && (((int)(n) - LWIP_SOCKET_OFFSET) >= 0) ?\
   (code) : 0)
-#define FD_SET(n, p)  FDSETSAFESET(n, (p)->fd_bits[((n)-LWIP_SOCKET_OFFSET)/8] = (u8_t)((p)->fd_bits[((n)-LWIP_SOCKET_OFFSET)/8] |  (1 << (((n)-LWIP_SOCKET_OFFSET) & 7))))
-#define FD_CLR(n, p)  FDSETSAFESET(n, (p)->fd_bits[((n)-LWIP_SOCKET_OFFSET)/8] = (u8_t)((p)->fd_bits[((n)-LWIP_SOCKET_OFFSET)/8] & ~(1 << (((n)-LWIP_SOCKET_OFFSET) & 7))))
+#define FD_SET(n, p)  FDSETSAFESET(n, (p)->fd_bits[((n)-LWIP_SOCKET_OFFSET)/8] = (uint8_t)((p)->fd_bits[((n)-LWIP_SOCKET_OFFSET)/8] |  (1 << (((n)-LWIP_SOCKET_OFFSET) & 7))))
+#define FD_CLR(n, p)  FDSETSAFESET(n, (p)->fd_bits[((n)-LWIP_SOCKET_OFFSET)/8] = (uint8_t)((p)->fd_bits[((n)-LWIP_SOCKET_OFFSET)/8] & ~(1 << (((n)-LWIP_SOCKET_OFFSET) & 7))))
 #define FD_ISSET(n,p) FDSETSAFEGET(n, (p)->fd_bits[((n)-LWIP_SOCKET_OFFSET)/8] &   (1 << (((n)-LWIP_SOCKET_OFFSET) & 7)))
 #define FD_ZERO(p)    memset((void*)(p), 0, sizeof(*(p)))
 

@@ -63,15 +63,15 @@ struct autoip
   /** the currently selected, probed, announced or used LL IP-Address */
   ip4_addr_t llipaddr;
   /** current AutoIP state machine state */
-  u8_t state;
+  uint8_t state;
   /** sent number of probes or announces, dependent on state */
-  u8_t sent_num;
+  uint8_t sent_num;
   /** ticks to wait, tick is AUTOIP_TMR_INTERVAL long */
   u16_t ttw;
   /** ticks until a conflict can be solved by defending */
-  u8_t lastconflict;
+  uint8_t lastconflict;
   /** total number of probed/used Link Local IP-Addresses */
-  u8_t tried_llipaddr;
+  uint8_t tried_llipaddr;
 };
 
 
@@ -83,10 +83,10 @@ err_t autoip_stop(struct netif *netif);
 void autoip_arp_reply(struct netif *netif, struct etharp_hdr *hdr);
 void autoip_tmr(void);
 void autoip_network_changed(struct netif *netif);
-u8_t autoip_supplied_address(const struct netif *netif);
+uint8_t autoip_supplied_address(const struct netif *netif);
 
 /* for lwIP internal use by ip4.c */
-u8_t autoip_accept_packet(struct netif *netif, const ip4_addr_t *addr);
+uint8_t autoip_accept_packet(struct netif *netif, const ip4_addr_t *addr);
 
 #define netif_autoip_data(netif) ((struct autoip*)netif_get_client_data(netif, LWIP_NETIF_CLIENT_DATA_INDEX_AUTOIP))
 

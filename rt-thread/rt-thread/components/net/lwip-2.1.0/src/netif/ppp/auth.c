@@ -189,7 +189,7 @@ int (*chap_passwd_hook) (char *user, char *passwd) = NULL;
 int (*null_auth_hook) (struct wordlist **paddrs,
 			   struct wordlist **popts) = NULL;
 
-int (*allowed_address_hook) (u32_t addr) = NULL;
+int (*allowed_address_hook) (uint32_t addr) = NULL;
 #endif /* UNUSED */
 
 #ifdef HAVE_MULTILINK
@@ -250,7 +250,7 @@ static int  have_pap_secret (int *);
 static int  have_chap_secret (char *, char *, int, int *);
 static int  have_srp_secret (char *client, char *server, int need_ip,
     int *lacks_ipp);
-static int  ip_addr_check (u32_t, struct permitted_ip *);
+static int  ip_addr_check (uint32_t, struct permitted_ip *);
 static int  scan_authfile (FILE *, char *, char *, char *,
 			       struct wordlist **, struct wordlist **,
 			       char *, int);
@@ -2044,9 +2044,9 @@ set_allowed_addrs(unit, addrs, opts)
     char *ptr_word, *ptr_mask;
     struct hostent *hp;
     struct netent *np;
-    u32_t a, mask, ah, offset;
+    uint32_t a, mask, ah, offset;
     struct ipcp_options *wo = &ipcp_wantoptions[unit];
-    u32_t suggested_ip = 0;
+    uint32_t suggested_ip = 0;
 
     if (addresses[unit] != NULL)
 	free(addresses[unit]);
@@ -2089,7 +2089,7 @@ set_allowed_addrs(unit, addrs, opts)
 	    ++ptr_word;
 	}
 
-	mask = ~ (u32_t) 0;
+	mask = ~ (uint32_t) 0;
 	offset = 0;
 	ptr_mask = strchr (ptr_word, '/');
 	if (ptr_mask != NULL) {
@@ -2117,11 +2117,11 @@ set_allowed_addrs(unit, addrs, opts)
 
 	hp = gethostbyname(ptr_word);
 	if (hp != NULL && hp->h_addrtype == AF_INET) {
-	    a = *(u32_t *)hp->h_addr;
+	    a = *(uint32_t *)hp->h_addr;
 	} else {
 	    np = getnetbyname (ptr_word);
 	    if (np != NULL && np->n_addrtype == AF_INET) {
-		a = lwip_htonl ((u32_t)np->n_net);
+		a = lwip_htonl ((uint32_t)np->n_net);
 		if (ptr_mask == NULL) {
 		    /* calculate appropriate mask for net */
 		    ah = lwip_ntohl(a);
@@ -2140,7 +2140,7 @@ set_allowed_addrs(unit, addrs, opts)
 	if (ptr_mask != NULL)
 	    *ptr_mask = '/';
 
-	if (a == (u32_t)-1L) {
+	if (a == (uint32_t)-1L) {
 	    ppp_warn("unknown host %s in auth. address list", ap->word);
 	    continue;
 	}
@@ -2151,7 +2151,7 @@ set_allowed_addrs(unit, addrs, opts)
 		continue;
 	    }
 	    a = lwip_htonl((lwip_ntohl(a) & mask) + offset);
-	    mask = ~(u32_t)0;
+	    mask = ~(uint32_t)0;
 	}
 	ip[n].mask = lwip_htonl(mask);
 	ip[n].base = a & ip[n].mask;
@@ -2191,7 +2191,7 @@ set_allowed_addrs(unit, addrs, opts)
 int
 auth_ip_addr(unit, addr)
     int unit;
-    u32_t addr;
+    uint32_t addr;
 {
     int ok;
 
@@ -2217,7 +2217,7 @@ auth_ip_addr(unit, addr)
 
 static int
 ip_addr_check(addr, addrs)
-    u32_t addr;
+    uint32_t addr;
     struct permitted_ip *addrs;
 {
     for (; ; ++addrs)
@@ -2232,7 +2232,7 @@ ip_addr_check(addr, addrs)
  */
 int
 bad_ip_adrs(addr)
-    u32_t addr;
+    uint32_t addr;
 {
     addr = lwip_ntohl(addr);
     return (addr >> IN_CLASSA_NSHIFT) == IN_LOOPBACKNET

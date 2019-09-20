@@ -346,7 +346,7 @@ ip_reass_chain_frag_into_datagram_and_validate(struct ip_reassdata *ipr, struct 
   struct ip_reass_helper *iprh, *iprh_tmp, *iprh_prev = NULL;
   struct pbuf *q;
   u16_t offset, len;
-  u8_t hlen;
+  uint8_t hlen;
   struct ip_hdr *fraghdr;
   int valid = 1;
 
@@ -507,7 +507,7 @@ ip4_reass(struct pbuf *p)
   struct ip_reassdata *ipr;
   struct ip_reass_helper *iprh;
   u16_t offset, len, clen;
-  u8_t hlen;
+  uint8_t hlen;
   int valid;
   int is_last;
 
@@ -825,7 +825,7 @@ ip4_frag(struct pbuf *p, struct netif *netif, const ip4_addr_t *dest)
       }
       /* Mirror this pbuf, although we might not need all of it. */
       newpbuf = pbuf_alloced_custom(PBUF_RAW, newpbuflen, PBUF_REF, &pcr->pc,
-                                    (u8_t *)p->payload + poff, newpbuflen);
+                                    (uint8_t *)p->payload + poff, newpbuflen);
       if (newpbuf == NULL) {
         ip_frag_free_pbuf_custom_ref(pcr);
         pbuf_free(rambuf);

@@ -66,8 +66,8 @@ typedef struct ip_nat_entry
 
 void  ip_nat_init(void);
 void  ip_nat_tmr(void);
-u8_t  ip_nat_input(struct pbuf *p);
-u8_t  ip_nat_out(struct pbuf *p);
+uint8_t  ip_nat_input(struct pbuf *p);
+uint8_t  ip_nat_out(struct pbuf *p);
 
 err_t ip_nat_add(const ip_nat_entry_t *new_entry);
 void  ip_nat_remove(const ip_nat_entry_t *remove_entry);

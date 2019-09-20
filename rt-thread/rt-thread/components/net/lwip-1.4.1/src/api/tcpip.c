@@ -208,7 +208,7 @@ tcpip_input(struct pbuf *p, struct netif *inp)
  * @return ERR_OK if the function was called, another err_t if not
  */
 err_t
-tcpip_callback_with_block(tcpip_callback_fn function, void *ctx, u8_t block)
+tcpip_callback_with_block(tcpip_callback_fn function, void *ctx, uint8_t block)
 {
   struct tcpip_msg *msg;
 
@@ -244,7 +244,7 @@ tcpip_callback_with_block(tcpip_callback_fn function, void *ctx, u8_t block)
  * @return ERR_MEM on memory error, ERR_OK otherwise
  */
 err_t
-tcpip_timeout(u32_t msecs, sys_timeout_handler h, void *arg)
+tcpip_timeout(uint32_t msecs, sys_timeout_handler h, void *arg)
 {
   struct tcpip_msg *msg;
 
@@ -310,7 +310,7 @@ tcpip_apimsg(struct api_msg *apimsg)
   /* catch functions that don't set err */
   apimsg->msg.err = ERR_VAL;
 #endif
-  
+
   if (sys_mbox_valid(&mbox)) {
     msg.type = TCPIP_MSG_API;
     msg.msg.apimsg = apimsg;
@@ -360,14 +360,14 @@ err_t
 tcpip_netifapi(struct netifapi_msg* netifapimsg)
 {
   struct tcpip_msg msg;
-  
+
   if (sys_mbox_valid(&mbox)) {
     err_t err = sys_sem_new(&netifapimsg->msg.sem, 0);
     if (err != ERR_OK) {
       netifapimsg->msg.err = err;
       return err;
     }
-    
+
     msg.type = TCPIP_MSG_NETIFAPI;
     msg.msg.netifapimsg = netifapimsg;
     sys_mbox_post(&mbox, &msg);
@@ -389,7 +389,7 @@ tcpip_netifapi(struct netifapi_msg* netifapimsg)
 err_t
 tcpip_netifapi_lock(struct netifapi_msg* netifapimsg)
 {
-  LOCK_TCPIP_CORE();  
+  LOCK_TCPIP_CORE();
   netifapimsg->function(&(netifapimsg->msg));
   UNLOCK_TCPIP_CORE();
   return netifapimsg->msg.err;

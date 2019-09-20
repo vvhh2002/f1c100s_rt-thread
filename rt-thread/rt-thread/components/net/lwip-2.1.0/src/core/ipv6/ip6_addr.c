@@ -70,7 +70,7 @@ const ip_addr_t ip6_addr_any = IPADDR6_INIT(0ul, 0ul, 0ul, 0ul);
 int
 ip6addr_aton(const char *cp, ip6_addr_t *addr)
 {
-  u32_t addr_index, zero_blocks, current_block_index, current_block_value;
+  uint32_t addr_index, zero_blocks, current_block_index, current_block_value;
   const char *s;
 #if LWIP_IPV4
   int check_ipv4_mapped = 0;
@@ -161,8 +161,8 @@ ip6addr_aton(const char *cp, ip6_addr_t *addr)
     } else if (lwip_isxdigit(*s)) {
       /* add current digit */
       current_block_value = (current_block_value << 4) +
-          (lwip_isdigit(*s) ? (u32_t)(*s - '0') :
-          (u32_t)(10 + (lwip_islower(*s) ? *s - 'a' : *s - 'A')));
+          (lwip_isdigit(*s) ? (uint32_t)(*s - '0') :
+          (uint32_t)(10 + (lwip_islower(*s) ? *s - 'a' : *s - 'A')));
     } else {
       /* unexpected digit, space? CRLF? */
       break;
@@ -221,9 +221,9 @@ ip6addr_ntoa(const ip6_addr_t *addr)
 char *
 ip6addr_ntoa_r(const ip6_addr_t *addr, char *buf, int buflen)
 {
-  u32_t current_block_index, current_block_value, next_block_value;
+  uint32_t current_block_index, current_block_value, next_block_value;
   s32_t i;
-  u8_t zero_flag, empty_block_flag;
+  uint8_t zero_flag, empty_block_flag;
 
 #if LWIP_IPV4
   if (ip6_addr_isipv4mappedipv6(addr)) {

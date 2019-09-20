@@ -58,7 +58,7 @@ snmpv3_engine_id_changed(void)
  * (re-)initialized itself since snmpEngineID
  * was last configured.
  */
-u32_t
+uint32_t
 snmpv3_get_engine_boots_internal(void)
 {
   if (snmpv3_get_engine_boots() == 0 ||
@@ -75,7 +75,7 @@ snmpv3_get_engine_boots_internal(void)
  * Once the timer reaches 2147483647 it gets reset to zero and the
  * engine boot ups get incremented.
  */
-u32_t
+uint32_t
 snmpv3_get_engine_time_internal(void)
 {
   if (snmpv3_get_engine_time() >= SNMP_MAX_TIME_BOOT) {
@@ -101,11 +101,11 @@ snmpv3_get_engine_time_internal(void)
  * @todo: This is a potential thread safety issue.
  */
 err_t
-snmpv3_build_priv_param(u8_t* priv_param)
+snmpv3_build_priv_param(uint8_t* priv_param)
 {
 #ifdef LWIP_RAND /* Based on RFC3826 */
-  static u8_t init;
-  static u32_t priv1, priv2;
+  static uint8_t init;
+  static uint32_t priv1, priv2;
 
   /* Lazy initialisation */
   if (init == 0) {
@@ -123,8 +123,8 @@ snmpv3_build_priv_param(u8_t* priv_param)
     priv2++;
   }
 #else /* Based on RFC3414 */
-  static u32_t ctr;
-  u32_t boots = LWIP_SNMPV3_GET_ENGINE_BOOTS();
+  static uint32_t ctr;
+  uint32_t boots = LWIP_SNMPV3_GET_ENGINE_BOOTS();
   SMEMCPY(&priv_param[0], &boots, 4);
   SMEMCPY(&priv_param[4], &ctr, 4);
   ctr++;

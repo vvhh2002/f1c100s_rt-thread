@@ -99,7 +99,7 @@ struct etharp_entry {
   struct netif *netif;
   struct eth_addr ethaddr;
   u16_t ctime;
-  u8_t state;
+  uint8_t state;
 };
 
 static struct etharp_entry arp_table[ARP_TABLE_SIZE];
@@ -201,7 +201,7 @@ etharp_tmr(void)
   LWIP_DEBUGF(ETHARP_DEBUG, ("etharp_timer\n"));
   /* remove expired entries from the ARP table */
   for (i = 0; i < ARP_TABLE_SIZE; ++i) {
-    u8_t state = arp_table[i].state;
+    uint8_t state = arp_table[i].state;
     if (state != ETHARP_STATE_EMPTY
 #if ETHARP_SUPPORT_STATIC_ENTRIES
         && (state != ETHARP_STATE_STATIC)
@@ -253,7 +253,7 @@ etharp_tmr(void)
  * entry is found or could be recycled.
  */
 static s16_t
-etharp_find_entry(const ip4_addr_t *ipaddr, u8_t flags, struct netif *netif)
+etharp_find_entry(const ip4_addr_t *ipaddr, uint8_t flags, struct netif *netif)
 {
   s16_t old_pending = ARP_TABLE_SIZE, old_stable = ARP_TABLE_SIZE;
   s16_t empty = ARP_TABLE_SIZE;
@@ -281,7 +281,7 @@ etharp_find_entry(const ip4_addr_t *ipaddr, u8_t flags, struct netif *netif)
    */
 
   for (i = 0; i < ARP_TABLE_SIZE; ++i) {
-    u8_t state = arp_table[i].state;
+    uint8_t state = arp_table[i].state;
     /* no empty entry found yet and now we do find one? */
     if ((empty == ARP_TABLE_SIZE) && (state == ETHARP_STATE_EMPTY)) {
       LWIP_DEBUGF(ETHARP_DEBUG, ("etharp_find_entry: found empty entry %d\n", (int)i));
@@ -419,7 +419,7 @@ etharp_find_entry(const ip4_addr_t *ipaddr, u8_t flags, struct netif *netif)
  * @see pbuf_free()
  */
 static err_t
-etharp_update_arp_entry(struct netif *netif, const ip4_addr_t *ipaddr, struct eth_addr *ethaddr, u8_t flags)
+etharp_update_arp_entry(struct netif *netif, const ip4_addr_t *ipaddr, struct eth_addr *ethaddr, uint8_t flags)
 {
   s16_t i;
   LWIP_ASSERT("netif->hwaddr_len == ETH_HWADDR_LEN", netif->hwaddr_len == ETH_HWADDR_LEN);
@@ -561,7 +561,7 @@ etharp_cleanup_netif(struct netif *netif)
   int i;
 
   for (i = 0; i < ARP_TABLE_SIZE; ++i) {
-    u8_t state = arp_table[i].state;
+    uint8_t state = arp_table[i].state;
     if ((state != ETHARP_STATE_EMPTY) && (arp_table[i].netif == netif)) {
       etharp_free_entry(i);
     }
@@ -643,7 +643,7 @@ etharp_input(struct pbuf *p, struct netif *netif)
   struct etharp_hdr *hdr;
   /* these are aligned properly, whereas the ARP header fields might not be */
   ip4_addr_t sipaddr, dipaddr;
-  u8_t for_us;
+  uint8_t for_us;
 
   LWIP_ASSERT_CORE_LOCKED();
 
@@ -683,7 +683,7 @@ etharp_input(struct pbuf *p, struct netif *netif)
     for_us = 0;
   } else {
     /* ARP packet directed to us? */
-    for_us = (u8_t)ip4_addr_cmp(&dipaddr, netif_ip4_addr(netif));
+    for_us = (uint8_t)ip4_addr_cmp(&dipaddr, netif_ip4_addr(netif));
   }
 
   /* ARP message directed to us?

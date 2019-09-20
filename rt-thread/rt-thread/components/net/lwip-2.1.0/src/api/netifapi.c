@@ -324,7 +324,7 @@ netifapi_netif_common(struct netif *netif, netifapi_void_fn voidfunc,
 * @param idx output index of the found netif
 */
 err_t
-netifapi_netif_name_to_index(const char *name, u8_t *idx)
+netifapi_netif_name_to_index(const char *name, uint8_t *idx)
 {
   err_t err;
   NETIFAPI_VAR_DECLARE(msg);
@@ -356,7 +356,7 @@ netifapi_netif_name_to_index(const char *name, u8_t *idx)
 *             name should be of at least NETIF_NAMESIZE bytes
 */
 err_t
-netifapi_netif_index_to_name(u8_t idx, char *name)
+netifapi_netif_index_to_name(uint8_t idx, char *name)
 {
   err_t err;
   NETIFAPI_VAR_DECLARE(msg);

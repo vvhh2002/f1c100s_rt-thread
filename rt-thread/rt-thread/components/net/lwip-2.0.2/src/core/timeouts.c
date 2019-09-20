@@ -110,7 +110,7 @@ const struct lwip_cyclic_timer lwip_cyclic_timers[] = {
 
 /** The one and only timeout list */
 static struct sys_timeo *next_timeout;
-static u32_t timeouts_last_time;
+static uint32_t timeouts_last_time;
 
 #if LWIP_TCP
 /** global variable that shows if the tcp timer is currently scheduled or not */
@@ -198,14 +198,14 @@ void sys_timeouts_init(void)
  */
 #if LWIP_DEBUG_TIMERNAMES
 void
-sys_timeout_debug(u32_t msecs, sys_timeout_handler handler, void *arg, const char* handler_name)
+sys_timeout_debug(uint32_t msecs, sys_timeout_handler handler, void *arg, const char* handler_name)
 #else /* LWIP_DEBUG_TIMERNAMES */
 void
-sys_timeout(u32_t msecs, sys_timeout_handler handler, void *arg)
+sys_timeout(uint32_t msecs, sys_timeout_handler handler, void *arg)
 #endif /* LWIP_DEBUG_TIMERNAMES */
 {
   struct sys_timeo *timeout, *t;
-  u32_t now, diff;
+  uint32_t now, diff;
 
   timeout = (struct sys_timeo *)memp_malloc(MEMP_SYS_TIMEOUT);
   if (timeout == NULL) {
@@ -314,11 +314,11 @@ sys_check_timeouts(void)
 {
   if (next_timeout) {
     struct sys_timeo *tmptimeout;
-    u32_t diff;
+    uint32_t diff;
     sys_timeout_handler handler;
     void *arg;
-    u8_t had_one;
-    u32_t now;
+    uint8_t had_one;
+    uint32_t now;
 
     now = sys_now();
     /* this cares for wraparounds */
@@ -377,10 +377,10 @@ sys_restart_timeouts(void)
 #if !NO_SYS
 static
 #endif /* !NO_SYS */
-u32_t
+uint32_t
 sys_timeouts_sleeptime(void)
 {
-  u32_t diff;
+  uint32_t diff;
   if (next_timeout == NULL) {
     return 0xffffffff;
   }
@@ -404,7 +404,7 @@ sys_timeouts_sleeptime(void)
 void
 sys_timeouts_mbox_fetch(sys_mbox_t *mbox, void **msg)
 {
-  u32_t sleeptime;
+  uint32_t sleeptime;
 
 again:
   if (!next_timeout) {

@@ -55,7 +55,7 @@ extern "C" {
 #define LWIP_SUPPORT_CUSTOM_PBUF ((IP_FRAG && !LWIP_NETIF_TX_SINGLE_PBUF) || (LWIP_IPV6 && LWIP_IPV6_FRAG))
 #endif
 
-/** @ingroup pbuf 
+/** @ingroup pbuf
  * PBUF_NEEDS_COPY(p): return a boolean value indicating whether the given
  * pbuf needs to be copied in order to be kept around beyond the current call
  * stack without risking being corrupted. The default setting provides safety:
@@ -205,10 +205,10 @@ struct pbuf {
   /** a bit field indicating pbuf type and allocation sources
       (see PBUF_TYPE_FLAG_*, PBUF_ALLOC_FLAG_* and PBUF_TYPE_ALLOC_SRC_MASK)
     */
-  u8_t type_internal;
+  uint8_t type_internal;
 
   /** misc flags */
-  u8_t flags;
+  uint8_t flags;
 
   /**
    * the reference count always equals the number of pointers
@@ -218,7 +218,7 @@ struct pbuf {
   LWIP_PBUF_REF_T ref;
 
   /** For incoming packets, this contains the input netif's index */
-  u8_t if_idx;
+  uint8_t if_idx;
 };
 
 
@@ -252,7 +252,7 @@ struct pbuf_custom {
 #define PBUF_POOL_FREE_OOSEQ 1
 #endif /* PBUF_POOL_FREE_OOSEQ */
 #if LWIP_TCP && TCP_QUEUE_OOSEQ && NO_SYS && PBUF_POOL_FREE_OOSEQ
-extern volatile u8_t pbuf_free_ooseq_pending;
+extern volatile uint8_t pbuf_free_ooseq_pending;
 void pbuf_free_ooseq(void);
 /** When not using sys_check_timeouts(), call PBUF_CHECK_FREE_OOSEQ()
     at regular intervals from main level to check if ooseq pbufs need to be
@@ -280,14 +280,14 @@ void pbuf_realloc(struct pbuf *p, u16_t size);
 #define pbuf_get_allocsrc(p)          ((p)->type_internal & PBUF_TYPE_ALLOC_SRC_MASK)
 #define pbuf_match_allocsrc(p, type)  (pbuf_get_allocsrc(p) == ((type) & PBUF_TYPE_ALLOC_SRC_MASK))
 #define pbuf_match_type(p, type)      pbuf_match_allocsrc(p, type)
-u8_t pbuf_header(struct pbuf *p, s16_t header_size);
-u8_t pbuf_header_force(struct pbuf *p, s16_t header_size);
-u8_t pbuf_add_header(struct pbuf *p, size_t header_size_increment);
-u8_t pbuf_add_header_force(struct pbuf *p, size_t header_size_increment);
-u8_t pbuf_remove_header(struct pbuf *p, size_t header_size);
+uint8_t pbuf_header(struct pbuf *p, s16_t header_size);
+uint8_t pbuf_header_force(struct pbuf *p, s16_t header_size);
+uint8_t pbuf_add_header(struct pbuf *p, size_t header_size_increment);
+uint8_t pbuf_add_header_force(struct pbuf *p, size_t header_size_increment);
+uint8_t pbuf_remove_header(struct pbuf *p, size_t header_size);
 struct pbuf *pbuf_free_header(struct pbuf *q, u16_t size);
 void pbuf_ref(struct pbuf *p);
-u8_t pbuf_free(struct pbuf *p);
+uint8_t pbuf_free(struct pbuf *p);
 u16_t pbuf_clen(const struct pbuf *p);
 void pbuf_cat(struct pbuf *head, struct pbuf *tail);
 void pbuf_chain(struct pbuf *head, struct pbuf *tail);
@@ -308,9 +308,9 @@ err_t pbuf_fill_chksum(struct pbuf *p, u16_t start_offset, const void *dataptr,
 void pbuf_split_64k(struct pbuf *p, struct pbuf **rest);
 #endif /* LWIP_TCP && TCP_QUEUE_OOSEQ && LWIP_WND_SCALE */
 
-u8_t pbuf_get_at(const struct pbuf* p, u16_t offset);
+uint8_t pbuf_get_at(const struct pbuf* p, u16_t offset);
 int pbuf_try_get_at(const struct pbuf* p, u16_t offset);
-void pbuf_put_at(struct pbuf* p, u16_t offset, u8_t data);
+void pbuf_put_at(struct pbuf* p, u16_t offset, uint8_t data);
 u16_t pbuf_memcmp(const struct pbuf* p, u16_t offset, const void* s2, u16_t n);
 u16_t pbuf_memfind(const struct pbuf* p, const void* mem, u16_t mem_len, u16_t start_offset);
 u16_t pbuf_strstr(const struct pbuf* p, const char* substr);
