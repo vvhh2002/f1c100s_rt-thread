@@ -122,7 +122,7 @@ inline static void gate_clk_disable(rt_uint32_t addr, int shift, rt_bool_t inver
  *
  * @return rt_uint32_t
  */
-inline static rt_uint32_t video_get_pll_clk(void)
+inline static rt_uint32_t get_video_pll_clk(void)
 {
     rt_uint32_t reg;
     int n, m;
@@ -301,28 +301,28 @@ static inline void f1c100s_debe_set_mode(struct lcd_f1c100s_device *dev)
 	struct f1c100s_debe_reg_t * debe = (struct f1c100s_debe_reg_t *)(dev->virtdebe);
 	rt_uint32_t val;
 
-	val = read32(&debe->mode);
+	val = read32((rt_uint32_t)&debe->mode);
 	val |= (1 << 0);
-	write32(&debe->mode, val);
+	write32((rt_uint32_t)&debe->mode, val);
 
-	write32(&debe->disp_size, (((dev->lcd_info.height) - 1) << 16) | (((dev->lcd_info.width) - 1) << 0));
-	write32(&debe->layer0_size, (((dev->lcd_info.height) - 1) << 16) | (((dev->lcd_info.width) - 1) << 0));
-	write32(&debe->layer0_stride, ((dev->lcd_info.width) << 5));
-	write32(&debe->layer0_addr_low32b, (uint32_t)(dev->lcd_info.framebuffer) << 3);
-	write32(&debe->layer0_addr_high4b, (uint32_t)(dev->lcd_info.framebuffer) >> 29);
-	write32(&debe->layer0_attr1_ctrl, 0x09 << 8);
+	write32((rt_uint32_t)&debe->disp_size, (((dev->lcd_info.height) - 1) << 16) | (((dev->lcd_info.width) - 1) << 0));
+	write32((rt_uint32_t)&debe->layer0_size, (((dev->lcd_info.height) - 1) << 16) | (((dev->lcd_info.width) - 1) << 0));
+	write32((rt_uint32_t)&debe->layer0_stride, ((dev->lcd_info.width) << 5));
+	write32((rt_uint32_t)&debe->layer0_addr_low32b, (uint32_t)(dev->lcd_info.framebuffer) << 3);
+	write32((rt_uint32_t)&debe->layer0_addr_high4b, (uint32_t)(dev->lcd_info.framebuffer) >> 29);
+	write32((rt_uint32_t)&debe->layer0_attr1_ctrl, 0x09 << 8);
 
-	val = read32(&debe->mode);
+	val = read32((rt_uint32_t)&debe->mode);
 	val |= (1 << 8);
-	write32(&debe->mode, val);
+	write32((rt_uint32_t)&debe->mode, val);
 
-	val = read32(&debe->reg_ctrl);
+	val = read32((rt_uint32_t)&debe->reg_ctrl);
 	val |= (1 << 0);
-	write32(&debe->reg_ctrl, val);
+	write32((rt_uint32_t)&debe->reg_ctrl, val);
 
-	val = read32(&debe->mode);
+	val = read32((rt_uint32_t)&debe->mode);
 	val |= (1 << 1);
-	write32(&debe->mode, val);
+	write32((rt_uint32_t)&debe->mode, val);
 }
 
 /**
@@ -358,41 +358,41 @@ static inline void f1c100s_tcon_set_mode(struct lcd_f1c100s_device *dev)
 	int bp, total;
 	rt_uint32_t val;
 
-	val = read32(&tcon->ctrl);
+	val = read32((rt_uint32_t)&tcon->ctrl);
 	val &= ~(0x1 << 0);
-	write32(&tcon->ctrl, val);
+	write32((rt_uint32_t)&tcon->ctrl, val);
 
 	val = (dev->timing.v_front_porch + dev->timing.v_back_porch + dev->timing.v_sync_len);
-	write32(&tcon->tcon0_ctrl, (1 << 31) | ((val & 0x1f) << 4));
+	write32((rt_uint32_t)&tcon->tcon0_ctrl, (1 << 31) | ((val & 0x1f) << 4));
 	// val = clk_get_rate(dev->clktcon) / dev->timing.pixel_clock_hz;
-    val = video_get_pll_clk() / dev->timing.pixel_clock_hz;
-	write32(&tcon->tcon0_dclk, (0xf << 28) | (val << 0));
-	write32(&tcon->tcon0_timing_active, ((dev->lcd_info.width - 1) << 16) | ((dev->lcd_info.height - 1) << 0));
+    val = get_video_pll_clk() / dev->timing.pixel_clock_hz;
+	write32((rt_uint32_t)&tcon->tcon0_dclk, (0xf << 28) | (val << 0));
+	write32((rt_uint32_t)&tcon->tcon0_timing_active, ((dev->lcd_info.width - 1) << 16) | ((dev->lcd_info.height - 1) << 0));
 
 	bp = dev->timing.h_sync_len + dev->timing.h_back_porch;
 	total = dev->lcd_info.width + dev->timing.h_front_porch + bp;
-	write32(&tcon->tcon0_timing_h, ((total - 1) << 16) | ((bp - 1) << 0));
+	write32((rt_uint32_t)&tcon->tcon0_timing_h, ((total - 1) << 16) | ((bp - 1) << 0));
 	bp = dev->timing.v_sync_len + dev->timing.v_back_porch;
 	total = dev->lcd_info.height + dev->timing.v_front_porch + bp;
-	write32(&tcon->tcon0_timing_v, ((total * 2) << 16) | ((bp - 1) << 0));
-	write32(&tcon->tcon0_timing_sync, ((dev->timing.h_sync_len - 1) << 16) | ((dev->timing.v_sync_len - 1) << 0));
+	write32((rt_uint32_t)&tcon->tcon0_timing_v, ((total * 2) << 16) | ((bp - 1) << 0));
+	write32((rt_uint32_t)&tcon->tcon0_timing_sync, ((dev->timing.h_sync_len - 1) << 16) | ((dev->timing.v_sync_len - 1) << 0));
 
-	write32(&tcon->tcon0_hv_intf, 0);
-	write32(&tcon->tcon0_cpu_intf, 0);
+	write32((rt_uint32_t)&tcon->tcon0_hv_intf, 0);
+	write32((rt_uint32_t)&tcon->tcon0_cpu_intf, 0);
 
 	if(dev->lcd_info.bits_per_pixel == 18 || dev->lcd_info.bits_per_pixel == 16)
 	{
-		write32(&tcon->tcon0_frm_seed[0], 0x11111111);
-		write32(&tcon->tcon0_frm_seed[1], 0x11111111);
-		write32(&tcon->tcon0_frm_seed[2], 0x11111111);
-		write32(&tcon->tcon0_frm_seed[3], 0x11111111);
-		write32(&tcon->tcon0_frm_seed[4], 0x11111111);
-		write32(&tcon->tcon0_frm_seed[5], 0x11111111);
-		write32(&tcon->tcon0_frm_table[0], 0x01010000);
-		write32(&tcon->tcon0_frm_table[1], 0x15151111);
-		write32(&tcon->tcon0_frm_table[2], 0x57575555);
-		write32(&tcon->tcon0_frm_table[3], 0x7f7f7777);
-		write32(&tcon->tcon0_frm_ctrl, (dev->lcd_info.bits_per_pixel == 18) ? ((1 << 31) | (0 << 4)) : ((1 << 31) | (5 << 4)));
+		write32((rt_uint32_t)&tcon->tcon0_frm_seed[0], 0x11111111);
+		write32((rt_uint32_t)&tcon->tcon0_frm_seed[1], 0x11111111);
+		write32((rt_uint32_t)&tcon->tcon0_frm_seed[2], 0x11111111);
+		write32((rt_uint32_t)&tcon->tcon0_frm_seed[3], 0x11111111);
+		write32((rt_uint32_t)&tcon->tcon0_frm_seed[4], 0x11111111);
+		write32((rt_uint32_t)&tcon->tcon0_frm_seed[5], 0x11111111);
+		write32((rt_uint32_t)&tcon->tcon0_frm_table[0], 0x01010000);
+		write32((rt_uint32_t)&tcon->tcon0_frm_table[1], 0x15151111);
+		write32((rt_uint32_t)&tcon->tcon0_frm_table[2], 0x57575555);
+		write32((rt_uint32_t)&tcon->tcon0_frm_table[3], 0x7f7f7777);
+		write32((rt_uint32_t)&tcon->tcon0_frm_ctrl, (dev->lcd_info.bits_per_pixel == 18) ? ((1 << 31) | (0 << 4)) : ((1 << 31) | (5 << 4)));
 	}
 
 	val = (1 << 28);
@@ -404,8 +404,8 @@ static inline void f1c100s_tcon_set_mode(struct lcd_f1c100s_device *dev)
 		val |= (1 << 27);
 	if(!dev->timing.clk_active)
 		val |= (1 << 26);
-	write32(&tcon->tcon0_io_polarity, val);
-	write32(&tcon->tcon0_io_tristate, 0);
+	write32((rt_uint32_t)&tcon->tcon0_io_polarity, val);
+	write32((rt_uint32_t)&tcon->tcon0_io_tristate, 0);
 }
 
 /**
@@ -418,9 +418,9 @@ inline static void f1c100s_tcon_enable(struct lcd_f1c100s_device *dev)
 	struct f1c100s_tcon_reg_t * tcon = (struct f1c100s_tcon_reg_t *)dev->virttcon;
 	uint32_t val;
 
-	val = read32(&tcon->ctrl);
+	val = read32((rt_uint32_t)&tcon->ctrl);
 	val |= (1 << 31);
-	write32(&tcon->ctrl, val);
+	write32((rt_uint32_t)&tcon->ctrl, val);
 }
 
 /**
@@ -433,15 +433,15 @@ static inline void f1c100s_tcon_disable(struct lcd_f1c100s_device *dev)
 	struct f1c100s_tcon_reg_t * tcon = (struct f1c100s_tcon_reg_t *)dev->virttcon;
 	rt_uint32_t val;
 
-	write32(&tcon->ctrl, 0);
-	write32(&tcon->int0, 0);
+	write32((rt_uint32_t)&tcon->ctrl, 0);
+	write32((rt_uint32_t)&tcon->int0, 0);
 
-	val = read32(&tcon->tcon0_dclk);
+	val = read32((rt_uint32_t)&tcon->tcon0_dclk);
 	val &= ~(0xf << 28);
-	write32(&tcon->tcon0_dclk, val);
+	write32((rt_uint32_t)&tcon->tcon0_dclk, val);
 
-	write32(&tcon->tcon0_io_tristate, 0xffffffff);
-	write32(&tcon->tcon1_io_tristate, 0xffffffff);
+	write32((rt_uint32_t)&tcon->tcon0_io_tristate, 0xffffffff);
+	write32((rt_uint32_t)&tcon->tcon1_io_tristate, 0xffffffff);
 }
 
 static void f1c100s_clk_debe_init(struct lcd_f1c100s_device *dev)
@@ -454,8 +454,8 @@ inline static void f1c100s_debe_set_address(struct lcd_f1c100s_device *dev, void
 {
 	struct f1c100s_debe_reg_t * debe = (struct f1c100s_debe_reg_t *)(dev->virtdebe);
 
-	write32(&debe->layer0_addr_low32b, (uint32_t)vram << 3);
-	write32(&debe->layer0_addr_high4b, (uint32_t)vram >> 29);
+	write32((rt_uint32_t)&debe->layer0_addr_low32b, (uint32_t)vram << 3);
+	write32((rt_uint32_t)&debe->layer0_addr_high4b, (uint32_t)vram >> 29);
 }
 
 /**
