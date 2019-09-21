@@ -290,7 +290,24 @@
 /* PKG_USING_FAL is not set */
 /* PKG_USING_SQLITE is not set */
 /* PKG_USING_RTI is not set */
-/* PKG_USING_LITTLEVGL2RTT is not set */
+#define PKG_USING_LITTLEVGL2RTT
+#define PKG_USING_LITTLEVGL2RTT_V001
+/* PKG_USING_LITTLEVGL2RTT_LATEST_VERSION is not set */
+
+/* LittlevGL2RTT Options */
+
+/* LV_MEM_STATIC is not set */
+#define LV_MEM_DYNAMIC
+#define LV_MEM_CUSTOM 1
+/* LV_COLOR_DEPTH_1 is not set */
+/* LV_COLOR_DEPTH_8 is not set */
+#define LV_COLOR_DEPTH_16
+/* LV_COLOR_DEPTH_24 is not set */
+#define LV_COLOR_DEPTH 16
+#define LV_HOR_RES 480
+#define LV_VER_RES 272
+#define LV_DPI 50
+#define LITTLEVGL2RTT_USING_DEMO
 /* PKG_USING_CMSIS is not set */
 /* PKG_USING_DFS_YAFFS is not set */
 /* PKG_USING_LITTLEFS is not set */
