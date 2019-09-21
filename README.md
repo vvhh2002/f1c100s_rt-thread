@@ -1,8 +1,11 @@
 # 编译器
 ---
 ## 百度网盘下载
-[百度网盘链接](https://pan.baidu.com/s/1p6ZYa3AyKuIl3OleZJiONQ)
-密码: cj53
+[百度网盘链接](https://pan.baidu.com/s/16hCiVEnsWqkEROxbpzD-9Q)
+
+.tar.bz2 是64位linux使用的
+.7z 是64位windows使用的
+
 解压后放在tools目录下面
 
 ---
@@ -55,6 +58,6 @@ cd rt-thread
 ```
 ---
 
-##感谢xboot作者
+## 感谢xboot作者
 
-##感谢rt-thread作者
+## 感谢rt-thread作者
