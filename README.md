@@ -1,9 +1,18 @@
+# 环境
+---
+## linux
+---
+## windows
+
+使用msys2
+
 # 编译器
 ---
 ## 百度网盘下载
 [百度网盘链接](https://pan.baidu.com/s/16hCiVEnsWqkEROxbpzD-9Q)
 
 .tar.bz2 是64位linux使用的
+
 .7z 是64位windows使用的
 
 解压后放在tools目录下面
@@ -44,17 +53,17 @@ scons -c
 ## 测试
 ```shell
 cd rt-thread
-./script/dram_exec.sh
+./script/[linux or windows]/dram_exec.sh
 ```
 ## 烧录到SPI-FLASH
 ```shell
 cd rt-thread
-./script/write_spiflash.sh
+./script/[linux or windows]/write_spiflash.sh
 ```
 ## 清楚SPI-FLASH的SPL
 ```shell
 cd rt-thread
-./script/erase_spiflash.sh
+./script/[linux or windows]/erase_spiflash.sh
 ```
 ---
 

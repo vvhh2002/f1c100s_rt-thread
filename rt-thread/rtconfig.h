@@ -50,9 +50,8 @@
 #define RT_USING_MEMPOOL
 /* RT_USING_MEMHEAP is not set */
 /* RT_USING_NOHEAP is not set */
-#define RT_USING_SMALL_MEM
-/* RT_USING_SLAB is not set */
-/* RT_USING_MEMTRACE is not set */
+/* RT_USING_SMALL_MEM is not set */
+#define RT_USING_SLAB
 #define RT_USING_HEAP
 
 /* Kernel Device Object */
@@ -237,6 +236,7 @@
 /* PKG_USING_ALI_IOTKIT is not set */
 /* PKG_USING_AZURE is not set */
 /* PKG_USING_TENCENT_IOTHUB is not set */
+/* PKG_USING_JIOT-C-SDK is not set */
 /* PKG_USING_NIMBLE is not set */
 /* PKG_USING_OTA_DOWNLOADER is not set */
 /* PKG_USING_IPMSG is not set */

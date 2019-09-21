@@ -1,1 +1,6 @@
 .vscode/
+*.exe
+*.o
+tools/sunxi-tools/bin2fex
+tools/sunxi-tools/fex2bin
+tools/sunxi-tools/version.h

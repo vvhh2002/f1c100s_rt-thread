@@ -20,6 +20,11 @@
 #include "reg-debe.h"
 #include "reg-tcon.h"
 
+#define LCD_PRE_PIXEL   16
+#define LCD_WIDTH       480
+#define LCD_HEIGHT      272
+#define LCD_BUFFER_SIZE (LCD_PRE_PIXEL * LCD_WIDTH * LCD_HEIGHT)
+
 /**
  * @brief 液晶驱动开关
  *
@@ -57,6 +62,8 @@ struct lcd_f1c100s_device {
     rt_uint32_t                   virttcon;
     rt_uint32_t                   virtccu;
 };
+
+static rt_uint8_t f1c100s_framebuffer[LCD_BUFFER_SIZE];
 
 /**
  * @brief 延时
@@ -607,10 +614,11 @@ static struct lcd_f1c100s_device f1c100s_lcd_dev = {
 #endif
     },
     .lcd_info = {
-        .bits_per_pixel = 16,
+        .bits_per_pixel = LCD_PRE_PIXEL,
         .pixel_format   = RTGRAPHIC_PIXEL_FORMAT_RGB565,
-        .width          = 480,
-        .height         = 272,
+        .width          = LCD_WIDTH,
+        .height         = LCD_HEIGHT,
+        .framebuffer    = f1c100s_framebuffer,
     },
     // 480x272 RGB液晶屏时序
     .timing = {
@@ -638,12 +646,7 @@ static struct lcd_f1c100s_device f1c100s_lcd_dev = {
 
 int rt_hw_lcd_init(void)
 {
-    uint32_t size = f1c100s_lcd_dev.lcd_info.bits_per_pixel * f1c100s_lcd_dev.lcd_info.width * f1c100s_lcd_dev.lcd_info.height;
-    f1c100s_lcd_dev.lcd_info.framebuffer = rt_malloc(size);
-    if (f1c100s_lcd_dev.lcd_info.framebuffer == RT_NULL) {
-        return RT_ENOMEM;
-    }
-    rt_memset(f1c100s_lcd_dev.lcd_info.framebuffer, 0xa5, size);
+    rt_memset(f1c100s_lcd_dev.lcd_info.framebuffer, 0xa5, LCD_BUFFER_SIZE);
     return rt_device_register((rt_device_t)&f1c100s_lcd_dev, "lcd", RT_DEVICE_FLAG_RDWR);
 }
 

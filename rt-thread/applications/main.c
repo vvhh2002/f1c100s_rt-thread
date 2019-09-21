@@ -24,6 +24,7 @@
 
 #include "rtthread.h"
 #include "drv_clock.h"
+#include "board.h"
 
 int main(int argc, char **argv)
 {
