@@ -6,7 +6,7 @@
 
 使用msys2请使用国内源,使用Mingw64进入
 ```shell
-pacman -Sy git make scons gcc make pkg-config ncurses-devel mingw-w64-x86_64-libusb mingw-w64-x86_64-zlib
+pacman -S git make scons gcc make pkg-config ncurses-devel mingw-w64-x86_64-libusb mingw-w64-x86_64-zlib
 ```
 
 # 编译器
