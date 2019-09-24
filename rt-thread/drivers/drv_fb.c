@@ -625,7 +625,7 @@ static struct lcd_f1c100s_device f1c100s_lcd_dev = {
     },
     .lcd_info = {
         .bits_per_pixel = LCD_PRE_PIXEL,
-        .pixel_format   = RTGRAPHIC_PIXEL_FORMAT_RGB565,
+        .pixel_format   = RTGRAPHIC_PIXEL_FORMAT_RGB666,
         .width          = LCD_WIDTH,
         .height         = LCD_HEIGHT,
         .framebuffer    = f1c100s_framebuffer,
