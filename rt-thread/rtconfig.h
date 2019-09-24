@@ -225,6 +225,7 @@
 /* PKG_USING_COAP is not set */
 /* PKG_USING_NOPOLL is not set */
 /* PKG_USING_NETUTILS is not set */
+/* PKG_USING_PPP_DEVICE is not set */
 /* PKG_USING_AT_DEVICE is not set */
 /* PKG_USING_ATSRV_SOCKET is not set */
 /* PKG_USING_WIZNET is not set */
@@ -301,9 +302,9 @@
 #define LV_MEM_CUSTOM 1
 /* LV_COLOR_DEPTH_1 is not set */
 /* LV_COLOR_DEPTH_8 is not set */
-#define LV_COLOR_DEPTH_16
-/* LV_COLOR_DEPTH_24 is not set */
-#define LV_COLOR_DEPTH 16
+/* LV_COLOR_DEPTH_16 is not set */
+#define LV_COLOR_DEPTH_24
+#define LV_COLOR_DEPTH 24
 #define LV_HOR_RES 480
 #define LV_VER_RES 272
 #define LV_DPI 50

@@ -42,32 +42,52 @@ scons -c
 ```
 ---
 # Rt-Thread
+
 ---
+
+## 配置下载ENV工具
+```shell
+cd rt-thread
+scons --menuconfig
+```
+
+## 配置完成后刷新下载lvgl
+```shell
+cd rt-thread
+soure ~/.env/env.sh
+pkgs --update
+```
+
 ## 编译
 ```shell
 cd rt-thread
 scons
 ```
+
 ## 清理
 ```shell
 cd rt-thread
 scons -c
 ```
+
 ## 测试
 ```shell
 cd rt-thread
 ./script/[linux or windows]/dram_exec.sh
 ```
+
 ## 烧录到SPI-FLASH
 ```shell
 cd rt-thread
 ./script/[linux or windows]/write_spiflash.sh
 ```
+
 ## 清楚SPI-FLASH的SPL
 ```shell
 cd rt-thread
 ./script/[linux or windows]/erase_spiflash.sh
 ```
+
 ---
 
 ## 感谢xboot作者

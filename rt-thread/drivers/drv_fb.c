@@ -20,10 +20,12 @@
 #include "reg-debe.h"
 #include "reg-tcon.h"
 
-#define LCD_PRE_PIXEL   16
+#define LCD_PRE_PIXEL   24
 #define LCD_WIDTH       480
 #define LCD_HEIGHT      272
-#define LCD_BUFFER_SIZE (LCD_PRE_PIXEL * LCD_WIDTH * LCD_HEIGHT)
+
+// 需要2字节对齐，24位为3字节所以要4字节
+#define LCD_BUFFER_SIZE (4 * LCD_WIDTH * LCD_HEIGHT)
 
 /**
  * @brief 液晶驱动开关
@@ -217,6 +219,8 @@ static void clk_divider_set_rate(rt_uint32_t virt, rt_uint32_t width, rt_uint32_
 	if(rate == 0)
 		rate = prate;
 
+    rt_kprintf("clk_divider_set_rate %d %d %d", prate, rate, prate / rate);
+
 	div = prate / rate;
 	if(onebased)
 		div--;
@@ -401,6 +405,7 @@ static inline void f1c100s_tcon_set_mode(struct lcd_f1c100s_device *dev)
 	val = (dev->timing.v_front_porch + dev->timing.v_back_porch + dev->timing.v_sync_len);
 	write32((rt_uint32_t)&tcon->tcon0_ctrl, (1 << 31) | ((val & 0x1f) << 4));
 	// val = clk_get_rate(dev->clktcon) / dev->timing.pixel_clock_hz;
+    // rt_kprintf("get_video_pll_clk:%d\n", get_video_pll_clk());
     val = get_video_pll_clk() / dev->timing.pixel_clock_hz;
 	write32((rt_uint32_t)&tcon->tcon0_dclk, (0xf << 28) | (val << 0));
 	write32((rt_uint32_t)&tcon->tcon0_timing_active, ((dev->lcd_info.width - 1) << 16) | ((dev->lcd_info.height - 1) << 0));
@@ -416,19 +421,21 @@ static inline void f1c100s_tcon_set_mode(struct lcd_f1c100s_device *dev)
 	write32((rt_uint32_t)&tcon->tcon0_hv_intf, 0);
 	write32((rt_uint32_t)&tcon->tcon0_cpu_intf, 0);
 
-	if(dev->lcd_info.bits_per_pixel == 18 || dev->lcd_info.bits_per_pixel == 16)
+	if(dev->lcd_info.bits_per_pixel == 24 || dev->lcd_info.bits_per_pixel == 16)
 	{
-		write32((rt_uint32_t)&tcon->tcon0_frm_seed[0], 0x11111111);
-		write32((rt_uint32_t)&tcon->tcon0_frm_seed[1], 0x11111111);
-		write32((rt_uint32_t)&tcon->tcon0_frm_seed[2], 0x11111111);
-		write32((rt_uint32_t)&tcon->tcon0_frm_seed[3], 0x11111111);
-		write32((rt_uint32_t)&tcon->tcon0_frm_seed[4], 0x11111111);
-		write32((rt_uint32_t)&tcon->tcon0_frm_seed[5], 0x11111111);
+		write32((rt_uint32_t)&tcon->tcon0_frm_seed[0],  0x11111111);
+		write32((rt_uint32_t)&tcon->tcon0_frm_seed[1],  0x11111111);
+		write32((rt_uint32_t)&tcon->tcon0_frm_seed[2],  0x11111111);
+		write32((rt_uint32_t)&tcon->tcon0_frm_seed[3],  0x11111111);
+		write32((rt_uint32_t)&tcon->tcon0_frm_seed[4],  0x11111111);
+		write32((rt_uint32_t)&tcon->tcon0_frm_seed[5],  0x11111111);
+
 		write32((rt_uint32_t)&tcon->tcon0_frm_table[0], 0x01010000);
 		write32((rt_uint32_t)&tcon->tcon0_frm_table[1], 0x15151111);
 		write32((rt_uint32_t)&tcon->tcon0_frm_table[2], 0x57575555);
 		write32((rt_uint32_t)&tcon->tcon0_frm_table[3], 0x7f7f7777);
-		write32((rt_uint32_t)&tcon->tcon0_frm_ctrl, (dev->lcd_info.bits_per_pixel == 18) ? ((1 << 31) | (0 << 4)) : ((1 << 31) | (5 << 4)));
+        // 最高支持18位
+		write32((rt_uint32_t)&tcon->tcon0_frm_ctrl, (dev->lcd_info.bits_per_pixel == 24) ? ((1 << 31) | (0 << 4)) : ((1 << 31) | (5 << 4)));
 	}
 
 	val = (1 << 28);
@@ -524,6 +531,9 @@ static rt_err_t drv_lcd_init(rt_device_t dev)
     rt_uint32_t i;
 
     struct lcd_f1c100s_device *lcd_dev = (struct lcd_f1c100s_device *)dev;
+
+    gpio_set_func(GPIO_PORT_E, GPIO_PIN_6, IO_FUN_1);
+    gpio_direction_output(GPIO_PORT_E, GPIO_PIN_6, 1);
 
     f1c100s_clk_defe_enable(lcd_dev);
     f1c100s_clk_debe_enable(lcd_dev);
@@ -624,19 +634,19 @@ static struct lcd_f1c100s_device f1c100s_lcd_dev = {
     .timing = {
         .pixel_clock_hz = 9000000,
 
-        .h_back_porch   = 43,
-        .h_front_porch  = 8,
-        .h_sync_len     = 4,
+        .h_back_porch   = 40,
+        .h_front_porch  = 3,
+        .h_sync_len     = 2,
 
         .v_back_porch   = 12,
-        .v_front_porch  = 4,
-        .v_sync_len     = 10,
+        .v_front_porch  = 2,
+        .v_sync_len     = 2,
 
         .h_sync_active  = 0,
         .v_sync_active  = 0,
 
-        .den_active     = 0,
-        .clk_active     = 0,
+        .den_active     = 1,
+        .clk_active     = 1,
     },
     .virtdebe = F1C100S_DEBE_BASE,
     .virtdefe = F1C100S_DEFE_BASE,
@@ -646,7 +656,7 @@ static struct lcd_f1c100s_device f1c100s_lcd_dev = {
 
 int rt_hw_lcd_init(void)
 {
-    rt_memset(f1c100s_lcd_dev.lcd_info.framebuffer, 0xa5, LCD_BUFFER_SIZE);
+    rt_memset(f1c100s_lcd_dev.lcd_info.framebuffer, 0x00, LCD_BUFFER_SIZE);
     return rt_device_register((rt_device_t)&f1c100s_lcd_dev, "lcd", RT_DEVICE_FLAG_RDWR);
 }
 
