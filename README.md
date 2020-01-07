@@ -1,3 +1,10 @@
+增加了I2C驱动，并适配了GT911触摸驱动
+将LittleVgl升级到6.1.1，并增加了触摸功能
+感谢www.whycan.com的朋友，还有晕哥。
+后续会继续移植看门狗等驱动，大家有问题请使用Isues，有时间我会回复的，同时也建议一起玩的伙伴们将问题同步到whycan.com
+从whycan上白嫖了很多资料。
+
+本人不属于高手，只是将XBOOT老大中的驱动移了过来。半桶水，这里算是抛砖引玉。
 # 环境
 ---
 ## linux
@@ -74,7 +81,9 @@ scons -c
 ```shell
 cd rt-thread
 ./script/[linux or windows]/dram_exec.sh
-```
+``
+## 测试增加USB模式不下载，直接USB运行.方便调试使用
+`./script/[linux or windows]/run.sh
 
 ## 烧录到SPI-FLASH
 ```shell
@@ -93,3 +102,5 @@ cd rt-thread
 ## 感谢xboot作者
 
 ## 感谢rt-thread作者
+
+## 感谢www.whycan.com
