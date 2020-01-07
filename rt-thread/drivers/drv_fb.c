@@ -20,7 +20,7 @@
 #include "reg-debe.h"
 #include "reg-tcon.h"
 
-#define LCD_PRE_PIXEL   24
+#define LCD_PRE_PIXEL   32
 #define LCD_WIDTH       480
 #define LCD_HEIGHT      272
 
@@ -326,7 +326,7 @@ static inline void f1c100s_debe_set_mode(struct lcd_f1c100s_device *dev)
 	write32((rt_uint32_t)&debe->layer0_addr_low32b, (uint32_t)(dev->lcd_info.framebuffer) << 3);
 	write32((rt_uint32_t)&debe->layer0_addr_high4b, (uint32_t)(dev->lcd_info.framebuffer) >> 29);
 	write32((rt_uint32_t)&debe->layer0_attr1_ctrl, 0x09 << 8);
-
+	//write32((rt_uint32_t)&debe->layer0_attr1_ctrl, 0x0A << 8);
 	val = read32((rt_uint32_t)&debe->mode);
 	val |= (1 << 8);
 	write32((rt_uint32_t)&debe->mode, val);
@@ -421,7 +421,7 @@ static inline void f1c100s_tcon_set_mode(struct lcd_f1c100s_device *dev)
 	write32((rt_uint32_t)&tcon->tcon0_hv_intf, 0);
 	write32((rt_uint32_t)&tcon->tcon0_cpu_intf, 0);
 
-	if(dev->lcd_info.bits_per_pixel == 24 || dev->lcd_info.bits_per_pixel == 16)
+	if(dev->lcd_info.bits_per_pixel == 24 || dev->lcd_info.bits_per_pixel == 16 || dev->lcd_info.bits_per_pixel == 24)
 	{
 		write32((rt_uint32_t)&tcon->tcon0_frm_seed[0],  0x11111111);
 		write32((rt_uint32_t)&tcon->tcon0_frm_seed[1],  0x11111111);
@@ -435,7 +435,7 @@ static inline void f1c100s_tcon_set_mode(struct lcd_f1c100s_device *dev)
 		write32((rt_uint32_t)&tcon->tcon0_frm_table[2], 0x57575555);
 		write32((rt_uint32_t)&tcon->tcon0_frm_table[3], 0x7f7f7777);
         // 最高支持18位
-		write32((rt_uint32_t)&tcon->tcon0_frm_ctrl, (dev->lcd_info.bits_per_pixel == 24) ? ((1 << 31) | (0 << 4)) : ((1 << 31) | (5 << 4)));
+		write32((rt_uint32_t)&tcon->tcon0_frm_ctrl, (dev->lcd_info.bits_per_pixel == 24 || dev->lcd_info.bits_per_pixel == 32) ? ((1 << 31) | (0 << 4)) : ((1 << 31) | (5 << 4)));
 	}
 
 	val = (1 << 28);
@@ -531,9 +531,16 @@ static rt_err_t drv_lcd_init(rt_device_t dev)
     rt_uint32_t i;
 
     struct lcd_f1c100s_device *lcd_dev = (struct lcd_f1c100s_device *)dev;
-
+    //屏的开关   PWR_EN   PE4
+    gpio_set_func(GPIO_PORT_E, GPIO_PIN_4, IO_OUTPUT);
+    gpio_direction_output(GPIO_PORT_E, GPIO_PIN_4, 0);
+    //背光开关   LCD_EN   PE5
+    gpio_set_func(GPIO_PORT_E, GPIO_PIN_5, IO_OUTPUT);
+    gpio_direction_output(GPIO_PORT_E, GPIO_PIN_5, 0);
+    //背光PWM   PE6
     gpio_set_func(GPIO_PORT_E, GPIO_PIN_6, IO_FUN_1);
     gpio_direction_output(GPIO_PORT_E, GPIO_PIN_6, 1);
+
 
     f1c100s_clk_defe_enable(lcd_dev);
     f1c100s_clk_debe_enable(lcd_dev);
@@ -554,11 +561,19 @@ static rt_err_t drv_lcd_init(rt_device_t dev)
 
 static rt_err_t drv_lcd_open(rt_device_t dev, rt_uint16_t oflag)
 {
+	 //屏的开关   PWR_EN   PE4
+    gpio_direction_output(GPIO_PORT_E, GPIO_PIN_4, 1);
+    //背光开关   LCD_EN   PE5
+    gpio_direction_output(GPIO_PORT_E, GPIO_PIN_5, 1);
     return RT_EOK;
 }
 
 static rt_err_t drv_lcd_close(rt_device_t dev)
 {
+		 //屏的开关   PWR_EN   PE4
+    gpio_direction_output(GPIO_PORT_E, GPIO_PIN_4, 0);
+    //背光开关   LCD_EN   PE5
+    gpio_direction_output(GPIO_PORT_E, GPIO_PIN_5, 0);
     return RT_EOK;
 }
 
@@ -580,8 +595,10 @@ static rt_err_t drv_lcd_control(rt_device_t dev, int cmd, void *args)
 	case RTGRAPHIC_CTRL_RECT_UPDATE:
 		break;
 	case RTGRAPHIC_CTRL_POWERON:
+	    drv_lcd_open(dev,0);
 		break;
 	case RTGRAPHIC_CTRL_POWEROFF:
+        drv_lcd_close(dev);
 		break;
 	case RTGRAPHIC_CTRL_GET_INFO:
 		rt_memcpy(args, &lcd_dev->lcd_info, sizeof(struct rt_device_graphic_info));
@@ -624,8 +641,9 @@ static struct lcd_f1c100s_device f1c100s_lcd_dev = {
 #endif
     },
     .lcd_info = {
-        .bits_per_pixel = LCD_PRE_PIXEL,
-        .pixel_format   = RTGRAPHIC_PIXEL_FORMAT_RGB666,
+        .bits_per_pixel = LCD_PRE_PIXEL,  //24
+       // .pixel_format   = RTGRAPHIC_PIXEL_FORMAT_RGB666,
+        .pixel_format   = RTGRAPHIC_PIXEL_FORMAT_ARGB888,
         .width          = LCD_WIDTH,
         .height         = LCD_HEIGHT,
         .framebuffer    = f1c100s_framebuffer,
