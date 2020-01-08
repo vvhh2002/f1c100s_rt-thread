@@ -72,6 +72,27 @@ void lv_test_theme_1(lv_theme_t * th)
 
 }
 
+static void event_handler(lv_obj_t * obj, lv_event_t event)
+{
+
+            while(1){
+
+            }
+
+}
+
+static on_btn_watchdog_click(lv_obj_t * btn, lv_event_t event){
+
+    static const char * btns[] ={"Apply",  ""};
+
+      lv_obj_t * mbox1 = lv_mbox_create(lv_scr_act(), NULL);
+      lv_mbox_set_text(mbox1, "System will reset affter 13s");
+      lv_mbox_add_btns(mbox1, btns);
+      lv_obj_set_width(mbox1, 200);
+     lv_obj_set_event_cb(mbox1, event_handler);
+      lv_obj_align(mbox1, NULL, LV_ALIGN_CENTER, 0, 0); /*Align to the corner*/
+
+}
 /**********************
  *   STATIC FUNCTIONS
  **********************/
@@ -98,8 +119,9 @@ static void create_tab1(lv_obj_t * parent)
     lv_obj_t * btn = lv_btn_create(h, NULL);
     lv_btn_set_fit(btn, LV_FIT_TIGHT);
     lv_btn_set_toggle(btn, true);
+    lv_obj_set_event_cb(btn, on_btn_watchdog_click);
     lv_obj_t * btn_label = lv_label_create(btn, NULL);
-    lv_label_set_text(btn_label, "Button");
+    lv_label_set_text(btn_label, "watchdog");
 
     btn = lv_btn_create(h, btn);
     lv_btn_toggle(btn);

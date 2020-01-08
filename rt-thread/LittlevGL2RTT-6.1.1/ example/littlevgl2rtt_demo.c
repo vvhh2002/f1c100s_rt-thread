@@ -10,10 +10,20 @@
 static void lvgl_demo_run(void *p)
 {
     lv_test_theme_1(lv_theme_default_init(210, NULL));
+    #ifdef  RT_USING_WDT
+    rt_uint16_t wdt_tick=0;
+    rt_device_t wdg_dev=rt_device_find("wdt");
+    #endif
     while (1)
     {
         rt_thread_delay(RT_TICK_PER_SECOND / 100);
         lv_task_handler();
+        #ifdef  RT_USING_WDT
+        if(wdt_tick++>300){
+            rt_device_control(wdg_dev, RT_DEVICE_CTRL_WDT_KEEPALIVE, NULL);
+            wdt_tick=0;
+        }
+        #endif
     }
 }
 

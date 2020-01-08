@@ -227,7 +227,6 @@ rt_err_t lvgl_rtt_init(const char *name)
 
     lv_disp_drv_register(&disp_drv);
 
-    //   input_mq = rt_mq_create("lv_input", sizeof(lv_indev_data_t), 256, RT_IPC_FLAG_FIFO);
 #ifdef    RT_USING_TOUCH
     lv_indev_drv_t indev_drv;
     lv_indev_drv_init(&indev_drv);
