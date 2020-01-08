@@ -202,11 +202,6 @@ rt_size_t ingenic_i2c_xfer(struct rt_i2c_bus_device *bus,
 
         struct rt_i2c_msg * pmsg = msgs;
         struct ingenic_i2c_bus *i2c=( struct ingenic_i2c_bus *)bus;//RT_NULL;
-      //  if(bus == &(ingenic_i2c0.parent))
-     //   {
-      //      i2c=&ingenic_i2c0;
-     //   }
-     //   else return 0;
         int i, res;
 
         if(!msgs || num <= 0)

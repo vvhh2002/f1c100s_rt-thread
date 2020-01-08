@@ -18,7 +18,7 @@
 #include "drv_touch.h"
 #include "drv_i2c.h"
 
-#ifdef TINA_USING_TOUCH
+#ifdef RT_USING_TOUCH
 
 #define TP_INT_PIN GPIO_PORT_E,GPIO_PIN_3
 #define TP_RST_PIN GPIO_PORT_E,GPIO_PIN_2
