@@ -18,8 +18,14 @@ config PKGS_DIR
     option env="PKGS_ROOT"
     default "packages"
 
+config LVGL_DIR
+    string
+    option env="LVGL_DIR"
+    default "LittlevGL2RTT-6.1.1"
+	
 source "$RTT_DIR/Kconfig"
 source "$PKGS_DIR/Kconfig"
+source "$LVGL_DIR/Kconfig"
 
 config SOC_TINA
     bool 
