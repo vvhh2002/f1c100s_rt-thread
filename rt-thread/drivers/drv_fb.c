@@ -20,9 +20,26 @@
 #include "reg-debe.h"
 #include "reg-tcon.h"
 
-#define LCD_PRE_PIXEL   32
+#define LV_COLOR_DEPTH 32
+#define LV_HOR_RES 480
+#define LV_VER_RES 272
+#ifdef LV_COLOR_DEPTH
+#define LCD_PRE_PIXEL   LV_COLOR_DEPTH
+#elif
+#define LCD_PRE_PIXEL   24
+#endif
+#ifdef LV_HOR_RES
+#define LCD_WIDTH       LV_HOR_RES
+#elif
 #define LCD_WIDTH       480
-#define LCD_HEIGHT      272
+#endif
+#ifdef LV_VER_RES
+#define LCD_HEIGHT      LV_VER_RES
+#elif
+#define LCD_WIDTH       480
+#endif
+#define LCD_PGIO_PWR_EN  GPIO_PORT_E, GPIO_PIN_4
+#define LCD_PGIO_BL_EN  GPIO_PORT_E, GPIO_PIN_5
 
 // 需要2字节对齐，24位为3字节所以要4字节
 #define LCD_BUFFER_SIZE (4 * LCD_WIDTH * LCD_HEIGHT)
@@ -531,12 +548,16 @@ static rt_err_t drv_lcd_init(rt_device_t dev)
     rt_uint32_t i;
 
     struct lcd_f1c100s_device *lcd_dev = (struct lcd_f1c100s_device *)dev;
+#ifdef LCD_PGIO_PWR_EN
     //屏的开关   PWR_EN   PE4
-    gpio_set_func(GPIO_PORT_E, GPIO_PIN_4, IO_OUTPUT);
-    gpio_direction_output(GPIO_PORT_E, GPIO_PIN_4, 0);
+    gpio_set_func(LCD_PGIO_PWR_EN, IO_OUTPUT);
+    gpio_direction_output(LCD_PGIO_PWR_EN, 0);
+#endif
+#ifdef LCD_PGIO_BL_EN
     //背光开关   LCD_EN   PE5
-    gpio_set_func(GPIO_PORT_E, GPIO_PIN_5, IO_OUTPUT);
-    gpio_direction_output(GPIO_PORT_E, GPIO_PIN_5, 0);
+    gpio_set_func(LCD_PGIO_BL_EN, IO_OUTPUT);
+    gpio_direction_output(LCD_PGIO_BL_EN, 0);
+#endif
     //背光PWM   PE6
     gpio_set_func(GPIO_PORT_E, GPIO_PIN_6, IO_FUN_1);
     gpio_direction_output(GPIO_PORT_E, GPIO_PIN_6, 1);
@@ -561,20 +582,28 @@ static rt_err_t drv_lcd_init(rt_device_t dev)
 
 static rt_err_t drv_lcd_open(rt_device_t dev, rt_uint16_t oflag)
 {
+#ifdef LCD_PGIO_PWR_EN
 	 //屏的开关   PWR_EN   PE4
-    gpio_direction_output(GPIO_PORT_E, GPIO_PIN_4, 1);
+    gpio_direction_output(LCD_PGIO_PWR_EN, 1);
+#endif
+#ifdef LCD_PGIO_BL_EN
     //背光开关   LCD_EN   PE5
-    gpio_direction_output(GPIO_PORT_E, GPIO_PIN_5, 1);
+    gpio_direction_output(LCD_PGIO_BL_EN, 1);
+#endif
     return RT_EOK;
 }
 
 static rt_err_t drv_lcd_close(rt_device_t dev)
 {
+#ifdef LCD_PGIO_PWR_EN
 		 //屏的开关   PWR_EN   PE4
-    gpio_direction_output(GPIO_PORT_E, GPIO_PIN_4, 0);
+    gpio_direction_output(LCD_PGIO_PWR_EN, 0);
+#endif
+#ifdef LCD_PGIO_BL_EN
     //背光开关   LCD_EN   PE5
-    gpio_direction_output(GPIO_PORT_E, GPIO_PIN_5, 0);
+    gpio_direction_output(LCD_PGIO_BL_EN, 0);
     return RT_EOK;
+#endif
 }
 
 static rt_size_t drv_lcd_read(rt_device_t dev, rt_off_t pos, void *buffer, rt_size_t size)

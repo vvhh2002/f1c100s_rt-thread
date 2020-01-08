@@ -24,8 +24,9 @@ config LVGL_DIR
     default "LittlevGL2RTT-6.1.1"
 	
 source "$RTT_DIR/Kconfig"
+source "$LVGL_DIR/Kconfig"	
 source "$PKGS_DIR/Kconfig"
-source "$LVGL_DIR/Kconfig"
+
 
 config SOC_TINA
     bool 
