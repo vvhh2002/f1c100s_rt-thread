@@ -83,18 +83,6 @@
 #define DFS_FILESYSTEMS_MAX 2
 #define DFS_FILESYSTEM_TYPES_MAX 2
 #define DFS_FD_MAX 16
-#define RT_USING_DFS_ELMFAT
-
-/* elm-chan's FatFs, Generic FAT Filesystem Module */
-
-#define RT_DFS_ELM_CODE_PAGE 437
-#define RT_DFS_ELM_WORD_ACCESS
-#define RT_DFS_ELM_USE_LFN_3
-#define RT_DFS_ELM_USE_LFN 3
-#define RT_DFS_ELM_MAX_LFN 255
-#define RT_DFS_ELM_DRIVES 2
-#define RT_DFS_ELM_MAX_SECTOR_SIZE 512
-#define RT_DFS_ELM_REENTRANT
 #define RT_USING_DFS_DEVFS
 
 /* Device Drivers */
@@ -120,16 +108,11 @@
 #define RT_USING_SFUD
 #define RT_SFUD_USING_SFDP
 #define RT_SFUD_USING_FLASH_INFO_TABLE
+#define RT_USING_WDT
 #define RT_USING_TOUCH
 
 /* Using USB */
 
-#define RT_USING_USB_DEVICE
-#define RT_USBD_THREAD_STACK_SZ 4096
-#define USB_VENDOR_ID 0x0FFE
-#define USB_PRODUCT_ID 0x0001
-#define _RT_USB_DEVICE_NONE
-#define RT_USB_DEVICE_NONE
 
 /* POSIX layer and C standard library */
 
@@ -167,8 +150,6 @@
 
 /* IoT - internet of things */
 
-#define PKG_USING_CJSON
-#define PKG_USING_CJSON_V102
 
 /* Wi-Fi */
 
@@ -183,14 +164,6 @@
 
 /* security packages */
 
-#define PKG_USING_TINYCRYPT
-#define PKG_USING_TINYCRYPT_V100
-#define TINY_CRYPT_MD5
-#define TINY_CRYPT_BASE64
-#define TINY_CRYPT_AES
-#define TINY_CRYPT_AES_ROM_TABLES
-#define TINY_CRYPT_SHA1
-#define TINY_CRYPT_SHA256
 
 /* language packages */
 
@@ -200,59 +173,34 @@
 
 /* tools packages */
 
-#define PKG_USING_ADBD
-#define ADB_TR_USB_ENABLE
-#define ADB_TR_STACK_SIZE 1280
-#define ADB_SERVICE_SHELL_ENABLE
-#define ADB_SERVICE_FILE_ENABLE
-#define ADB_FILESYNC_STACK_SIZE 2304
-#define ADB_FILESYNC_RECV_TIMEOUT 2000
-#define ADB_EXTERNAL_MOD_ENABLE
-#define ADB_FILESYNC_MOD_ENABLE
-#define PKG_USING_ADBD_LATEST_VERSION
 
 /* system packages */
 
-#define PKG_USING_FAL
-#define FAL_DEBUG_CONFIG
-#define FAL_DEBUG 1
-#define FAL_PART_HAS_TABLE_CFG
-#define FAL_USING_SFUD_PORT
-#define FAL_USING_NOR_FLASH_DEV_NAME "spi00"
-#define PKG_USING_FAL_LATEST_VERSION
-#define PKG_FAL_VER_NUM 0x99999
-#define PKG_USING_LITTLEVGL2RTT
-#define PKG_USING_LITTLEVGL2RTT_V001
+
+/* peripheral libraries and drivers */
+
+
+/* miscellaneous packages */
+
+
+/* samples: kernel and components samples */
+
+#define PKG_USING_LITTLEVGL2RTT_V6
 
 /* LittlevGL2RTT Options */
 
 #define LV_MEM_DYNAMIC
 #define LV_MEM_CUSTOM 1
-#define LV_COLOR_DEPTH_24
+#define LV_COLOR_DEPTH_32
 #define LV_COLOR_DEPTH 32
 #define LV_HOR_RES 480
 #define LV_VER_RES 272
 #define LV_DPI 50
 #define LITTLEVGL2RTT_USING_DEMO
-
-/* peripheral libraries and drivers */
-
-#define PKG_USING_TOUCH_DRIVERS
-
-/* miscellaneous packages */
-
-#define PKG_USING_DSTR
-#define PKG_USING_DSTR_LATEST_VERSION
-
-/* dstr Options */
-
-
-/* samples: kernel and components samples */
-
 #define SOC_TINA
 #define TINA_USING_UART0
 #define TINA_USING_SPI0
 #define TINA_USING_SPI_FLASH
 #define TINA_USING_LCD
-#define TINA_USING_TOUCH
+
 #endif

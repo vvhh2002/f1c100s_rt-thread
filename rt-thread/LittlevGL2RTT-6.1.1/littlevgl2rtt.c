@@ -6,7 +6,6 @@
 
 static rt_device_t device;
 static struct rt_device_graphic_info info;
-static struct rt_messagequeue *input_mq;
 
 static void lvgl_rtt_lcd_flush_cb(lv_disp_drv_t * disp_drv, const lv_area_t * area, lv_color_t * color_p)
 {
@@ -229,14 +228,14 @@ rt_err_t lvgl_rtt_init(const char *name)
     lv_disp_drv_register(&disp_drv);
 
     //   input_mq = rt_mq_create("lv_input", sizeof(lv_indev_data_t), 256, RT_IPC_FLAG_FIFO);
-
+#ifdef    RT_USING_TOUCH
     lv_indev_drv_t indev_drv;
     lv_indev_drv_init(&indev_drv);
     indev_drv.type = LV_INDEV_TYPE_POINTER;
     indev_drv.read_cb = lvgl_rtt_input_read;
     start_touch_listen(lvgl_rtt_send_input_event);
     lv_indev_drv_register(&indev_drv);
-
+#endif
     /* littlevGL Tick thread */
     rt_thread_t thread = RT_NULL;
 
