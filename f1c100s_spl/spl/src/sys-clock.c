@@ -117,7 +117,7 @@ void sys_clock_init(void)
 	write32(F1C100S_CCU_BASE + CCU_DRAM_CLK_GATE, val);
 	sdelay(100);
 
-	clock_set_pll_cpu(408000000);
+	clock_set_pll_cpu(600000000);
 	val = read32(F1C100S_CCU_BASE + CCU_CPU_CFG);
 	val &= ~(0x3 << 16);
 	val |= (0x2 << 16);

@@ -5,7 +5,7 @@
 
 #define __ALIGN_MASK(x, mask)	(((x) + (mask)) & ~(mask))
 #define ALIGN(x, a)		__ALIGN_MASK((x), (typeof(x))(a) - 1)
-
+// filelen,511    (filelen+511) & (~511)
 #if 0
 static inline uint32_t __swab32(uint32_t x)
 {
@@ -67,7 +67,7 @@ int main (int argc, char *argv[])
 		return -1;
 	}
 
-	buflen = ALIGN(filelen, 512);
+	buflen = ((filelen+511) & (~511));//ALIGN(filelen, 512);
 	buffer = malloc(buflen);
 	memset(buffer, 0, buflen);
 	if(fread(buffer, 1, filelen, fp) != filelen)
@@ -81,7 +81,7 @@ int main (int argc, char *argv[])
 	h = (struct boot_head_t *)buffer;
 	p = (uint32_t *)h;
 	l = le32_to_cpu(h->length);
-	l = ALIGN(l, 512);
+	l = ((l+511) & (~511));//ALIGN(l, 512);
 	h->length = cpu_to_le32(l);
 	h->checksum = cpu_to_le32(0x5F0A6C39);
 	loop = l >> 2;
