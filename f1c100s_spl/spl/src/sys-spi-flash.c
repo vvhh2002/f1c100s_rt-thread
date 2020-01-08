@@ -85,8 +85,9 @@ void sys_spi_flash_init(void)
 
 	/* Set spi clock rate control register, divided by 4 */
 	addr = 0x01c05000;
-	write32(addr + SPI_CCR, 0x00001001);
-
+	//write32(addr + SPI_CCR, 0x00001001);
+	//修改SPI速度为100M
+	write32(addr + SPI_CCR, 0x00001000);
 	/* Enable spi0 and do a soft reset */
 	addr = 0x01c05000;
 	val = read32(addr + SPI_GCR);

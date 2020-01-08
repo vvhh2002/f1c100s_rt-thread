@@ -28,7 +28,7 @@
 
 #include <io.h>
 
-#define SIZE_1M	(1024 * 1024)
+#define SIZE_START	(0x00010000)
 
 extern void return_to_fel(void);
 extern void sys_uart_putc(char c);
@@ -134,16 +134,16 @@ void sys_copyself(void)
 		return_to_fel();
 	} else if(d == BOOT_DEVICE_SPI) {
 		print_string("Boot to SPI mode\n");
-
+        //先读4个int(4*4=16)字节，最后一个字节是下一可执行文件的位置
 		sys_spi_flash_init();
-		sys_spi_flash_read(SIZE_1M, mem, 1024);
+		sys_spi_flash_read(SIZE_START, mem, 16);
 		sys_spi_flash_exit();
 
 		if (h->magic[1] == 0xaa55aa55) {
-			print_string("Copy Flash offset 1M to RAM 0x8000000 size:");
+			print_string("Copy Flash offset 64 to RAM 0x8000000 size:");
 			print_number(h->magic[3]);
 			sys_spi_flash_init();
-			sys_spi_flash_read(SIZE_1M, mem, h->magic[3]);
+			sys_spi_flash_read(SIZE_START, mem, h->magic[3]);
 			sys_spi_flash_exit();
 			print_string("Copy Flash Ok!\n");
 		} else {
