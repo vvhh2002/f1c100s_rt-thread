@@ -63,7 +63,6 @@ static rt_err_t watchdog_ctrl(rt_watchdog_t *wdt, int cmd, void *arg)
               write32(WDG_BASE_ADDR + WDG_CTRL, (0xa57 << 1) | (1 << 0));
             break;
         case RT_DEVICE_CTRL_WDT_KEEPALIVE:
-            rt_kprintf("RT_DEVICE_CTRL_WDT_KEEPALIVE \n");
             val = read32(WDG_BASE_ADDR + WDG_MODE);
            val &= ~(0xf << 4);
              val |= (wdt_timeout << 4) | (0x1 << 0);
