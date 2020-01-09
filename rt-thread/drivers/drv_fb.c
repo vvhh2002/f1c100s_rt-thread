@@ -20,9 +20,6 @@
 #include "reg-debe.h"
 #include "reg-tcon.h"
 
-#define LV_COLOR_DEPTH 32
-#define LV_HOR_RES 480
-#define LV_VER_RES 272
 #ifdef LV_COLOR_DEPTH
 #define LCD_PRE_PIXEL   LV_COLOR_DEPTH
 #elif
