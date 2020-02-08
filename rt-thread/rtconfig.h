@@ -109,6 +109,10 @@
 #define RT_SFUD_USING_SFDP
 #define RT_SFUD_USING_FLASH_INFO_TABLE
 #define RT_USING_WDT
+#define RT_USING_AUDIO
+#define RT_AUDIO_REPLAY_MP_BLOCK_SIZE 4096
+#define RT_AUDIO_REPLAY_MP_BLOCK_COUNT 2
+#define RT_AUDIO_RECORD_PIPE_SIZE 2048
 #define RT_USING_TOUCH
 
 /* Using USB */
@@ -145,18 +149,6 @@
 
 /* Utilities */
 
-#define PKG_USING_LITTLEVGL2RTT_V6
-
-/* LittlevGL2RTT Options */
-
-#define LV_MEM_DYNAMIC
-#define LV_MEM_CUSTOM 1
-#define LV_COLOR_DEPTH_32
-#define LV_COLOR_DEPTH 32
-#define LV_HOR_RES 480
-#define LV_VER_RES 272
-#define LV_DPI 50
-#define LITTLEVGL2RTT_USING_DEMO
 
 /* RT-Thread online packages */
 
@@ -191,16 +183,31 @@
 
 /* peripheral libraries and drivers */
 
+#define PKG_USING_TOUCH_DRIVERS
 
 /* miscellaneous packages */
 
 
 /* samples: kernel and components samples */
 
+#define PKG_USING_LITTLEVGL2RTT_V6
+
+/* LittlevGL2RTT Options */
+
+#define LV_MEM_DYNAMIC
+#define LV_MEM_CUSTOM 1
+#define LV_COLOR_DEPTH_32
+#define LV_COLOR_DEPTH 32
+#define LV_HOR_RES 480
+#define LV_VER_RES 272
+#define LV_DPI 50
+#define LITTLEVGL2RTT_USING_DEMO
 #define SOC_TINA
 #define TINA_USING_UART0
 #define TINA_USING_SPI0
 #define TINA_USING_SPI_FLASH
 #define TINA_USING_LCD
+#define TINA_TOUCH_GT911
+#define TINA_CPU_F1C100S
 
 #endif
